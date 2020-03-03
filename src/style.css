@@ -11,3 +11,23 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+
+.site-layout-content {
+  background: #fff;
+  padding: 24px;
+  min-height: 280px;
+}
+.logo {
+  width: 120px;
+  height: 31px;
+  background: rgba(255, 255, 255, 0.65);
+  margin: 16px 24px 16px 0;
+  float: left;
+}
+
+.layout{
+  background-image: image("./assets/image/bg.jpg");
+width: 100%;
+}
