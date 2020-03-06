@@ -16,7 +16,7 @@ export default class layout extends Component {
       <div id="Layout-Page">
        <Layout className="layout" >
     <Header>
-      <div className="logo" />
+      {/* <div className="logo" /> */}
       <Menu
         theme="dark"
         mode="horizontal"
