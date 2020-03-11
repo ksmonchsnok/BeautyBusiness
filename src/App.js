@@ -2,7 +2,7 @@ import React from "react";
 import { createBrowserHistory } from "history";
 import { Router, Route, Switch, Redirect } from "react-router-dom";
 import "./style.css";
-import Layout from "../src/components/Layout/layout.js"
+import Home from "../src/pages/home/home.js"
 
 var hist = createBrowserHistory();
 
@@ -22,14 +22,15 @@ export const PrivateRoute = ({ component: Component, ...rest }) => (
 function App() {
   return (
     <div className="App">
-      {/* <header className="App-header"> */}
+      <header>
         <Router history={hist}>
           <Switch>
-            {/* <PrivateRoute exact path="/" component={Home} /> */}
-            <Route path="/" component={Layout} />
+          <Route exact path="/" component={Home} />
+            <Route exact path="/Home" component={Home} />
+            {/* <PrivateRoute path="/" component={Layout} /> */}
           </Switch>
         </Router>
-      {/* </header> */}
+      </header>
     </div>
   );
 }

@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import "antd/dist/antd.css";
 import "../../style.css";
+import Head from "../Header/Header.js";
+import Routing from "../routing/routing.js";
+import Footer from "./footer/footer.js";
+
 import { Layout, Menu, Breadcrumb } from 'antd';
 import bg from '../../assets/image/bg.jpg' ;
 
