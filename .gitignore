@@ -4,9 +4,6 @@
 /node_modules
 build
 support
-.firebase
-.firebaserc
-firebase.json
 /.pnp
 .pnp.js
 

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "../../style.css";
 import Modal from "react-bootstrap4-modal";
-// import Facebook from "../login-facebook/facebook.js";
+import Facebook from "../../pages/login/facebook.js";
 // import Google from "../login-google/google.js";
 
 export default class Popup extends Component {
@@ -47,7 +47,9 @@ export default class Popup extends Component {
           </div>
           <div className="modal-body log">
             <div className="nav justify-content-center">
-              <div className="nav-item llog">{/* <Facebook /> */}</div>
+              <div className="nav-item llog">
+                <Facebook />
+              </div>
               <div className="nav-item llog">{/* <Google /> */}</div>
             </div>
           </div>
