@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import pic from "../../assets/image/bg.jpg";
+import pic from "../../assets/image/pic1.jpg";
 export default class Recommend extends Component {
   render() {
     return (
@@ -7,22 +7,15 @@ export default class Recommend extends Component {
         <div className="container marketing">
           <div className="row">
             <div className="col-lg-4">
-              <svg
+            <img
+                src={pic}
                 className="bd-placeholder-img rounded-circle"
                 width="140"
                 height="140"
-                xmlns="http://www.w3.org/2000/svg"
-                preserveAspectRatio="xMidYMid slice"
-                focusable="false"
                 role="img"
-                aria-label="Placeholder: 140x140"
-              >
-                <title>Placeholder</title>
-                <rect width="100%" height="100%" fill="#777"></rect>
-                <text x="50%" y="50%" fill="#777" dy=".3em">
-                  140x140
-                </text>
-              </svg>
+                focusable="false"
+              ></img>
+              
               <h2>Heading</h2>
               <p>
                 Donec sed odio dui. Etiam porta sem malesuada magna mollis
@@ -37,22 +30,14 @@ export default class Recommend extends Component {
               </p>
             </div>
             <div className="col-lg-4">
-              <svg
+            <img
+                src={pic}
                 className="bd-placeholder-img rounded-circle"
                 width="140"
                 height="140"
-                xmlns="http://www.w3.org/2000/svg"
-                preserveAspectRatio="xMidYMid slice"
-                focusable="false"
                 role="img"
-                aria-label="Placeholder: 140x140"
-              >
-                <title>Placeholder</title>
-                <rect width="100%" height="100%" fill="#777"></rect>
-                <text x="50%" y="50%" fill="#777" dy=".3em">
-                  140x140
-                </text>
-              </svg>
+                focusable="false"
+              ></img>
               <h2>Heading</h2>
               <p>
                 Duis mollis, est non commodo luctus, nisi erat porttitor ligula,
@@ -67,22 +52,14 @@ export default class Recommend extends Component {
               </p>
             </div>
             <div className="col-lg-4">
-              <svg
+            <img
+                src={pic}
                 className="bd-placeholder-img rounded-circle"
                 width="140"
                 height="140"
-                xmlns="http://www.w3.org/2000/svg"
-                preserveAspectRatio="xMidYMid slice"
-                focusable="false"
                 role="img"
-                aria-label="Placeholder: 140x140"
-              >
-                <title>Placeholder</title>
-                <rect width="100%" height="100%" fill="#777"></rect>
-                <text x="50%" y="50%" fill="#777" dy=".3em">
-                  140x140
-                </text>
-              </svg>
+                focusable="false"
+              ></img>
               <h2>Heading</h2>
               <p>
                 Donec sed odio dui. Cras justo odio, dapibus ac facilisis in,
@@ -114,22 +91,14 @@ export default class Recommend extends Component {
               </p>
             </div>
             <div className="col-md-5">
-              <svg
+            <img
+                src={pic}
                 className="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
                 width="500"
                 height="500"
-                xmlns="http://www.w3.org/2000/svg"
-                preserveAspectRatio="xMidYMid slice"
-                focusable="false"
                 role="img"
-                aria-label="Placeholder: 500x500"
-              >
-                <title>Placeholder</title>
-                <rect width="100%" height="100%" fill="#eee"></rect>
-                <text x="50%" y="50%" fill="#aaa" dy=".3em">
-                  500x500
-                </text>
-              </svg>
+                focusable="false"
+              ></img>
             </div>
           </div>
 
@@ -149,22 +118,14 @@ export default class Recommend extends Component {
               </p>
             </div>
             <div className="col-md-5 order-md-1">
-              <svg
+            <img
+                src={pic}
                 className="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
                 width="500"
                 height="500"
-                xmlns="http://www.w3.org/2000/svg"
-                preserveAspectRatio="xMidYMid slice"
-                focusable="false"
                 role="img"
-                aria-label="Placeholder: 500x500"
-              >
-                <title>Placeholder</title>
-                <rect width="100%" height="100%" fill="#eee"></rect>
-                <text x="50%" y="50%" fill="#aaa" dy=".3em">
-                  500x500
-                </text>
-              </svg>
+                focusable="false"
+              ></img>
             </div>
           </div>
 
@@ -183,22 +144,14 @@ export default class Recommend extends Component {
               </p>
             </div>
             <div className="col-md-5">
-              <svg
+            <img
+                src={pic}
                 className="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
                 width="500"
                 height="500"
-                xmlns="http://www.w3.org/2000/svg"
-                preserveAspectRatio="xMidYMid slice"
-                focusable="false"
                 role="img"
-                aria-label="Placeholder: 500x500"
-              >
-                <title>Placeholder</title>
-                <rect width="100%" height="100%" fill="#eee"></rect>
-                <text x="50%" y="50%" fill="#aaa" dy=".3em">
-                  500x500
-                </text>
-              </svg>
+                focusable="false"
+              ></img>
             </div>
           </div>
 
