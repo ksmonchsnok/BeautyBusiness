@@ -174,7 +174,7 @@ export default class Report extends Component {
           style={{ marginTop: "4rem", marginBottom: "3rem" }}
         >
           {" "}
-          <h2>Report</h2>{" "}
+          <h2>Report</h2>
           <div className="col">
             {" "}
             <Table

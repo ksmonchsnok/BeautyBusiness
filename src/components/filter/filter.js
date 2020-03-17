@@ -139,7 +139,24 @@ export default class Filter extends Component {
               />{" "}
               แว็กซ์ขน
             </li>
-
+            <li class="list-group-item">
+              {" "}
+              <input
+                type="checkbox"
+                value="สปา"
+                defaultChecked={this.state.checked}
+              />{" "}
+              สปา
+            </li>
+            <li class="list-group-item">
+              {" "}
+              <input
+                type="checkbox"
+                value="Tattoo"
+                defaultChecked={this.state.checked}
+              />{" "}
+              Tattoo
+            </li>
             <hr />
           </ul>
         </div>

@@ -1,13 +1,9 @@
 import React, { Component } from "react";
 import Navbar from "../../components/navbar/navbar-Admin.js";
-import "antd/dist/antd.css";
-import { Layout, Menu } from "antd";
-import {
-  HomeOutlined,
-  SoundOutlined,
-  BarChartOutlined,
-  UserOutlined
-} from "@ant-design/icons";
+import StoreList from "./storeList.js";
+import UserList from "./userList.js";
+import ManagePromotion from "./managePromotion.js";
+import Report from "./report.js";
 
 export default class Admin extends Component {
   state = {
@@ -19,54 +15,133 @@ export default class Admin extends Component {
       collapsed: !this.state.collapsed
     });
   };
-  render() {
-    const { Sider, Content } = Layout;
 
+  onClickViewDetail = value => {
+    this.props.history.push({
+      pathname: "/Add",
+      state: [value]
+    });
+  };
+
+  render() {
     return (
       <div id="Admin-Page">
         <Navbar />
-        <Layout>
-          <Sider
-            breakpoint="lg"
-            collapsedWidth="0"
-            onBreakpoint={broken => {
-              console.log(broken);
-            }}
-            onCollapse={(collapsed, type) => {
-              console.log(collapsed, type);
-            }}
-          >
-            <div className="logo" />
-            <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
-              <Menu.Item key="1">
-                <HomeOutlined />
-                <span className="nav-text">จัดการธุรกิจ</span>
-              </Menu.Item>
-              <Menu.Item key="2">
-                <UserOutlined />
-                <span className="nav-text">จัดการผู้ใช้งาน</span>
-              </Menu.Item>
-              <Menu.Item key="3">
-                <SoundOutlined />
-                <span className="nav-text">จัดการโปรโมชั่น</span>
-              </Menu.Item>
-              <Menu.Item key="4">
-                <BarChartOutlined />
-                <span className="nav-text">ดูรายงาน</span>
-              </Menu.Item>
-            </Menu>
-          </Sider>
-          <Layout>
-            <Content style={{ margin: "24px 16px 0" }}>
+        <h2 className="text-left" style={{ marginLeft: "1.5rem" }}>
+          Admin
+        </h2>
+        <hr />
+        <div
+          className="bd-example bd-example-tabs"
+          style={{
+            marginTop: "-1rem",
+            marginRight: "1rem",
+            height: "auto",
+            marginBottom: "-3rem"
+          }}
+        >
+          <div className="row">
+            <div
+              className="col-xs-5 col-sm-7 col-md-2 col-lg-2"
+              style={{ backgroundColor: "#343a40" }}
+            >
               <div
-                className="site-layout-background"
-                style={{ padding: 24, minHeight: 360 }}
+                className="nav flex-column nav-pills"
+                id="v-pills-tab"
+                role="tablist"
+                aria-orientation="vertical"
               >
-                content
+                <a
+                  className="nav-link active show"
+                  id="v-pills-manageStore-tab"
+                  data-toggle="pill"
+                  href="#v-pills-manageStore"
+                  role="tab"
+                  aria-controls="v-pills-manageStore"
+                  aria-selected="true"
+                  style={{ marginTop: "1rem" }}
+                >
+                  <ion-icon name="home-outline" size="small" /> &emsp;
+                  จัดการธุรกิจ
+                </a>
+
+                <a
+                  className="nav-link"
+                  id="v-pills-manageUser-tab"
+                  data-toggle="pill"
+                  href="#v-pills-manageUser"
+                  role="tab"
+                  aria-controls="v-pills-manageUser"
+                  aria-selected="false"
+                >
+                  <ion-icon name="person-outline" size="small" />
+                  &emsp; จัดการผู้ใช้งาน
+                </a>
+                <a
+                  className="nav-link"
+                  id="v-pills-managePromotion-tab"
+                  data-toggle="pill"
+                  href="#v-pills-managePromotion"
+                  role="tab"
+                  aria-controls="v-pills-managePromotion"
+                  aria-selected="false"
+                >
+                  <ion-icon name="volume-high-outline" size="small" />
+                  &emsp; จัดการโปรโมชั่น
+                </a>
+                <a
+                  className="nav-link"
+                  id="v-pills-Report-tab"
+                  data-toggle="pill"
+                  href="#v-pills-Report"
+                  role="tab"
+                  aria-controls="v-pills-Report"
+                  aria-selected="false"
+                >
+                  <ion-icon name="bar-chart-outline" size="small" /> &emsp;
+                  ดูรายงาน
+                </a>
               </div>
-            </Content>
-          </Layout>
-        </Layout>
+            </div>
+            <div className="col-10">
+              <div className="tab-content" id="v-pills-tabContent">
+                <div
+                  className="tab-pane fade active show"
+                  id="v-pills-manageStore"
+                  role="tabpanel"
+                  aria-labelledby="v-pills-manageStore-tab"
+                >
+                  <StoreList />
+                </div>
+                <div
+                  className="tab-pane fade"
+                  id="v-pills-manageUser"
+                  role="tabpanel"
+                  aria-labelledby="v-pills-manageUser-tab"
+                >
+                  <UserList />
+                </div>
+                <div
+                  className="tab-pane fade"
+                  id="v-pills-managePromotion"
+                  role="tabpanel"
+                  aria-labelledby="v-pills-managePromotion-tab"
+                >
+                  <ManagePromotion />
+                </div>
+
+                <div
+                  className="tab-pane fade"
+                  id="v-pills-Report"
+                  role="tabpanel"
+                  aria-labelledby="v-pills-Report-tab"
+                >
+                  <Report />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

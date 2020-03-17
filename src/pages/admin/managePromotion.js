@@ -122,7 +122,7 @@ export default class ManagePromotion extends Component {
               Cancel
             </button>
             <button type="button" className="btn btn-primary ">
-              Save
+              Save Change
             </button>
           </div>
         </div>

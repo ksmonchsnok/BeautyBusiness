@@ -9,7 +9,12 @@ import Nearby from "../pages/nearby/nearby.js";
 
 // Admin
 import Admin from "../pages/admin/admin.js";
-import AddUser from "../pages/user/addUser.js";
+import ManageUser from "../pages/admin/addUser.js";
+import ManageStore from "../pages/admin/updateStorer.js";
+import managePromotionAndDiscount from "../pages/admin/managePromotion.js";
+import ReportForAdmin from "../pages/admin/report.js";
+import UserList from "../pages/admin/userList.js";
+import StoreList from "../pages/admin/storeList.js";
 
 // User
 import User from "../pages/user/user.js";
@@ -47,7 +52,14 @@ export default () => (
 
       {/* Admin */}
       <Route exact path="/Admin" component={Admin} />
-      <Route exact path="/AddUser" component={AddUser} />
+      <Route exact path="/ManageUser" component={ManageUser} />
+      <Route exact path="/ManageStore" component={ManageStore} />
+      <Route
+        exact
+        path="/managePromotionAndDiscount"
+        component={managePromotionAndDiscount}
+      />
+      <Route exact path="/ReportForAdmin" component={ReportForAdmin} />
 
       {/* <PrivateRoute exact path="/admin" component={Admin} /> */}
 
