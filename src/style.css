@@ -1,33 +1,45 @@
 .App-logo {
-  height: 40vmin;
-  pointer-events: none;
+    height: 40vmin;
+    pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+    .App-logo {
+        animation: App-logo-spin infinite 20s linear;
+    }
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+
+.App-footer {
+    flex-shrink: 0;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
 }
 
 
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 
@@ -38,12 +50,13 @@
     justify-content: center;
     align-content: center;
     overflow: auto;
-  }
-body,
-input,
-textarea,
-button,
-select {
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    grid-template-rows: 1fr auto;
+    height: 100%;
     font-size: 13px;
     line-height: 1.5;
     font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
@@ -54,77 +67,15 @@ select {
 
 }
 
-.p {
-    line-height: 0.5px;
-    white-space: nowrap;
+/* ********************************************************************************************************************************************************************* */
+/* Manager */
+.bd-example {
+    height: 100%;
+    max-width: auto;
 }
 
-.font-badge {
-    font-weight: extra-light;
-}
-
-.item {
-    padding: 0.1px;
-}
-
-.card-img-top {
-    height: 200px;
-    width: 100%;
-    display: block;
-}
-
-.card-text {
-    height: 140px;
-    width: 100%;
-}
-
-
-
-.navbar {
-    width: 100%;
-    position: static;
-    display: fix;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    margin-top: 430px;
-    background-color: #ffffff;
-}
-
-.link-menu {
-    margin-right: 0;
-    display: -webkit-box;
-    justify-content: center;
-    align-items: center;
-    white-space: nowrap;
-    text-align: center;
-}
-
-
-
-a:link {
-  text-decoration: none;
-    color: #274e55;
-}
-a:link:hover {
-    text-decoration: none;
-    color: #c76945;
-}
-a:hover {
-  text-decoration: none;
-  color: #c76945;
-}
-a:visited {
-  text-decoration: none;
-  color: #c76945;
-}
-a:active {
-  text-decoration: none;
-  color: #274e55;
-}
-
-/* Reccommeted */
+/* ********************************************************************************************************************************************************************* */
+/* Recommend */
 
 #recommem {
     padding-top: 2rem;
@@ -146,6 +97,76 @@ a:active {
     margin-bottom: 1rem;
 }
 
+/* ********************************************************************************************************************************************************************* */
+.font-badge {
+    font-weight: extra-light;
+}
+
+.item {
+    padding: 0.1px;
+}
+
+.card-img-top {
+    height: 200px;
+    width: 100%;
+    display: block;
+}
+
+.card-text {
+    height: 140px;
+    width: 100%;
+}
+
+
+
+.navbar-menu {
+    width: 100%;
+    position: static;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 430px;
+    background-color: #ffffff;
+}
+
+.link-menu {
+    margin-right: 0;
+    display: -webkit-box;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+/* ********************************************************************************************************************************************************************* */
+/* Link */
+a:link {
+    text-decoration: none;
+    color: #517381;
+}
+
+a:link:hover {
+    text-decoration: none;
+    color: #c76945;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #c76945;
+}
+
+a:visited {
+    text-decoration: none;
+    color: #c76945;
+}
+
+a:active {
+    text-decoration: none;
+    color: #517381;
+}
+
+/* ********************************************************************************************************************************************************************* */
 /* Search */
 
 .search {
@@ -186,6 +207,7 @@ a:active {
     font-size: 16px;
 }
 
+/* ********************************************************************************************************************************************************************* */
 /* Contact */
 
 .mail,
@@ -199,19 +221,21 @@ a:active {
     justify-content: center;
 }
 
+/* ********************************************************************************************************************************************************************* */
 /* Head */
 
 .head {
     height: 500px;
     max-width: 100%;
     display: flex;
-    background-image: url(../src/assets/image/bg.jpg) ;
+    background-image: url(../src/assets/image/bg.jpg);
     background-size: cover;
     background-repeat: repeat;
     background-position: center;
     margin: 0 auto;
 }
 
+/* ********************************************************************************************************************************************************************* */
 /* layout */
 
 .rout {
@@ -219,10 +243,11 @@ a:active {
     margin-bottom: 5rem;
 }
 
+/* ********************************************************************************************************************************************************************* */
 /* footer */
 
 #footer {
-    background-color: black;
+    background-color: #343a40;
 }
 
 .site-footer {
@@ -253,6 +278,7 @@ a:active {
     text-decoration: none;
 }
 
+/* ********************************************************************************************************************************************************************* */
 /* login */
 
 .fb-login-button {

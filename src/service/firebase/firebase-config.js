@@ -1,4 +1,4 @@
-export default {
+export default  { 
     apiKey: "AIzaSyC9SnzFIrMF41K57it-skYg5DoQshD8uZ4",
     authDomain: "beauty-busniess.firebaseapp.com",
     databaseURL: "https://beauty-busniess.firebaseio.com",

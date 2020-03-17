@@ -10,6 +10,7 @@ export default class Login extends Component {
       showPopupLogin: false
     };
   }
+
   showPopupLogin = () => {
     this.setState({
       showPopupLogin: !this.state.showPopupLogin
@@ -28,7 +29,8 @@ export default class Login extends Component {
             data-target="#exampleModal"
             onClick={this.showPopupLogin}
           >
-            <img src={user} />&nbsp; Sing In
+            <img src={user} alt="sign in" />
+            &nbsp; Sing In
           </button>
 
           <PopupLogin

@@ -30,55 +30,64 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
     integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
   </script>
+  <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
 
+  <!-- firebase -->
+  <script src="/__/firebase/7.10.0/firebase-app.js"></script>
+  <script src="/__/firebase/7.10.0/firebase-analytics.js"></script>
+  <script src="/__/firebase/init.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/7.10.0/firebase-auth.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/7.10.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-analytics.js"></script>
+  <script src="/__/firebase/7.10.0/firebase-auth.js"></script>
+  <script src="/__/firebase/7.10.0/firebase-firestore.js"></script>
+  <script src="/__/firebase/7.10.0/firebase-analytics.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/7.10.0/firebase-app.js"></script>
+  <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+  <script src="bower_components/firebaseui/dist/firebaseui.js"></script>
+  <link type="text/css" rel="stylesheet" href="bower_components/firebaseui/dist/firebaseui.css" />
 
-  <!-- Facebook Api -->
+  <!-- google login -->
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <meta name="google-signin-client_id"
+    content="640455590718-69op7a21nk76thp0pmcbnf34u8ccb0kc.apps.googleusercontent.com" />
+
   <script>
-    function statusChangeCallback(response) {
-      console.log(response);
-      if (response.status === "connected") {
-        testAPI();
-      } else {
-        document.getElementById("status").innerHTML =
-          "Please log in " + "into this app.";
+    function onSignIn(googleUser) {
+      var profile = googleUser.getBasicProfile();
+      console.log("ID: " + profile.getId());
+      console.log("Full Name: " + profile.getName());
+      console.log("Given Name: " + profile.getGivenName());
+      console.log("Family Name: " + profile.getFamilyName());
+      console.log("Image URL: " + profile.getImageUrl());
+      console.log("Email: " + profile.getEmail());
+
+      var id_token = googleUser.getAuthResponse().id_token;
+      console.log("ID Token: " + id_token);
+
+      function signOut() {
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+          console.log("User signed out.");
+        });
       }
-    }
-    window.fbAsyncInit = function () {
-      FB.init({
-        appId: '186461882774241',
-        cookie: true,
-        xfbml: true,
-        version: 'v6.0'
-      });
-      FB.AppEvents.logPageView();
-    };
-
-    (function (d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) {
-        return;
-      }
-      js = d.createElement(s);
-      js.id = id;
-      js.src = "https://connect.facebook.net/en_US/sdk.js";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-
-
-    function testAPI() {
-      FB.api("/me", function (response) {
-        localStorage.setItem("auth", JSON.stringify(auth));
-        console.log("Welcome Login for : " + response.name);
-        document.getElementById("status").innerHTML =
-          "Thanks for Logging in, " + response.name + "!";
-      });
     }
   </script>
 
- <!-- firebase -->
-<script src="/__/firebase/7.10.0/firebase-app.js"></script>
-<script src="/__/firebase/7.10.0/firebase-analytics.js"></script>
-<script src="/__/firebase/init.js"></script>
+
+
+  <!-- Google Maps Api -->
+
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDdoBV1pjIyFVBXHdo7wje7WdLcnY0HpFw&callback=initMap"
+    async defer></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
+
+  <script>
+    firebasemap.js
+  </script>
 
 </body>
 
