@@ -42,7 +42,6 @@ export const PrivateRoute = ({ component: Component, ...rest }) => (
 );
 
 export default () => (
-  // <BrowserRouter>
     <Switch>
       {/* Home */}
       <Route exact path="/" component={Home} />
@@ -51,6 +50,7 @@ export default () => (
       <Route exact path="/AllStores" component={AllStores} />
       <Route exact path="/StoreDetail" component={StoreDetail} />
       <Route exact path="/Nearby" component={Nearby} />
+      {/* <PrivateRoute exact path="/admin" component={Admin} /> */}
 
       {/* Admin */}
       <Route exact path="/Admin" component={Admin} />
@@ -69,9 +69,6 @@ export default () => (
 
       <Route exact path="/StoreList" component={StoreList} />
 
-
-      {/* <PrivateRoute exact path="/admin" component={Admin} /> */}
-
       {/* User */}
       <Route exact path="/User" component={User} />
 
@@ -81,5 +78,4 @@ export default () => (
       <Route exact path="/managePromotion" component={managePromotion} />
       <Route exact path="/Report" component={Report} />
     </Switch>
-  // </BrowserRouter>
 );

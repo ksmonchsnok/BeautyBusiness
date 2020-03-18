@@ -6,17 +6,6 @@ import { firebaseConnect } from "react-redux-firebase";
 import Filter from "../../components/filter/filter.js";
 import Navbar from "../../components/navbar/navbar.js";
 
-function searchFilter(store) {
-  return function(x) {
-    return (
-      x.value.Name.toLowerCase().includes(store.toLowerCase()) ||
-      x.value.Address.toLowerCase().includes(store.toLowerCase()) ||
-      x.value.Type[0].toLowerCase().includes(store.toLowerCase()) ||
-      !store
-    );
-  };
-}
-
 class AllStore extends Component {
   constructor(props) {
     super(props);
@@ -85,12 +74,22 @@ class AllStore extends Component {
     });
   };
 
+  searchFilter=(store) =>{
+    return function(x) {
+      return (
+        x.value.Name.toLowerCase().includes(store.toLowerCase()) ||
+        x.value.Address.toLowerCase().includes(store.toLowerCase()) ||
+        x.value.Type[0].toLowerCase().includes(store.toLowerCase()) ||
+        !store
+      );
+    };
+  }
   render() {
     const { store, checkbox } = this.state;
     const { Store } = this.props;
 
     const item = Store
-      ? Store.filter(searchFilter(store))
+      ? Store.filter(this.searchFilter(store))
           .filter(({ key, value }) => {
             return this.checkType(value.Type, checkbox);
           })

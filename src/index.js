@@ -26,12 +26,12 @@ const rrfProps = {
 
 const AppProject = () => (
   <Provider store={store}>
+        <BrowserRouter>
     <ReactReduxFirebaseProvider {...rrfProps}>
-    <BrowserRouter>
       <App />
-      </BrowserRouter>
-
     </ReactReduxFirebaseProvider>
+    </BrowserRouter>
+
   </Provider>
 );
  ReactDOM.render(<AppProject />, document.getElementById("root"));
