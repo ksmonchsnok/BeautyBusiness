@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Navbar from "../../components/navbar/navbar-User.js";
-import UpdateUser from "../user/updateUser.js";
+import UpdateUser from "../admin/addUser.js";
 
 export default class User extends Component {
   render() {

@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import Navbar from "../../components/navbar/navbar-Manager.js";
-import UpdateStore from "../admin/updateStorer.js";
-import ManagePromotion from "../manager/managePromotion.js";
-import Report from "../manager/report.js";
+import UpdateStore from "../admin/addStore";
+import ManagePromotion from "./managePromotion.js";
+import Report from "./report.js";
 
 export default class Manager extends Component {
   state = {

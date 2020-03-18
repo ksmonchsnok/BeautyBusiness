@@ -403,7 +403,7 @@ onClickCancel =()=>{
               Cancel
             </Button>
             <Button type="primary" htmlType="submit">
-              Create New User
+              Save
             </Button>
           </Form.Item>
         </Form>

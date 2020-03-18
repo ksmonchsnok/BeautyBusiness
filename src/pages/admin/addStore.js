@@ -1,7 +1,18 @@
 import React, { Component } from "react";
 import "antd/dist/antd.css";
 import "../../style.css";
-import { Form, Input, Tooltip, Button, Upload, message } from "antd";
+import {
+  Form,
+  Input,
+  Tooltip,
+  Button,
+  Upload,
+  message,
+  Radio,
+  Checkbox,
+  Row,
+  Col
+} from "antd";
 import {
   LoadingOutlined,
   PlusOutlined,
@@ -48,6 +59,10 @@ export default class RegistrationForm extends Component {
       );
     }
   };
+
+  onClickCancel=()=>{
+    window.history.back();}
+  
 
   render() {
     const uploadButton = (
@@ -101,13 +116,13 @@ export default class RegistrationForm extends Component {
     const { TextArea } = Input;
     return (
       <div
-        id="Add-Update-User"
+        id="Add-Update-Store"
         style={{ marginTop: "3rem", marginLeft: "1rem" }}
       >
         <Form
           {...formItemLayout}
           form={this.form}
-          name="addNewUser"
+          name="addNewStore"
           onFinish={this.onFinish}
           scrollToFirstError
         >
@@ -129,12 +144,12 @@ export default class RegistrationForm extends Component {
             </Upload>
           </Form.Item>
           <Form.Item
-            name="username"
-            label={<span>Username</span>}
+            name="name"
+            label={<span>Business Name</span>}
             rules={[
               {
                 required: true,
-                message: <small>Please input your Username</small>
+                message: <small>Please input your Business Name</small>
               },
               {
                 type: "string",
@@ -149,7 +164,7 @@ export default class RegistrationForm extends Component {
           >
             <Input
               type="textbox"
-              name="firstname"
+              name="Name"
               // value={this.state.data.ContractPhoneNumber || ""}
               // onChange={this.handleFieldChange}
               whitespace={true}
@@ -159,131 +174,16 @@ export default class RegistrationForm extends Component {
           </Form.Item>
 
           <Form.Item
-            name="email"
-            label="E-mail"
-            rules={[
-              {
-                type: "email",
-                message: <small>The input is not valid E-mail</small>
-              },
-              {
-                pattern: new RegExp("^[0-9A-Za-z@.]*$"),
-                min: 6,
-                message: (
-                  <small>Please input alphabetical and number only.</small>
-                )
-              },
-              {
-                required: true,
-                message: <small>Please input your E-mail</small>
-              }
-            ]}
-          >
-            <Input
-              type="textbox"
-              name="Email"
-              // value={this.state.data.ContractPhoneNumber || ""}
-              // onChange={this.handleFieldChange}
-              whitespace={true}
-              maxLength={40}
-              allowClear
-            />
-          </Form.Item>
-
-          <Form.Item
-            name="password"
-            label={
-              <span>
-                Password &nbsp;
-                <Tooltip title="Password จะต้องประกอบไปด้วย A-Z, a-z , 0-9">
-                  <QuestionCircleOutlined />
-                  &nbsp;
-                </Tooltip>
-              </span>
-            }
-            rules={[
-              {
-                min: 6,
-                message: <small>Password must be at least 6 characters</small>
-              },
-              {
-                pattern: new RegExp("^[A-Za-z0-9]*$"),
-                message: (
-                  <small>Please input alphabetical and number only.</small>
-                )
-              },
-              {
-                required: true,
-                message: <small>Please input your password</small>
-              }
-            ]}
-            hasFeedback
-          >
-            <Input.Password
-              type="textbox"
-              name="Password"
-              // value={this.state.data.ContractPhoneNumber || ""}
-              // onChange={this.handleFieldChange}
-              whitespace={true}
-              maxLength={16}
-              allowClear
-            />
-          </Form.Item>
-
-          <Form.Item
-            name="confirm"
-            label={
-              <span>
-                Confirm Password &nbsp;
-                <Tooltip title="Password จะต้องตรงกัน">
-                  <QuestionCircleOutlined />
-                  &nbsp;
-                </Tooltip>
-              </span>
-            }
-            dependencies={["password"]}
-            hasFeedback
+            name="Open"
+            label={<span>Open</span>}
             rules={[
               {
                 required: true,
-                message: <small>Please confirm your password</small>
-              },
-              ({ getFieldValue }) => ({
-                validator(rule, value) {
-                  if (!value || getFieldValue("password") === value) {
-                    return Promise.resolve();
-                  }
-
-                  return Promise.reject(
-                    <small>
-                      The two passwords that you entered do not match
-                    </small>
-                  );
-                }
-              })
-            ]}
-          >
-            <Input.Password
-              type="textbox"
-              name="confirmPassword"
-              // value={this.state.data.ContractPhoneNumber || ""}
-              // onChange={this.handleFieldChange}
-              whitespace={true}
-              maxLength={16}
-              allowClear
-            />
-          </Form.Item>
-          <Form.Item
-            name="firstname"
-            label={<span>First Name</span>}
-            rules={[
-              {
-                required: true,
-                message: <small>Please input your First Name</small>
+                message: <small>Please input your Open</small>
               },
               {
                 type: "string",
-                pattern: new RegExp("^[A-Za-zก-๙]*$"),
+                pattern: new RegExp("^[A-Za-zก-๙0-9-.]*$"),
                 message: <small>Please input alphabetical only.</small>
               },
               {
@@ -294,67 +194,11 @@ export default class RegistrationForm extends Component {
           >
             <Input
               type="textbox"
-              name="firstname"
+              name="Open"
               // value={this.state.data.ContractPhoneNumber || ""}
               // onChange={this.handleFieldChange}
               whitespace={true}
-              maxLength={40}
-              allowClear
-            />
-          </Form.Item>
-          <Form.Item
-            name="lastname"
-            label={<span>Last Name</span>}
-            rules={[
-              {
-                required: true,
-                message: <small>Please input your Last Name</small>
-              },
-              {
-                type: "string",
-                pattern: new RegExp("^[A-Za-zก-๙]*$"),
-                message: <small>Please input alphabetical only.</small>
-              },
-              {
-                min: 4,
-                message: <small>Must be at least 3 characters</small>
-              }
-            ]}
-          >
-            <Input
-              type="textbox"
-              name="lastname"
-              // value={this.state.data.ContractPhoneNumber || ""}
-              // onChange={this.handleFieldChange}
-              whitespace={true}
-              maxLength={40}
-              allowClear
-            />
-          </Form.Item>
-
-          <Form.Item
-            name="address"
-            label="Address"
-            rules={[
-              {
-                required: true,
-                message: <small>Please input your Address</small>
-              },
-              {
-                type: "regexp",
-                pattern: new RegExp("^[a-zA-Z0-9ก-๙'-./]*$"),
-                whitespace: false,
-                message: <small>Please input alphabetical only.</small>
-              }
-            ]}
-          >
-            <TextArea
-              rows={3}
-              name="Address"
-              // value={this.state.data.ContractPhoneNumber || ""}
-              // onChange={this.handleFieldChange}
-              whitespace={true}
-              maxLength={150}
+              maxLength={20}
               allowClear
             />
           </Form.Item>
@@ -389,9 +233,162 @@ export default class RegistrationForm extends Component {
             />
           </Form.Item>
 
-          <Form.Item {...tailFormItemLayout} style={{ marginBottom: "6rem" }}>
-            <Button type="primary" htmlType="submit">
-              Save To Update
+          <Form.Item
+            name="address"
+            label="Address"
+            rules={[
+              {
+                required: true,
+                message: <small>Please input your Address</small>
+              },
+              {
+                type: "regexp",
+                pattern: new RegExp("^[a-zA-Z0-9ก-๙'-./]*$"),
+                whitespace: false,
+                message: <small>Please input alphabetical only.</small>
+              }
+            ]}
+          >
+            <TextArea
+              rows={3}
+              name="Address"
+              // value={this.state.data.ContractPhoneNumber || ""}
+              // onChange={this.handleFieldChange}
+              whitespace={true}
+              maxLength={150}
+              allowClear
+            />
+          </Form.Item>
+
+          <Form.Item
+            name="storeType"
+            label="Business Type"
+            rules={[
+              {
+                required: true,
+                message: <small>Please input your Business Type</small>
+              }
+            ]}
+          >
+            <Radio.Group>
+              <Radio value="1">มีร้าน</Radio>
+              <Radio value="2">ฟรีแลนซ์</Radio>
+            </Radio.Group>
+          </Form.Item>
+
+          <Form.Item
+            name="type"
+            label="Service Type"
+            rules={[
+              {
+                required: true,
+                message: <small>Please input your Service Type</small>
+              }
+            ]}
+          >
+            <Checkbox.Group>
+              <Row>
+                <Col span={6}>
+                  <Checkbox
+                    value="1"
+                    style={{
+                      lineHeight: "32px"
+                    }}
+                  >
+                    ตัดผมชาย
+                  </Checkbox>
+                </Col>
+                <Col span={6}>
+                  <Checkbox
+                    value="2"
+                    style={{
+                      lineHeight: "32px"
+                    }}
+                  >
+                    เสริมสวย
+                  </Checkbox>
+                </Col>
+                <Col span={6}>
+                  <Checkbox
+                    value="3"
+                    style={{
+                      lineHeight: "32px"
+                    }}
+                  >
+                    ทำเล็บ
+                  </Checkbox>
+                </Col>
+                <Col span={6}>
+                  <Checkbox
+                    value="4"
+                    style={{
+                      lineHeight: "32px"
+                    }}
+                  >
+                    ต่อขนตา
+                  </Checkbox>
+                </Col>
+                <Col span={6}>
+                  <Checkbox
+                    value="5"
+                    style={{
+                      lineHeight: "32px"
+                    }}
+                  >
+                    สักคิ้ว
+                  </Checkbox>
+                </Col>
+                <Col span={6}>
+                  <Checkbox
+                    value="6"
+                    style={{
+                      lineHeight: "32px"
+                    }}
+                  >
+                    แว็กซ์ขน
+                  </Checkbox>
+                </Col>
+                <Col span={6}>
+                  <Checkbox
+                    value="7"
+                    style={{
+                      lineHeight: "32px"
+                    }}
+                  >
+                    สปา
+                  </Checkbox>
+                </Col>
+                <Col span={6}>
+                  <Checkbox
+                    value="8"
+                    style={{
+                      lineHeight: "32px"
+                    }}
+                  >
+                    Tattoo
+                  </Checkbox>
+                </Col>
+              </Row>
+            </Checkbox.Group>
+          </Form.Item>
+          <Form.Item
+            {...tailFormItemLayout}
+            style={{ marginBottom: "6rem", marginTop: "4rem" }}
+          >
+            <Button
+              type="danger"
+              htmlType="reset"
+              style={{ marginRight: "2rem" }}
+              onClick={this.onClickCancel}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="primary"
+              htmlType="submit"
+              // loading="true"
+            >
+              Save
             </Button>
           </Form.Item>
         </Form>
