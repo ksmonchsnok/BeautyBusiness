@@ -2,111 +2,113 @@ import React, { Component } from "react";
 import "antd/dist/antd.css";
 import "../../style.css";
 import { Table, Input, Button, Popconfirm, Tag } from "antd";
+import firebase from "firebase";
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { firebaseConnect } from "react-redux-firebase";
 
-export default class storeList extends Component {
+class storeList extends Component {
   constructor(props) {
     super(props);
-    this.columns = [
-      {
-        title: "Business Name",
-        dataIndex: "name"
-      },
-      {
-        title: "Open Store",
-        dataIndex: "open"
-      },
-      {
-        title: "Phone Number",
-        dataIndex: "phone"
-      },
-      {
-        title: "Business Type",
-        dataIndex: "storetype"
-      },
-      {
-        title: "Service Type",
-        dataIndex: "type",
-        render: type => (
-          <span>
-            {type.map(type => {
-              let color = type.length > 3 ? "geekblue" : "green";
-              if (type === "loser") {
-                color = "volcano";
-              }
-              return (
-                <Tag color={color} key={type}>
-                  {type.toUpperCase()}
-                </Tag>
-              );
-            })}
-          </span>
-        )
-      },
-      {
-        title: "Edit",
-        dataIndex: "Edit",
-        render: (text, record) =>
-          this.state.dataSource.length >= 1 ? (
-            <Popconfirm
-              title="Sure to Edit?"
-              //   onConfirm={() => this.handleDelete(record.key)}
-            >
-              <a>Edit</a>
-            </Popconfirm>
-          ) : null
-      },
-      {
-        title: "Delete",
-        dataIndex: "Delete",
-        render: (text, record) =>
-          this.state.dataSource.length >= 1 ? (
-            <Popconfirm
-              title="Sure to delete?"
-              onConfirm={() => this.handleDelete(record.key)}
-            >
-              <a>Delete</a>
-            </Popconfirm>
-          ) : null
-      }
-    ];
     this.state = {
-      dataSource: [
+      data: [],
+      loadingData: false,
+      count: 2,
+      columns : [
         {
-          key: "0",
-          name: "Edward King 0",
-          open: "10.00-19.00",
-          phone: "32",
-          storetype: "มีร้าน",
-
-          type: ["ทำเล็บ", "สปา"]
+          title: "Business Name",
+          dataIndex: "name"
         },
         {
-          key: "1",
-          name: "Edward King 1",
-          open: "9.00-20.00",
-          phone: "32",
-          storetype: "ฟรีแลนซ์",
-
-          type: ["ทำเล็บ", "เสริมสวย"]
+          title: "Open Store",
+          dataIndex: "open"
+        },
+        {
+          title: "Phone Number",
+          dataIndex: "phone"
+        },
+        {
+          title: "Business Type",
+          dataIndex: "storetype"
+        },
+        {
+          title: "Service Type",
+          dataIndex: "type",
+          // render: type => (
+          //   <span>
+          //     {type.map(type => {
+          //       let color = type.length > 3 ? "geekblue" : "green";
+          //       if (type === "loser") {
+          //         color = "volcano";
+          //       }
+          //       return (
+          //         <Tag color={color} key={type}>
+          //           {type.toUpperCase()}
+          //         </Tag>
+          //       );
+          //     })}
+          //   </span>
+          // )
+        },
+        {
+          title: "Edit",
+          dataIndex: "Edit",
+          render: (text, record) =>
+            this.state.data.length >= 1 ? (
+              <Popconfirm
+                title="Sure to Edit?"
+                //   onConfirm={() => this.handleDelete(record.key)}
+              >
+                <a>Edit</a>
+              </Popconfirm>
+            ) : null
+        },
+        {
+          title: "Delete",
+          dataIndex: "Delete",
+          render: (text, record) =>
+            this.state.data.length >= 1 ? (
+              <Popconfirm
+                title="Sure to delete?"
+                onConfirm={() => this.handleDelete(record.key)}
+              >
+                <a>Delete</a>
+              </Popconfirm>
+            ) : null
         }
-      ],
-      count: 2
+      ]
     };
   }
+
+  componentDidMount() {
+    let ref = firebase.database().ref("Store");
+    ref.once("value").then(snapshot => {
+      const data = snapshot.val();
+      data.map(ref =>
+        data.push({
+          name: data.Name,
+          open: data.Open,
+          phone: data.Phone,
+          storetype: data.StoreType,
+          type: data.Type
+        })
+      );
+      this.setState({ data });      
+    });
+  }
+
   handleDelete = key => {
-    const dataSource = [...this.state.dataSource];
+    const data = [...this.state.data];
     this.setState({
-      dataSource: dataSource.filter(item => item.key !== key)
+      data: data.filter(item => item.key !== key)
     });
   };
-  render() {
-    const { dataSource } = this.state;
 
-    const columns = this.columns.map(col => {
+  render() {
+    const columns = this.state.columns.map(col => {
       if (!col.editable) {
         return col;
       }
-
       return {
         ...col,
         onCell: record => ({
@@ -118,6 +120,9 @@ export default class storeList extends Component {
         })
       };
     });
+    console.log(this.state.data);
+
+
     return (
       <div id="User-List">
         <div className="container" style={{ marginTop: "3rem" }}>
@@ -125,7 +130,7 @@ export default class storeList extends Component {
           <Table
             rowClassName={() => "editable-row"}
             bordered
-            dataSource={dataSource}
+            dataSource={this.state.data}
             columns={columns}
           />
           <div
@@ -141,3 +146,15 @@ export default class storeList extends Component {
     );
   }
 }
+function mapStateToProps({ firebase }) {
+  return {
+    Store: firebase.ordered.Store
+  };
+}
+
+const enhance = compose(
+  firebaseConnect([{ path: "/Store" }]),
+  connect(mapStateToProps)
+);
+
+export default enhance(storeList);

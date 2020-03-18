@@ -47,7 +47,7 @@ export default class Menu extends Component {
 
           <div className="col-6 col-md-2">
             <NavLink
-              to="/AllStores"
+              to="/Nearby"
               activeClassName="is-active"
               className="nav-link link-menu"
             >

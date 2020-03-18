@@ -4,8 +4,9 @@ import "../../style.css";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { firebaseConnect } from "react-redux-firebase";
-import Maps from "../../service/google-maps/maps.js";
 import Navber from "../../components/navbar/navbar.js";
+import { Map, GoogleApiWrapper, Marker,InfoWindow } from "google-maps-react";
+import { geolocated } from "react-geolocated";
 
 class Nearby extends Component {
   constructor(props) {
@@ -13,34 +14,21 @@ class Nearby extends Component {
     this.state = {
       dataitem: [],
       locations: [],
-      dataarray: [],
-      coords: false
-    };
-    this.state.our_position = this.get_current_Location();
-  }
+      data: [],
+      coords: false,
+      showingInfoWindow: false,
+      activeMarker: {},
+      selectedPlace: {}
 
-  goto_Detail = value => {
-    this.props.history.push({
-      pathname: "/Store",
-      state: [value]
-    });
-  };
-  get_current_Location = () => {
-    const geolocation = navigator.geolocation;
-    return geolocation.getCurrentPosition(position => {
-      let get = [];
-      this.setState({
-        coords: {
-          Lat: position.coords.Latitude,
-          Lng: position.coords.Longitude
-        }
-      });
-      get.push({
-        Lat: position.coords.Latitude,
-        Lng: position.coords.Longitude
-      });
-    });
-  };
+    };
+    // this.locations = this.props.locations;
+
+    if (this.props.isGeolocationAvailable && this.props.isGeolocationEnabled) {
+      this.currentOfLocation();
+    } else {
+      alert("Location is not available");
+    }
+  }
 
   componentDidMount() {
     let ref = firebase.database().ref("Store");
@@ -65,13 +53,81 @@ class Nearby extends Component {
       this.setState({ locations });
     });
   }
+  onMarkerClick = (props, marker, e) =>
+  this.setState({
+    selectedPlace: props,
+    activeMarker: marker,
+    showingInfoWindow: true
+  });
 
-  get_calulated_nearby = () => {
+  onMapClicked = props => {
+    if (this.state.showingInfoWindow) {
+      this.setState({
+        showingInfoWindow: false,
+        activeMarker: null
+      });
+    }
+  };
+
+  // markStore = () => {
+    //   const locations = this.state.locations;
+    //   return locations.map(location => (
+    //     <Marker
+    //       onClick={this.onMarkerClick}
+    //       title={location.Name}
+    //       name={location.Name}
+    //       position={{ Lat: location.Lat, Lng: location.Lng }}
+    //     />
+    //   ));
+    // };
+
+
+      //markCurent = () => {
+  //   let iconmark = "https://img.icons8.com/cotton/64/000000/place-marker.png";
+  //   const current = this.state.coords;
+  //   console.log(current, "Mark Current Now!");
+  //   return (
+  //     <Marker
+  //       onClick={this.onMarkerClick}
+  //       name={"Curent Now !!"}
+  //       title={"Curent Now !!"}
+  //       icon={iconmark}
+  //       position={{
+  //         Lat: current.Lat,
+  //         Lng: current.Lng
+  //       }}
+  //     />
+  //   );
+  // };
+
+  currentOfLocation = () => {
+    const geolocation = navigator.geolocation;
+    return geolocation.getCurrentPosition(position => {
+      this.setState({
+        coords: {
+          Lat: position.coords.latitude,
+          Lng: position.coords.longitude
+        }
+      });
+
+      console.log(position);
+    });
+  };
+
+  onClickViewDetail = value => {
+    this.props.history.push({
+      pathname: "/Store",
+      state: [value]
+    });
+  };
+ 
+  calulatedNearby = () => {
     const result = [];
-    const partner = this.state.locations;
+    const store = this.state.locations;
     const our_position = this.state.coords;
-    partner.map((el, i) => {
-      let dataarray = this.state.dataarray;
+    let data = this.state.data;
+    store.map((el, i) => {
+     
       let Lat1 = our_position.Lat;
       let Lng1 = our_position.Lng;
       let Lat2 = el.Lat;
@@ -94,7 +150,7 @@ class Nearby extends Component {
 
       result.push(Name + " ==> " + m.toFixed(0));
       if (d < 1) {
-        dataarray.push({
+        data.push({
           Name: el.Name,
           Lat: el.Lat,
           Lng: el.Lng,
@@ -111,15 +167,26 @@ class Nearby extends Component {
       }
     });
   };
-
+ 
   render() {
-    this.get_calulated_nearby();
-    let rootRef = firebase.database().ref("Store");
+    this.calulatedNearby();
+    const styles = {
+      maxWidth: "100%",
+      maxHeight: "100%",
+      paddingTop: "20rem ",
+      paddingBottom: "15rem ",
+      marginRight:"2rem",
+      border: "solid 1px Gainsboro",
+      borderRadius: "8px",
+      boxShadow: "2px 2px 2px silver",
+      display: "inline-flex",
+      position: "absolute"
+    };
 
-    const item = this.state.dataarray.map(value => (
+    const item = this.state.data.map(value => (
       <div className="col-lg-3 col-md-6">
         <div key={value.ID}>
-          <a href="" onClick={() => this.goto_Detail(value)}>
+          <a href="" onClick={() => this.onClickViewDetail(value)}>
             <img
               className="card-img-top img-fluid rounded mx-auto d-block"
               src={value.Image}
@@ -160,29 +227,89 @@ class Nearby extends Component {
     return (
       <div id="nearby">
         <Navber />
-        <Maps />
 
-        <div className="container">
-          <h2 className="text-center font" style={{ lineHeight: "2.5rem" }}>
+        <div className="" style={{ height: "80vh", width: "100%" }}>
+        <h2 className="text-center" >แผนที่แสดงธุรกิจทั้งหมด</h2> 
+
+        <div
+          className="jumbotron justify-content-center d-flex justify-content-center"
+          style={{ backgroundColor: "#ffffff" }}
+        >
+          <div className="col-11">
+          {this.state.coords.Lat && this.state.coords.Lng && (
+            <Map
+              google={this.props.google}
+              zoom={12}
+              style={styles}
+              initialCenter={{
+                lat: this.state.coords.Lat,
+                lng: this.state.coords.Lng
+              }}
+            >
+              {this.state.data.map((l ,i)=> {
+              return(
+                <Marker
+                key={i}
+                  title={l.Name}
+                  name={l.Name}
+                  position={{ lat: l.Lat, lng: l.Lng }}>
+                  <InfoWindow key={'win_'+i} visible={true} position={{ lat: l.Lat, lng: l.Lng }}>
+                        <h4>{l.Name}</h4>
+                    </InfoWindow>
+                </Marker>
+              )
+              })}
+
+                <Marker
+                key={"2"}
+                  label={'You'}
+                  title={"You"}
+                  name={"You"}
+                  position={{ lat: this.state.coords.Lat, lng: this.state.coords.Lng }}>
+                     <InfoWindow visible={true}>
+                        <h5>You</h5>
+                    </InfoWindow>
+                  </Marker>
+            </Map>
+          )}
+        </div>
+        </div>
+        </div>
+
+          <h4 className="text-center font" style={{ lineHeight: "2.5rem" }}>
             ธุรกิจใกล้เคียงในระยะ 1 กิโลเมตร
-          </h2>
-          <div className="album  bg-while pad ">
+          </h4>
+          <div className="album bg-while pad">
+          <hr/>
+
             <div className="row">{item}</div>
           </div>
         </div>
-      </div>
     );
   }
 }
+
+const googleApiWrapper = GoogleApiWrapper({
+  apiKey: "AIzaSyDdoBV1pjIyFVBXHdo7wje7WdLcnY0HpFw"
+});
+
 function mapStateToProps({ firebase }) {
   return {
     Store: firebase.ordered.Store
   };
 }
 
+const geo = geolocated({
+  positionOptions: {
+    enableHighAccuracy: false
+  },
+  userDecisionTimeout: 5000
+});
+
 const enhance = compose(
   firebaseConnect([{ path: "/Store" }]),
-  connect(mapStateToProps)
+  connect(mapStateToProps),
+  googleApiWrapper,
+  geo
 );
-
 export default enhance(Nearby);
