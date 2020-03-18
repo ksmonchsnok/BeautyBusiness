@@ -84,15 +84,15 @@ class storeList extends Component {
     let ref = firebase.database().ref("Store");
     ref.once("value").then(snapshot => {
       const data = snapshot.val();
-      data.map(ref =>
-        data.push({
-          name: data.Name,
-          open: data.Open,
-          phone: data.Phone,
-          storetype: data.StoreType,
-          type: data.Type
-        })
-      );
+      // data.map(ref =>
+      //   // data.push({
+      //   //   name: data.Name,
+      //   //   open: data.Open,
+      //   //   phone: data.Phone,
+      //   //   storetype: data.StoreType,
+      //   //   type: data.Type
+      //   // })
+      // );
       this.setState({ data });      
     });
   }
