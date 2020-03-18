@@ -104,7 +104,8 @@ class storeList extends Component {
     });
   };
   onClickCreateNewBusiness=()=>{
-    window.location.assign("/AddStore")
+    this.props.history.push("/AddStore")
+    // window.location.assign("/AddStore")
   }
 
   render() {

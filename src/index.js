@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 import "./style.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
+import { BrowserRouter } from "react-router-dom";
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
 import createReduxStore from './service/firebase/createReduxStore.js'
 import firebase from "firebase";
@@ -26,7 +27,10 @@ const rrfProps = {
 const AppProject = () => (
   <Provider store={store}>
     <ReactReduxFirebaseProvider {...rrfProps}>
+    <BrowserRouter>
       <App />
+      </BrowserRouter>
+
     </ReactReduxFirebaseProvider>
   </Provider>
 );
