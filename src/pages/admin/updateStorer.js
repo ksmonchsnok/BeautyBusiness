@@ -60,6 +60,10 @@ export default class RegistrationForm extends Component {
     }
   };
 
+  onClickCancel=()=>{
+    window.history.back();}
+  
+
   render() {
     const uploadButton = (
       <div>
@@ -375,6 +379,7 @@ export default class RegistrationForm extends Component {
               type="danger"
               htmlType="reset"
               style={{ marginRight: "2rem" }}
+              onClick={this.onClickCancel}
             >
               Cancel
             </Button>

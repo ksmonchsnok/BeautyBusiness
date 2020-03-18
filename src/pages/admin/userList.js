@@ -84,6 +84,12 @@ class userList extends Component {
       data: data.filter(item => item.key !== key)
     });
   };
+
+onClickCreateNewUser =()=>{
+  window.location.assign("/AddUser")
+}
+
+
   render() {
     const columns = this.state.columns.map(col => {
       if (!col.editable) {
@@ -118,7 +124,7 @@ class userList extends Component {
             className="col d-flex justify-content-center"
             style={{ marginBottom: "5rem", marginTop: "4rem" }}
           >
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" onClick={this.onClickCreateNewUser}>
               Create New User
             </Button>
           </div>

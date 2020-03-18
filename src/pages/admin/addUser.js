@@ -48,6 +48,9 @@ export default class RegistrationForm extends Component {
       );
     }
   };
+onClickCancel =()=>{
+  window.history.back();
+}
 
   render() {
     const uploadButton = (
@@ -390,6 +393,15 @@ export default class RegistrationForm extends Component {
           </Form.Item>
 
           <Form.Item {...tailFormItemLayout} style={{ marginBottom: "6rem" }}>
+
+          <Button
+              type="danger"
+              htmlType="reset"
+              style={{ marginRight: "2rem" }}
+              onClick={this.onClickCancel}
+            >
+              Cancel
+            </Button>
             <Button type="primary" htmlType="submit">
               Create New User
             </Button>

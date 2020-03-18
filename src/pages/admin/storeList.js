@@ -103,6 +103,9 @@ class storeList extends Component {
       data: data.filter(item => item.key !== key)
     });
   };
+  onClickCreateNewBusiness=()=>{
+    window.location.assign("/UpdateStore")
+  }
 
   render() {
     const columns = this.state.columns.map(col => {
@@ -137,7 +140,7 @@ class storeList extends Component {
             className="col d-flex justify-content-center"
             style={{ marginBottom: "5rem", marginTop: "4rem" }}
           >
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" onClick={this.onClickCreateNewBusiness}>
               Create New Business
             </Button>
           </div>

@@ -15,6 +15,10 @@ import managePromotionAndDiscount from "../pages/admin/managePromotion.js";
 import ReportForAdmin from "../pages/admin/report.js";
 import UserList from "../pages/admin/userList.js";
 import StoreList from "../pages/admin/storeList.js";
+import UpdateStore from "../pages/admin/updateStorer.js";
+import AddUser from "../pages/admin/addUser.js";
+
+
 
 // User
 import User from "../pages/user/user.js";
@@ -22,7 +26,6 @@ import UpdateUser from "../pages/user/updateUser.js";
 
 // Manager
 import Manager from "../pages/user/manager.js";
-import UpdateStore from "../pages/manager/updateStorer.js";
 import managePromotion from "../pages/manager/managePromotion.js";
 import Report from "../pages/manager/report.js";
 
@@ -54,12 +57,18 @@ export default () => (
       <Route exact path="/Admin" component={Admin} />
       <Route exact path="/ManageUser" component={ManageUser} />
       <Route exact path="/ManageStore" component={ManageStore} />
+      <Route exact path="/AddUser" component={AddUser} />
+
       <Route
         exact
         path="/managePromotionAndDiscount"
         component={managePromotionAndDiscount}
       />
       <Route exact path="/ReportForAdmin" component={ReportForAdmin} />
+      <Route exact path="/UserList" component={UserList} />
+
+      <Route exact path="/StoreList" component={StoreList} />
+
 
       {/* <PrivateRoute exact path="/admin" component={Admin} /> */}
 
