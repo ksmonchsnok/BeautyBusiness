@@ -105,11 +105,11 @@ class storeList extends Component {
   };
   onClickCreateNewBusiness=(value)=>{
     // this.props.history.push("/AddStore")
-    // window.location.assign("/AddStore")
-    this.props.history.push({
-      pathname: "/AddStore",
-      state: [value]
-    });
+    window.location.assign("/AddStore")
+    // this.props.history.push({
+    //   pathname: "/AddStore",
+    //   state: [value]
+    // });
   }
 
   render() {
