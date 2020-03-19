@@ -103,9 +103,9 @@ class storeList extends Component {
       data: data.filter(item => item.key !== key)
     });
   };
-  onClickCreateNewBusiness=(value)=>{
-    // this.props.history.push("/AddStore")
-    window.location.assign("/AddStore")
+  onClickCreateNewBusiness=(e)=>{
+    this.props.history.push("/AddStore")
+    // window.location.assign("/AddStore")
     // this.props.history.push({
     //   pathname: "/AddStore",
     //   state: [value]

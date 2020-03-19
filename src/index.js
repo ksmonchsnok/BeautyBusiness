@@ -3,8 +3,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./style.css";
 import App from "./App";
-import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter } from "react-router-dom";
+import * as serviceWorker from "./serviceWorker";
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
 import createReduxStore from './service/firebase/createReduxStore.js'
 import firebase from "firebase";

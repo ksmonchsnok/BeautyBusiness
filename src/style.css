@@ -10,7 +10,6 @@
 }
 
 .App-header {
-    background-color: #282c34;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -64,6 +63,20 @@ body {
     -webkit-font-smoothing: antialiased;
     -webkit-text-size-adjust: 100%;
     -moz-osx-font-smoothing: grayscale;
+
+}
+
+/* Login */
+
+.admin{
+  display: block;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0px 5px 6px #00000029;
+  border: 1px solid #b9b9b9;
+  border-radius: 0.8cm;
+  opacity: 1;
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
 
 }
 
@@ -223,7 +236,6 @@ a:active {
 
 /* ********************************************************************************************************************************************************************* */
 /* Head */
-
 .head {
     height: 500px;
     max-width: 100%;

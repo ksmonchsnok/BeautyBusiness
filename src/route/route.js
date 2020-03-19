@@ -1,5 +1,6 @@
 import React from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
+import {BrowserRouter as Router,Switch,Redirect,Route} from 'react-router-dom';
+
 
 // Home
 import Home from "../pages/home/home.js";
@@ -9,6 +10,7 @@ import Nearby from "../pages/nearby/nearby.js";
 
 // Admin
 import Admin from "../pages/admin/admin.js";
+import LoginForAdmin from "../pages/admin/loginForAdmin.js"
 import ManageUser from "../pages/admin/addUser.js";
 import managePromotionAndDiscount from "../pages/admin/managePromotion.js";
 import ReportForAdmin from "../pages/admin/report.js";
@@ -17,8 +19,6 @@ import StoreList from "../pages/admin/storeList.js";
 import AddStore from "../pages/admin/addStore.js";
 import AddUser from "../pages/admin/addUser.js";
 
-
-
 // User
 import User from "../pages/user/user.js";
 
@@ -26,7 +26,7 @@ import User from "../pages/user/user.js";
 import Manager from "../pages/manager/manager.js";
 import managePromotion from "../pages/manager/managePromotion.js";
 import Report from "../pages/manager/report.js";
-
+import Footer from "../components/footer/footer.js";
 
 export const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -42,10 +42,17 @@ export const PrivateRoute = ({ component: Component, ...rest }) => (
 );
 
 export default () => (
-    <Switch>
+  
+
+  <Router>
+      <Route exact path="/LoginForAdmin" component={LoginForAdmin} />
+
+     <Switch >
       {/* Home */}
+
       <Route exact path="/" component={Home} />
       <Route exact path="/Home" component={Home} />
+
 
       <Route exact path="/AllStores" component={AllStores} />
       <Route exact path="/StoreDetail" component={StoreDetail} />
@@ -78,4 +85,5 @@ export default () => (
       <Route exact path="/managePromotion" component={managePromotion} />
       <Route exact path="/Report" component={Report} />
     </Switch>
+  </Router>
 );
