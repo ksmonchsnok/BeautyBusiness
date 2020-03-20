@@ -35,6 +35,10 @@ class LoginForAdmin extends Component {
       password: password
     });
   };
+
+  onClickLogin = () =>{
+    this.props.history.push("/AdminPage")
+  }
   render() {
     const NormalLoginForm = () => {
       const onFinish = values => {
@@ -118,9 +122,11 @@ class LoginForAdmin extends Component {
                   <Button
                   block
                     // type="primary"
+                    size="large"
                     htmlType="submit"
                     className="login-form-button"
                     style={{ marginTop: "2rem", backgroundColor :"#343a40" ,color:"#fff"}}
+                    onClick={this.onClickLogin}
                   >
                     Log in
                   </Button>
