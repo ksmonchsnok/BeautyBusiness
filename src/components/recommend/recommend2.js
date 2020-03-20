@@ -19,10 +19,14 @@ class Recommened extends Component {
   };
 
   onClickViewDetail = value => {
-    // this.props.history.push({
-    //   pathname: "/StoreDetail",
-    //   state: [value]
-    // });
+    this.props.history.push({
+      pathname: "/StoreDetail",
+      state: [value]
+    });
+  };
+
+  onClickViewAllStore = () => {
+    this.props.history.push("/AllStores");
   };
 
   render() {
@@ -77,20 +81,24 @@ class Recommened extends Component {
           style={{ backgroundColor: "transparent" }}
         >
           <h2 className="text-left font row" style={{ marginBottom: "-2rem" }}>
-            {" "}
             แนะนำ
           </h2>
         </div>
-        <NavLink
-          exact
-          to="/AllStores"
-          activeClassName="is-active"
-          className="nav-link link-menu text-right "
-        >
-          <h6> ดูทั้งหมด >></h6>
-        </NavLink>
+        <div className="row d-flex justify-content-end">
+          <a
+            href
+            className="nav-link link-menu "
+            onClick={this.onClickViewAllStore}
+          >
+            ดูทั้งหมด>>
+          </a>
+        </div>
 
-        <div className="row" style={{ marginTop: "1.5rem" }}>
+        <div
+          className="row"
+          style={{ marginTop: "1.5rem" }}
+          history={this.props.history}
+        >
           {item}
         </div>
       </div>

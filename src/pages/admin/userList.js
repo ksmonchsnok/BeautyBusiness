@@ -86,7 +86,7 @@ class userList extends Component {
   };
 
 onClickCreateNewUser =()=>{
-  window.location.assign("/AddUser")
+  this.props.history.push("/AddUser")
 }
 
 

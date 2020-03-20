@@ -7,13 +7,13 @@ import Footer from "./components/footer/footer";
 export default function App() {
   return (
     <div id="App" className="App">
-       <BrowserRouter> 
-       <header>
-        <Route />
-      </header>
-      <footer>
-        <Footer />
-      </footer>
+      <BrowserRouter>
+        <header>
+          <Route />
+        </header>
+        <footer>
+          <Footer />
+        </footer>
       </BrowserRouter>
     </div>
   );

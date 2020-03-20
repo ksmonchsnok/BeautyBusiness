@@ -6,11 +6,10 @@ import Recommend from "../../components/recommend/recommend2.js";
 export default class Home extends Component {
   render() {
     return (
-      <div id="Home-page">
-        {/* <div className="jumbotron jumbotron-fluid" style={{background:"transparent",marginTop:"-3.5rem"}}> */}
+      <div id="Home-page" history={this.props.history}>
         <Header />
         <div className="container" style={{ marginTop: "10em" }}>
-          <Recommend />
+          <Recommend history={this.props.history} />
         </div>
       </div>
     );

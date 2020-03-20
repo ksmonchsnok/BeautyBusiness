@@ -25,9 +25,7 @@ export default class navbar extends Component {
   };
 
   onClickHome = () => {
-    //    window.open("/","_self");
-    //    this.props.history.location("/")
-    //    this.props.history.push("/" + window.location.hash);
+    this.props.history.push("/");
   };
   render() {
     const showPopupLogin = this.state.showPopupLogin;
@@ -41,7 +39,6 @@ export default class navbar extends Component {
           <NavLink exact to="/" className="navbar-brand">
             Beauty Business
           </NavLink>
-          {/* <a className="navbar-brand" href onClick={this.onClickHome}>Beauty Business</a> */}
           <button
             className="navbar-toggler"
             type="button"

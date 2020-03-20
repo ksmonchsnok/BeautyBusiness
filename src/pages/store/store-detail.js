@@ -21,7 +21,7 @@ class StoreDetail extends Component {
   };
 
   onClickBack = () => {
-    this.props.history.push("/AllStores");
+    window.history.back();
   };
   render() {
     const item = this.state.Store.map(value => (

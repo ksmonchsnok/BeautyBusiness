@@ -111,7 +111,7 @@ export default class Admin extends Component {
                   role="tabpanel"
                   aria-labelledby="v-pills-manageStore-tab"
                 >
-                  <StoreList />
+                  <StoreList {...this.props} />
                 </div>
                 <div
                   className="tab-pane fade"
@@ -119,7 +119,7 @@ export default class Admin extends Component {
                   role="tabpanel"
                   aria-labelledby="v-pills-manageUser-tab"
                 >
-                  <UserList />
+                  <UserList {...this.props} />
                 </div>
                 <div
                   className="tab-pane fade"
@@ -127,7 +127,7 @@ export default class Admin extends Component {
                   role="tabpanel"
                   aria-labelledby="v-pills-managePromotion-tab"
                 >
-                  <ManagePromotion />
+                  <ManagePromotion {...this.props} />
                 </div>
 
                 <div
@@ -136,7 +136,7 @@ export default class Admin extends Component {
                   role="tabpanel"
                   aria-labelledby="v-pills-Report-tab"
                 >
-                  <Report />
+                  <Report history={this.props.history}/>
                 </div>
               </div>
             </div>
