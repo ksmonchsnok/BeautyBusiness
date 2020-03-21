@@ -24,7 +24,17 @@ class storeList extends Component {
       let ref = firebase.database().ref("Store");
       ref.once("value").then(snapshot => {
         const data = snapshot.val();
-        this.setState({ data });
+        if (typeof data === "object" && data !== null && data !== undefined) {
+          let arr = [];
+          var key = Object.keys(data);
+          let arr1 = Object.values(data);
+          for (let i = 0; i < arr1.length; i++) {
+            arr[key[i]] = arr1[i];
+          }
+          this.setState({ data: arr });
+        } else {
+          this.setState({ data });
+        }
       });
     }, 1000);
   }
@@ -101,7 +111,11 @@ class storeList extends Component {
                         <td>{d.Open}</td>
                         <td>{d.Phone}</td>
                         <td>{d.StoreType}</td>
-                        <td>{d.Type}</td>
+                        <td>
+                          {d.Type.map(el => (
+                            <p class="badge badge-warning">{el}</p>
+                          ))}
+                        </td>
                         <td>{d.Type}</td>
                         <td>
                           <a href>

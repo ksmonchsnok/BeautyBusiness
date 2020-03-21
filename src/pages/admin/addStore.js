@@ -35,14 +35,14 @@ class RegistrationForm extends Component {
       BusinessType: "",
       ServiceType: [],
       options: [
-        { label: "ตัดผมชาย", value: 1 },
-        { label: "เสริมสวย", value: 2 },
-        { label: "ทำเล็บ", value: 3 },
-        { label: "ต่อขนตา", value: 4 },
-        { label: "สักคิ้ว", value: 5 },
-        { label: "แว็กซ์ขน", value: 6 },
-        { label: "สปา", value: 7 },
-        { label: "Tattoo", value: 8 }
+        { label: "ตัดผมชาย", value: "ตัดผมชาย" },
+        { label: "เสริมสวย", value: "เสริมสวย" },
+        { label: "ทำเล็บ", value: "ทำเล็บ" },
+        { label: "ต่อขนตา", value: "ต่อขนตา" },
+        { label: "สักคิ้ว", value: "สักคิ้ว" },
+        { label: "แว็กซ์ขน", value: "แว็กซ์ขน" },
+        { label: "สปา", value: "สปา" },
+        { label: "Tattoo", value: "Tattoo" }
       ]
     };
   }
@@ -144,20 +144,35 @@ class RegistrationForm extends Component {
           };
           setItemInsert.child(this.state.ItemID).update(newState);
         } else {
-          const setItemInsert = firebase
-            .database()
-            .ref(`Store/${tempId.item_id * 1 + 1}`);
-          let newState = {
-            ItemID: tempId.item_id * 1 + 1,
-            imageUrl: this.state.imageUrl,
-            Name: this.state.BusinessName,
-            Open: this.state.OpenShop,
-            Phone: this.state.PhoneNumbe,
-            Address: this.state.Address,
-            StoreType: this.state.BusinessType,
-            Type: this.state.ServiceType
-          };
-          setItemInsert.set(newState);
+          if (tempId !== [] && tempId !== undefined) {
+            const setItemInsert = firebase
+              .database()
+              .ref(`Store/${tempId.item_id * 1 + 1}`);
+            let newState = {
+              ItemID: tempId.item_id * 1 + 1,
+              imageUrl: this.state.imageUrl,
+              Name: this.state.BusinessName,
+              Open: this.state.OpenShop,
+              Phone: this.state.PhoneNumbe,
+              Address: this.state.Address,
+              StoreType: this.state.BusinessType,
+              Type: this.state.ServiceType
+            };
+            setItemInsert.set(newState);
+          } else {
+            const setItemInsert = firebase.database().ref(`Store/1`);
+            let newState = {
+              ItemID: 1,
+              imageUrl: this.state.imageUrl,
+              Name: this.state.BusinessName,
+              Open: this.state.OpenShop,
+              Phone: this.state.PhoneNumbe,
+              Address: this.state.Address,
+              StoreType: this.state.BusinessType,
+              Type: this.state.ServiceType
+            };
+            setItemInsert.set(newState);
+          }
         }
       });
       this.onClickCancel();
@@ -383,7 +398,7 @@ class RegistrationForm extends Component {
               value={this.state.BusinessType}
               onChange={e => this.onChangeCheckRadio(e)}
             >
-              <Radio value="มีร้าน" name="มีร้าน">
+              <Radio value="มีหน้าร้าน" name="มีหน้าร้าน">
                 มีร้าน
               </Radio>
               <Radio value="ฟรีแลนซ์" name="ฟรีแลนซ์">

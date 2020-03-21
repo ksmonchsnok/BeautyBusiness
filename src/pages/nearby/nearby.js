@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { firebaseConnect } from "react-redux-firebase";
 import Navber from "../../components/navbar/navbar.js";
-import { Map, GoogleApiWrapper, Marker,InfoWindow } from "google-maps-react";
+import { Map, GoogleApiWrapper, Marker, InfoWindow } from "google-maps-react";
 import { geolocated } from "react-geolocated";
 
 class Nearby extends Component {
@@ -19,7 +19,6 @@ class Nearby extends Component {
       showingInfoWindow: false,
       activeMarker: {},
       selectedPlace: {}
-
     };
     // this.locations = this.props.locations;
 
@@ -54,11 +53,11 @@ class Nearby extends Component {
     });
   }
   onMarkerClick = (props, marker, e) =>
-  this.setState({
-    selectedPlace: props,
-    activeMarker: marker,
-    showingInfoWindow: true
-  });
+    this.setState({
+      selectedPlace: props,
+      activeMarker: marker,
+      showingInfoWindow: true
+    });
 
   onMapClicked = props => {
     if (this.state.showingInfoWindow) {
@@ -70,19 +69,18 @@ class Nearby extends Component {
   };
 
   // markStore = () => {
-    //   const locations = this.state.locations;
-    //   return locations.map(location => (
-    //     <Marker
-    //       onClick={this.onMarkerClick}
-    //       title={location.Name}
-    //       name={location.Name}
-    //       position={{ Lat: location.Lat, Lng: location.Lng }}
-    //     />
-    //   ));
-    // };
+  //   const locations = this.state.locations;
+  //   return locations.map(location => (
+  //     <Marker
+  //       onClick={this.onMarkerClick}
+  //       title={location.Name}
+  //       name={location.Name}
+  //       position={{ Lat: location.Lat, Lng: location.Lng }}
+  //     />
+  //   ));
+  // };
 
-
-      //markCurent = () => {
+  //markCurent = () => {
   //   let iconmark = "https://img.icons8.com/cotton/64/000000/place-marker.png";
   //   const current = this.state.coords;
   //   console.log(current, "Mark Current Now!");
@@ -100,6 +98,11 @@ class Nearby extends Component {
   //   );
   // };
 
+  handleToggle = () => {
+    this.setState({
+      isOpen: !false
+    });
+  };
   currentOfLocation = () => {
     const geolocation = navigator.geolocation;
     return geolocation.getCurrentPosition(position => {
@@ -120,14 +123,13 @@ class Nearby extends Component {
       state: [value]
     });
   };
- 
+
   calulatedNearby = () => {
     const result = [];
     const store = this.state.locations;
     const our_position = this.state.coords;
     let data = this.state.data;
     store.map((el, i) => {
-     
       let Lat1 = our_position.Lat;
       let Lng1 = our_position.Lng;
       let Lat2 = el.Lat;
@@ -167,7 +169,7 @@ class Nearby extends Component {
       }
     });
   };
- 
+
   render() {
     this.calulatedNearby();
     const styles = {
@@ -175,7 +177,7 @@ class Nearby extends Component {
       maxHeight: "100%",
       paddingTop: "20rem ",
       paddingBottom: "15rem ",
-      marginRight:"2rem",
+      marginRight: "2rem",
       border: "solid 1px Gainsboro",
       borderRadius: "8px",
       boxShadow: "2px 2px 2px silver",
@@ -229,62 +231,72 @@ class Nearby extends Component {
         <Navber />
 
         <div className="" style={{ height: "80vh", width: "100%" }}>
-        <h2 className="text-center" >แผนที่แสดงธุรกิจทั้งหมด</h2> 
+          <h2 className="text-center">แผนที่แสดงธุรกิจทั้งหมด</h2>
 
-        <div
-          className="jumbotron justify-content-center d-flex justify-content-center"
-          style={{ backgroundColor: "#ffffff" }}
-        >
-          <div className="col-11">
-          {this.state.coords.Lat && this.state.coords.Lng && (
-            <Map
-              google={this.props.google}
-              zoom={12}
-              style={styles}
-              initialCenter={{
-                lat: this.state.coords.Lat,
-                lng: this.state.coords.Lng
-              }}
-            >
-              {this.state.data.map((l ,i)=> {
-              return(
-                <Marker
-                key={i}
-                  title={l.Name}
-                  name={l.Name}
-                  position={{ lat: l.Lat, lng: l.Lng }}>
-                  <InfoWindow key={'win_'+i} visible={true} position={{ lat: l.Lat, lng: l.Lng }}>
-                        <h4>{l.Name}</h4>
-                    </InfoWindow>
-                </Marker>
-              )
-              })}
+          <div
+            className="jumbotron justify-content-center d-flex justify-content-center"
+            style={{ backgroundColor: "#ffffff" }}
+          >
+            <div className="col-11">
+              {this.state.coords.Lat && this.state.coords.Lng && (
+                <Map
+                  google={this.props.google}
+                  zoom={12}
+                  style={styles}
+                  initialCenter={{
+                    lat: this.state.coords.Lat,
+                    lng: this.state.coords.Lng
+                  }}
+                >
+                  {this.state.data.map((l, i) => {
+                    return (
+                      <Marker
+                        key={i}
+                        title={l.Name}
+                        name={l.Name}
+                        position={{ lat: l.Lat, lng: l.Lng }}
+                      >
+                        <InfoWindow
+                          key={"win_" + i}
+                          visible={true}
+                          onCloseClick={this.handleToggle}
+                          position={{ lat: l.Lat, lng: l.Lng }}
+                        >
+                          <h4>{l.Name}</h4>
+                        </InfoWindow>
+                      </Marker>
+                    );
+                  })}
 
-                <Marker
-                key={"2"}
-                  label={'You'}
-                  title={"You"}
-                  name={"You"}
-                  position={{ lat: this.state.coords.Lat, lng: this.state.coords.Lng }}>
-                     <InfoWindow visible={true}>
-                        <h5>You</h5>
+                  <Marker
+                    key={"2"}
+                    label={"You"}
+                    title={"You"}
+                    name={"You"}
+                    position={{
+                      lat: this.state.coords.Lat,
+                      lng: this.state.coords.Lng
+                    }}
+                  >
+                    <InfoWindow visible={true}>
+                      <h5>You</h5>
                     </InfoWindow>
                   </Marker>
-            </Map>
-          )}
-        </div>
-        </div>
-        </div>
-
-          <h4 className="text-center font" style={{ lineHeight: "2.5rem" }}>
-            ธุรกิจใกล้เคียงในระยะ 1 กิโลเมตร
-          </h4>
-          <div className="album bg-while pad">
-          <hr/>
-
-            <div className="row">{item}</div>
+                </Map>
+              )}
+            </div>
           </div>
         </div>
+
+        <h4 className="text-center font" style={{ lineHeight: "2.5rem" }}>
+          ธุรกิจใกล้เคียงในระยะ 1 กิโลเมตร
+        </h4>
+        <div className="album bg-while pad">
+          <hr />
+
+          <div className="row">{item}</div>
+        </div>
+      </div>
     );
   }
 }

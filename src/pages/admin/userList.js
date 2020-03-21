@@ -24,9 +24,19 @@ class userList extends Component {
       let ref = firebase.database().ref("User");
       ref.once("value").then(snapshot => {
         const data = snapshot.val();
-        this.setState({ data });
+        if (typeof data === "object" && data !== null && data !== undefined) {
+          let arr = [];
+          var key = Object.keys(data);
+          let arr1 = Object.values(data);
+          for (let i = 0; i < arr1.length; i++) {
+            arr[key[i]] = arr1[i];
+          }
+          this.setState({ data: arr });
+        } else {
+          this.setState({ data });
+        }
       });
-    }, 1500);
+    }, 1000);
   }
   handleEdit = obj => {
     console.log("Data", obj, this.props);

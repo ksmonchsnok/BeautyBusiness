@@ -128,22 +128,39 @@ class RegistrationForm extends Component {
           };
           setItemInsert.child(this.state.UserID).update(newState);
         } else {
-          const setItemInsert = firebase
-            .database()
-            .ref(`User/${tempId.item_id * 1 + 1}`);
-          let newState = {
-            UserID: tempId.item_id * 1 + 1,
-            imageUrl: this.state.imageUrl,
-            Username: this.state.Username,
-            Email: this.state.Email,
-            Password: this.state.Password,
-            CFPassword: this.state.CFPassword,
-            Firstname: this.state.Firstname,
-            Lastname: this.state.Lastname,
-            Phone: this.state.Phone,
-            Address: this.state.Address
-          };
-          setItemInsert.set(newState);
+          if (tempId !== [] && tempId !== undefined) {
+            const setItemInsert = firebase
+              .database()
+              .ref(`User/${tempId.item_id * 1 + 1}`);
+            let newState = {
+              UserID: tempId.item_id * 1 + 1,
+              imageUrl: this.state.imageUrl,
+              Username: this.state.Username,
+              Email: this.state.Email,
+              Password: this.state.Password,
+              CFPassword: this.state.CFPassword,
+              Firstname: this.state.Firstname,
+              Lastname: this.state.Lastname,
+              Phone: this.state.Phone,
+              Address: this.state.Address
+            };
+            setItemInsert.set(newState);
+          } else {
+            const setItemInsert = firebase.database().ref(`User/1`);
+            let newState = {
+              ItemID: 1,
+              imageUrl: this.state.imageUrl,
+              Username: this.state.Username,
+              Email: this.state.Email,
+              Password: this.state.Password,
+              CFPassword: this.state.CFPassword,
+              Firstname: this.state.Firstname,
+              Lastname: this.state.Lastname,
+              Phone: this.state.Phone,
+              Address: this.state.Address
+            };
+            setItemInsert.set(newState);
+          }
         }
       });
       this.onClickCancel();
