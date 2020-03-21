@@ -383,10 +383,10 @@ class RegistrationForm extends Component {
               value={this.state.BusinessType}
               onChange={e => this.onChangeCheckRadio(e)}
             >
-              <Radio value="1" name="มีร้าน">
+              <Radio value="มีร้าน" name="มีร้าน">
                 มีร้าน
               </Radio>
-              <Radio value="2" name="ฟรีแลนซ์">
+              <Radio value="ฟรีแลนซ์" name="ฟรีแลนซ์">
                 ฟรีแลนซ์
               </Radio>
             </Radio.Group>

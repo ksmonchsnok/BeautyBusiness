@@ -6,6 +6,7 @@ import firebase from "firebase";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { firebaseConnect } from "react-redux-firebase";
+import swal from "sweetalert";
 
 class storeList extends Component {
   constructor(props) {
@@ -18,7 +19,7 @@ class storeList extends Component {
   async componentDidMount() {
     await this.onGetItemp();
   }
-  componentDidMount() {
+  onGetItemp() {
     setTimeout(() => {
       let ref = firebase.database().ref("Store");
       ref.once("value").then(snapshot => {
@@ -29,25 +30,46 @@ class storeList extends Component {
   }
 
   handleEdit = obj => {
-    console.log(obj);
-    console.log(this.props);
-    this.props.history.push("/AddStore", { obj, mode: "edit" });
+    console.log("Data", obj);
+
+    swal({
+      title: "Please Confirm for Edit ?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true
+    }).then(willDelete => {
+      if (willDelete) {
+        this.props.history.push("/AddStore", { obj, mode: "edit" });
+      } else {
+        return;
+      }
+    });
   };
 
-  handleDelete = obj => {
-    console.log(obj);
+  handleDelete = (d, index) => {
+    console.log("ID", d.ItemID, "index", index);
     const itemsRef = firebase.database().ref("Store");
-    itemsRef.child(obj.ItemID).remove();
-    this.onGetItemp();
+    swal({
+      title: "Please Confirm for Delete ?",
+      icon: "error",
+      buttons: true,
+      dangerMode: true
+    }).then(willDelete => {
+      if (willDelete) {
+        itemsRef.child(d.ItemID).remove();
+        this.onGetItemp();
+      } else {
+        return;
+      }
+    });
   };
+
   onClickCreateNewBusiness = e => {
     let props = this.props;
     this.props.history.push("/AddStore", +props);
   };
 
   render() {
-    console.log(this.state.data);
-
     return (
       <div id="User-List">
         <div className="container" style={{ marginTop: "3rem" }}>
@@ -56,7 +78,7 @@ class storeList extends Component {
             <table class="table">
               <thead class="thead-dark">
                 <tr>
-                  <th scope="col">#</th>
+                  <th scope="col">Business ID</th>
                   <th scope="col">Business Name</th>
                   <th scope="col">Open Store</th>
                   <th scope="col">Phone Number</th>
@@ -81,7 +103,8 @@ class storeList extends Component {
                           <a href>
                             <ion-icon
                               name="create-outline"
-                              onClick={this.handleEdit}
+                              size="large"
+                              onClick={() => this.handleEdit(d, index)}
                             ></ion-icon>
                           </a>
                         </td>
@@ -90,7 +113,8 @@ class storeList extends Component {
                             {" "}
                             <ion-icon
                               name="trash-outline"
-                              onClick={this.handleDelete}
+                              size="large"
+                              onClick={() => this.handleDelete(d, index)}
                             ></ion-icon>
                           </a>
                         </td>

@@ -6,6 +6,7 @@ import firebase from "firebase";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { firebaseConnect } from "react-redux-firebase";
+import swal from "sweetalert";
 
 class userList extends Component {
   constructor(props) {
@@ -28,23 +29,44 @@ class userList extends Component {
     }, 1500);
   }
   handleEdit = obj => {
-    console.log(obj);
-    console.log(this.props);
-    this.props.history.push("/AddUser", { obj, mode: "edit" });
+    console.log("Data", obj, this.props);
+    swal({
+      title: "Please Confirm for Edit ?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true
+    }).then(willDelete => {
+      if (willDelete) {
+        this.props.history.push("/AddUser", { obj, mode: "edit" });
+      } else {
+        return;
+      }
+    });
   };
-  handleDelete = obj => {
-    console.log(obj);
+
+  handleDelete = (d, index) => {
+    console.log("ID", d.UserID, "index", index);
     const itemsRef = firebase.database().ref("User");
-    itemsRef.child(obj.UserID).remove();
-    this.onGetItemp();
+    swal({
+      title: "Please Confirm for Delete ?",
+      icon: "error",
+      buttons: true,
+      dangerMode: true
+    }).then(willDelete => {
+      if (willDelete) {
+        itemsRef.child(d.UserID).remove();
+        this.onGetItemp();
+      } else {
+        return;
+      }
+    });
   };
+
   onClickCreateNewUser = () => {
     this.props.history.push("/AddUser");
   };
 
   render() {
-    console.log(this.state.data);
-
     return (
       <div id="User-List">
         <div className="container" style={{ marginTop: "3rem" }}>
@@ -75,8 +97,9 @@ class userList extends Component {
                         <td>
                           <a href>
                             <ion-icon
+                              size="large"
                               name="create-outline"
-                              onClick={this.handleEdit}
+                              onClick={() => this.handleEdit(d, index)}
                             ></ion-icon>
                           </a>
                         </td>
@@ -84,8 +107,9 @@ class userList extends Component {
                           <a href>
                             {" "}
                             <ion-icon
+                              size="large"
                               name="trash-outline"
-                              onClick={this.handleDelete}
+                              onClick={() => this.handleDelete(d, index)}
                             ></ion-icon>
                           </a>
                         </td>
