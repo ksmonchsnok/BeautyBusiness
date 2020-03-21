@@ -7,12 +7,23 @@ import {
   PlusOutlined,
   QuestionCircleOutlined
 } from "@ant-design/icons";
-
-export default class RegistrationForm extends Component {
+import firebase from "firebase";
+class RegistrationForm extends Component {
+  formRef = React.createRef();
   constructor(props) {
     super(props);
     this.state = {
-      loading: false
+      loading: false,
+      mode: "",
+      UserID: "",
+      Address: "",
+      Email: "",
+      Firstname: "",
+      Lastname: "",
+      Password: "",
+      CFPassword: "",
+      Phone: "",
+      Username: ""
     };
   }
 
@@ -48,10 +59,96 @@ export default class RegistrationForm extends Component {
       );
     }
   };
-onClickCancel =()=>{
-  window.history.back();
-}
 
+  async componentDidMount() {
+    console.log(this.props);
+    if (this.props.location.state !== undefined) {
+      if (this.props.location.state.mode === "edit") {
+        let obj = await this.props.location.state.obj;
+        this.formRef.current.setFieldsValue({
+          mode: "edit",
+          UserID: obj.UserID,
+          imageUrl: obj.imageUrl,
+          Username: obj.Username,
+          Email: obj.Email,
+          Password: obj.Password,
+          CFPassword: obj.CFPassword,
+          Firstname: obj.Firstname,
+          Lastname: obj.Lastname,
+          Phone: obj.Phone,
+          Address: obj.Address
+        });
+        this.setState({
+          mode: "edit",
+          UserID: obj.UserID,
+          imageUrl: obj.imageUrl,
+          Username: obj.Username,
+          Email: obj.Email,
+          Password: obj.Password,
+          CFPassword: obj.CFPassword,
+          Firstname: obj.Firstname,
+          Lastname: obj.Lastname,
+          Phone: obj.Phone,
+          Address: obj.Address
+        });
+      }
+    }
+  }
+  onClickCancel = () => {
+    this.props.history.push("/AdminPage");
+  };
+  onGotoSave() {
+    setTimeout(() => {
+      let tempId = [];
+      const itemsRef = firebase.database().ref("User");
+      itemsRef.once("value").then(snapshot => {
+        const temp = snapshot.val();
+        let newID = [];
+        console.log(temp);
+        for (let item in temp) {
+          newID.push({
+            item_id: item
+          });
+        }
+        tempId = newID[newID.length - 1];
+        if (this.state.mode === "edit") {
+          console.log(this.state.UserID);
+          console.log(this.state);
+          const setItemInsert = firebase.database().ref(`User`);
+          let newState = {
+            imageUrl: this.state.imageUrl,
+            Username: this.state.Username,
+            Email: this.state.Email,
+            Password: this.state.Password,
+            CFPassword: this.state.CFPassword,
+            Firstname: this.state.Firstname,
+            Lastname: this.state.Lastname,
+            Phone: this.state.Phone,
+            Address: this.state.Address
+          };
+          setItemInsert.child(this.state.UserID).update(newState);
+        } else {
+          const setItemInsert = firebase
+            .database()
+            .ref(`User/${tempId.item_id * 1 + 1}`);
+          let newState = {
+            UserID: tempId.item_id * 1 + 1,
+            imageUrl: this.state.imageUrl,
+            Username: this.state.Username,
+            Email: this.state.Email,
+            Password: this.state.Password,
+            CFPassword: this.state.CFPassword,
+            Firstname: this.state.Firstname,
+            Lastname: this.state.Lastname,
+            Phone: this.state.Phone,
+            Address: this.state.Address
+          };
+          setItemInsert.set(newState);
+        }
+      });
+      this.onClickCancel();
+    }, 1000);
+  }
   render() {
     const uploadButton = (
       <div>
@@ -110,13 +207,15 @@ onClickCancel =()=>{
         <Form
           {...formItemLayout}
           form={this.form}
+          ref={this.formRef}
           name="addNewUser"
           onFinish={this.onFinish}
           scrollToFirstError
         >
-          <Form.Item name="image" label="Picture">
+          <Form.Item name="imageUrl" label="Picture">
             <Upload
-              name="avatar"
+              name="imageUrl"
+              id="imageUrl"
               listType="picture-card"
               className="avatar-uploader"
               showUploadList={false}
@@ -132,7 +231,7 @@ onClickCancel =()=>{
             </Upload>
           </Form.Item>
           <Form.Item
-            name="username"
+            name="Username"
             label={<span>Username</span>}
             rules={[
               {
@@ -152,17 +251,17 @@ onClickCancel =()=>{
           >
             <Input
               type="textbox"
-              name="firstname"
-              // value={this.state.data.ContractPhoneNumber || ""}
-              // onChange={this.handleFieldChange}
+              name="Username"
+              id="Username"
+              value={this.state.Username}
+              onChange={e => this.setState({ Username: e.target.value })}
               whitespace={true}
               maxLength={40}
               allowClear
             />
           </Form.Item>
-
           <Form.Item
-            name="email"
+            name="Email"
             label="E-mail"
             rules={[
               {
@@ -185,16 +284,16 @@ onClickCancel =()=>{
             <Input
               type="textbox"
               name="Email"
-              // value={this.state.data.ContractPhoneNumber || ""}
-              // onChange={this.handleFieldChange}
+              id="Email"
+              value={this.state.Email}
+              onChange={e => this.setState({ Email: e.target.value })}
               whitespace={true}
               maxLength={40}
               allowClear
             />
           </Form.Item>
-
           <Form.Item
-            name="password"
+            name="Password"
             label={
               <span>
                 Password &nbsp;
@@ -225,16 +324,16 @@ onClickCancel =()=>{
             <Input.Password
               type="textbox"
               name="Password"
-              // value={this.state.data.ContractPhoneNumber || ""}
-              // onChange={this.handleFieldChange}
+              id="Password"
+              value={this.state.Password}
+              onChange={e => this.setState({ Password: e.target.value })}
               whitespace={true}
               maxLength={16}
               allowClear
             />
           </Form.Item>
-
           <Form.Item
-            name="confirm"
+            name="CFPassword"
             label={
               <span>
                 Confirm Password &nbsp;
@@ -244,7 +343,7 @@ onClickCancel =()=>{
                 </Tooltip>
               </span>
             }
-            dependencies={["password"]}
+            dependencies={["Password"]}
             hasFeedback
             rules={[
               {
@@ -253,7 +352,7 @@ onClickCancel =()=>{
               },
               ({ getFieldValue }) => ({
                 validator(rule, value) {
-                  if (!value || getFieldValue("password") === value) {
+                  if (!value || getFieldValue("Password") === value) {
                     return Promise.resolve();
                   }
 
@@ -268,16 +367,17 @@ onClickCancel =()=>{
           >
             <Input.Password
               type="textbox"
-              name="confirmPassword"
-              // value={this.state.data.ContractPhoneNumber || ""}
-              // onChange={this.handleFieldChange}
+              name="CFPassword"
+              id="CFPassword"
+              value={this.state.CFPassword}
+              onChange={e => this.setState({ CFPassword: e.target.value })}
               whitespace={true}
               maxLength={16}
               allowClear
             />
           </Form.Item>
           <Form.Item
-            name="firstname"
+            name="Firstname"
             label={<span>First Name</span>}
             rules={[
               {
@@ -297,16 +397,17 @@ onClickCancel =()=>{
           >
             <Input
               type="textbox"
-              name="firstname"
-              // value={this.state.data.ContractPhoneNumber || ""}
-              // onChange={this.handleFieldChange}
+              name="Firstname"
+              id="Firstname"
+              value={this.state.Firstname}
+              onChange={e => this.setState({ Firstname: e.target.value })}
               whitespace={true}
               maxLength={40}
               allowClear
             />
           </Form.Item>
           <Form.Item
-            name="lastname"
+            name="Lastname"
             label={<span>Last Name</span>}
             rules={[
               {
@@ -326,17 +427,17 @@ onClickCancel =()=>{
           >
             <Input
               type="textbox"
-              name="lastname"
-              // value={this.state.data.ContractPhoneNumber || ""}
-              // onChange={this.handleFieldChange}
+              name="Lastname"
+              id="Lastname"
+              value={this.state.Lastname}
+              onChange={e => this.setState({ Lastname: e.target.value })}
               whitespace={true}
               maxLength={40}
               allowClear
             />
           </Form.Item>
-
           <Form.Item
-            name="address"
+            name="Address"
             label="Address"
             rules={[
               {
@@ -354,16 +455,16 @@ onClickCancel =()=>{
             <TextArea
               rows={3}
               name="Address"
-              // value={this.state.data.ContractPhoneNumber || ""}
-              // onChange={this.handleFieldChange}
+              id="Address"
+              value={this.state.Address}
+              onChange={e => this.setState({ Address: e.target.value })}
               whitespace={true}
               maxLength={150}
               allowClear
             />
           </Form.Item>
-
           <Form.Item
-            name="phone"
+            name="Phone"
             label="Phone Number"
             rules={[
               {
@@ -383,9 +484,10 @@ onClickCancel =()=>{
           >
             <Input
               type="textbox"
-              name="PhoneNumber"
-              // value={this.state.data.ContractPhoneNumber || ""}
-              // onChange={this.handleFieldChange}
+              name="Phone"
+              id="Phone"
+              value={this.state.Phone}
+              onChange={e => this.setState({ Phone: e.target.value })}
               whitespace={true}
               maxLength={12}
               allowClear
@@ -393,8 +495,7 @@ onClickCancel =()=>{
           </Form.Item>
 
           <Form.Item {...tailFormItemLayout} style={{ marginBottom: "6rem" }}>
-
-          <Button
+            <Button
               type="danger"
               htmlType="reset"
               style={{ marginRight: "2rem" }}
@@ -402,7 +503,11 @@ onClickCancel =()=>{
             >
               Cancel
             </Button>
-            <Button type="primary" htmlType="submit">
+            <Button
+              type="primary"
+              htmlType="submit"
+              onClick={() => this.onGotoSave()}
+            >
               Save
             </Button>
           </Form.Item>
@@ -411,3 +516,4 @@ onClickCancel =()=>{
     );
   }
 }
+export default RegistrationForm;

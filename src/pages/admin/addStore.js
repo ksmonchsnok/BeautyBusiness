@@ -18,12 +18,32 @@ import {
   PlusOutlined,
   QuestionCircleOutlined
 } from "@ant-design/icons";
+import firebase from "firebase";
 
-export default class RegistrationForm extends Component {
+class RegistrationForm extends Component {
+  formRef = React.createRef();
   constructor(props) {
     super(props);
     this.state = {
-      loading: false
+      loading: false,
+      mode: "",
+      ItemID: "",
+      BusinessName: "",
+      OpenShop: "",
+      PhoneNumbe: "",
+      Address: "",
+      BusinessType: "",
+      ServiceType: [],
+      options: [
+        { label: "ตัดผมชาย", value: 1 },
+        { label: "เสริมสวย", value: 2 },
+        { label: "ทำเล็บ", value: 3 },
+        { label: "ต่อขนตา", value: 4 },
+        { label: "สักคิ้ว", value: 5 },
+        { label: "แว็กซ์ขน", value: 6 },
+        { label: "สปา", value: 7 },
+        { label: "Tattoo", value: 8 }
+      ]
     };
   }
 
@@ -60,9 +80,89 @@ export default class RegistrationForm extends Component {
     }
   };
 
-  onClickCancel=()=>{
-    window.history.back();}
-  
+  async componentDidMount() {
+    if (this.props.location.state.mode === "edit") {
+      let obj = await this.props.location.state.obj;
+      console.log(this.formRef);
+      this.formRef.current.setFieldsValue({
+        mode: "edit",
+        ItemID: obj.ItemID,
+        imageUrl: obj.imageUrl,
+        BusinessName: obj.Name,
+        OpenShop: obj.Open,
+        PhoneNumbe: obj.Phone,
+        Address: obj.Address,
+        BusinessType: obj.StoreType,
+        ServiceType: obj.Type
+      });
+      this.setState({
+        mode: "edit",
+        ItemID: obj.ItemID,
+        imageUrl: obj.imageUrl,
+        BusinessName: obj.Name,
+        OpenShop: obj.Open,
+        PhoneNumbe: obj.Phone,
+        Address: obj.Address,
+        BusinessType: obj.StoreType,
+        ServiceType: obj.Type
+      });
+    }
+  }
+  onChangeCheckBox(checkedValues) {
+    this.setState({ ServiceType: checkedValues });
+  }
+  onChangeCheckRadio = e => {
+    this.setState({ BusinessType: e.target.value });
+  };
+  onClickCancel = () => {
+    this.props.history.push("/AdminPage");
+  };
+  onGotoSave() {
+    setTimeout(() => {
+      let tempId = [];
+      const itemsRef = firebase.database().ref("Store");
+      itemsRef.once("value").then(snapshot => {
+        const temp = snapshot.val();
+        let newID = [];
+        console.log(temp);
+        for (let item in temp) {
+          newID.push({
+            item_id: item
+          });
+        }
+        tempId = newID[newID.length - 1];
+        if (this.state.mode === "edit") {
+          const setItemInsert = firebase.database().ref(`Store`);
+          let newState = {
+            imageUrl: this.state.imageUrl,
+            Name: this.state.BusinessName,
+            Open: this.state.OpenShop,
+            Phone: this.state.PhoneNumbe,
+            Address: this.state.Address,
+            StoreType: this.state.BusinessType,
+            Type: this.state.ServiceType
+          };
+          setItemInsert.child(this.state.ItemID).update(newState);
+        } else {
+          const setItemInsert = firebase
+            .database()
+            .ref(`Store/${tempId.item_id * 1 + 1}`);
+          let newState = {
+            ItemID: tempId.item_id * 1 + 1,
+            imageUrl: this.state.imageUrl,
+            Name: this.state.BusinessName,
+            Open: this.state.OpenShop,
+            Phone: this.state.PhoneNumbe,
+            Address: this.state.Address,
+            StoreType: this.state.BusinessType,
+            Type: this.state.ServiceType
+          };
+          setItemInsert.set(newState);
+        }
+      });
+      this.onClickCancel();
+    }, 1000);
+  }
 
   render() {
     const uploadButton = (
@@ -121,14 +221,16 @@ export default class RegistrationForm extends Component {
       >
         <Form
           {...formItemLayout}
+          ref={this.formRef}
           form={this.form}
           name="addNewStore"
           onFinish={this.onFinish}
           scrollToFirstError
         >
-          <Form.Item name="image" label="Picture">
+          <Form.Item name="imageUrl" label="Picture">
             <Upload
-              name="avatar"
+              name="imageUrl"
+              id="imageUrl"
               listType="picture-card"
               className="avatar-uploader"
               showUploadList={false}
@@ -144,7 +246,7 @@ export default class RegistrationForm extends Component {
             </Upload>
           </Form.Item>
           <Form.Item
-            name="name"
+            name="BusinessName"
             label={<span>Business Name</span>}
             rules={[
               {
@@ -162,11 +264,13 @@ export default class RegistrationForm extends Component {
               }
             ]}
           >
+            {/* {JSON.stringify(this.state.BusinessName)} */}
             <Input
               type="textbox"
-              name="Name"
-              // value={this.state.data.ContractPhoneNumber || ""}
-              // onChange={this.handleFieldChange}
+              name="BusinessName"
+              id="BusinessName"
+              value={this.state.BusinessName}
+              onChange={e => this.setState({ BusinessName: e.target.value })}
               whitespace={true}
               maxLength={40}
               allowClear
@@ -174,7 +278,7 @@ export default class RegistrationForm extends Component {
           </Form.Item>
 
           <Form.Item
-            name="Open"
+            name="OpenShop"
             label={<span>Open</span>}
             rules={[
               {
@@ -194,9 +298,11 @@ export default class RegistrationForm extends Component {
           >
             <Input
               type="textbox"
-              name="Open"
-              // value={this.state.data.ContractPhoneNumber || ""}
-              // onChange={this.handleFieldChange}
+              name="OpenShop"
+              // initialValue ={this.state.BusinessName}
+              id="OpenShop"
+              value={this.state.OpenShop}
+              onChange={e => this.setState({ OpenShop: e.target.value })}
               whitespace={true}
               maxLength={20}
               allowClear
@@ -204,7 +310,7 @@ export default class RegistrationForm extends Component {
           </Form.Item>
 
           <Form.Item
-            name="phone"
+            name="PhoneNumbe"
             label="Phone Number"
             rules={[
               {
@@ -224,9 +330,10 @@ export default class RegistrationForm extends Component {
           >
             <Input
               type="textbox"
-              name="PhoneNumber"
-              // value={this.state.data.ContractPhoneNumber || ""}
-              // onChange={this.handleFieldChange}
+              name="PhoneNumbe"
+              id="PhoneNumbe"
+              value={this.state.PhoneNumbe}
+              onChange={e => this.setState({ PhoneNumbe: e.target.value })}
               whitespace={true}
               maxLength={12}
               allowClear
@@ -234,7 +341,7 @@ export default class RegistrationForm extends Component {
           </Form.Item>
 
           <Form.Item
-            name="address"
+            name="Address"
             label="Address"
             rules={[
               {
@@ -252,8 +359,9 @@ export default class RegistrationForm extends Component {
             <TextArea
               rows={3}
               name="Address"
-              // value={this.state.data.ContractPhoneNumber || ""}
-              // onChange={this.handleFieldChange}
+              id="Address"
+              value={this.state.Address}
+              onChange={e => this.setState({ Address: e.target.value })}
               whitespace={true}
               maxLength={150}
               allowClear
@@ -261,7 +369,7 @@ export default class RegistrationForm extends Component {
           </Form.Item>
 
           <Form.Item
-            name="storeType"
+            name="BusinessType"
             label="Business Type"
             rules={[
               {
@@ -270,14 +378,22 @@ export default class RegistrationForm extends Component {
               }
             ]}
           >
-            <Radio.Group>
-              <Radio value="1">มีร้าน</Radio>
-              <Radio value="2">ฟรีแลนซ์</Radio>
+            <Radio.Group
+              id="BusinessType"
+              value={this.state.BusinessType}
+              onChange={e => this.onChangeCheckRadio(e)}
+            >
+              <Radio value="1" name="มีร้าน">
+                มีร้าน
+              </Radio>
+              <Radio value="2" name="ฟรีแลนซ์">
+                ฟรีแลนซ์
+              </Radio>
             </Radio.Group>
           </Form.Item>
 
           <Form.Item
-            name="type"
+            name="ServiceType"
             label="Service Type"
             rules={[
               {
@@ -286,90 +402,11 @@ export default class RegistrationForm extends Component {
               }
             ]}
           >
-            <Checkbox.Group>
-              <Row>
-                <Col span={6}>
-                  <Checkbox
-                    value="1"
-                    style={{
-                      lineHeight: "32px"
-                    }}
-                  >
-                    ตัดผมชาย
-                  </Checkbox>
-                </Col>
-                <Col span={6}>
-                  <Checkbox
-                    value="2"
-                    style={{
-                      lineHeight: "32px"
-                    }}
-                  >
-                    เสริมสวย
-                  </Checkbox>
-                </Col>
-                <Col span={6}>
-                  <Checkbox
-                    value="3"
-                    style={{
-                      lineHeight: "32px"
-                    }}
-                  >
-                    ทำเล็บ
-                  </Checkbox>
-                </Col>
-                <Col span={6}>
-                  <Checkbox
-                    value="4"
-                    style={{
-                      lineHeight: "32px"
-                    }}
-                  >
-                    ต่อขนตา
-                  </Checkbox>
-                </Col>
-                <Col span={6}>
-                  <Checkbox
-                    value="5"
-                    style={{
-                      lineHeight: "32px"
-                    }}
-                  >
-                    สักคิ้ว
-                  </Checkbox>
-                </Col>
-                <Col span={6}>
-                  <Checkbox
-                    value="6"
-                    style={{
-                      lineHeight: "32px"
-                    }}
-                  >
-                    แว็กซ์ขน
-                  </Checkbox>
-                </Col>
-                <Col span={6}>
-                  <Checkbox
-                    value="7"
-                    style={{
-                      lineHeight: "32px"
-                    }}
-                  >
-                    สปา
-                  </Checkbox>
-                </Col>
-                <Col span={6}>
-                  <Checkbox
-                    value="8"
-                    style={{
-                      lineHeight: "32px"
-                    }}
-                  >
-                    Tattoo
-                  </Checkbox>
-                </Col>
-              </Row>
-            </Checkbox.Group>
+            <Checkbox.Group
+              id="ServiceType"
+              options={this.state.options}
+              onChange={e => this.onChangeCheckBox(e)}
+            />
           </Form.Item>
           <Form.Item
             {...tailFormItemLayout}
@@ -387,6 +424,7 @@ export default class RegistrationForm extends Component {
               type="primary"
               htmlType="submit"
               // loading="true"
+              onClick={() => this.onGotoSave()}
             >
               Save
             </Button>
@@ -396,3 +434,5 @@ export default class RegistrationForm extends Component {
     );
   }
 }
+
+export default RegistrationForm;
