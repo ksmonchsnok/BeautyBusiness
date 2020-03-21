@@ -67,6 +67,8 @@ class userList extends Component {
   };
 
   render() {
+    console.log(this.state.data);
+
     return (
       <div id="User-List">
         <div className="container" style={{ marginTop: "3rem" }}>

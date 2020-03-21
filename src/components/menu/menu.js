@@ -27,7 +27,7 @@ export default class Menu extends Component {
               activeClassName="is-active"
               className="nav-link link-menu"
             >
-              <img src={home} alt="home" />
+              <img src={home} alt="home" style={{ margin: "-1rem" }} />
               <br />
               หน้าหลัก
             </NavLink>
@@ -39,7 +39,7 @@ export default class Menu extends Component {
               activeClassName="is-active"
               className="nav-link link-menu"
             >
-              <img src={AllStore} alt="type" />
+              <img src={AllStore} alt="type" style={{ margin: "-1rem" }} />
               <br />
               ธุรกิจทั้งหมด
             </NavLink>
@@ -51,7 +51,7 @@ export default class Menu extends Component {
               activeClassName="is-active"
               className="nav-link link-menu"
             >
-              <img src={near} alt="near" />
+              <img src={near} alt="near" style={{ margin: "-1rem" }} />
               <br />
               ใกล้เคียง
             </NavLink>
@@ -63,7 +63,7 @@ export default class Menu extends Component {
               activeClassName="is-active"
               className="nav-link link-menu"
             >
-              <img src={contact} alt="contact" />
+              <img src={contact} alt="contact" style={{ margin: "-1rem" }} />
               <br />
               ติดต่อเรา
             </NavLink>

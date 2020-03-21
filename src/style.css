@@ -68,17 +68,22 @@ body {
 
 /* Login */
 
-.admin{
-  display: block;
-  background: #ffffff 0% 0% no-repeat padding-box;
-  box-shadow: 0px 5px 6px #00000029;
-  border: 1px solid #b9b9b9;
-  border-radius: 0.8cm;
-  opacity: 1;
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
-
+.admin {
+    display: block;
+    background: #ffffff 0% 0% no-repeat padding-box;
+    box-shadow: 0px 5px 6px #00000029;
+    border: 1px solid #b9b9b9;
+    border-radius: 0.8cm;
+    opacity: 1;
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
 }
+
+.kep-login-facebook.metro {
+    height: 50px !important;
+    padding-bottom: 35px;
+}
+
 
 /* ********************************************************************************************************************************************************************* */
 /* Manager */

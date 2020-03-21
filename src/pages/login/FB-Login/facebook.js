@@ -18,49 +18,45 @@ export default class Facebook extends Component {
   };
   responseFacebook = response => {
     console.log(response);
-    if(response.status !== "unknown"){
+    if (response.status !== "unknown") {
       let auth = response;
       localStorage.setItem("FB-Login", JSON.stringify(auth));
       this.setState({
-        auth : true,
-        name : response.name,
-        email : response.email,
-        picture : response.picture.data.url
-        
-      })
+        auth: true,
+        name: response.name,
+        email: response.email,
+        picture: response.picture.data.url
+      });
     }
-    
   };
 
   render() {
     let fbContent;
     if (this.state.isLoggedIn) {
-    fbContent = null;
+      fbContent = null;
     } else {
-    this.state.auth
-      ? (fbContent = <div>Hi {this.state.name}</div>)
-      : (fbContent = (
-          <FacebookLogin
-            appId="186461882774241"
-            autoLoad={true}
-            fields="name,email,picture"
-            onClick={this.componentClicked}
-            callback={this.responseFacebook}
-            class="fb-login-button"
-            data-size="large"
-            data-width="300"
-            data-height="45"
-            data-button-type="login_with"
-            data-button-type="login_with"
-            data-auto-logout-link="true"
-            data-use-continue-as="false"
-            scope="public_profile,email"
-            onlogin={this.checkLoginState}
-            icon="fa-facebook"
-          />
-        
-        ));
-      }
+      this.state.auth
+        ? (fbContent = <div>Hi {this.state.name}</div>)
+        : (fbContent = (
+            <FacebookLogin
+              appId="186461882774241"
+              autoLoad={true}
+              fields="name,email,picture"
+              onClick={this.componentClicked}
+              class="fb-login-button"
+              data-width="250"
+              data-height="45"
+              data-size="medium"
+              data-button-type="login_with"
+              data-layout="default"
+              data-auto-logout-link="false"
+              data-use-continue-as="false"
+              scope="public_profile,email"
+              onlogin={this.checkLoginState}
+              icon="fa-facebook"
+            />
+          ));
+    }
     return <div id="Facebook">{fbContent}</div>;
   }
 }

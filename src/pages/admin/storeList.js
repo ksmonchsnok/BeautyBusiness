@@ -70,6 +70,8 @@ class storeList extends Component {
   };
 
   render() {
+    console.log(this.state.data);
+
     return (
       <div id="User-List">
         <div className="container" style={{ marginTop: "3rem" }}>
@@ -84,6 +86,7 @@ class storeList extends Component {
                   <th scope="col">Phone Number</th>
                   <th scope="col">Business Type</th>
                   <th scope="col">Service Type</th>
+                  <th scope="col">Status</th>
                   <th scope="col">Edit</th>
                   <th scope="col">Delete</th>
                 </tr>
@@ -98,6 +101,7 @@ class storeList extends Component {
                         <td>{d.Open}</td>
                         <td>{d.Phone}</td>
                         <td>{d.StoreType}</td>
+                        <td>{d.Type}</td>
                         <td>{d.Type}</td>
                         <td>
                           <a href>

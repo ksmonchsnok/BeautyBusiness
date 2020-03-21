@@ -184,32 +184,58 @@ export default class LoginForm extends Component {
                     type="password"
                     name="password"
                     onChange={this.onChangePassword}
+                    minLength={2}
+                    maxLength={16}
                     placeholder="Password"
                   />
                 </Form.Item>
-
-                <Form.Item>
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    onClick={this.onClickLogin}
-                    disabled={
-                      this.state.email.length === 0 &&
-                      this.state.password.length === 0
-                    }
-                    className="login-form-button"
+                <center>
+                  {" "}
+                  <Form.Item>
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      onClick={this.onClickLogin}
+                      disabled={
+                        this.state.email.length === 0 &&
+                        this.state.password.length === 0
+                      }
+                      className="login-form-button"
+                    >
+                      Log in
+                    </Button>
+                    &emsp;or{" "}
+                    <a>
+                      &nbsp; <u>Forgot Password.</u>
+                    </a>
+                  </Form.Item>
+                  <Form.Item>
+                    ยังไม่ได้เป็นสมาชิก ?
+                    <a>
+                      &nbsp; <u>สมัครสมาชิก</u>
+                    </a>
+                  </Form.Item>
+                </center>
+                <div className="modal-footer d-flex justify-content-start">
+                  <h5 className="d-flex justify-content-start">
+                    เข้าสู่ระบบด้วย
+                  </h5>
+                </div>
+                <center>
+                  <div
+                    className="nav-item llog"
+                    style={{ marginBottom: "-5rem", marginTop: "-3rem" }}
                   >
-                    Log in
-                  </Button>
-                  &emsp;Or{" "}
-                  <a>
-                    &nbsp; <u>Forgot Password.</u>
-                  </a>
-                </Form.Item>
+                    <Facebook />{" "}
+                  </div>
+                  <div
+                    className="nav-item llog"
+                    style={{ marginBottom: "-2rem" }}
+                  >
+                    <Google />
+                  </div>
+                </center>
               </Form>
-
-              {/* <div className="nav-item llog"><Facebook /> </div>
-              <div className="nav-item llog"><Google /></div> */}
             </div>
           </div>
         </Modal>

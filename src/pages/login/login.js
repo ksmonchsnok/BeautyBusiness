@@ -20,7 +20,7 @@ export default class Login extends Component {
   render() {
     const showPopupLogin = this.state.showPopupLogin;
     return (
-      <div id="Login" style={{ marginBottom: "-6.1rem" }}>
+      <div id="Login" style={{ marginBottom: "-6.8rem" }}>
         <div className="nav justify-content-end">
           <button
             type="button"
@@ -28,6 +28,7 @@ export default class Login extends Component {
             data-toggle="modal"
             data-target="#exampleModal"
             onClick={this.showPopupLogin}
+            style={{ height: "60px" }}
           >
             <img src={user} alt="sign in" />
             &nbsp; Sing In
