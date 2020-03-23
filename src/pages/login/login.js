@@ -29,6 +29,7 @@ export default class Login extends Component {
             data-target="#exampleModal"
             onClick={this.showPopupLogin}
             style={{ height: "60px" }}
+            history={this.props.history}
           >
             <img src={user} alt="sign in" />
             &nbsp; Sing In
@@ -41,6 +42,7 @@ export default class Login extends Component {
             id="popUpLogin"
             isVisible={showPopupLogin}
             closePopup={this.showPopupLogin}
+            history={this.props.history}
           />
         </div>
         <hr style={{ border: "0.5px solid Black" }} />

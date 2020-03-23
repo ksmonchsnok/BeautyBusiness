@@ -34,10 +34,16 @@ export default class navbar extends Component {
       <div id="Navbar" style={{ marginTop: "-0.5rem", marginBottom: "10rem" }}>
         <nav className="fixed-top navbar navbar-dark bg-dark navbar-expand-lg ">
           <NavLink exact to="/" className="navbar-brand">
-            Manager Business
+            Beauty Business
           </NavLink>
 
-          <ul className="navbar-nav mr-auto"></ul>
+          <ul className="navbar-nav mr-auto">
+            <li className="nav-item">
+              <NavLink exact to="/" className="nav-link">
+                หน้าหลัก
+              </NavLink>
+            </li>
+          </ul>
           <form className="form-inline my-2 my-lg-0">
             <div className="nav justify-content-end">
               <div className="nav-item dropdown">

@@ -7,7 +7,7 @@ import near from "../../assets/icon/near.png";
 import home from "../../assets/icon/home.png";
 import AllStore from "../../assets/icon/listall.png";
 import rating from "../../assets/icon/rating.png";
-import contact from "../../assets/icon/contact.png";
+import createStore from "../../assets/icon/createStore.png";
 
 export default class Menu extends Component {
   render() {
@@ -23,7 +23,7 @@ export default class Menu extends Component {
           <div className="col-6 col-md-2 ">
             <NavLink
               exact
-              to="/Admin"
+              to="/"
               activeClassName="is-active"
               className="nav-link link-menu"
             >
@@ -63,9 +63,13 @@ export default class Menu extends Component {
               activeClassName="is-active"
               className="nav-link link-menu"
             >
-              <img src={contact} alt="contact" style={{ margin: "-1rem" }} />
+              <img
+                src={createStore}
+                alt="contact"
+                style={{ margin: "-1rem" }}
+              />
               <br />
-              ติดต่อเรา
+              สร้างธุรกิจของคุณ
             </NavLink>
           </div>
         </div>

@@ -33,6 +33,10 @@ class RegistrationForm extends Component {
       PhoneNumbe: "",
       Address: "",
       BusinessType: "",
+      Ref: "",
+      Lat: "",
+      Lng: "",
+      Recommend: "",
       ServiceType: [],
       options: [
         { label: "ตัดผมชาย", value: "ตัดผมชาย" },
@@ -93,6 +97,10 @@ class RegistrationForm extends Component {
         PhoneNumbe: obj.Phone,
         Address: obj.Address,
         BusinessType: obj.StoreType,
+        Recommend: obj.Recommend,
+        Lat: obj.Lat,
+        Lng: obj.Lng,
+        Ref: obj.Ref,
         ServiceType: obj.Type
       });
       this.setState({
@@ -104,6 +112,10 @@ class RegistrationForm extends Component {
         PhoneNumbe: obj.Phone,
         Address: obj.Address,
         BusinessType: obj.StoreType,
+        Recommend: obj.Recommend,
+        Lat: obj.Lat,
+        Lng: obj.Lng,
+        Ref: obj.Ref,
         ServiceType: obj.Type
       });
     }
@@ -114,6 +126,11 @@ class RegistrationForm extends Component {
   onChangeCheckRadio = e => {
     this.setState({ BusinessType: e.target.value });
   };
+
+  onChangeCheckRadioRecommend = e => {
+    this.setState({ Recommend: e.target.value });
+  };
+
   onClickCancel = () => {
     this.props.history.push("/AdminPage");
   };
@@ -140,6 +157,10 @@ class RegistrationForm extends Component {
             Phone: this.state.PhoneNumbe,
             Address: this.state.Address,
             StoreType: this.state.BusinessType,
+            Recommend: this.state.Recommend,
+            Lat: this.state.Lat,
+            Lng: this.state.Lng,
+            Ref: this.state.Ref,
             Type: this.state.ServiceType
           };
           setItemInsert.child(this.state.ItemID).update(newState);
@@ -156,6 +177,10 @@ class RegistrationForm extends Component {
               Phone: this.state.PhoneNumbe,
               Address: this.state.Address,
               StoreType: this.state.BusinessType,
+              Recommend: this.state.Recommend,
+              Lat: this.state.Lat,
+              Lng: this.state.Lng,
+              Ref: this.state.Ref,
               Type: this.state.ServiceType
             };
             setItemInsert.set(newState);
@@ -169,6 +194,10 @@ class RegistrationForm extends Component {
               Phone: this.state.PhoneNumbe,
               Address: this.state.Address,
               StoreType: this.state.BusinessType,
+              Recommend: this.state.Recommend,
+              Lat: this.state.Lat,
+              Lng: this.state.Lng,
+              Ref: this.state.Ref,
               Type: this.state.ServiceType
             };
             setItemInsert.set(newState);
@@ -382,7 +411,121 @@ class RegistrationForm extends Component {
               allowClear
             />
           </Form.Item>
+          <Form.Item
+            name="Ref"
+            label={<span>Facebook / Instagram</span>}
+            rules={[
+              {
+                required: true,
+                message: <small>Please input your Facebook / Instagram</small>
+              }
+              // {
+              //   type: "string",
+              //   pattern: new RegExp("^[A-Za-zก-๙0-9-.]*$"),
+              //   message: <small>Please input alphabetical only.</small>
+              // },
+              // {
+              //   min: 4,
+              //   message: <small>Must be at least 3 characters</small>
+              // }
+            ]}
+          >
+            <Input
+              type="textbox"
+              name="Ref"
+              // initialValue ={this.state.BusinessName}
+              id="Ref"
+              value={this.state.Ref}
+              onChange={e => this.setState({ OpenShop: e.target.value })}
+              // whitespace={true}
+              maxLength={150}
+              allowClear
+            />
+          </Form.Item>
 
+          <Form.Item
+            name="Lat"
+            label="Latitude"
+            rules={[
+              {
+                required: true,
+                message: <small>Please input your Latitude</small>
+              },
+              {
+                min: 30,
+                pattern: new RegExp("^[0-9-]*$"),
+                message: <small>Number Only</small>
+              },
+              {
+                whitespace: true,
+                message: <small>Can not is whitespace.</small>
+              }
+            ]}
+          >
+            <Input
+              type="textbox"
+              name="Lat"
+              id="Lat"
+              value={this.state.Lat}
+              onChange={e => this.setState({ PhoneNumbe: e.target.value })}
+              whitespace={true}
+              maxLength={35}
+              allowClear
+            />
+          </Form.Item>
+          <Form.Item
+            name="Lng"
+            label="Longitude"
+            rules={[
+              {
+                required: true,
+                message: <small>Please input your Longitude</small>
+              },
+              {
+                min: 30,
+                pattern: new RegExp("^[0-9-]*$"),
+                message: <small>Number Only</small>
+              },
+              {
+                whitespace: true,
+                message: <small>Can not is whitespace.</small>
+              }
+            ]}
+          >
+            <Input
+              type="textbox"
+              name="Lng"
+              id="Lng"
+              value={this.state.Lng}
+              onChange={e => this.setState({ PhoneNumbe: e.target.value })}
+              whitespace={true}
+              maxLength={35}
+              allowClear
+            />
+          </Form.Item>
+          <Form.Item
+            name="Recommend"
+            label="Recommend Store"
+            rules={[
+              {
+                required: true,
+                message: <small>Please input your Recommend Store</small>
+              }
+            ]}
+          >
+            <Radio.Group
+              id="Recommend"
+              value={this.state.Recommend}
+              onChange={e => this.onChangeCheckRadioRecommend(e)}
+            >
+              <Radio value="true" name="true">
+                แนะนำ
+              </Radio>
+              <Radio value="false" name="false">
+                ไม่แนะนำ
+              </Radio>
+            </Radio.Group>
+          </Form.Item>
           <Form.Item
             name="BusinessType"
             label="Business Type"

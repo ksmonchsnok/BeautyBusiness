@@ -1,18 +1,23 @@
 import React from "react";
-import {BrowserRouter as Router,Switch,Redirect,Route} from 'react-router-dom';
-
+import {
+  BrowserRouter as Router,
+  Switch,
+  Redirect,
+  Route
+} from "react-router-dom";
 
 // Home
 import Home from "../pages/home/home.js";
 import AllStores from "../pages/store/allStores.js";
 import StoreDetail from "../pages/store/store-detail.js";
 import Nearby from "../pages/nearby/nearby.js";
+import Register from "../pages/register/register.js";
 
 // Admin
 import Admin from "../pages/admin/loginForAdmin.js";
 import AdminPage from "../pages/admin/admin.js";
 
-import LoginForAdmin from "../pages/admin/loginForAdmin.js"
+import LoginForAdmin from "../pages/admin/loginForAdmin.js";
 import ManageUser from "../pages/admin/addUser.js";
 import managePromotionAndDiscount from "../pages/admin/managePromotion.js";
 import ReportForAdmin from "../pages/admin/report.js";
@@ -44,17 +49,15 @@ export const PrivateRoute = ({ component: Component, ...rest }) => (
 );
 
 export default () => (
-  
-
   <Router>
-      <Route exact path="/LoginForAdmin" component={LoginForAdmin} />
+    <Route exact path="/LoginForAdmin" component={LoginForAdmin} />
 
-     <Switch >
+    <Switch>
       {/* Home */}
 
       <Route exact path="/" component={Home} />
       <Route exact path="/Home" component={Home} />
-
+      <Route exact path="/Register" component={Register} />
 
       <Route exact path="/AllStores" component={AllStores} />
       <Route exact path="/StoreDetail" component={StoreDetail} />
@@ -69,7 +72,6 @@ export default () => (
       <Route exact path="/AddUser" component={AddUser} />
       <Route exact path="/AddStore" component={AddStore} />
 
-
       <Route
         exact
         path="/managePromotionAndDiscount"
@@ -82,7 +84,6 @@ export default () => (
 
       {/* User */}
       <Route exact path="/User" component={User} />
-
 
       {/* Manager */}
       <Route exact path="/Manager" component={Manager} />

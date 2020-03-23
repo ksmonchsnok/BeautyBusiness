@@ -291,10 +291,12 @@ class Nearby extends Component {
         <h4 className="text-center font" style={{ lineHeight: "2.5rem" }}>
           ธุรกิจใกล้เคียงในระยะ 1 กิโลเมตร
         </h4>
-        <div className="album bg-while pad">
-          <hr />
+        <div className="container">
+          <div className="album bg-while pad">
+            <hr style={{ marginTop: "1rem" }} />
 
-          <div className="row">{item}</div>
+            <div className="row">{item}</div>
+          </div>
         </div>
       </div>
     );

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "antd/dist/antd.css";
 import "../../style.css";
-import { Form, Input, Tooltip, Button, Upload, message } from "antd";
+import { Form, Input, Tooltip, Button, Upload, message, Radio } from "antd";
 import {
   LoadingOutlined,
   PlusOutlined,
@@ -23,7 +23,8 @@ class RegistrationForm extends Component {
       Password: "",
       CFPassword: "",
       Phone: "",
-      Username: ""
+      Username: "",
+      UserType: ""
     };
   }
 
@@ -76,7 +77,8 @@ class RegistrationForm extends Component {
           Firstname: obj.Firstname,
           Lastname: obj.Lastname,
           Phone: obj.Phone,
-          Address: obj.Address
+          Address: obj.Address,
+          UserType: obj.UserType
         });
         this.setState({
           mode: "edit",
@@ -89,7 +91,8 @@ class RegistrationForm extends Component {
           Firstname: obj.Firstname,
           Lastname: obj.Lastname,
           Phone: obj.Phone,
-          Address: obj.Address
+          Address: obj.Address,
+          UserType: obj.UserType
         });
       }
     }
@@ -124,7 +127,8 @@ class RegistrationForm extends Component {
             Firstname: this.state.Firstname,
             Lastname: this.state.Lastname,
             Phone: this.state.Phone,
-            Address: this.state.Address
+            Address: this.state.Address,
+            UserType: this.state.UserType
           };
           setItemInsert.child(this.state.UserID).update(newState);
         } else {
@@ -142,7 +146,8 @@ class RegistrationForm extends Component {
               Firstname: this.state.Firstname,
               Lastname: this.state.Lastname,
               Phone: this.state.Phone,
-              Address: this.state.Address
+              Address: this.state.Address,
+              UserType: this.state.UserType
             };
             setItemInsert.set(newState);
           } else {
@@ -157,7 +162,8 @@ class RegistrationForm extends Component {
               Firstname: this.state.Firstname,
               Lastname: this.state.Lastname,
               Phone: this.state.Phone,
-              Address: this.state.Address
+              Address: this.state.Address,
+              UserType: this.state.UserType
             };
             setItemInsert.set(newState);
           }
@@ -509,6 +515,30 @@ class RegistrationForm extends Component {
               maxLength={12}
               allowClear
             />
+          </Form.Item>
+
+          <Form.Item
+            name="UserType"
+            label="User Type"
+            rules={[
+              {
+                required: true,
+                message: <small>Please input your User Type</small>
+              }
+            ]}
+          >
+            <Radio.Group
+              id="UserType"
+              value={this.state.UserType}
+              onChange={e => this.onChangeCheckRadio(e)}
+            >
+              <Radio value="ผู้ใช้บริการ" name="ผู้ใช้บริการ">
+                ผู้ใช้บริการ
+              </Radio>
+              <Radio value="ผู้ให้บริการ" name="ผู้ให้บริการ">
+                ผู้ให้บริการ (มีธุรกิจ)
+              </Radio>
+            </Radio.Group>
           </Form.Item>
 
           <Form.Item {...tailFormItemLayout} style={{ marginBottom: "6rem" }}>

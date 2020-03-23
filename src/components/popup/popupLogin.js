@@ -78,6 +78,12 @@ export default class LoginForm extends Component {
     //     })
     //   })
   };
+
+  onClickRegister = () => {
+    // this.props.history.push("/Register");
+    window.open("/Register", "_self");
+  };
+
   render() {
     const { message, currentUser } = this.state;
     if (currentUser) {
@@ -211,7 +217,7 @@ export default class LoginForm extends Component {
                   </Form.Item>
                   <Form.Item>
                     ยังไม่ได้เป็นสมาชิก ?
-                    <a>
+                    <a onClick={this.onClickRegister}>
                       &nbsp; <u>สมัครสมาชิก</u>
                     </a>
                   </Form.Item>
