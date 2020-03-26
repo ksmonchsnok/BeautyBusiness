@@ -9,6 +9,8 @@ import users from "../../assets/icon/users.png";
 import store from "../../assets/icon/store.png";
 
 import PopupLogin from "../../components/popup/popupLogin.js";
+import Logo from "../../assets/logo/logo.png"
+
 
 export default class navbar extends Component {
   constructor() {
@@ -37,7 +39,7 @@ export default class navbar extends Component {
           style={{ backgroundColor: "#343a40", height: "6rem" }}
         >
           <NavLink exact to="/" className="navbar-brand">
-            Beauty Business
+          <img src={Logo} className="logoNav" alt="Logo" />
           </NavLink>
           <button
             className="navbar-toggler"

@@ -7,6 +7,8 @@ import edit from "../../assets/icon/edit.png";
 import logout from "../../assets/icon/logout.png";
 
 import PopupLogin from "../../components/popup/popupLogin.js";
+import Logo from "../../assets/logo/logo.png"
+
 
 export default class navbar extends Component {
   constructor() {
@@ -38,7 +40,7 @@ export default class navbar extends Component {
       <div id="Navbar" style={{ marginTop: "-0.5rem", marginBottom: "10rem" }}>
         <nav className="fixed-top  navbar navbar-dark bg-dark navbar-expand-lg ">
           <NavLink exact to="/" className="navbar-brand">
-            Beauty Business
+          <img src={Logo} className="logoNav" alt="Logo" />
           </NavLink>
 
           <ul className="navbar-nav mr-auto">
