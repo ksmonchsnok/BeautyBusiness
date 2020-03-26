@@ -5,6 +5,9 @@
 Project
 build
 support
+.firebase
+.firebase
+firebase.json
 /.pnp
 .pnp.js
 
