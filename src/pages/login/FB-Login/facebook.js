@@ -6,16 +6,20 @@ export default class Facebook extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      loggedStatus: false,
       auth: false,
       userID: "",
       name: "",
       email: "",
       picture: ""
     };
+
+    
   }
   componentClicked = () => {
     console.log("Login With Facebook");
   };
+
   responseFacebook = response => {
     console.log(response);
     if (response.status !== "unknown") {
@@ -28,35 +32,58 @@ export default class Facebook extends Component {
         picture: response.picture.data.url
       });
     }
-  };
+  };  
+  
+  loggedOut=() =>{
+    this.setState({
+        loggedStatus: false,
+    })
+}
 
   render() {
-    let fbContent;
-    if (this.state.isLoggedIn) {
-      fbContent = null;
-    } else {
-      this.state.auth
-        ? (fbContent = <div>Hi {this.state.name}</div>)
-        : (fbContent = (
-            <FacebookLogin
-              appId="186461882774241"
-              autoLoad={true}
-              fields="name,email,picture"
-              onClick={this.componentClicked}
+
+    let facebookData;
+
+    this.state.auth ?
+    facebookData = (
+            <div style={{
+                width: '400px',
+                margin: 'auto',
+                background: '#f4f4f4',
+                padding: '20px',
+                color: '#000'
+            }}>
+                <img src={this.state.picture} alt={this.state.name} />
+                <h2>Welcome : {this.state.name}!</h2>
+            </div>
+        ) : 
+        facebookData = (<FacebookLogin
+            appId="186461882774241"
+            autoLoad={true}
+            fields="name,email,picture"
+            onClick={this.componentClicked}
+            callback={this.responseFacebook} 
               class="fb-login-button"
               data-width="250"
               data-height="45"
               data-size="medium"
               data-button-type="login_with"
               data-layout="default"
-              data-auto-logout-link="false"
-              data-use-continue-as="false"
+              data-auto-logout-link="true" 
               scope="public_profile,email"
-              onlogin={this.checkLoginState}
               icon="fa-facebook"
-            />
-          ));
-    }
-    return <div id="Facebook">{fbContent}</div>;
+
+
+/>);
+  
+    return (
+        <>
+            {facebookData}
+        </>
+    )
   }
 }
+  
+
+
+

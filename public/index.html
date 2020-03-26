@@ -49,35 +49,6 @@
   <script src="bower_components/firebaseui/dist/firebaseui.js"></script>
   <link type="text/css" rel="stylesheet" href="bower_components/firebaseui/dist/firebaseui.css" />
 
-  <!-- google login -->
-  <script src="https://apis.google.com/js/platform.js" async defer></script>
-  <meta name="google-signin-client_id"
-    content="640455590718-69op7a21nk76thp0pmcbnf34u8ccb0kc.apps.googleusercontent.com" />
-
-  <script>
-    function onSignIn(googleUser) {
-
-      var profile = googleUser.getBasicProfile();
-
-      console.log("ID: " + profile.getId());
-      console.log("Full Name: " + profile.getName());
-      console.log("Given Name: " + profile.getGivenName());
-      console.log("Family Name: " + profile.getFamilyName());
-      console.log("Image URL: " + profile.getImageUrl());
-      console.log("Email: " + profile.getEmail());
-
-      var id_token = googleUser.getAuthResponse().id_token;
-      console.log("ID Token: " + id_token);
-
-      function signOut() {
-        var auth2 = gapi.auth2.getAuthInstance();
-        auth2.signOut().then(function () {
-          console.log("User signed out.");
-        });
-      }
-    }
-  </script>
-
   <!-- Sweet Alert -->
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
@@ -85,6 +56,7 @@
   <!-- Google Maps Api -->
   <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDdoBV1pjIyFVBXHdo7wje7WdLcnY0HpFw&callback=initMap" -->
   <!-- async defer></script> -->
+  
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
 

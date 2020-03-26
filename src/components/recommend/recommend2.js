@@ -15,7 +15,7 @@ class Recommened extends Component {
   }
 
   componentWillMount = () => {
-    console.log(this.props);
+    // console.log(this.props);
   };
 
   onClickViewDetail = value => {
