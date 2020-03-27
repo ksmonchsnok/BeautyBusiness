@@ -12,6 +12,8 @@ import AllStores from "../pages/store/allStores.js";
 import StoreDetail from "../pages/store/store-detail.js";
 import Nearby from "../pages/nearby/nearby.js";
 import Register from "../pages/register/register.js";
+import Contact from "../pages/contact/contact.js";
+import RegisStore from "../pages/regisStore/regisStore.js";
 
 // Admin
 import Admin from "../pages/admin/loginForAdmin.js";
@@ -62,6 +64,10 @@ export default () => (
       <Route exact path="/AllStores" component={AllStores} />
       <Route exact path="/StoreDetail" component={StoreDetail} />
       <Route exact path="/Nearby" component={Nearby} />
+      <Route exact path="/Contact" component={Contact} />
+      <Route exact path="/Regis-Store" component={RegisStore} />
+
+
       {/* <PrivateRoute exact path="/admin" component={Admin} /> */}
 
       {/* Admin */}

@@ -1,24 +1,10 @@
 import React, { Component } from "react";
 import "antd/dist/antd.css";
 import "../../style.css";
-import {
-  Form,
-  Input,
-  Tooltip,
-  Button,
-  Upload,
-  message,
-  Radio,
-  Checkbox,
-  Row,
-  Col
-} from "antd";
-import {
-  LoadingOutlined,
-  PlusOutlined,
-  QuestionCircleOutlined
-} from "@ant-design/icons";
+import {Form,Input,Tooltip, Button,Upload,message,Radio,Checkbox,Row,Col} from "antd";
+import {LoadingOutlined,PlusOutlined,QuestionCircleOutlined} from "@ant-design/icons";
 import firebase from "firebase";
+import Navber from "../../components/navbar/navbar.js"
 
 class RegistrationForm extends Component {
   formRef = React.createRef();
@@ -135,7 +121,7 @@ class RegistrationForm extends Component {
   };
 
   onClickCancel = () => {
-    this.props.history.push("/AdminPage");
+    window.history.back()
   };
   onGotoSave() {
     setTimeout(() => {
@@ -266,6 +252,9 @@ class RegistrationForm extends Component {
         id="Add-Update-Store"
         style={{ marginTop: "3rem", marginLeft: "1rem" }}
       >
+          <Navber/>
+          <div className="container" style={{marginBottom : "3rem"}}><h2>สร้างธุรกิจของคุณ</h2> <hr/></div>
+         
         <Form
           {...formItemLayout}
           ref={this.formRef}
@@ -446,7 +435,7 @@ class RegistrationForm extends Component {
             />
           </Form.Item>
 
-          <Form.Item
+          {/* <Form.Item
             name="Lat"
             label="Latitude"
             rules={[
@@ -475,8 +464,8 @@ class RegistrationForm extends Component {
               maxLength={35}
               allowClear
             />
-          </Form.Item>
-          <Form.Item
+          </Form.Item> */}
+          {/* <Form.Item
             name="Lng"
             label="Longitude"
             rules={[
@@ -505,8 +494,8 @@ class RegistrationForm extends Component {
               maxLength={35}
               allowClear
             />
-          </Form.Item>
-          <Form.Item
+          </Form.Item> */}
+          {/* <Form.Item
             name="Recommend"
             label="Recommend Store"
             rules={[
@@ -528,7 +517,7 @@ class RegistrationForm extends Component {
                 ไม่แนะนำ
               </Radio>
             </Radio.Group>
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item
             name="BusinessType"
             label="Business Type"

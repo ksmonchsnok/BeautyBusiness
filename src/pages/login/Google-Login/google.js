@@ -14,27 +14,54 @@ export default class Google extends Component {
   }
 
 responseGoogle = (response) => {    
-    let res = response;
-    let auth = res.profileObj;
-    let token = res.uc.id_token
-    localStorage.setItem("FB-Google", JSON.stringify(auth,token));
+  if (response.status !== "unknown") {
 
+    let res = response;
+    let auth = res;
+    localStorage.setItem("FB-Google", JSON.stringify(auth));
+    this.setState({
+      auth: true,
+      userID : auth.tokenId,
+      name: auth.profileObj.givenName,
+      email: auth.profileObj.email,
+      picture: auth.profileObj.imageUrl
+    });
   }
+}
+
       render() {
+        let GoogleData;
+        this.state.auth ?
+        GoogleData=(
+          <div style={{
+            width: '400px',
+            margin: 'auto',
+            background: '#f4f4f4',
+            padding: '20px',
+            color: '#000'
+        }}>
+          <img src={this.state.picture} alt={this.state.name}/>
+            <h6>Welcome : {this.state.name}!</h6>
+           
+        </div>
+        ):
+        GoogleData = ( <GoogleLogin
+        clientId="640455590718-69op7a21nk76thp0pmcbnf34u8ccb0kc.apps.googleusercontent.com"
+        onSuccess={this.responseGoogle}
+        onFailure={this.responseGoogle} 
+        className="g-signin2"
+        data-onsuccess="onSignIn"
+        data-theme="Light"
+        data-width="260"
+        data-height="45"
+        data-longtitle="true"
+      >  LOGIN WITH GOOGLE 
+    </GoogleLogin>)
+       
+
         return (
   
-             <GoogleLogin
-                  clientId="640455590718-69op7a21nk76thp0pmcbnf34u8ccb0kc.apps.googleusercontent.com"
-                  onSuccess={this.responseGoogle}
-                  onFailure={this.responseGoogle} 
-                  className="g-signin2"
-                  data-onsuccess="onSignIn"
-                  data-theme="Light"
-                  data-width="260"
-                  data-height="45"
-                  data-longtitle="true"
-                >  LOGIN WITH GOOGLE 
-              </GoogleLogin>
+         <>{GoogleData}</>
 
             ) 
         }

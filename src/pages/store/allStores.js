@@ -18,6 +18,10 @@ class AllStore extends Component {
     };
   }
 
+  onclickBack=()=>{
+    window.history.back()
+}   
+
   searchHandler = event => {
     this.setState({
       store: event.target.value
@@ -192,11 +196,13 @@ class AllStore extends Component {
               >
                 ธุรกิจทั้งหมด
               </h2>
-              <div className="dropdown-divider" />
+              {/* <div className="dropdown-divider" /> */}
             </p>
 
-            <div className="album  bg-while ">
-              <div className="row">
+            <div className="album  bg-while">
+              <div className="row" 
+              // style={{border:"0.5px solid gray"}}
+              >
                 <div
                   className="col-lg-3 col-md-5 col-sm-6 jumbotron jumbotron-fluid"
                   style={{ marginTop: "-6rem", backgroundColor: "transparent" }}
@@ -237,6 +243,14 @@ class AllStore extends Component {
               </div>
             </div>
           </div>
+          <div className="justify-content-start">
+            <div className="container">         
+<div className="col-xs-12 col-sm-4 col-md-2">  
+                                        <button type="button" onClick={this.onclickBack} className="btn btn-dark btn-block">ย้อนกลับ</button>
+                            </div></div>
+                                       
+                            </div>
+
         </div>
       </div>
     );

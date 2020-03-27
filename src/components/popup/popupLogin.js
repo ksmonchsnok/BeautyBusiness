@@ -6,7 +6,7 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import Modal from "react-bootstrap4-modal";
 import Facebook from "../../pages/login/FB-Login/facebook";
 import Google from "../../pages/login/Google-Login/google.js";
-
+import swal from 'sweetalert';
 import firebase from "firebase/app";
 import "firebase/auth";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
@@ -20,10 +20,10 @@ export default class LoginForm extends Component {
       loadingLogin: false,
       submitted: false,
       isVisble: false,
-      loadingLogin: false,
       currentUser: null,
       message: "",
-      isSignedIn: false
+      isSignedIn: false,
+      checklogIn : false
     };
   }
   uiConfig = {
@@ -47,38 +47,50 @@ export default class LoginForm extends Component {
   }
 
   onChangeEmail = e => {
-    console.log(e.target.value);
-
     const { name, value } = e.target;
     this.setState({ [name]: value });
   };
 
   onChangePassword = e => {
-    console.log(e.target.value);
-
     const { name, value } = e.target;
     this.setState({ [name]: value });
   };
 
+
   onClickLogin = e => {
     e.preventDefault();
-    const { email, password } = this.state;
-    console.log(email, password);
-
-    // firebase.auth
-    //   .signInWithEmailAndPassword(email, password)
-    //   .then(response => {
-    //     this.setState({
-    //       currentUser: response.user
-    //     })
-    //   })
-    //   .catch(error => {
-    //     this.setState({
-    //       message: error.message
-    //     })
-    //   })
+    const { email, password } = this.state
+    firebase.auth().signInWithEmailAndPassword(email, password).then(resp=>{
+      console.log(11,resp)
+      swal({
+        title: "Login Success",
+        text: "ํYou want Continue or not?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((willDelete) => {
+        if (willDelete) {
+          firebase.database().ref(`MumberUser/${resp.user.uid}`).once('value').then(snapshot=>{
+            console.log(snapshot.val())
+            localStorage.setItem('ObjUser',JSON.stringify(snapshot.val()));
+                // localStorage.setItem('UserID', snapshot.val().UserID);
+            // localStorage.setItem('Firstname', snapshot.val().Firstname);
+            // localStorage.setItem('Lastname', snapshot.val().Lastname);
+            // localStorage.setItem('Email', snapshot.val().Email);
+          })
+          this.setState({checklogIn : true})
+        } else {
+          swal("Your imaginary file is safe!");
+          this.setState({checklogIn : false})
+        }
+      });
+    }).catch(function(error) {
+      swal("ผิดพลาด!", "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง", "error");
+      
+    });
+ 
   };
-
   onClickRegister = () => {
     // this.props.history.push("/Register");
     window.open("/Register", "_self");
@@ -125,11 +137,12 @@ export default class LoginForm extends Component {
     return (
       <div id="Popup-Login">
         <Modal
+
           size="lg"
           aria-labelledby="contained-modal-title-vcenter"
           centered
-          visible={isVisible}
-          onClickBackdrop={this.props.Popup}
+          visible={this.state.checklogIn?!isVisible:isVisible}
+          onClickBackdrop={this.props.closePopup}
         >
           <div className="modal-header">
             <h5 className="modal-title">Log In | Sing In</h5>

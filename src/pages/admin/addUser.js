@@ -63,37 +63,40 @@ class RegistrationForm extends Component {
 
   async componentDidMount() {
     console.log(this.props);
-    if (this.props.location.state !== undefined) {
-      if (this.props.location.state.mode === "edit") {
-        let obj = await this.props.location.state.obj;
-        this.formRef.current.setFieldsValue({
-          mode: "edit",
-          UserID: obj.UserID,
-          imageUrl: obj.imageUrl,
-          Username: obj.Username,
-          Email: obj.Email,
-          Password: obj.Password,
-          CFPassword: obj.CFPassword,
-          Firstname: obj.Firstname,
-          Lastname: obj.Lastname,
-          Phone: obj.Phone,
-          Address: obj.Address,
-          UserType: obj.UserType
-        });
-        this.setState({
-          mode: "edit",
-          UserID: obj.UserID,
-          imageUrl: obj.imageUrl,
-          Username: obj.Username,
-          Email: obj.Email,
-          Password: obj.Password,
-          CFPassword: obj.CFPassword,
-          Firstname: obj.Firstname,
-          Lastname: obj.Lastname,
-          Phone: obj.Phone,
-          Address: obj.Address,
-          UserType: obj.UserType
-        });
+    let checkHistory = this.props.location ? 'pass' : null
+    if(checkHistory === 'pass'){
+      if (this.props.location.state !== undefined) {
+        if (this.props.location.state.mode === "edit") {
+          let obj = await this.props.location.state.obj;
+          this.formRef.current.setFieldsValue({
+            mode: "edit",
+            UserID: obj.UserID,
+            imageUrl: obj.imageUrl,
+            Username: obj.Username,
+            Email: obj.Email,
+            Password: obj.Password,
+            CFPassword: obj.CFPassword,
+            Firstname: obj.Firstname,
+            Lastname: obj.Lastname,
+            Phone: obj.Phone,
+            Address: obj.Address,
+            UserType: obj.UserType
+          });
+          this.setState({
+            mode: "edit",
+            UserID: obj.UserID,
+            imageUrl: obj.imageUrl,
+            Username: obj.Username,
+            Email: obj.Email,
+            Password: obj.Password,
+            CFPassword: obj.CFPassword,
+            Firstname: obj.Firstname,
+            Lastname: obj.Lastname,
+            Phone: obj.Phone,
+            Address: obj.Address,
+            UserType: obj.UserType
+          });
+        }
       }
     }
   }

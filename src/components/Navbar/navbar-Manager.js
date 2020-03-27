@@ -5,6 +5,7 @@ import users from "../../assets/icon/users.png";
 import setting from "../../assets/icon/setting.png";
 import edit from "../../assets/icon/edit.png";
 import logout from "../../assets/icon/logout.png";
+import user from "../../assets/icon/user.png";
 
 import PopupLogin from "../../components/popup/popupLogin.js";
 import Logo from "../../assets/logo/logo.png"
@@ -98,6 +99,25 @@ export default class navbar extends Component {
                   </a>
                 </div>
               </div>
+              <button
+                  type="button"
+                  className="btn btn-dark but"
+                  data-toggle="modal"
+                  data-target="#exampleModal"
+                  onClick={this.showPopupLogin}
+                >
+                  <img src={user} />
+                  &nbsp; Sing In
+                </button>
+
+                <PopupLogin
+                  // confirm={() => this.onClickReject()}
+                  aria-labelledby="contained-modal-title-vcenter"
+                  className="modal-dialog"
+                  id="popUpLogin"
+                  isVisible={showPopupLogin}
+                  closePopup={this.showPopupLogin}
+                />
             </div>
           </form>
         </nav>

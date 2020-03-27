@@ -9,6 +9,7 @@ import {
 } from "@ant-design/icons";
 import firebase from "firebase";
 import Navbar from "../../components/navbar/navbar-Regis.js";
+import swal from 'sweetalert';
 
 class RegistrationForm extends Component {
   formRef = React.createRef();
@@ -103,23 +104,13 @@ class RegistrationForm extends Component {
     this.props.history.push("/AdminPage");
   };
   onGotoSave() {
-    setTimeout(() => {
-      let tempId = [];
-      const itemsRef = firebase.database().ref("User");
-      itemsRef.once("value").then(snapshot => {
-        const temp = snapshot.val();
-        let newID = [];
-        console.log(temp);
-        for (let item in temp) {
-          newID.push({
-            item_id: item
-          });
-        }
-        tempId = newID[newID.length - 1];
-        if (this.state.mode === "edit") {
-          console.log(this.state.UserID);
-          console.log(this.state);
-          const setItemInsert = firebase.database().ref(`User`);
+    console.log(this.state)
+    let email = this.state.Email
+    let password = this.state.Password
+    firebase.auth().createUserWithEmailAndPassword(email, password).then(res=>{
+      console.log(res)
+         setTimeout(() => {
+          const setItemInsert = firebase.database().ref(`MumberUser/${res.user.uid}`);
           let newState = {
             imageUrl: this.state.imageUrl,
             Username: this.state.Username,
@@ -132,48 +123,32 @@ class RegistrationForm extends Component {
             Address: this.state.Address,
             UserType: this.state.UserType
           };
-          setItemInsert.child(this.state.UserID).update(newState);
+          setItemInsert.set(newState);
+      swal({
+        title: "Already Registered",
+        text: "ํYou want Continue or not?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((willDelete) => {
+        if (willDelete) {
+          swal("Poof! Your imaginary file has been deleted!", {
+            icon: "success",
+          });
+          this.onClickCancel();
         } else {
-          if (tempId !== [] && tempId !== undefined) {
-            const setItemInsert = firebase
-              .database()
-              .ref(`User/${tempId.item_id * 1 + 1}`);
-            let newState = {
-              UserID: tempId.item_id * 1 + 1,
-              imageUrl: this.state.imageUrl,
-              Username: this.state.Username,
-              Email: this.state.Email,
-              Password: this.state.Password,
-              CFPassword: this.state.CFPassword,
-              Firstname: this.state.Firstname,
-              Lastname: this.state.Lastname,
-              Phone: this.state.Phone,
-              Address: this.state.Address,
-              UserType: this.state.UserType
-            };
-            setItemInsert.set(newState);
-          } else {
-            const setItemInsert = firebase.database().ref(`User/1`);
-            let newState = {
-              ItemID: 1,
-              imageUrl: this.state.imageUrl,
-              Username: this.state.Username,
-              Email: this.state.Email,
-              Password: this.state.Password,
-              CFPassword: this.state.CFPassword,
-              Firstname: this.state.Firstname,
-              Lastname: this.state.Lastname,
-              Phone: this.state.Phone,
-              Address: this.state.Address,
-              UserType: this.state.UserType
-            };
-            setItemInsert.set(newState);
-          }
+          swal("Your imaginary file is safe!");
         }
       });
-      this.onClickCancel();
-    }, 1000);
-  }
+     
+    }, 100);
+      // this.onClickCancel();
+    }).catch(function(error) {
+      swal("ผิดพลาด!", "มีผู้ใช้งานอยู่ในระบบแล้ว", "error");
+      // ...
+    });
+     }
   render() {
     const uploadButton = (
       <div>

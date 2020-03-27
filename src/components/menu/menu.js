@@ -2,11 +2,9 @@ import React, { Component } from "react";
 import "../../style.css";
 import { NavLink } from "react-router-dom";
 
-import search from "../../assets/icon/search.png";
 import near from "../../assets/icon/near.png";
 import home from "../../assets/icon/home.png";
-import AllStore from "../../assets/icon/listall.png";
-import rating from "../../assets/icon/rating.png";
+import contact from "../../assets/icon/contact.png";
 import createStore from "../../assets/icon/createStore.png";
 
 export default class Menu extends Component {
@@ -20,26 +18,14 @@ export default class Menu extends Component {
             boxShadow: "5px 5px 5px LightGray"
           }}
         >
-          <div className="col-6 col-md-2 ">
-            <NavLink
-              exact
-              to="/"
-              activeClassName="is-active"
-              className="nav-link link-menu"
-            >
-              <img src={home} alt="home" style={{ margin: "-1rem" }} />
-              <br />
-              หน้าหลัก
-            </NavLink>
-          </div>
-
+          
           <div className="col-6 col-md-2">
             <NavLink
-              to="/Manager"
+              to="/AllStores"
               activeClassName="is-active"
               className="nav-link link-menu"
             >
-              <img src={AllStore} alt="type" style={{ margin: "-1rem" }} />
+              <img src={home} alt="type" style={{ margin: "-1rem" }} />
               <br />
               ธุรกิจทั้งหมด
             </NavLink>
@@ -53,13 +39,13 @@ export default class Menu extends Component {
             >
               <img src={near} alt="near" style={{ margin: "-1rem" }} />
               <br />
-              ใกล้เคียง
+              ธุรกิจใกล้เคียง
             </NavLink>
           </div>
 
           <div className="col-6 col-md-2">
             <NavLink
-              to="/User"
+              to="/Regis-Store"
               activeClassName="is-active"
               className="nav-link link-menu"
             >
@@ -70,6 +56,18 @@ export default class Menu extends Component {
               />
               <br />
               สร้างธุรกิจของคุณ
+            </NavLink>
+          </div>
+          <div className="col-6 col-md-2 ">
+            <NavLink
+              exact
+              to="/Contact"
+              activeClassName="is-active"
+              className="nav-link link-menu"
+            >
+              <img src={contact} alt="home" style={{ margin: "-1rem" }} />
+              <br />
+              ติดต่อเรา
             </NavLink>
           </div>
         </div>

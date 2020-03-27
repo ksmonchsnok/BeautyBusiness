@@ -74,7 +74,7 @@ export default class navbar extends Component {
                   >
                     <button
                       type="button"
-                      className="btn btn-dark but"
+                      className="btn btn-dark"
                       data-toggle="modal"
                       data-target="#exampleModal"
                     >
@@ -128,7 +128,7 @@ export default class navbar extends Component {
 
                 <button
                   type="button"
-                  className="btn btn-dark but"
+                  className="btn btn-dark"
                   data-toggle="modal"
                   data-target="#exampleModal"
                   onClick={this.showPopupLogin}

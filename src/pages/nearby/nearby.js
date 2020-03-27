@@ -52,6 +52,11 @@ class Nearby extends Component {
       this.setState({ locations });
     });
   }
+
+  onclickBack=()=>{
+    window.history.back()
+}   
+
   onMarkerClick = (props, marker, e) =>
     this.setState({
       selectedPlace: props,
@@ -103,6 +108,7 @@ class Nearby extends Component {
       isOpen: !false
     });
   };
+
   currentOfLocation = () => {
     const geolocation = navigator.geolocation;
     return geolocation.getCurrentPosition(position => {
@@ -176,8 +182,9 @@ class Nearby extends Component {
       maxWidth: "100%",
       maxHeight: "100%",
       paddingTop: "20rem ",
-      paddingBottom: "15rem ",
-      marginRight: "2rem",
+      paddingBottom: "10rem ",
+      // marginLeft:"2rem",
+      marginRight: "3rem",
       border: "solid 1px Gainsboro",
       borderRadius: "8px",
       boxShadow: "2px 2px 2px silver",
@@ -206,7 +213,7 @@ class Nearby extends Component {
                     style={{
                       marginLeft: -2,
                       marginRight: 8,
-                      marginBottom: 3,
+                      marginBottom: 5,
                       marginTop: 0.5,
                       fontWeight: "lighter",
                       fontSize: 14 + "px"
@@ -231,10 +238,10 @@ class Nearby extends Component {
         <Navber />
 
         <div className="" style={{ height: "80vh", width: "100%" }}>
-          <h2 className="text-center">แผนที่แสดงธุรกิจทั้งหมด</h2>
+          <h2 className="text-center"> ตำแหน่งธุรกิจทั้งหมดในระบบ</h2>
 
           <div
-            className="jumbotron justify-content-center d-flex justify-content-center"
+            className="jumbotron justify-content-center d-flex"
             style={{ backgroundColor: "#ffffff" }}
           >
             <div className="col-11">
@@ -288,15 +295,22 @@ class Nearby extends Component {
           </div>
         </div>
 
-        <h4 className="text-center font" style={{ lineHeight: "2.5rem" }}>
-          ธุรกิจใกล้เคียงในระยะ 1 กิโลเมตร
-        </h4>
+         
         <div className="container">
           <div className="album bg-while pad">
-            <hr style={{ marginTop: "1rem" }} />
+          <h4 className="text-center">ธุรกิจใกล้เคียงในระยะ 1 กิโลเมตร</h4>
 
+            <hr style={{ marginTop: "1rem" }} />
             <div className="row">{item}</div>
           </div>
+          <hr/>
+
+          <div className="row justify-content-start">
+            <div className="container"> <div className="col-xs-12 col-sm-4 col-md-2"> 
+                                        <button type="button" onClick={this.onclickBack} className="btn btn-dark btn-block">ย้อนกลับ</button>
+                            </div></div>
+                                       
+                            </div>
         </div>
       </div>
     );

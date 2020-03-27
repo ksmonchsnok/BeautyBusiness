@@ -54,7 +54,7 @@ export default class Facebook extends Component {
                 color: '#000'
             }}>
                 <img src={this.state.picture} alt={this.state.name} />
-                <h2>Welcome : {this.state.name}!</h2>
+                <h6>Welcome : {this.state.name}!</h6>
             </div>
         ) : 
         facebookData = (<FacebookLogin
