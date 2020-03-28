@@ -40,10 +40,10 @@ export default class Login extends Component {
   render() {
     const showPopupLogin = this.state.showPopupLogin;
     return (
-      <div id="Login" style={{ marginBottom: "-9rem" }}>
+      <div id="Login" history={this.props} style={{ marginBottom: "-9rem" }}>
         <div className="nav justify-content-end">
 
-            <form className="form-inline my-2 my-lg-0">
+            <form className="form-inline my-2 my-lg-0"  history={this.props}>
               <div className="nav align-self-center justify-content-end">
                 <div className="nav-item dropdown">
                   <div
@@ -119,7 +119,7 @@ export default class Login extends Component {
             data-target="#exampleModal"
             onClick={this.showPopupLogin}
             style={{ height: "60px" }}
-            history={this.props.history}
+            history={this.props}
           >
             <img src={user} alt="sign in" />
             &nbsp; Sing In
@@ -132,7 +132,7 @@ export default class Login extends Component {
             id="popUpLogin"
             isVisible={showPopupLogin}
             closePopup={this.showPopupLogin}
-            history={this.props.history}
+            history={this.props}
           />
         </div>
         <hr style={{ border: "0.5px solid Black" }} />

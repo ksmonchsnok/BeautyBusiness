@@ -5,6 +5,7 @@ import {Form,Input,Button,Upload,message,Radio,Checkbox,} from "antd";
 import {LoadingOutlined,PlusOutlined,} from "@ant-design/icons";
 import firebase from "firebase";
 import Navber from "../../components/navbar/navbar-Admin.js"
+import swal from 'sweetalert';
 
 class RegistrationForm extends Component {
   formRef = React.createRef();
@@ -118,80 +119,93 @@ class RegistrationForm extends Component {
   };
 
   onClickCancel = () => {
-    this.props.history.push("/AdminPage");
+    window.history.back()
+    // this.props.history.push("/AdminPage");
   };
-  onGotoSave() {
+
+  onClickSave() {
+    if(this.state === null){
+
+    console.log(this.state === null);
+    
     setTimeout(() => {
-      let tempId = [];
-      const itemsRef = firebase.database().ref("Store");
-      itemsRef.once("value").then(snapshot => {
-        const temp = snapshot.val();
-        let newID = [];
-        console.log(temp);
-        for (let item in temp) {
-          newID.push({
-            item_id: item
-          });
-        }
-        tempId = newID[newID.length - 1];
-        if (this.state.mode === "edit") {
-          const setItemInsert = firebase.database().ref(`Store`);
-          let newState = {
-            imageUrl: this.state.imageUrl,
-            Name: this.state.BusinessName,
-            Open: this.state.OpenShop,
-            Phone: this.state.PhoneNumbe,
-            Address: this.state.Address,
-            StoreType: this.state.BusinessType,
-            Recommend: this.state.Recommend,
-            Lat: this.state.Lat,
-            Lng: this.state.Lng,
-            Ref: this.state.Ref,
-            Type: this.state.ServiceType
-          };
-          setItemInsert.child(this.state.ItemID).update(newState);
-        } else {
-          if (tempId !== [] && tempId !== undefined) {
-            const setItemInsert = firebase
-              .database()
-              .ref(`Store/${tempId.item_id * 1 + 1}`);
-            let newState = {
-              ItemID: tempId.item_id * 1 + 1,
-              imageUrl: this.state.imageUrl,
-              Name: this.state.BusinessName,
-              Open: this.state.OpenShop,
-              Phone: this.state.PhoneNumbe,
-              Address: this.state.Address,
-              StoreType: this.state.BusinessType,
-              Recommend: this.state.Recommend,
-              Lat: this.state.Lat,
-              Lng: this.state.Lng,
-              Ref: this.state.Ref,
-              Type: this.state.ServiceType
-            };
-            setItemInsert.set(newState);
-          } else {
-            const setItemInsert = firebase.database().ref(`Store/1`);
-            let newState = {
-              ItemID: 1,
-              imageUrl: this.state.imageUrl,
-              Name: this.state.BusinessName,
-              Open: this.state.OpenShop,
-              Phone: this.state.PhoneNumbe,
-              Address: this.state.Address,
-              StoreType: this.state.BusinessType,
-              Recommend: this.state.Recommend,
-              Lat: this.state.Lat,
-              Lng: this.state.Lng,
-              Ref: this.state.Ref,
-              Type: this.state.ServiceType
-            };
-            setItemInsert.set(newState);
-          }
-        }
-      });
+        
+      
+      swal("เรียบร้อย", "สมัครสมาชิกเรียบร้อย", "success");
+      // let tempId = [];
+      // const itemsRef = firebase.database().ref("Store");
+      // itemsRef.once("value").then(snapshot => {
+      //   const temp = snapshot.val();
+      //   let newID = [];
+      //   console.log(temp);
+      //   for (let item in temp) {
+      //     newID.push({
+      //       item_id: item
+      //     });
+      //   }
+      //   tempId = newID[newID.length - 1];
+      //   if (this.state.mode === "edit") {
+      //     const setItemInsert = firebase.database().ref(`Store`);
+      //     let newState = {
+      //       imageUrl: this.state.imageUrl,
+      //       Name: this.state.BusinessName,
+      //       Open: this.state.OpenShop,
+      //       Phone: this.state.PhoneNumbe,
+      //       Address: this.state.Address,
+      //       StoreType: this.state.BusinessType,
+      //       Recommend: this.state.Recommend,
+      //       Lat: this.state.Lat,
+      //       Lng: this.state.Lng,
+      //       Ref: this.state.Ref,
+      //       Type: this.state.ServiceType
+      //     };
+      //     setItemInsert.child(this.state.ItemID).update(newState);
+      //   } else {
+      //     if (tempId !== [] && tempId !== undefined) {
+      //       const setItemInsert = firebase
+      //         .database()
+      //         .ref(`Store/${tempId.item_id * 1 + 1}`);
+      //       let newState = {
+      //         ItemID: tempId.item_id * 1 + 1,
+      //         imageUrl: this.state.imageUrl,
+      //         Name: this.state.BusinessName,
+      //         Open: this.state.OpenShop,
+      //         Phone: this.state.PhoneNumbe,
+      //         Address: this.state.Address,
+      //         StoreType: this.state.BusinessType,
+      //         Recommend: this.state.Recommend,
+      //         Lat: this.state.Lat,
+      //         Lng: this.state.Lng,
+      //         Ref: this.state.Ref,
+      //         Type: this.state.ServiceType
+      //       };
+      //       setItemInsert.set(newState);
+      //     } else {
+      //       const setItemInsert = firebase.database().ref(`Store/1`);
+      //       let newState = {
+      //         ItemID: 1,
+      //         imageUrl: this.state.imageUrl,
+      //         Name: this.state.BusinessName,
+      //         Open: this.state.OpenShop,
+      //         Phone: this.state.PhoneNumbe,
+      //         Address: this.state.Address,
+      //         StoreType: this.state.BusinessType,
+      //         Recommend: this.state.Recommend,
+      //         Lat: this.state.Lat,
+      //         Lng: this.state.Lng,
+      //         Ref: this.state.Ref,
+      //         Type: this.state.ServiceType
+      //       };
+      //       setItemInsert.set(newState);
+      //     }
+      //   }
+      // });
       this.onClickCancel();
     }, 1000);
+  }else{
+    swal("ผิดพลาด", "กรุณากรอกข้อมูลให้ครบ", "error");
+    return;
+  }
   }
 
   render() {
@@ -353,7 +367,7 @@ class RegistrationForm extends Component {
               },
               {
                 min: 12,
-                pattern: new RegExp("^[0-9-]*$"),
+                pattern: new RegExp("^[0-9 -]*$"),
                 message: <small>Ex : 085-555-5555</small>
               },
               {
@@ -572,7 +586,7 @@ class RegistrationForm extends Component {
               type="primary"
               htmlType="submit"
               // loading="true"
-              onClick={() => this.onGotoSave()}
+              onClick={() => this.onClickSave()}
             >
               Save
             </Button>

@@ -15,6 +15,12 @@ export default class ResetPassword extends Component {
         };
     }                    
 
+
+    onClickResetPassword = () =>{
+
+    }
+
+
     render() {
         const formItemLayout = {
             labelCol: {
@@ -47,6 +53,8 @@ export default class ResetPassword extends Component {
             },
           };
 
+          console.log(this.props);
+          
         return (
             <div id="Reset-Password">
                 <Navbar/>
@@ -54,6 +62,8 @@ export default class ResetPassword extends Component {
                     <div className="row d-flex justify-content-center">
                     <div className="col-10">
                     <h3 style={{marginBottom:"4rem"}}>Reset Your Password</h3>
+                       {/* Reset Password */}
+
                     <Form
                     {...formItemLayout}
                     form={this.form}
@@ -62,7 +72,7 @@ export default class ResetPassword extends Component {
                     scrollToFirstError
                     >
 
-                    {/* <Form.Item
+                     <Form.Item
                         name="oldPasssword"
                         label="Old Passsword"
                         rules={[
@@ -74,7 +84,7 @@ export default class ResetPassword extends Component {
                         hasFeedback
                     >
                         <Input.Password />
-                    </Form.Item> */}
+                    </Form.Item> 
 
                     <Form.Item
                         name="password"
@@ -114,9 +124,10 @@ export default class ResetPassword extends Component {
                 <Input.Password />
             </Form.Item>
 
+                           
                             <Form.Item {...tailFormItemLayout}>
-                                <Button type="primary" htmlType="submit" style={{marginTop:"2rem"}}>
-                                     Reset Password
+                                <Button type="primary" htmlType="submit" style={{marginTop:"2rem"}} onClick={this.onClickResetPassword}>
+                                     Submit
                                 </Button>
                             </Form.Item>
                             </Form>
@@ -127,4 +138,3 @@ export default class ResetPassword extends Component {
         );
     }
 }
-

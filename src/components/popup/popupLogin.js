@@ -23,7 +23,8 @@ export default class LoginForm extends Component {
       currentUser: null,
       message: "",
       isSignedIn: false,
-      checklogIn : false
+      checklogIn : false,
+      type:"forgot"
     };
   }
   uiConfig = {
@@ -99,8 +100,8 @@ export default class LoginForm extends Component {
 
 
   onClickForgotPassword = ()=>{
-        // this.props.history.push("/Reset-Password");
-        window.open("/Reset-Password", "_self");
+        // this.props.history.push("/Reset-Password" ,{type:"forgot"});
+        window.open("/Forgot-Password", "_self" );
 
   }
 
@@ -145,12 +146,12 @@ export default class LoginForm extends Component {
     return (
       <div id="Popup-Login">
         <Modal
-
           size="lg"
           aria-labelledby="contained-modal-title-vcenter"
           centered
           visible={this.state.checklogIn?!isVisible:isVisible}
           onClickBackdrop={this.props.closePopup}
+          history={this.props}
         >
           <div className="modal-header">
             <h5 className="modal-title">Log In | Sing In</h5>
@@ -232,7 +233,7 @@ export default class LoginForm extends Component {
                       Log in
                     </Button>
                     &emsp;or{" "}
-                    <a onClick={this.onClickForgotPassword}>
+                    <a onClick={this.onClickForgotPassword}  history={this.props}>
                       &nbsp; <u>Forgot Password.</u>
                     </a>
                   </Form.Item>
