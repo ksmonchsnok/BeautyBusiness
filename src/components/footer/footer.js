@@ -17,7 +17,7 @@ export default class Footer extends Component {
                     </a>
                   </div>
                   <div className="col-lg-4  col-md-4 ">
-                    <a href="#" itemProp="url">
+                    <a href="/Admin" itemProp="url">
                       CONTACT
                     </a>
                   </div>

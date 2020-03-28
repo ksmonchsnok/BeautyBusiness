@@ -71,8 +71,8 @@ class RegistrationForm extends Component {
   };
 
   async componentDidMount() {
-    let checkHistory = this.props.location ? 'pass' : null
-   if(checkHistory === 'pass'){
+    let checkHistory = this.props.location ? this.props.location.state?'pass' : null: null
+       if(checkHistory === 'pass'){
       let obj = await this.props.location.state.obj;
       console.log(this.formRef);
       this.formRef.current.setFieldsValue({
@@ -119,6 +119,7 @@ class RegistrationForm extends Component {
 
   onClickCancel = () => {
     window.history.back()
+    
   };
   
   onGotoSave() {
@@ -245,6 +246,9 @@ class RegistrationForm extends Component {
       };
     };
     const { TextArea } = Input;
+
+    console.log(this.props);
+    
     return (
       <div
         id="Add-Update-Store"

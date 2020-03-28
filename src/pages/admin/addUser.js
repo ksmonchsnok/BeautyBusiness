@@ -2,12 +2,11 @@ import React, { Component } from "react";
 import "antd/dist/antd.css";
 import "../../style.css";
 import { Form, Input, Tooltip, Button, Upload, message, Radio } from "antd";
-import {
-  LoadingOutlined,
-  PlusOutlined,
-  QuestionCircleOutlined
-} from "@ant-design/icons";
+import {LoadingOutlined,PlusOutlined,QuestionCircleOutlined} from "@ant-design/icons";
 import firebase from "firebase";
+import Navber from "../../components/navbar/navbar-Admin.js"
+
+
 class RegistrationForm extends Component {
   formRef = React.createRef();
   constructor(props) {
@@ -63,40 +62,37 @@ class RegistrationForm extends Component {
 
   async componentDidMount() {
     console.log(this.props);
-    let checkHistory = this.props.location ? 'pass' : null
-    if(checkHistory === 'pass'){
-      if (this.props.location.state !== undefined) {
-        if (this.props.location.state.mode === "edit") {
-          let obj = await this.props.location.state.obj;
-          this.formRef.current.setFieldsValue({
-            mode: "edit",
-            UserID: obj.UserID,
-            imageUrl: obj.imageUrl,
-            Username: obj.Username,
-            Email: obj.Email,
-            Password: obj.Password,
-            CFPassword: obj.CFPassword,
-            Firstname: obj.Firstname,
-            Lastname: obj.Lastname,
-            Phone: obj.Phone,
-            Address: obj.Address,
-            UserType: obj.UserType
-          });
-          this.setState({
-            mode: "edit",
-            UserID: obj.UserID,
-            imageUrl: obj.imageUrl,
-            Username: obj.Username,
-            Email: obj.Email,
-            Password: obj.Password,
-            CFPassword: obj.CFPassword,
-            Firstname: obj.Firstname,
-            Lastname: obj.Lastname,
-            Phone: obj.Phone,
-            Address: obj.Address,
-            UserType: obj.UserType
-          });
-        }
+    if (this.props.location.state !== undefined) {
+      if (this.props.location.state.mode === "edit") {
+        let obj = await this.props.location.state.obj;
+        this.formRef.current.setFieldsValue({
+          mode: "edit",
+          UserID: obj.UserID,
+          imageUrl: obj.imageUrl,
+          Username: obj.Username,
+          Email: obj.Email,
+          Password: obj.Password,
+          CFPassword: obj.CFPassword,
+          Firstname: obj.Firstname,
+          Lastname: obj.Lastname,
+          Phone: obj.Phone,
+          Address: obj.Address,
+          UserType: obj.UserType
+        });
+        this.setState({
+          mode: "edit",
+          UserID: obj.UserID,
+          imageUrl: obj.imageUrl,
+          Username: obj.Username,
+          Email: obj.Email,
+          Password: obj.Password,
+          CFPassword: obj.CFPassword,
+          Firstname: obj.Firstname,
+          Lastname: obj.Lastname,
+          Phone: obj.Phone,
+          Address: obj.Address,
+          UserType: obj.UserType
+        });
       }
     }
   }
@@ -230,6 +226,12 @@ class RegistrationForm extends Component {
         id="Add-Update-User"
         style={{ marginTop: "3rem", marginLeft: "1rem" }}
       >
+
+<Navber/>
+        <div className="container" style={{marginBottom:"5rem"}}> <h3>Create User</h3>
+        <hr/></div>
+       
+
         <Form
           {...formItemLayout}
           form={this.form}
