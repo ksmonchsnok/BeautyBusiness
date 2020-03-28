@@ -101,7 +101,7 @@ class RegistrationForm extends Component {
     }
   }
   onClickCancel = () => {
-    this.props.history.push("/AdminPage");
+    window.history.back()
   };
   onGotoSave() {
     console.log(this.state)
