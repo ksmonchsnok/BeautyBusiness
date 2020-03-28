@@ -14,6 +14,7 @@ import Nearby from "../pages/nearby/nearby.js";
 import Register from "../pages/register/register.js";
 import Contact from "../pages/contact/contact.js";
 import RegisStore from "../pages/regisStore/regisStore.js";
+import ResetPassword from "../pages/login/reset-password/reset-password.js"
 
 // Admin
 import Admin from "../pages/admin/loginForAdmin.js";
@@ -66,8 +67,8 @@ export default () => (
       <Route exact path="/Nearby" component={Nearby} />
       <Route exact path="/Contact" component={Contact} />
       <Route exact path="/Regis-Store" component={RegisStore} />
-
-
+      <Route exact path="/Reset-Password" component={ResetPassword} />
+      
       {/* <PrivateRoute exact path="/admin" component={Admin} /> */}
 
       {/* Admin */}

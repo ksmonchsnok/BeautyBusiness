@@ -96,6 +96,13 @@ export default class LoginForm extends Component {
     window.open("/Register", "_self");
   };
 
+
+  onClickForgotPassword = ()=>{
+        // this.props.history.push("/Reset-Password");
+        window.open("/Reset-Password", "_self");
+
+  }
+
   render() {
     const { message, currentUser } = this.state;
     if (currentUser) {
@@ -224,7 +231,7 @@ export default class LoginForm extends Component {
                       Log in
                     </Button>
                     &emsp;or{" "}
-                    <a>
+                    <a onClick={this.onClickForgotPassword}>
                       &nbsp; <u>Forgot Password.</u>
                     </a>
                   </Form.Item>

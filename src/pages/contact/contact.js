@@ -11,7 +11,7 @@ export default class Contact extends Component {
         return (
             <div id="Contact">
                 <Navbar/>
-                <div className="container"><h2 className="text-center"><br/>Contact Us</h2>
+                <div className="container"><h2 className="text-center" style={{marginTop:"-2rem"}}><br/>Contact Us</h2>
                 <h6 className="text-center" >สนใจสินค้าและบริการ หรือ มีข้อสงสัย เราพร้อมให้คำปรึกษาโดยทีมงานมืออาชีพ</h6>
                 {/* <hr style={{marginBottom:"1rem"}}/> */}
                 <div className="row jumbotron" style={{background:"transparent"}}>

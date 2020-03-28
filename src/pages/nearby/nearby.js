@@ -307,10 +307,12 @@ class Nearby extends Component {
 
           <div className="row justify-content-start">
             <div className="container"> <div className="col-xs-12 col-sm-4 col-md-2"> 
-                                        <button type="button" onClick={this.onclickBack} className="btn btn-dark btn-block">ย้อนกลับ</button>
-                            </div></div>
-                                       
-                            </div>
+                  <button type="button" onClick={this.onclickBack} 
+                  className="btn btn-dark btn-block" style={{marginBottom:"6em"}}>ย้อนกลับ</button>
+                  
+                     </div>
+                 </div>           
+             </div>
         </div>
       </div>
     );

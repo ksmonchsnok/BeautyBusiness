@@ -40,7 +40,7 @@ export default class Login extends Component {
   render() {
     const showPopupLogin = this.state.showPopupLogin;
     return (
-      <div id="Login" style={{ marginBottom: "-8rem" }}>
+      <div id="Login" style={{ marginBottom: "-9rem" }}>
         <div className="nav justify-content-end">
 
             <form className="form-inline my-2 my-lg-0">
