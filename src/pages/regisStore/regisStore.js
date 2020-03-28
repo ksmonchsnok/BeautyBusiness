@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import "antd/dist/antd.css";
 import "../../style.css";
-import {Form,Input,Tooltip, Button,Upload,message,Radio,Checkbox,Row,Col} from "antd";
-import {LoadingOutlined,PlusOutlined,QuestionCircleOutlined} from "@ant-design/icons";
+import {Form,Input, Button,Upload,message,Radio,Checkbox} from "antd";
+import {LoadingOutlined,PlusOutlined} from "@ant-design/icons";
 import firebase from "firebase";
 import Navber from "../../components/navbar/navbar.js"
 
@@ -73,11 +73,9 @@ class RegistrationForm extends Component {
   async componentDidMount() {
     let checkHistory = this.props.location ? 'pass' : null
    if(checkHistory === 'pass'){
-    if (this.props.location.state.mode === "edit") {
       let obj = await this.props.location.state.obj;
       console.log(this.formRef);
       this.formRef.current.setFieldsValue({
-        mode: "edit",
         ItemID: obj.ItemID,
         imageUrl: obj.imageUrl,
         BusinessName: obj.Name,
@@ -92,7 +90,6 @@ class RegistrationForm extends Component {
         ServiceType: obj.Type
       });
       this.setState({
-        mode: "edit",
         ItemID: obj.ItemID,
         imageUrl: obj.imageUrl,
         BusinessName: obj.Name,
@@ -108,7 +105,7 @@ class RegistrationForm extends Component {
       });
     }
    }
-  }
+
   onChangeCheckBox(checkedValues) {
     this.setState({ ServiceType: checkedValues });
   }
@@ -123,6 +120,7 @@ class RegistrationForm extends Component {
   onClickCancel = () => {
     window.history.back()
   };
+  
   onGotoSave() {
     setTimeout(() => {
       let tempId = [];

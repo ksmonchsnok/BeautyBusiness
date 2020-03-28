@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "../../style.css";
+import { NavLink } from "react-router-dom";
 
 export default class Footer extends Component {
   render() {
@@ -29,6 +30,7 @@ export default class Footer extends Component {
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       </div>

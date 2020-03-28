@@ -62,7 +62,7 @@ export default class ResetPassword extends Component {
                     scrollToFirstError
                     >
 
-                    <Form.Item
+                    {/* <Form.Item
                         name="oldPasssword"
                         label="Old Passsword"
                         rules={[
@@ -74,15 +74,15 @@ export default class ResetPassword extends Component {
                         hasFeedback
                     >
                         <Input.Password />
-                    </Form.Item>
+                    </Form.Item> */}
 
                     <Form.Item
                         name="password"
-                        label="Password"
+                        label="New Password"
                         rules={[
                         {
                             required: true,
-                            message: <small>Please input your assword!</small>,
+                            message: <small>Please input your password!</small>,
                         },
                         ]}
                         hasFeedback

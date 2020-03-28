@@ -19,7 +19,6 @@ import ResetPassword from "../pages/login/reset-password/reset-password.js"
 // Admin
 import Admin from "../pages/admin/loginForAdmin.js";
 import AdminPage from "../pages/admin/admin.js";
-
 import LoginForAdmin from "../pages/admin/loginForAdmin.js";
 import ManageUser from "../pages/admin/addUser.js";
 import managePromotionAndDiscount from "../pages/admin/managePromotion.js";
@@ -61,7 +60,6 @@ export default () => (
       <Route exact path="/" component={Home} />
       <Route exact path="/Home" component={Home} />
       <Route exact path="/Register" component={Register} />
-
       <Route exact path="/AllStores" component={AllStores} />
       <Route exact path="/StoreDetail" component={StoreDetail} />
       <Route exact path="/Nearby" component={Nearby} />
@@ -74,19 +72,12 @@ export default () => (
       {/* Admin */}
       <Route exact path="/Admin" component={Admin} />
       <Route exact path="/AdminPage" component={AdminPage} />
-
       <Route exact path="/ManageUser" component={ManageUser} />
       <Route exact path="/AddUser" component={AddUser} />
       <Route exact path="/AddStore" component={AddStore} />
-
-      <Route
-        exact
-        path="/managePromotionAndDiscount"
-        component={managePromotionAndDiscount}
-      />
+      <Route exact path="/managePromotionAndDiscount" component={managePromotionAndDiscount}/>
       <Route exact path="/ReportForAdmin" component={ReportForAdmin} />
       <Route exact path="/UserList" component={UserList} />
-
       <Route exact path="/StoreList" component={StoreList} />
 
       {/* User */}
