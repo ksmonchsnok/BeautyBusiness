@@ -91,6 +91,7 @@ export default class LoginForm extends Component {
     });
  
   };
+  
   onClickRegister = () => {
     // this.props.history.push("/Register");
     window.open("/Register", "_self");
