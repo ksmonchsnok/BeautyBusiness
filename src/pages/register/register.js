@@ -8,7 +8,7 @@ import {
   QuestionCircleOutlined
 } from "@ant-design/icons";
 import firebase from "firebase";
-import Navbar from "../../components/navbar/navbar-Regis.js";
+import Navbar from "../../components/navbar/navbars.js";
 import swal from 'sweetalert';
 
 class RegistrationForm extends Component {
@@ -65,40 +65,35 @@ class RegistrationForm extends Component {
   };
 
   async componentDidMount() {
-    console.log(this.props);
-    if (this.props.location.state !== undefined) {
-      if (this.props.location.state.mode === "edit") {
-        let obj = await this.props.location.state.obj;
-        this.formRef.current.setFieldsValue({
-          mode: "edit",
-          UserID: obj.UserID,
-          imageUrl: obj.imageUrl,
-          Username: obj.Username,
-          Email: obj.Email,
-          Password: obj.Password,
-          CFPassword: obj.CFPassword,
-          Firstname: obj.Firstname,
-          Lastname: obj.Lastname,
-          Phone: obj.Phone,
-          Address: obj.Address,
-          UserType: obj.UserType
-        });
-        this.setState({
-          mode: "edit",
-          UserID: obj.UserID,
-          imageUrl: obj.imageUrl,
-          Username: obj.Username,
-          Email: obj.Email,
-          Password: obj.Password,
-          CFPassword: obj.CFPassword,
-          Firstname: obj.Firstname,
-          Lastname: obj.Lastname,
-          Phone: obj.Phone,
-          Address: obj.Address,
-          UserType: obj.UserType
-        });
-      }
+    console.log(this.props)
+    let temp = await  JSON.parse(localStorage.getItem('ObjUser'))
+    if(temp){
+      this.setState({
+        imageUrl: temp.imageUrl,
+        Username: temp.Username,
+        Email: temp.Email,
+        Password: temp.Password,
+        CFPassword: temp.CFPassword,
+        Firstname: temp.Firstname,
+        Lastname: temp.Lastname,
+        Phone: temp.Phone,
+        Address: temp.Address,
+        UserType: temp.UserType
+      })
+      this.formRef.current.setFieldsValue({
+        imageUrl: temp.imageUrl,
+        Username: temp.Username,
+        Email: temp.Email,
+        Password: temp.Password,
+        CFPassword: temp.CFPassword,
+        Firstname: temp.Firstname,
+        Lastname: temp.Lastname,
+        Phone: temp.Phone,
+        Address: temp.Address,
+        UserType: temp.UserType
+      });
     }
+   
   }
   onClickCancel = () => {
     window.history.back()
@@ -111,51 +106,111 @@ class RegistrationForm extends Component {
   }
 
   onGotoSave() {
-    console.log(this.state)
     let email = this.state.Email
     let password = this.state.Password
-    firebase.auth().createUserWithEmailAndPassword(email, password).then(res=>{
-      console.log(res)
-         setTimeout(() => {
-          const setItemInsert = firebase.database().ref(`MumberUser/${res.user.uid}`);
-          let newState = {
-            imageUrl: this.state.imageUrl,
-            Username: this.state.Username,
-            Email: this.state.Email,
-            Password: this.state.Password,
-            CFPassword: this.state.CFPassword,
-            Firstname: this.state.Firstname,
-            Lastname: this.state.Lastname,
-            Phone: this.state.Phone,
-            Address: this.state.Address,
-            UserType: this.state.UserType
-          };
-          setItemInsert.set(newState);
-      swal({
-        title: "Already Registered",
-        text: "ํYou want Continue or not?",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-      })
-      .then((willDelete) => {
-        if (willDelete) {
-          swal("Poof! Your imaginary file has been deleted!", {
-            icon: "success",
-          });
-          this.onClickCancel();
-        } else {
-          swal("Your imaginary file is safe!");
-        }
+      let checkProps =  this.props.location? this.props.location.state?'pass' :null :null
+    if(checkProps ==='pass' && this.props.location.state.mode === "EditUser"){
+      var user = firebase.auth().currentUser
+          user.updatePassword(password).then(() => {
+            console.log("Password updated!");
+          }).catch((error) => { console.log(error); });
+          setTimeout(() => {
+            const setItemInsert = firebase.database().ref(`MumberUser`);
+            let newState = {
+              imageUrl: this.state.imageUrl,
+              Username: this.state.Username,
+              Email: this.state.Email,
+              Password: this.state.Password,
+              CFPassword: this.state.CFPassword,
+              Firstname: this.state.Firstname,
+              Lastname: this.state.Lastname,
+              Phone: this.state.Phone,
+              Address: this.state.Address,
+              UserType: this.state.UserType
+            };
+            setItemInsert.child(user.uid).update(newState)
+            localStorage.setItem('ObjUser',JSON.stringify(this.state));
+            let temp =  JSON.parse(localStorage.getItem('ObjUser'))
+            if(temp.Password !== this.state.Password){
+              firebase.auth().signOut().then(function() {
+                // Sign-out successful.
+                localStorage.removeItem('ObjUser')
+              }).catch(function(error) {
+                // An error happened.
+              });
+            }
+        swal({
+          title: "Update Registered",
+          text: "ํYou want Continue or not?",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {
+            swal("Up date Success", {
+              icon: "success",
+            });
+            this.onClickCancel();
+          } else {
+            swal("Your imaginary file is safe!");
+          }
+        });
+       
+      }, 100);
+
+
+
+    }else{
+      firebase.auth().createUserWithEmailAndPassword(email, password).then(res=>{
+           setTimeout(() => {
+            const setItemInsert = firebase.database().ref(`MumberUser/${res.user.uid}`);
+            let newState = {
+              imageUrl: this.state.imageUrl,
+              Username: this.state.Username,
+              Email: this.state.Email,
+              Password: this.state.Password,
+              CFPassword: this.state.CFPassword,
+              Firstname: this.state.Firstname,
+              Lastname: this.state.Lastname,
+              Phone: this.state.Phone,
+              Address: this.state.Address,
+              UserType: this.state.UserType
+            };
+            setItemInsert.set(newState);
+        swal({
+          title: "Already Registered",
+          text: "ํYou want Continue or not?",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {
+            swal("Create User And Password Success", {
+              icon: "success",
+            });
+            this.onClickCancel();
+          } else {
+            swal("Your imaginary file is safe!");
+          }
+        });
+       
+      }, 100);
+        // this.onClickCancel();
+      }).catch(function(error) {
+        swal("ผิดพลาด!", "มีผู้ใช้งานอยู่ในระบบแล้ว", "error");
+        // ...
       });
-     
-    }, 100);
-      // this.onClickCancel();
-    }).catch(function(error) {
-      swal("ผิดพลาด!", "มีผู้ใช้งานอยู่ในระบบแล้ว", "error");
-      // ...
-    });
+    }
+   
      }
+
+     onChangeCheckRadio = e => {
+      this.setState({ UserType: e.target.value });
+    };
+
+
   render() {
     const uploadButton = (
       <div>
@@ -198,13 +253,13 @@ class RegistrationForm extends Component {
       }
     };
 
-    const RegistrationForm = () => {
-      const [form] = Form.useForm();
+    // const RegistrationForm = () => {
+    //   const [form] = Form.useForm();
 
-      const onFinish = values => {
-        console.log("Received values of form: ", values);
-      };
-    };
+    //   const onFinish = values => {
+    //     console.log("Received values of form: ", values);
+    //   };
+    // };
     const { TextArea } = Input;
     return (
       <div

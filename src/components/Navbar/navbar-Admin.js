@@ -5,7 +5,9 @@ import users from "../../assets/icon/users.png";
 import setting from "../../assets/icon/setting.png";
 import edit from "../../assets/icon/edit.png";
 import logout from "../../assets/icon/logout.png";
-
+import "firebase/auth";
+import swal from 'sweetalert';
+import firebase from "firebase/app";
 import PopupLogin from "../../components/popup/popupLogin.js";
 import Logo from "../../assets/logo/logo.png"
 import { withRouter } from "react-router-dom";
@@ -14,27 +16,91 @@ class navbar extends Component {
   constructor() {
     super();
     this.state = {
-      showPopupLogin: false
+      tempLocal: {},
+      showPopupLogin: false,
+      setimgShow:'',
+      setFullName:'',
+      showlogInAndSignIn:false
     };
   }
+
+  componentDidMount(){
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.setState({
+          currentUser: user
+        })
+      }
+      setTimeout(() => {
+          this.setUserLogin()
+      }, 1000);
+    })
+   }
+  
+   async setUserLogin(){
+    setTimeout(() => {
+      let checkSigninAndOut = JSON.parse(localStorage.getItem('ObjUser'))
+      if(checkSigninAndOut){
+        this.setState({
+          setimgShow:checkSigninAndOut.imageUrl,
+          setFullName:checkSigninAndOut.Firstname+'-'+checkSigninAndOut.Lastname,
+         showlogInAndSignIn : true
+        })
+      }else{
+        this.setState({
+          showlogInAndSignIn : false
+         })
+      }
+    }, 500);
+   }
+  
 
   showPopupLogin = () => {
     this.setState({
       showPopupLogin: !this.state.showPopupLogin
     });
   };
-
   onClickHome = () => {
-    //    window.open("/","_self");
-    //    this.props.history.location("/")
-    //    this.props.history.push("/" + window.location.hash);
+    this.props.history.push("/");
   };
 
   onClickEditProfile =(event) =>{
     event.preventDefault()
-    this.props.history.push("/Register");
+    this.props.history.push({
+      pathname: "/Register",
+      state: { mode:'EditUser' }
+    });
 
   }
+
+  OnLogout =() =>{
+
+    swal({
+      title: "Log out",
+      text: "ํYou want Continue or not?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        swal("Log out Success", {
+          icon: "success",
+        });
+          firebase.auth().signOut().then(function() {
+            // Sign-out successful.
+            localStorage.removeItem('ObjUser')
+            window.location.reload()
+          }).catch(function(error) {
+            // An error happened.
+          });
+      } else {
+        swal("Your imaginary file is safe!");
+      }
+    });
+
+  }
+
 
   render() {
     const showPopupLogin = this.state.showPopupLogin;
@@ -94,7 +160,9 @@ class navbar extends Component {
                     แก้ไขข้อมูลผู้ใช้
                   </a>
                   <div className="dropdown-divider" />
-                  <a className="dropdown-item" href>
+                  <a className="dropdown-item" href                     
+                   onClick={this.OnLogout} 
+>
                     <img
                       src={logout}
                       alt="user"

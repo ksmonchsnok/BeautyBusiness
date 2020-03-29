@@ -8,11 +8,11 @@ import Navbar from "../../../components/navbar/navbar.js"
 export default class ResetPassword extends Component {
 
      RegistrationForm = () => {
-        const [form] = Form.useForm();
+        // const [form] = Form.useForm();
       
-        const onFinish = values => {
-        //   console.log('Received values of form: ', values);
-        };
+        // const onFinish = values => {
+        // //   console.log('Received values of form: ', values);
+        // };
     }                    
 
 

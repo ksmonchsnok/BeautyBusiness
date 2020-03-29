@@ -3,21 +3,26 @@ import 'antd/dist/antd.css';
 import '../../../style.css';
 import {Form,Input,Button,} from 'antd';
 import Navbar from "../../../components/navbar/navbar.js"
-
+import firebase from "firebase";
+import "firebase/auth";
+import swal from 'sweetalert';
 
 export default class ForgotPassword extends Component {
-
+  state ={
+    Email:''
+  }
      RegistrationForm = () => {
-        const [form] = Form.useForm();
+        // const [form] = Form.useForm();
       
-        const onFinish = values => {
-        //   console.log('Received values of form: ', values);
-        };
-    }                    
-
-
+        // const onFinish = values => {
+        // //   console.log('Received values of form: ', values);
+        // };
+    }           
     onClickForgotPassword = ()=>{
-
+      firebase.resetPassword(`${this.state.Email}`).then((res) => {
+              swal("Success Check your email");
+            
+            }) 
     }
 
 
@@ -75,7 +80,7 @@ export default class ForgotPassword extends Component {
                               >
 
                               <Form.Item
-                              name="email"
+                              name="Email"
                               label="Your Email"
                               rules={[
                               {
@@ -84,7 +89,12 @@ export default class ForgotPassword extends Component {
                               },
                               ]}
                               >
-                              <Input allowClear />
+                              <Input  type="textbox"
+                                      name="Email"
+                                      id="Email"
+                                      value={this.state.Email}
+                                      onChange={e => this.setState({ Email: e.target.value })}
+                                      allowClear />
                               </Form.Item> 
 
                               <Form.Item {...tailFormItemLayout}>

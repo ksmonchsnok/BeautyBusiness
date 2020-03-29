@@ -37,7 +37,7 @@ import User from "../pages/user/user.js";
 import Manager from "../pages/manager/manager.js";
 import managePromotion from "../pages/manager/managePromotion.js";
 import Report from "../pages/manager/report.js";
-import Footer from "../components/footer/footer.js";
+// import Footer from "../components/footer/footer.js";
 
 export const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route

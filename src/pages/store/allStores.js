@@ -98,16 +98,17 @@ class AllStore extends Component {
             return this.checkType(value.Type, checkbox);
           })
           .map(({ key, value }) => {
-            if (this.state.rating == 0) {
+            if (this.state.rating === 0) {
               return (
                 <div className="col-lg-4 col-md-6">
-                  <div key={value.ID}>
-                    <a href="" onClick={() => this.onClickViewDetail(value)}>
+                  <div key={value.ItemID}>
+                    <a href onClick={() => this.onClickViewDetail(value)}>
                       <img
                         className="card-img-top img-fluid rounded mx-auto d-block"
-                        src={value.Image}
+                        src={value.imageUrl}
                         alt="image"
                         style={{ width: "300px", height: "250px" }}
+                        aria-hidden="true"
                       />
                       <div className="card-body text-left mb-auto">
                         <h6 className="styleFont">
@@ -141,14 +142,15 @@ class AllStore extends Component {
             }
             if (value.Star >= this.state.rating) {
               return (
-                <div className=" col-lg-4 col-md-6">
-                  <div key={value.ID}>
-                    <a href="" onClick={() => this.onClickViewDetail(value)}>
+                <div className="col-lg-4 col-md-6">
+                  <div key={value.ItemID}>
+                    <a href onClick={() => this.onClickViewDetail(value)}>
                       <img
                         className="card-img-top img-fluid rounded mx-auto d-block"
-                        src={value.Image}
+                        src={value.imageUrl}
                         alt="image"
                         style={{ width: "300px", height: "250px" }}
+                        aria-hidden="true"
                       />
                       <div className="card-body text-left mb-auto">
                         <h6 className="styleFont">
@@ -245,12 +247,11 @@ class AllStore extends Component {
           </div>
           <div className="justify-content-start">
             <div className="container">         
-<div className="col-xs-12 col-sm-4 col-md-2">  
-                                        <button type="button" onClick={this.onclickBack} className="btn btn-dark btn-block">ย้อนกลับ</button>
-                            </div></div>
-                                       
-                            </div>
-
+                <div className="col-xs-12 col-sm-4 col-md-2">  
+                        <button type="button" onClick={this.onclickBack} className="btn btn-dark btn-block">ย้อนกลับ</button>
+                </div>
+              </div>
+            </div>
         </div>
       </div>
     );

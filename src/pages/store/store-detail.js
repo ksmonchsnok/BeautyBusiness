@@ -16,8 +16,10 @@ class StoreDetail extends Component {
   };
 
   Data = () => {
-    let Store = this.state.Store;
+    // let Store = this.state.Store;
     this.setState({ Store: this.props.history.location.state });
+    // console.log(Store);
+    
   };
 
   onClickBack = () => {
@@ -25,7 +27,7 @@ class StoreDetail extends Component {
   };
   render() {
     const item = this.state.Store.map(value => (
-      <div key={value.ID}>
+      <div key={value.ItemID}>
         <h1
           className="text-center"
           style={{ paddingBottom: 2 + "rem", paddingTop: 3 + "rem" }}
@@ -35,8 +37,9 @@ class StoreDetail extends Component {
 
         <img
           className="card-img-top img-fluid rounded mx-auto d-block"
-          src={value.Image}
+          src={value.imageUrl}          
           alt="image"
+          aria-hidden="true"
         />
         <h3
           className="text-center"

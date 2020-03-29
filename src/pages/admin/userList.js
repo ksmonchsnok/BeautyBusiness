@@ -21,7 +21,7 @@ class userList extends Component {
   }
   onGetItemp() {
     setTimeout(() => {
-      let ref = firebase.database().ref("User");
+      let ref = firebase.database().ref("MumberUser");
       ref.once("value").then(snapshot => {
         const data = snapshot.val();
         if (typeof data === "object" && data !== null && data !== undefined) {
@@ -151,12 +151,12 @@ class userList extends Component {
 
 function mapStateToProps({ firebase }) {
   return {
-    User: firebase.ordered.User
+    MumberUser: firebase.ordered.MumberUser
   };
 }
 
 const enhance = compose(
-  firebaseConnect([{ path: "/User" }]),
+  firebaseConnect([{ path: "/MumberUser" }]),
   connect(mapStateToProps)
 );
 

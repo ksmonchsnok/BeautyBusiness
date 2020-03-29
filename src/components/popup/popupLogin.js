@@ -61,35 +61,38 @@ export default class LoginForm extends Component {
   onClickLogin = e => {
     e.preventDefault();
     const { email, password } = this.state
-    firebase.auth().signInWithEmailAndPassword(email, password).then(resp=>{
-      console.log(11,resp)
-      swal({
-        title: "Login Success",
-        text: "ํYou want Continue or not?",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-      })
-      .then((willDelete) => {
-        if (willDelete) {
-          firebase.database().ref(`MumberUser/${resp.user.uid}`).once('value').then(snapshot=>{
-            console.log(snapshot.val())
-            localStorage.setItem('ObjUser',JSON.stringify(snapshot.val()));
-                // localStorage.setItem('UserID', snapshot.val().UserID);
-            // localStorage.setItem('Firstname', snapshot.val().Firstname);
-            // localStorage.setItem('Lastname', snapshot.val().Lastname);
-            // localStorage.setItem('Email', snapshot.val().Email);
-          })
-          this.setState({checklogIn : true})
-        } else {
-          swal("Your imaginary file is safe!");
-          this.setState({checklogIn : false})
-        }
+    setTimeout(() => {
+      firebase.auth().signInWithEmailAndPassword(email, password).then(resp=>{
+        swal({
+          title: "Login Success",
+          text: "ํYou want Continue or not?",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {
+            const setPassword = firebase.database().ref(`MumberUser`);
+            setPassword.child(resp.user.uid).update({Password:this.state.password,CFPassword:this.state.password}).then(res=>{
+              firebase.database().ref(`MumberUser/${resp.user.uid}`).once('value').then(snapshot=>{
+                localStorage.setItem('ObjUser',JSON.stringify(snapshot.val()));
+              })
+            })
+            this.props.history.history.push({
+              pathname:'/',
+              state:{ChekShowInOut:true}
+            })
+            this.setState({checklogIn : true})
+          } else {
+            swal("Your imaginary file is safe!");
+            this.setState({checklogIn : false})
+          }
+        });
+      }).catch(function(error) {
+        swal("ผิดพลาด!", "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง", "error");
+        
       });
-    }).catch(function(error) {
-      swal("ผิดพลาด!", "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง", "error");
-      
-    });
+    }, 500);
  
   };
   

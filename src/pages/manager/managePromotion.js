@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "antd/dist/antd.css";
 import "../../style.css";
-import { Form, Input, Tooltip, Button, Upload, message } from "antd";
+// import { Form, Input, Tooltip, Button, Upload, message } from "antd";
 
 export default class ManagePromotion extends Component {
   constructor(props) {

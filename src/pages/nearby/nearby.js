@@ -39,8 +39,8 @@ class Nearby extends Component {
           Name: location.Name,
           Lat: location.Lat,
           Lng: location.Lng,
-          ID: location.ID,
-          Image: location.Image,
+          ID: location.ItemID,
+          imageUrl: location.imageUrl,
           Star: location.Star,
           Ref: location.Ref,
           Address: location.Address,
@@ -162,8 +162,8 @@ class Nearby extends Component {
           Name: el.Name,
           Lat: el.Lat,
           Lng: el.Lng,
-          ID: el.ID,
-          Image: el.Image,
+          ID: el.ItemID,
+          imageUrl: el.imageUrl,
           Star: el.Star,
           Ref: el.Ref,
           Address: el.Address,
@@ -183,7 +183,6 @@ class Nearby extends Component {
       maxHeight: "100%",
       paddingTop: "20rem ",
       paddingBottom: "10rem ",
-      // marginLeft:"2rem",
       marginRight: "3rem",
       border: "solid 1px Gainsboro",
       borderRadius: "8px",
@@ -194,12 +193,14 @@ class Nearby extends Component {
 
     const item = this.state.data.map(value => (
       <div className="col-lg-3 col-md-6">
-        <div key={value.ID}>
-          <a href="" onClick={() => this.onClickViewDetail(value)}>
+        <div key={value.ItemID}>
+          <a href onClick={() => this.onClickViewDetail(value)}>
             <img
               className="card-img-top img-fluid rounded mx-auto d-block"
-              src={value.Image}
+              src={value.imageUrl}          
               alt="image"
+              aria-hidden="true"
+    
             />
             <div className="card-body text-left mb-auto">
               <h6 className="styleFont">

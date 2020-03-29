@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import "../../style.css";
-import { NavLink } from "react-router-dom";
 import firebase from "firebase";
 import { connect } from "react-redux";
 import { compose } from "redux";
@@ -34,18 +33,20 @@ class Recommened extends Component {
     let rootRef = firebase.database().ref("Store");
     let Ref = rootRef
       .orderByChild("Recommend")
-      .equalTo(true)
+      .equalTo("true")
       .on("child_added", snapshot => {
         Store.push(snapshot.val());
       });
+      
+      
 
     const item = Store.map(value => (
       <div className="col-lg-3 col-md-6">
-        <div key={value.ID}>
+        <div key={value.ItemID}>
           <a href onClick={() => this.onClickViewDetail(value)}>
             <img
               className="card-img-top img-fluid rounded mx-auto d-block"
-              src={value.Image}
+              src={value.imageUrl}
               alt="imageStore"
               style={{ width: "100%;", height: "200px" }}
             />

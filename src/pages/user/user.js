@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Navbar from "../../components/navbar/navbar-User.js";
+import Navbar from "../../components/navbar/navbars.js";
 import UpdateUser from "../admin/addUser.js";
 
 export default class User extends Component {

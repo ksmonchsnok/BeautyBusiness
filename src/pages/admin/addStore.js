@@ -124,82 +124,82 @@ class RegistrationForm extends Component {
   };
 
   onClickSave() {
-    if(this.state === null){
+    if(this.state !== null){
 
-    console.log(this.state === null);
+    console.log(this.state !== null);
     
     setTimeout(() => {
         
       
       swal("เรียบร้อย", "สมัครสมาชิกเรียบร้อย", "success");
-      // let tempId = [];
-      // const itemsRef = firebase.database().ref("Store");
-      // itemsRef.once("value").then(snapshot => {
-      //   const temp = snapshot.val();
-      //   let newID = [];
-      //   console.log(temp);
-      //   for (let item in temp) {
-      //     newID.push({
-      //       item_id: item
-      //     });
-      //   }
-      //   tempId = newID[newID.length - 1];
-      //   if (this.state.mode === "edit") {
-      //     const setItemInsert = firebase.database().ref(`Store`);
-      //     let newState = {
-      //       imageUrl: this.state.imageUrl,
-      //       Name: this.state.BusinessName,
-      //       Open: this.state.OpenShop,
-      //       Phone: this.state.PhoneNumbe,
-      //       Address: this.state.Address,
-      //       StoreType: this.state.BusinessType,
-      //       Recommend: this.state.Recommend,
-      //       Lat: this.state.Lat,
-      //       Lng: this.state.Lng,
-      //       Ref: this.state.Ref,
-      //       Type: this.state.ServiceType
-      //     };
-      //     setItemInsert.child(this.state.ItemID).update(newState);
-      //   } else {
-      //     if (tempId !== [] && tempId !== undefined) {
-      //       const setItemInsert = firebase
-      //         .database()
-      //         .ref(`Store/${tempId.item_id * 1 + 1}`);
-      //       let newState = {
-      //         ItemID: tempId.item_id * 1 + 1,
-      //         imageUrl: this.state.imageUrl,
-      //         Name: this.state.BusinessName,
-      //         Open: this.state.OpenShop,
-      //         Phone: this.state.PhoneNumbe,
-      //         Address: this.state.Address,
-      //         StoreType: this.state.BusinessType,
-      //         Recommend: this.state.Recommend,
-      //         Lat: this.state.Lat,
-      //         Lng: this.state.Lng,
-      //         Ref: this.state.Ref,
-      //         Type: this.state.ServiceType
-      //       };
-      //       setItemInsert.set(newState);
-      //     } else {
-      //       const setItemInsert = firebase.database().ref(`Store/1`);
-      //       let newState = {
-      //         ItemID: 1,
-      //         imageUrl: this.state.imageUrl,
-      //         Name: this.state.BusinessName,
-      //         Open: this.state.OpenShop,
-      //         Phone: this.state.PhoneNumbe,
-      //         Address: this.state.Address,
-      //         StoreType: this.state.BusinessType,
-      //         Recommend: this.state.Recommend,
-      //         Lat: this.state.Lat,
-      //         Lng: this.state.Lng,
-      //         Ref: this.state.Ref,
-      //         Type: this.state.ServiceType
-      //       };
-      //       setItemInsert.set(newState);
-      //     }
-      //   }
-      // });
+      let tempId = [];
+      const itemsRef = firebase.database().ref("Store");
+      itemsRef.once("value").then(snapshot => {
+        const temp = snapshot.val();
+        let newID = [];
+        console.log(temp);
+        for (let item in temp) {
+          newID.push({
+            item_id: item
+          });
+        }
+        tempId = newID[newID.length - 1];
+        if (this.state.mode === "edit") {
+          const setItemInsert = firebase.database().ref(`Store`);
+          let newState = {
+            imageUrl: this.state.imageUrl,
+            Name: this.state.BusinessName,
+            Open: this.state.OpenShop,
+            Phone: this.state.PhoneNumbe,
+            Address: this.state.Address,
+            StoreType: this.state.BusinessType,
+            Recommend: this.state.Recommend,
+            Lat: this.state.Lat,
+            Lng: this.state.Lng,
+            Ref: this.state.Ref,
+            Type: this.state.ServiceType
+          };
+          setItemInsert.child(this.state.ItemID).update(newState);
+        } else {
+          if (tempId !== [] && tempId !== undefined) {
+            const setItemInsert = firebase
+              .database()
+              .ref(`Store/${tempId.item_id * 1 + 1}`);
+            let newState = {
+              ItemID: tempId.item_id * 1 + 1,
+              imageUrl: this.state.imageUrl,
+              Name: this.state.BusinessName,
+              Open: this.state.OpenShop,
+              Phone: this.state.PhoneNumbe,
+              Address: this.state.Address,
+              StoreType: this.state.BusinessType,
+              Recommend: this.state.Recommend,
+              Lat: this.state.Lat,
+              Lng: this.state.Lng,
+              Ref: this.state.Ref,
+              Type: this.state.ServiceType
+            };
+            setItemInsert.set(newState);
+          } else {
+            const setItemInsert = firebase.database().ref(`Store/1`);
+            let newState = {
+              ItemID: 1,
+              imageUrl: this.state.imageUrl,
+              Name: this.state.BusinessName,
+              Open: this.state.OpenShop,
+              Phone: this.state.PhoneNumbe,
+              Address: this.state.Address,
+              StoreType: this.state.BusinessType,
+              Recommend: this.state.Recommend,
+              Lat: this.state.Lat,
+              Lng: this.state.Lng,
+              Ref: this.state.Ref,
+              Type: this.state.ServiceType
+            };
+            setItemInsert.set(newState);
+          }
+        }
+      });
       this.onClickCancel();
     }, 1000);
   }else{
@@ -457,13 +457,9 @@ class RegistrationForm extends Component {
               },
               {
                 min: 30,
-                pattern: new RegExp("^[0-9-]*$"),
+                pattern: new RegExp("^[0-9 .]*$"),
                 message: <small>Number Only</small>
               },
-              {
-                whitespace: true,
-                message: <small>Can not is whitespace.</small>
-              }
             ]}
           >
             <Input
@@ -472,7 +468,7 @@ class RegistrationForm extends Component {
               id="Lat"
               value={this.state.Lat}
               onChange={e => this.setState({ PhoneNumbe: e.target.value })}
-              whitespace={true}
+              // whitespace={true}
               maxLength={35}
               allowClear
             />
@@ -487,13 +483,9 @@ class RegistrationForm extends Component {
               },
               {
                 min: 30,
-                pattern: new RegExp("^[0-9-]*$"),
+                pattern: new RegExp("^[0-9 .]*$"),
                 message: <small>Number Only</small>
               },
-              {
-                whitespace: true,
-                message: <small>Can not is whitespace.</small>
-              }
             ]}
           >
             <Input
@@ -502,7 +494,7 @@ class RegistrationForm extends Component {
               id="Lng"
               value={this.state.Lng}
               onChange={e => this.setState({ PhoneNumbe: e.target.value })}
-              whitespace={true}
+              // whitespace={true}
               maxLength={35}
               allowClear
             />

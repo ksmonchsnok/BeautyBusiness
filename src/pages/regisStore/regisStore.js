@@ -238,13 +238,13 @@ class RegistrationForm extends Component {
       }
     };
 
-    const RegistrationForm = () => {
-      const [form] = Form.useForm();
+    // const RegistrationForm = () => {
+    //   const [form] = Form.useForm();
 
-      const onFinish = values => {
-        console.log("Received values of form: ", values);
-      };
-    };
+    //   const onFinish = values => {
+    //     console.log("Received values of form: ", values);
+    //   };
+    // };
     const { TextArea } = Input;
 
     console.log(this.props);
