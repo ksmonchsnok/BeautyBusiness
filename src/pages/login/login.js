@@ -130,7 +130,7 @@ async setUserLogin(){
                      <div className="dropdown-item">
                        {" "}
                        <img
-                         src={this.state.setimgShow}
+                         src={users}
                          alt="user"
                          style={{ marginRight: "7px" }}
                        />

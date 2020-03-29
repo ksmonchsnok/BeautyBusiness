@@ -3,8 +3,8 @@ import "antd/dist/antd.css";
 import "../../style.css";
 import { Layout, Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-
-const { Header, Footer, Content } = Layout;
+import swal from 'sweetalert';
+const { Content } = Layout;
 
 class LoginForAdmin extends Component {
   constructor(props) {
@@ -37,8 +37,15 @@ class LoginForAdmin extends Component {
   };
 
   onClickLogin = () =>{
-    this.props.history.push("/AdminPage")
+
+  if(this.state.username === "Admin" && this.state.password === "Admin"){
+      this.props.history.push("/AdminPage")
   }
+    else{
+      swal("ผิดพลาด", "Username หรือ Passpord ไม่ถูกต้อง", "error");
+    }
+  }
+
   render() {
     const NormalLoginForm = () => {
       const onFinish = values => {
@@ -86,7 +93,6 @@ class LoginForAdmin extends Component {
                     id="username"
                     type="text"
                     name="username"
-                    //   defaultValue={username}
                     maxLength={15}
                     onChange={this.handleChange}
                     placeholder="E-mail"
@@ -110,7 +116,6 @@ class LoginForAdmin extends Component {
                     type="password"
                     id="password"
                     name="password"
-                    //   defaultValue={password}
                     onChange={this.handleChange}
                     minLength={5}
                     maxLength={10}
@@ -127,6 +132,7 @@ class LoginForAdmin extends Component {
                     className="login-form-button"
                     style={{ marginTop: "2rem", backgroundColor :"#343a40" ,color:"#fff"}}
                     onClick={this.onClickLogin}
+                    disabled={this.state.username.length ===0 && this.state.password.length ===0}
                   >
                     Log in
                   </Button>

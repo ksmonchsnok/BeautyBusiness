@@ -113,9 +113,9 @@ class navbar extends Component {
           </NavLink>
           <ul className="navbar-nav mr-auto">
             <li className="nav-item">
-              <NavLink exact to="/" className="nav-link">
+              {/* <NavLink exact to="/" className="nav-link">
                 หน้าหลัก
-              </NavLink>
+              </NavLink> */}
             </li>
           </ul>
           <form className="form-inline my-2 my-lg-0">
@@ -154,11 +154,11 @@ class navbar extends Component {
                     Name User
                   </div>
 
-                  <a className="dropdown-item" href onClick={this.onClickEditProfile} history= {this.props.history}>
+                  {/* <a className="dropdown-item" href onClick={this.onClickEditProfile} history= {this.props.history}>
                     {" "}
                     <img src={edit} alt="user" style={{ marginRight: "7px" }} />
                     แก้ไขข้อมูลผู้ใช้
-                  </a>
+                  </a> */}
                   <div className="dropdown-divider" />
                   <a className="dropdown-item" href                     
                    onClick={this.OnLogout} 
