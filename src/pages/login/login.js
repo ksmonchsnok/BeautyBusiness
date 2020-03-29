@@ -9,9 +9,10 @@ import logout from "../../assets/icon/logout.png";
 import users from "../../assets/icon/users.png";
 import store from "../../assets/icon/store.png";
 import "firebase/auth";
+import { withRouter } from "react-router-dom";
 
 
-export default class Login extends Component {
+class Login extends Component {
   constructor() {
     super();
     this.state = {
@@ -36,6 +37,12 @@ export default class Login extends Component {
       showPopupLogin: !this.state.showPopupLogin
     });
   };
+
+  onClickEditProfile =(event) =>{
+    event.preventDefault()
+    this.props.history.push("/Register");
+
+  }
 
   render() {
     const showPopupLogin = this.state.showPopupLogin;
@@ -78,7 +85,7 @@ export default class Login extends Component {
                       Name User
                     </div>
 
-                    <a className="dropdown-item" href>
+                    <a className="dropdown-item" href onClick={this.onClickEditProfile} history= {this.props.history}>
                       {" "}
                       <img
                         src={edit}
@@ -140,3 +147,4 @@ export default class Login extends Component {
     );
   }
 }
+export default withRouter (Login);

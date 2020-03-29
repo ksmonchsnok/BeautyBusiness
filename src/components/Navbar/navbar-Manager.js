@@ -9,9 +9,10 @@ import user from "../../assets/icon/user.png";
 
 import PopupLogin from "../../components/popup/popupLogin.js";
 import Logo from "../../assets/logo/logo.png"
+import { withRouter } from "react-router-dom";
 
 
-export default class navbar extends Component {
+ class navbar extends Component {
   constructor() {
     super();
     this.state = {
@@ -30,6 +31,12 @@ export default class navbar extends Component {
     //    this.props.history.location("/")
     //    this.props.history.push("/" + window.location.hash);
   };
+
+
+  onClickEditProfile =(event) =>{
+    event.preventDefault()
+    this.props.history.push("/Register");
+  }
   render() {
     const showPopupLogin = this.state.showPopupLogin;
 
@@ -83,7 +90,7 @@ export default class navbar extends Component {
                     Name User
                   </div>
 
-                  <a className="dropdown-item" href>
+                  <a className="dropdown-item" href onClick={this.onClickEditProfile} history= {this.props.history}>
                     {" "}
                     <img src={edit} alt="user" style={{ marginRight: "7px" }} />
                     แก้ไขข้อมูลผู้ใช้
@@ -125,3 +132,4 @@ export default class navbar extends Component {
     );
   }
 }
+export default withRouter (navbar);

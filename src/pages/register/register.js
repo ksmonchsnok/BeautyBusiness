@@ -103,6 +103,13 @@ class RegistrationForm extends Component {
   onClickCancel = () => {
     window.history.back()
   };
+
+  onClickResetPassword =(event) =>{
+    event.preventDefault()
+    this.props.history.push("/Reset-Password");
+
+  }
+
   onGotoSave() {
     console.log(this.state)
     let email = this.state.Email
@@ -335,6 +342,8 @@ class RegistrationForm extends Component {
                 maxLength={16}
                 allowClear
               />
+              <a href onClick={this.onClickResetPassword} history= {this.props.history}>
+                <small className="d-flex justify-content-end"><u>เปลี่ยนรหัสผ่าน</u></small></a>
             </Form.Item>
             <Form.Item
               name="CFPassword"

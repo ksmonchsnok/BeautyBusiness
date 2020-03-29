@@ -10,8 +10,9 @@ import store from "../../assets/icon/store.png";
 
 import PopupLogin from "../../components/popup/popupLogin.js";
 import Logo from "../../assets/logo/logo.png"
+import { withRouter } from "react-router-dom";
 
-export default class navbar extends Component {
+ class navbar extends Component {
   constructor() {
     super();
     this.state = {
@@ -28,6 +29,13 @@ export default class navbar extends Component {
   onClickHome = () => {
     this.props.history.push("/");
   };
+
+  onClickEditProfile =(event) =>{
+    event.preventDefault()
+    this.props.history.push("/Register");
+
+  }
+
   render() {
     const showPopupLogin = this.state.showPopupLogin;
 
@@ -36,6 +44,7 @@ export default class navbar extends Component {
         <nav
           className="fixed-top navbar navbar-dark  navbar-expand-lg"
           style={{ backgroundColor: "#343a40" }}
+          history= {this.props.history}
         >
           <NavLink exact to="/" className="navbar-brand">
            <img src={Logo} className="logoNav" alt="Logo" />
@@ -96,7 +105,7 @@ export default class navbar extends Component {
                       Name User
                     </div>
 
-                    <a className="dropdown-item" href>
+                    <a className="dropdown-item" href onClick={this.onClickEditProfile} history= {this.props.history}>
                       {" "}
                       <img
                         src={edit}
@@ -153,3 +162,5 @@ export default class navbar extends Component {
     );
   }
 }
+
+export default withRouter (navbar);
