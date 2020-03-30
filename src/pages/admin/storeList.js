@@ -84,9 +84,9 @@ class storeList extends Component {
 
     return (
       <div id="User-List">
-        <div className="container" style={{ marginTop: "3rem" }}>
+        <div style={{ marginTop: "3rem" }}>
           <h2>Business List</h2>{" "}
-          <div class="table-responsive-md">
+          <div class="table-responsive">
             <table class="table">
               <thead class="thead-dark">
                 <tr>
@@ -143,7 +143,7 @@ class storeList extends Component {
             </table>
           </div>
           <div
-            className="col d-flex justify-content-center"
+            className="row d-flex justify-content-center"
             style={{ marginBottom: "5rem", marginTop: "4rem" }}
           >
             <Button

@@ -42,7 +42,7 @@ export default class Admin extends Component {
         >
           <div className="row">
             <div
-              className="col-xs-5 col-sm-7 col-md-2 col-lg-2"
+              className="col-xs-12 col-md-12 col-lg-2"
               style={{ backgroundColor: "#343a40" }}
             >
               <div
@@ -103,10 +103,10 @@ export default class Admin extends Component {
                 </a>
               </div>
             </div>
-            <div className="col-10">
+            <div className="col" style={{ marginBottom: "5rem" }}>
               <div className="tab-content" id="v-pills-tabContent">
                 <div
-                  className="tab-pane fade active show"
+                  className="col tab-pane fade active show"
                   id="v-pills-manageStore"
                   role="tabpanel"
                   aria-labelledby="v-pills-manageStore-tab"
@@ -114,7 +114,7 @@ export default class Admin extends Component {
                   <StoreList {...this.props} />
                 </div>
                 <div
-                  className="tab-pane fade"
+                  className="col tab-pane fade"
                   id="v-pills-manageUser"
                   role="tabpanel"
                   aria-labelledby="v-pills-manageUser-tab"
@@ -122,7 +122,7 @@ export default class Admin extends Component {
                   <UserList {...this.props} />
                 </div>
                 <div
-                  className="tab-pane fade"
+                  className="col tab-pane fade"
                   id="v-pills-managePromotion"
                   role="tabpanel"
                   aria-labelledby="v-pills-managePromotion-tab"
@@ -131,12 +131,12 @@ export default class Admin extends Component {
                 </div>
 
                 <div
-                  className="tab-pane fade"
+                  className="col tab-pane fade"
                   id="v-pills-Report"
                   role="tabpanel"
                   aria-labelledby="v-pills-Report-tab"
                 >
-                  <Report history={this.props.history}/>
+                  <Report history={this.props.history} />
                 </div>
               </div>
             </div>

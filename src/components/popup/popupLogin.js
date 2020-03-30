@@ -6,12 +6,13 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import Modal from "react-bootstrap4-modal";
 import Facebook from "../../pages/login/FB-Login/facebook";
 import Google from "../../pages/login/Google-Login/google.js";
-import swal from 'sweetalert';
+import swal from "sweetalert";
 import firebase from "firebase/app";
 import "firebase/auth";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
+import { withRouter } from "react-router-dom";
 
-export default class LoginForm extends Component {
+class LoginForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,8 +24,8 @@ export default class LoginForm extends Component {
       currentUser: null,
       message: "",
       isSignedIn: false,
-      checklogIn : false,
-      type:"forgot"
+      checklogIn: false,
+      type: "forgot"
     };
   }
   uiConfig = {
@@ -57,56 +58,65 @@ export default class LoginForm extends Component {
     this.setState({ [name]: value });
   };
 
-
   onClickLogin = e => {
     e.preventDefault();
-    const { email, password } = this.state
+    const { email, password } = this.state;
     setTimeout(() => {
-      firebase.auth().signInWithEmailAndPassword(email, password).then(resp=>{
-        swal({
-          title: "Login Success",
-          text: "ํYou want Continue or not?",
-          icon: "warning",
-          buttons: true,
-          dangerMode: true,
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+        .then(resp => {
+          swal({
+            title: "Login Success",
+            text: "ํYou want Continue or not?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true
+          }).then(willDelete => {
+            if (willDelete) {
+              const setPassword = firebase.database().ref(`MumberUser`);
+              setPassword
+                .child(resp.user.uid)
+                .update({
+                  Password: this.state.password,
+                  CFPassword: this.state.password
+                })
+                .then(res => {
+                  firebase
+                    .database()
+                    .ref(`MumberUser/${resp.user.uid}`)
+                    .once("value")
+                    .then(snapshot => {
+                      localStorage.setItem(
+                        "ObjUser",
+                        JSON.stringify(snapshot.val())
+                      );
+                    });
+                });
+              this.props.history.history.push({
+                pathname: "/",
+                state: { ChekShowInOut: true }
+              });
+              this.setState({ checklogIn: true });
+            } else {
+              swal("Your imaginary file is safe!");
+              this.setState({ checklogIn: false });
+            }
+          });
         })
-        .then((willDelete) => {
-          if (willDelete) {
-            const setPassword = firebase.database().ref(`MumberUser`);
-            setPassword.child(resp.user.uid).update({Password:this.state.password,CFPassword:this.state.password}).then(res=>{
-              firebase.database().ref(`MumberUser/${resp.user.uid}`).once('value').then(snapshot=>{
-                localStorage.setItem('ObjUser',JSON.stringify(snapshot.val()));
-              })
-            })
-            this.props.history.history.push({
-              pathname:'/',
-              state:{ChekShowInOut:true}
-            })
-            this.setState({checklogIn : true})
-          } else {
-            swal("Your imaginary file is safe!");
-            this.setState({checklogIn : false})
-          }
+        .catch(function(error) {
+          swal("ผิดพลาด!", "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง", "error");
         });
-      }).catch(function(error) {
-        swal("ผิดพลาด!", "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง", "error");
-        
-      });
     }, 500);
- 
   };
-  
+
   onClickRegister = () => {
-    // this.props.history.push("/Register");
-    window.open("/Register", "_self");
+    this.props.history.push("/Register");
   };
 
-
-  onClickForgotPassword = ()=>{
-        // this.props.history.push("/Reset-Password" ,{type:"forgot"});
-        window.open("/Forgot-Password", "_self" );
-
-  }
+  onClickForgotPassword = () => {
+    this.props.history.push("/Reset-Password", { type: "forgot" });
+  };
 
   render() {
     const { message, currentUser } = this.state;
@@ -152,7 +162,7 @@ export default class LoginForm extends Component {
           size="lg"
           aria-labelledby="contained-modal-title-vcenter"
           centered
-          visible={this.state.checklogIn?!isVisible:isVisible}
+          visible={this.state.checklogIn ? !isVisible : isVisible}
           onClickBackdrop={this.props.closePopup}
           history={this.props}
         >
@@ -236,7 +246,10 @@ export default class LoginForm extends Component {
                       Log in
                     </Button>
                     &emsp;or{" "}
-                    <a onClick={this.onClickForgotPassword}  history={this.props}>
+                    <a
+                      onClick={this.onClickForgotPassword}
+                      history={this.props}
+                    >
                       &nbsp; <u>Forgot Password.</u>
                     </a>
                   </Form.Item>
@@ -274,3 +287,4 @@ export default class LoginForm extends Component {
     );
   }
 }
+export default withRouter(LoginForm);

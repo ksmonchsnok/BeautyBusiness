@@ -9,9 +9,9 @@ import {
 } from "@ant-design/icons";
 import firebase from "firebase";
 import Navbar from "../../components/navbar/navbars.js";
-import swal from 'sweetalert';
+import swal from "sweetalert";
 
-class RegistrationForm extends Component {
+export default class RegistrationForm extends Component {
   formRef = React.createRef();
   constructor(props) {
     super(props);
@@ -65,9 +65,9 @@ class RegistrationForm extends Component {
   };
 
   async componentDidMount() {
-    console.log(this.props)
-    let temp = await  JSON.parse(localStorage.getItem('ObjUser'))
-    if(temp){
+    console.log(this.props);
+    let temp = await JSON.parse(localStorage.getItem("ObjUser"));
+    if (temp) {
       this.setState({
         imageUrl: temp.imageUrl,
         Username: temp.Username,
@@ -79,7 +79,7 @@ class RegistrationForm extends Component {
         Phone: temp.Phone,
         Address: temp.Address,
         UserType: temp.UserType
-      })
+      });
       this.formRef.current.setFieldsValue({
         imageUrl: temp.imageUrl,
         Username: temp.Username,
@@ -93,78 +93,91 @@ class RegistrationForm extends Component {
         UserType: temp.UserType
       });
     }
-   
   }
   onClickCancel = () => {
-    window.history.back()
+    window.history.back();
   };
 
-  onClickResetPassword =(event) =>{
-    event.preventDefault()
+  onClickResetPassword = () => {
     this.props.history.push("/Reset-Password");
-
-  }
+  };
 
   onGotoSave() {
-    let email = this.state.Email
-    let password = this.state.Password
-      let checkProps =  this.props.location? this.props.location.state?'pass' :null :null
-    if(checkProps ==='pass' && this.props.location.state.mode === "EditUser"){
-      var user = firebase.auth().currentUser
-          user.updatePassword(password).then(() => {
-            console.log("Password updated!");
-          }).catch((error) => { console.log(error); });
-          setTimeout(() => {
-            const setItemInsert = firebase.database().ref(`MumberUser`);
-            let newState = {
-              imageUrl: this.state.imageUrl,
-              Username: this.state.Username,
-              Email: this.state.Email,
-              Password: this.state.Password,
-              CFPassword: this.state.CFPassword,
-              Firstname: this.state.Firstname,
-              Lastname: this.state.Lastname,
-              Phone: this.state.Phone,
-              Address: this.state.Address,
-              UserType: this.state.UserType
-            };
-            setItemInsert.child(user.uid).update(newState)
-            localStorage.setItem('ObjUser',JSON.stringify(this.state));
-            let temp =  JSON.parse(localStorage.getItem('ObjUser'))
-            if(temp.Password !== this.state.Password){
-              firebase.auth().signOut().then(function() {
-                // Sign-out successful.
-                localStorage.removeItem('ObjUser')
-              }).catch(function(error) {
-                // An error happened.
-              });
-            }
+    let email = this.state.Email;
+    let password = this.state.Password;
+    let checkProps = this.props.location
+      ? this.props.location.state
+        ? "pass"
+        : null
+      : null;
+    if (
+      checkProps === "pass" &&
+      this.props.location.state.mode === "EditUser"
+    ) {
+      var user = firebase.auth().currentUser;
+      user
+        .updatePassword(password)
+        .then(() => {
+          console.log("Password updated!");
+        })
+        .catch(error => {
+          console.log(error);
+        });
+      setTimeout(() => {
+        const setItemInsert = firebase.database().ref(`MemberUser`);
+        let newState = {
+          imageUrl: this.state.imageUrl,
+          Username: this.state.Username,
+          Email: this.state.Email,
+          Password: this.state.Password,
+          CFPassword: this.state.CFPassword,
+          Firstname: this.state.Firstname,
+          Lastname: this.state.Lastname,
+          Phone: this.state.Phone,
+          Address: this.state.Address,
+          UserType: this.state.UserType
+        };
+        setItemInsert.child(user.uid).update(newState);
+        localStorage.setItem("ObjUser", JSON.stringify(this.state));
+        let temp = JSON.parse(localStorage.getItem("ObjUser"));
+        if (temp.Password !== this.state.Password) {
+          firebase
+            .auth()
+            .signOut()
+            .then(function() {
+              // Sign-out successful.
+              localStorage.removeItem("ObjUser");
+            })
+            .catch(function(error) {
+              // An error happened.
+            });
+        }
         swal({
           title: "Update Registered",
           text: "ํYou want Continue or not?",
           icon: "warning",
           buttons: true,
-          dangerMode: true,
-        })
-        .then((willDelete) => {
+          dangerMode: true
+        }).then(willDelete => {
           if (willDelete) {
             swal("Up date Success", {
-              icon: "success",
+              icon: "success"
             });
             this.onClickCancel();
           } else {
             swal("Your imaginary file is safe!");
           }
         });
-       
       }, 100);
-
-
-
-    }else{
-      firebase.auth().createUserWithEmailAndPassword(email, password).then(res=>{
-           setTimeout(() => {
-            const setItemInsert = firebase.database().ref(`MumberUser/${res.user.uid}`);
+    } else {
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then(res => {
+          setTimeout(() => {
+            const setItemInsert = firebase
+              .database()
+              .ref(`MemberUser/${res.user.uid}`);
             let newState = {
               imageUrl: this.state.imageUrl,
               Username: this.state.Username,
@@ -178,38 +191,35 @@ class RegistrationForm extends Component {
               UserType: this.state.UserType
             };
             setItemInsert.set(newState);
-        swal({
-          title: "Already Registered",
-          text: "ํYou want Continue or not?",
-          icon: "warning",
-          buttons: true,
-          dangerMode: true,
-        })
-        .then((willDelete) => {
-          if (willDelete) {
-            swal("Create User And Password Success", {
-              icon: "success",
+            swal({
+              title: "Already Registered",
+              text: "ํYou want Continue or not?",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true
+            }).then(willDelete => {
+              if (willDelete) {
+                swal("Create User And Password Success", {
+                  icon: "success"
+                });
+                this.onClickCancel();
+              } else {
+                swal("Your imaginary file is safe!");
+              }
             });
-            this.onClickCancel();
-          } else {
-            swal("Your imaginary file is safe!");
-          }
+          }, 100);
+          // this.onClickCancel();
+        })
+        .catch(function(error) {
+          swal("ผิดพลาด!", "มีผู้ใช้งานอยู่ในระบบแล้ว", "error");
+          // ...
         });
-       
-      }, 100);
-        // this.onClickCancel();
-      }).catch(function(error) {
-        swal("ผิดพลาด!", "มีผู้ใช้งานอยู่ในระบบแล้ว", "error");
-        // ...
-      });
     }
-   
-     }
+  }
 
-     onChangeCheckRadio = e => {
-      this.setState({ UserType: e.target.value });
-    };
-
+  onChangeCheckRadio = e => {
+    this.setState({ UserType: e.target.value });
+  };
 
   render() {
     const uploadButton = (
@@ -397,8 +407,15 @@ class RegistrationForm extends Component {
                 maxLength={16}
                 allowClear
               />
-              <a href onClick={this.onClickResetPassword} history= {this.props.history}>
-                <small className="d-flex justify-content-end"><u>เปลี่ยนรหัสผ่าน</u></small></a>
+              <a
+                href
+                onClick={this.onClickResetPassword}
+                history={this.props.history}
+              >
+                <small className="d-flex justify-content-end">
+                  <u>เปลี่ยนรหัสผ่าน</u>
+                </small>
+              </a>
             </Form.Item>
             <Form.Item
               name="CFPassword"
@@ -609,4 +626,3 @@ class RegistrationForm extends Component {
     );
   }
 }
-export default RegistrationForm;

@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import "antd/dist/antd.css";
 import "../../style.css";
-import {Form,Input, Button,Upload,message,Radio,Checkbox} from "antd";
-import {LoadingOutlined,PlusOutlined} from "@ant-design/icons";
+import { Form, Input, Button, Upload, message, Radio, Checkbox } from "antd";
+import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import firebase from "firebase";
-import Navber from "../../components/navbar/navbar.js"
+import Navber from "../../components/navbar/navbar.js";
 
 class RegistrationForm extends Component {
   formRef = React.createRef();
@@ -71,8 +71,12 @@ class RegistrationForm extends Component {
   };
 
   async componentDidMount() {
-    let checkHistory = this.props.location ? this.props.location.state?'pass' : null: null
-       if(checkHistory === 'pass'){
+    let checkHistory = this.props.location
+      ? this.props.location.state
+        ? "pass"
+        : null
+      : null;
+    if (checkHistory === "pass") {
       let obj = await this.props.location.state.obj;
       console.log(this.formRef);
       this.formRef.current.setFieldsValue({
@@ -104,7 +108,7 @@ class RegistrationForm extends Component {
         ServiceType: obj.Type
       });
     }
-   }
+  }
 
   onChangeCheckBox(checkedValues) {
     this.setState({ ServiceType: checkedValues });
@@ -118,10 +122,9 @@ class RegistrationForm extends Component {
   };
 
   onClickCancel = () => {
-    window.history.back()
-    
+    window.history.back();
   };
-  
+
   onGotoSave() {
     setTimeout(() => {
       let tempId = [];
@@ -248,196 +251,198 @@ class RegistrationForm extends Component {
     const { TextArea } = Input;
 
     console.log(this.props);
-    
+
     return (
       <div
         id="Add-Update-Store"
         style={{ marginTop: "3rem", marginLeft: "1rem" }}
       >
-          <Navber/>
-          <div className="container" style={{marginBottom : "3rem"}}><h2>สร้างธุรกิจของคุณ</h2> <hr/></div>
-         
-        <Form
-          {...formItemLayout}
-          ref={this.formRef}
-          form={this.form}
-          name="addNewStore"
-          onFinish={this.onFinish}
-          scrollToFirstError
-        >
-          <Form.Item name="imageUrl" label="Picture">
-            <Upload
-              name="imageUrl"
-              id="imageUrl"
-              listType="picture-card"
-              className="avatar-uploader"
-              showUploadList={false}
-              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-              beforeUpload={this.beforeUpload}
-              onChange={this.handleChange}
-            >
-              {imageUrl ? (
-                <img src={imageUrl} alt="avatar" style={{ width: "100%" }} />
-              ) : (
-                uploadButton
-              )}
-            </Upload>
-          </Form.Item>
-          <Form.Item
-            name="BusinessName"
-            label={<span>Business Name</span>}
-            rules={[
-              {
-                required: true,
-                message: <small>Please input your Business Name</small>
-              },
-              {
-                type: "string",
-                pattern: new RegExp("^[A-Za-zก-๙0-9]*$"),
-                message: <small>Please input alphabetical only.</small>
-              },
-              {
-                min: 4,
-                message: <small>Must be at least 3 characters</small>
-              }
-            ]}
+        <Navber />
+        <div className="container" style={{ marginBottom: "3rem" }}>
+          <h2>สร้างธุรกิจของคุณ</h2> <hr />
+        </div>
+        <div className="container">
+          <Form
+            {...formItemLayout}
+            ref={this.formRef}
+            form={this.form}
+            name="addNewStore"
+            onFinish={this.onFinish}
+            scrollToFirstError
           >
-            {/* {JSON.stringify(this.state.BusinessName)} */}
-            <Input
-              type="textbox"
+            <Form.Item name="imageUrl" label="Picture">
+              <Upload
+                name="imageUrl"
+                id="imageUrl"
+                listType="picture-card"
+                className="avatar-uploader"
+                showUploadList={false}
+                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                beforeUpload={this.beforeUpload}
+                onChange={this.handleChange}
+              >
+                {imageUrl ? (
+                  <img src={imageUrl} alt="avatar" style={{ width: "100%" }} />
+                ) : (
+                  uploadButton
+                )}
+              </Upload>
+            </Form.Item>
+            <Form.Item
               name="BusinessName"
-              id="BusinessName"
-              value={this.state.BusinessName}
-              onChange={e => this.setState({ BusinessName: e.target.value })}
-              whitespace={true}
-              maxLength={40}
-              allowClear
-            />
-          </Form.Item>
+              label={<span>Business Name</span>}
+              rules={[
+                {
+                  required: true,
+                  message: <small>Please input your Business Name</small>
+                },
+                {
+                  type: "string",
+                  pattern: new RegExp("^[A-Za-zก-๙0-9]*$"),
+                  message: <small>Please input alphabetical only.</small>
+                },
+                {
+                  min: 4,
+                  message: <small>Must be at least 3 characters</small>
+                }
+              ]}
+            >
+              {/* {JSON.stringify(this.state.BusinessName)} */}
+              <Input
+                type="textbox"
+                name="BusinessName"
+                id="BusinessName"
+                value={this.state.BusinessName}
+                onChange={e => this.setState({ BusinessName: e.target.value })}
+                whitespace={true}
+                maxLength={40}
+                allowClear
+              />
+            </Form.Item>
 
-          <Form.Item
-            name="OpenShop"
-            label={<span>Open</span>}
-            rules={[
-              {
-                required: true,
-                message: <small>Please input your Open</small>
-              },
-              {
-                type: "string",
-                pattern: new RegExp("^[A-Za-zก-๙0-9-.]*$"),
-                message: <small>Please input alphabetical only.</small>
-              },
-              {
-                min: 4,
-                message: <small>Must be at least 3 characters</small>
-              }
-            ]}
-          >
-            <Input
-              type="textbox"
+            <Form.Item
               name="OpenShop"
-              // initialValue ={this.state.BusinessName}
-              id="OpenShop"
-              value={this.state.OpenShop}
-              onChange={e => this.setState({ OpenShop: e.target.value })}
-              whitespace={true}
-              maxLength={20}
-              allowClear
-            />
-          </Form.Item>
+              label={<span>Open</span>}
+              rules={[
+                {
+                  required: true,
+                  message: <small>Please input your Open</small>
+                },
+                {
+                  type: "string",
+                  pattern: new RegExp("^[A-Za-zก-๙0-9-.]*$"),
+                  message: <small>Please input alphabetical only.</small>
+                },
+                {
+                  min: 4,
+                  message: <small>Must be at least 3 characters</small>
+                }
+              ]}
+            >
+              <Input
+                type="textbox"
+                name="OpenShop"
+                // initialValue ={this.state.BusinessName}
+                id="OpenShop"
+                value={this.state.OpenShop}
+                onChange={e => this.setState({ OpenShop: e.target.value })}
+                whitespace={true}
+                maxLength={20}
+                allowClear
+              />
+            </Form.Item>
 
-          <Form.Item
-            name="PhoneNumbe"
-            label="Phone Number"
-            rules={[
-              {
-                required: true,
-                message: <small>Please input your phone number</small>
-              },
-              {
-                min: 12,
-                pattern: new RegExp("^[0-9-]*$"),
-                message: <small>Ex : 085-555-5555</small>
-              },
-              {
-                whitespace: true,
-                message: <small>Can not is whitespace.</small>
-              }
-            ]}
-          >
-            <Input
-              type="textbox"
+            <Form.Item
               name="PhoneNumbe"
-              id="PhoneNumbe"
-              value={this.state.PhoneNumbe}
-              onChange={e => this.setState({ PhoneNumbe: e.target.value })}
-              whitespace={true}
-              maxLength={12}
-              allowClear
-            />
-          </Form.Item>
+              label="Phone Number"
+              rules={[
+                {
+                  required: true,
+                  message: <small>Please input your phone number</small>
+                },
+                {
+                  min: 12,
+                  pattern: new RegExp("^[0-9-]*$"),
+                  message: <small>Ex : 085-555-5555</small>
+                },
+                {
+                  whitespace: true,
+                  message: <small>Can not is whitespace.</small>
+                }
+              ]}
+            >
+              <Input
+                type="textbox"
+                name="PhoneNumbe"
+                id="PhoneNumbe"
+                value={this.state.PhoneNumbe}
+                onChange={e => this.setState({ PhoneNumbe: e.target.value })}
+                whitespace={true}
+                maxLength={12}
+                allowClear
+              />
+            </Form.Item>
 
-          <Form.Item
-            name="Address"
-            label="Address"
-            rules={[
-              {
-                required: true,
-                message: <small>Please input your Address</small>
-              },
-              {
-                type: "regexp",
-                pattern: new RegExp("^[a-zA-Z0-9ก-๙'-./]*$"),
-                whitespace: false,
-                message: <small>Please input alphabetical only.</small>
-              }
-            ]}
-          >
-            <TextArea
-              rows={3}
+            <Form.Item
               name="Address"
-              id="Address"
-              value={this.state.Address}
-              onChange={e => this.setState({ Address: e.target.value })}
-              whitespace={true}
-              maxLength={150}
-              allowClear
-            />
-          </Form.Item>
-          <Form.Item
-            name="Ref"
-            label={<span>Facebook / Instagram</span>}
-            rules={[
-              {
-                required: true,
-                message: <small>Please input your Facebook / Instagram</small>
-              }
-              // {
-              //   type: "string",
-              //   pattern: new RegExp("^[A-Za-zก-๙0-9-.]*$"),
-              //   message: <small>Please input alphabetical only.</small>
-              // },
-              // {
-              //   min: 4,
-              //   message: <small>Must be at least 3 characters</small>
-              // }
-            ]}
-          >
-            <Input
-              type="textbox"
+              label="Address"
+              rules={[
+                {
+                  required: true,
+                  message: <small>Please input your Address</small>
+                },
+                {
+                  type: "regexp",
+                  pattern: new RegExp("^[a-zA-Z0-9ก-๙'-./]*$"),
+                  whitespace: false,
+                  message: <small>Please input alphabetical only.</small>
+                }
+              ]}
+            >
+              <TextArea
+                rows={3}
+                name="Address"
+                id="Address"
+                value={this.state.Address}
+                onChange={e => this.setState({ Address: e.target.value })}
+                whitespace={true}
+                maxLength={150}
+                allowClear
+              />
+            </Form.Item>
+            <Form.Item
               name="Ref"
-              // initialValue ={this.state.BusinessName}
-              id="Ref"
-              value={this.state.Ref}
-              onChange={e => this.setState({ OpenShop: e.target.value })}
-              // whitespace={true}
-              maxLength={150}
-              allowClear
-            />
-          </Form.Item>
+              label={<span>Facebook / Instagram</span>}
+              rules={[
+                {
+                  required: true,
+                  message: <small>Please input your Facebook / Instagram</small>
+                }
+                // {
+                //   type: "string",
+                //   pattern: new RegExp("^[A-Za-zก-๙0-9-.]*$"),
+                //   message: <small>Please input alphabetical only.</small>
+                // },
+                // {
+                //   min: 4,
+                //   message: <small>Must be at least 3 characters</small>
+                // }
+              ]}
+            >
+              <Input
+                type="textbox"
+                name="Ref"
+                // initialValue ={this.state.BusinessName}
+                id="Ref"
+                value={this.state.Ref}
+                onChange={e => this.setState({ OpenShop: e.target.value })}
+                // whitespace={true}
+                maxLength={150}
+                allowClear
+              />
+            </Form.Item>
 
-          {/* <Form.Item
+            {/* <Form.Item
             name="Lat"
             label="Latitude"
             rules={[
@@ -467,7 +472,7 @@ class RegistrationForm extends Component {
               allowClear
             />
           </Form.Item> */}
-          {/* <Form.Item
+            {/* <Form.Item
             name="Lng"
             label="Longitude"
             rules={[
@@ -497,7 +502,7 @@ class RegistrationForm extends Component {
               allowClear
             />
           </Form.Item> */}
-          {/* <Form.Item
+            {/* <Form.Item
             name="Recommend"
             label="Recommend Store"
             rules={[
@@ -520,68 +525,69 @@ class RegistrationForm extends Component {
               </Radio>
             </Radio.Group>
           </Form.Item> */}
-          <Form.Item
-            name="BusinessType"
-            label="Business Type"
-            rules={[
-              {
-                required: true,
-                message: <small>Please input your Business Type</small>
-              }
-            ]}
-          >
-            <Radio.Group
-              id="BusinessType"
-              value={this.state.BusinessType}
-              onChange={e => this.onChangeCheckRadio(e)}
+            <Form.Item
+              name="BusinessType"
+              label="Business Type"
+              rules={[
+                {
+                  required: true,
+                  message: <small>Please input your Business Type</small>
+                }
+              ]}
             >
-              <Radio value="มีหน้าร้าน" name="มีหน้าร้าน">
-                มีร้าน
-              </Radio>
-              <Radio value="ฟรีแลนซ์" name="ฟรีแลนซ์">
-                ฟรีแลนซ์
-              </Radio>
-            </Radio.Group>
-          </Form.Item>
+              <Radio.Group
+                id="BusinessType"
+                value={this.state.BusinessType}
+                onChange={e => this.onChangeCheckRadio(e)}
+              >
+                <Radio value="มีหน้าร้าน" name="มีหน้าร้าน">
+                  มีร้าน
+                </Radio>
+                <Radio value="ฟรีแลนซ์" name="ฟรีแลนซ์">
+                  ฟรีแลนซ์
+                </Radio>
+              </Radio.Group>
+            </Form.Item>
 
-          <Form.Item
-            name="ServiceType"
-            label="Service Type"
-            rules={[
-              {
-                required: true,
-                message: <small>Please input your Service Type</small>
-              }
-            ]}
-          >
-            <Checkbox.Group
-              id="ServiceType"
-              options={this.state.options}
-              onChange={e => this.onChangeCheckBox(e)}
-            />
-          </Form.Item>
-          <Form.Item
-            {...tailFormItemLayout}
-            style={{ marginBottom: "6rem", marginTop: "4rem" }}
-          >
-            <Button
-              type="danger"
-              htmlType="reset"
-              style={{ marginRight: "2rem" }}
-              onClick={this.onClickCancel}
+            <Form.Item
+              name="ServiceType"
+              label="Service Type"
+              rules={[
+                {
+                  required: true,
+                  message: <small>Please input your Service Type</small>
+                }
+              ]}
             >
-              Cancel
-            </Button>
-            <Button
-              type="primary"
-              htmlType="submit"
-              // loading="true"
-              onClick={() => this.onGotoSave()}
+              <Checkbox.Group
+                id="ServiceType"
+                options={this.state.options}
+                onChange={e => this.onChangeCheckBox(e)}
+              />
+            </Form.Item>
+            <Form.Item
+              {...tailFormItemLayout}
+              style={{ marginBottom: "6rem", marginTop: "4rem" }}
             >
-              Save
-            </Button>
-          </Form.Item>
-        </Form>
+              <Button
+                type="danger"
+                htmlType="reset"
+                style={{ marginRight: "2rem" }}
+                onClick={this.onClickCancel}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="primary"
+                htmlType="submit"
+                // loading="true"
+                onClick={() => this.onGotoSave()}
+              >
+                Save
+              </Button>
+            </Form.Item>
+          </Form>
+        </div>
       </div>
     );
   }

@@ -29,7 +29,8 @@
     width: 100%;
     text-align: center;
 }
-.logoNav{
+
+.logoNav {
     width: 180px;
     height: 40px;
 }
@@ -267,14 +268,16 @@ a:active {
 /* footer */
 
 #page-container {
-    position: relative;
+    position: absolute;
     min-height: 100vh;
-  }
-  
-  #content-wrap {
-    padding-bottom: 5em;    
-  }
-  
+    width: 100%;
+
+}
+
+#content-wrap {
+    padding-bottom: 5em;
+}
+
 #footer {
     position: absolute;
     bottom: 0;

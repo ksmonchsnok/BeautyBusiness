@@ -2,12 +2,15 @@ import React, { Component } from "react";
 import "antd/dist/antd.css";
 import "../../style.css";
 import { Form, Input, Tooltip, Button, Upload, message, Radio } from "antd";
-import {LoadingOutlined,PlusOutlined,QuestionCircleOutlined} from "@ant-design/icons";
+import {
+  LoadingOutlined,
+  PlusOutlined,
+  QuestionCircleOutlined
+} from "@ant-design/icons";
 import firebase from "firebase";
-import Navber from "../../components/navbar/navbar-Admin.js"
+import Navber from "../../components/navbar/navbar-Admin.js";
 
-
-class RegistrationForm extends Component {
+export default class RegistrationForm extends Component {
   formRef = React.createRef();
   constructor(props) {
     super(props);
@@ -60,6 +63,10 @@ class RegistrationForm extends Component {
     }
   };
 
+  onChangeCheckRadio = e => {
+    this.setState({ UserType: e.target.value });
+  };
+
   async componentDidMount() {
     console.log(this.props);
     if (this.props.location.state !== undefined) {
@@ -96,13 +103,15 @@ class RegistrationForm extends Component {
       }
     }
   }
+
   onClickCancel = () => {
     this.props.history.push("/AdminPage");
   };
+
   onGotoSave() {
     setTimeout(() => {
       let tempId = [];
-      const itemsRef = firebase.database().ref("User");
+      const itemsRef = firebase.database().ref("MemberUser");
       itemsRef.once("value").then(snapshot => {
         const temp = snapshot.val();
         let newID = [];
@@ -116,7 +125,7 @@ class RegistrationForm extends Component {
         if (this.state.mode === "edit") {
           console.log(this.state.UserID);
           console.log(this.state);
-          const setItemInsert = firebase.database().ref(`User`);
+          const setItemInsert = firebase.database().ref(`MemberUser`);
           let newState = {
             imageUrl: this.state.imageUrl,
             Username: this.state.Username,
@@ -150,7 +159,7 @@ class RegistrationForm extends Component {
             };
             setItemInsert.set(newState);
           } else {
-            const setItemInsert = firebase.database().ref(`User/1`);
+            const setItemInsert = firebase.database().ref(`MemberUser/1`);
             let newState = {
               ItemID: 1,
               imageUrl: this.state.imageUrl,
@@ -220,18 +229,19 @@ class RegistrationForm extends Component {
     //     console.log("Received values of form: ", values);
     //   };
     // };
-    
+
     const { TextArea } = Input;
     return (
       <div
         id="Add-Update-User"
         style={{ marginTop: "3rem", marginLeft: "1rem" }}
       >
-
-<Navber/>
-        <div className="container" style={{marginBottom:"5rem"}}> <h3>Create User</h3>
-        <hr/></div>
-       
+        <Navber />
+        <div className="container" style={{ marginBottom: "5rem" }}>
+          {" "}
+          <h3>Create User</h3>
+          <hr />
+        </div>
 
         <Form
           {...formItemLayout}
@@ -569,4 +579,3 @@ class RegistrationForm extends Component {
     );
   }
 }
-export default RegistrationForm;

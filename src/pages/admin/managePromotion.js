@@ -17,22 +17,24 @@ export default class ManagePromotion extends Component {
         id="Manage-Promotion"
         style={{ marginTop: "3rem", marginLeft: "1rem", marginBottom: "5rem" }}
       >
-        <div className="container">
+        <div className="">
           <h2>Promotion</h2>
           <form>
             <div className="form-row">
-              <div className="col">
+              <div className="col-ms-12 col-sm-12 col-md-6 col-lg-6">
                 <input
                   type="text"
                   className="form-control"
                   placeholder="Promotion Name"
+                  style={{ marginBottom: "0.5rem" }}
                 />
               </div>
-              <div className="col">
+              <div className="col-ms-12 col-sm-12 col-md-6 col-lg-6">
                 <input
                   type="textbox"
                   className="form-control"
                   placeholder="Description"
+                  style={{ marginBottom: "0.5rem" }}
                 />
               </div>
             </div>
@@ -40,25 +42,28 @@ export default class ManagePromotion extends Component {
 
           <form style={{ marginTop: "2rem" }}>
             <div className="form-row">
-              <div className="col-2">
+              <div className="col-ms-12 col-sm-12 col-md-4 col-lg-4">
                 <input
                   type="number"
                   className="form-control"
                   placeholder="Amount Promotion"
+                  style={{ marginBottom: "0.5rem" }}
                 />
               </div>
-              <div className="col">
+              <div className="col-ms-6 col-sm-6 col-md-4 col-lg-4">
                 <input
                   type="date"
                   className="form-control"
                   placeholder="Start Date"
+                  style={{ marginBottom: "0.5rem" }}
                 />
               </div>
-              <div className="col">
+              <div className="col-ms-6 col-sm-6 col-md-4 col-lg-4">
                 <input
                   type="date"
                   className="form-control"
                   placeholder="End Date"
+                  style={{ marginBottom: "0.5rem" }}
                 />
               </div>
             </div>
@@ -68,18 +73,20 @@ export default class ManagePromotion extends Component {
           <h2>ส่วนลดบริการ</h2>
           <form>
             <div className="form-row">
-              <div className="col">
+              <div className="col-ms-12 col-sm-12 col-md-6 col-lg-6">
                 <input
                   type="text"
                   className="form-control"
                   placeholder="Discount Name"
+                  style={{ marginBottom: "0.5rem" }}
                 />
               </div>
-              <div className="col">
+              <div className="col-ms-12 col-sm-12 col-md-6 col-lg-6">
                 <input
                   type="textbox"
                   className="form-control"
                   placeholder="Description"
+                  style={{ marginBottom: "0.5rem" }}
                 />
               </div>
             </div>
@@ -87,25 +94,28 @@ export default class ManagePromotion extends Component {
 
           <form style={{ marginTop: "2rem" }}>
             <div className="form-row">
-              <div className="col-2">
+              <div className="col-ms-12 col-sm-12 col-md-4 col-lg-4">
                 <input
                   type="number"
                   className="form-control"
-                  placeholder="Amount Discount"
+                  placeholder="Amount Description"
+                  style={{ marginBottom: "0.5rem" }}
                 />
               </div>
-              <div className="col">
+              <div className="col-ms-6 col-sm-6 col-md-4 col-lg-4">
                 <input
                   type="date"
                   className="form-control"
                   placeholder="Start Date"
+                  style={{ marginBottom: "0.5rem" }}
                 />
               </div>
-              <div className="col">
+              <div className="col-ms-6 col-sm-6 col-md-4 col-lg-4">
                 <input
                   type="date"
                   className="form-control"
                   placeholder="End Date"
+                  style={{ marginBottom: "0.5rem" }}
                 />
               </div>
             </div>
@@ -122,7 +132,7 @@ export default class ManagePromotion extends Component {
               Cancel
             </button>
             <button type="button" className="btn btn-primary ">
-              Save Change
+              Save
             </button>
           </div>
         </div>

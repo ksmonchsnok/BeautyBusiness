@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "antd/dist/antd.css";
 import "../../style.css";
-import { Table, Input, Button, Popconfirm, Form } from "antd";
+import { Button } from "antd";
 import firebase from "firebase";
 import { connect } from "react-redux";
 import { compose } from "redux";
@@ -19,9 +19,10 @@ class userList extends Component {
   async componentDidMount() {
     await this.onGetItemp();
   }
+
   onGetItemp() {
     setTimeout(() => {
-      let ref = firebase.database().ref("MumberUser");
+      let ref = firebase.database().ref("MemberUser");
       ref.once("value").then(snapshot => {
         const data = snapshot.val();
         if (typeof data === "object" && data !== null && data !== undefined) {
@@ -38,6 +39,7 @@ class userList extends Component {
       });
     }, 1000);
   }
+
   handleEdit = obj => {
     console.log("Data", obj, this.props);
     swal({
@@ -56,7 +58,7 @@ class userList extends Component {
 
   handleDelete = (d, index) => {
     console.log("ID", d.UserID, "index", index);
-    const itemsRef = firebase.database().ref("User");
+    const itemsRef = firebase.database().ref("MemberUser");
     swal({
       title: "Please Confirm for Delete ?",
       icon: "error",
@@ -81,9 +83,9 @@ class userList extends Component {
 
     return (
       <div id="User-List">
-        <div className="container" style={{ marginTop: "3rem" }}>
+        <div className="" style={{ marginTop: "3rem" }}>
           <h2>User List</h2>{" "}
-          <div class="table-responsive-md">
+          <div class="table-responsive">
             <table class="table">
               <thead class="thead-dark">
                 <tr>
@@ -117,7 +119,6 @@ class userList extends Component {
                         </td>
                         <td>
                           <a href>
-                            {" "}
                             <ion-icon
                               size="large"
                               name="trash-outline"
@@ -151,12 +152,12 @@ class userList extends Component {
 
 function mapStateToProps({ firebase }) {
   return {
-    MumberUser: firebase.ordered.MumberUser
+    MemberUser: firebase.ordered.MemberUser
   };
 }
 
 const enhance = compose(
-  firebaseConnect([{ path: "/MumberUser" }]),
+  firebaseConnect([{ path: "/MemberUser" }]),
   connect(mapStateToProps)
 );
 
