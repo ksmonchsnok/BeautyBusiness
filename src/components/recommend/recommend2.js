@@ -37,8 +37,6 @@ class Recommened extends Component {
       .on("child_added", snapshot => {
         Store.push(snapshot.val());
       });
-      
-      
 
     const item = Store.map(value => (
       <div className="col-lg-3 col-md-6">
@@ -81,7 +79,10 @@ class Recommened extends Component {
           className="jumbotron jumbotron-fluid"
           style={{ backgroundColor: "transparent" }}
         >
-          <h2 className="text-left font row" style={{ marginBottom: "-2rem" }}>
+          <h2
+            className="col text-left font row"
+            style={{ marginBottom: "-2rem" }}
+          >
             แนะนำ
           </h2>
         </div>

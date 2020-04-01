@@ -12,15 +12,15 @@ export default class Menu extends Component {
     return (
       <div id="Menu">
         <div className="container">
-          <div className="row d-flex justify-content-around">
+          <div className="row d-flex justify-content-center">
             <div
-              className="navbar-menu flex-wrap mx-auto"
+              className="navbar-menu"
               style={{
                 border: "0.3px solid Black",
                 boxShadow: "5px 5px 5px LightGray"
               }}
             >
-              <div className="col-6 col-sm-6 col-md-3">
+              <div className="col-6 col-xs-6 col-sm-6 col-md-3 col-lg-3">
                 <NavLink
                   to="/AllStores"
                   activeClassName="is-active"
@@ -32,7 +32,7 @@ export default class Menu extends Component {
                 </NavLink>
               </div>
 
-              <div className="col-6 col-sm-6 col-md-3">
+              <div className="col-6 col-xs-6 col-sm-6 col-md-3 col-lg-3">
                 <NavLink
                   to="/Nearby"
                   activeClassName="is-active"
@@ -44,7 +44,7 @@ export default class Menu extends Component {
                 </NavLink>
               </div>
 
-              <div className="col-6 col-sm-6 col-md-3">
+              <div className="col-6 col-xs-6 col-sm-6 col-md-3 col-lg-3">
                 <NavLink
                   to="/Regis-Store"
                   activeClassName="is-active"
@@ -59,7 +59,7 @@ export default class Menu extends Component {
                   สร้างธุรกิจ
                 </NavLink>
               </div>
-              <div className="col-6 col-sm-6 col-md-3">
+              <div className="col-6 col-xs-6 col-sm-6 col-md-3 col-lg-3">
                 <NavLink
                   exact
                   to="/Contact"

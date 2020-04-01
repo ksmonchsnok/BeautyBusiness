@@ -114,7 +114,7 @@ class LoginForAdmin extends Component {
                       }
                     ]}
                   >
-                    <Input
+                    <Input.Password
                       prefix={<LockOutlined className="site-form-item-icon" />}
                       placeholder="Password"
                       type="password"

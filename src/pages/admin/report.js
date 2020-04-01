@@ -19,11 +19,29 @@ class Report extends Component {
       <div id="Report">
         <div style={{ marginTop: "4rem", marginBottom: "3rem" }}>
           <h2>Promotion Report</h2>
+          <div class="table-responsive">
+            <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">Promotion Code</th>
+                  <th scope="col">Promotion Name</th>
+                  <th scope="col">Business Name</th>
+                  <th scope="col">User Name</th>
+                  <th scope="col">Start Date</th>
+                  <th scope="col">End Date</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+        <h2>Discount Report</h2>
+        <div class="table-responsive">
           <table class="table">
             <thead class="thead-dark">
               <tr>
-                <th scope="col">Promotion Code</th>
-                <th scope="col">Promotion Name</th>
+                <th scope="col">Discount Code</th>
+                <th scope="col">Discount Name</th>
                 <th scope="col">Business Name</th>
                 <th scope="col">User Name</th>
                 <th scope="col">Start Date</th>
@@ -33,20 +51,6 @@ class Report extends Component {
             <tbody></tbody>
           </table>
         </div>
-        <h2>Discount Report</h2>
-        <table class="table">
-          <thead class="thead-dark">
-            <tr>
-              <th scope="col">Discount Code</th>
-              <th scope="col">Discount Name</th>
-              <th scope="col">Business Name</th>
-              <th scope="col">User Name</th>
-              <th scope="col">Start Date</th>
-              <th scope="col">End Date</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
       </div>
     );
   }
