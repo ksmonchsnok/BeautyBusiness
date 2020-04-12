@@ -9,6 +9,7 @@ import {
 } from "@ant-design/icons";
 import firebase from "firebase";
 import Navber from "../../components/navbar/navbar-Admin.js";
+import swal from "sweetalert";
 
 export default class RegistrationForm extends Component {
   formRef = React.createRef();
@@ -17,7 +18,7 @@ export default class RegistrationForm extends Component {
     this.state = {
       loading: false,
       mode: "",
-      UserID: "",
+      UserId: "",
       Address: "",
       Email: "",
       Firstname: "",
@@ -72,9 +73,10 @@ export default class RegistrationForm extends Component {
     if (this.props.location.state !== undefined) {
       if (this.props.location.state.mode === "edit") {
         let obj = await this.props.location.state.obj;
+        console.log(obj);
         this.formRef.current.setFieldsValue({
           mode: "edit",
-          UserID: obj.UserID,
+          UserId: obj.UserId,
           imageUrl: obj.imageUrl,
           Username: obj.Username,
           Email: obj.Email,
@@ -88,7 +90,7 @@ export default class RegistrationForm extends Component {
         });
         this.setState({
           mode: "edit",
-          UserID: obj.UserID,
+          UserId: obj.UserId,
           imageUrl: obj.imageUrl,
           Username: obj.Username,
           Email: obj.Email,
@@ -110,43 +112,47 @@ export default class RegistrationForm extends Component {
 
   onGotoSave() {
     setTimeout(() => {
-      let tempId = [];
-      const itemsRef = firebase.database().ref("MemberUser");
-      itemsRef.once("value").then(snapshot => {
-        const temp = snapshot.val();
-        let newID = [];
-        console.log(temp);
-        for (let item in temp) {
-          newID.push({
-            item_id: item
-          });
-        }
-        tempId = newID[newID.length - 1];
-        if (this.state.mode === "edit") {
-          console.log(this.state.UserID);
-          console.log(this.state);
-          const setItemInsert = firebase.database().ref(`MemberUser`);
-          let newState = {
-            imageUrl: this.state.imageUrl,
-            Username: this.state.Username,
-            Email: this.state.Email,
-            Password: this.state.Password,
-            CFPassword: this.state.CFPassword,
-            Firstname: this.state.Firstname,
-            Lastname: this.state.Lastname,
-            Phone: this.state.Phone,
-            Address: this.state.Address,
-            UserType: this.state.UserType
-          };
-          setItemInsert.child(this.state.UserID).update(newState);
-        } else {
-          if (tempId !== [] && tempId !== undefined) {
+      if (this.state.mode === "edit") {
+        const setItemInsert = firebase.database().ref(`MemberUser`);
+        let newState = {
+          imageUrl: this.state.imageUrl,
+          Username: this.state.Username,
+          Email: this.state.Email,
+          Password: this.state.Password,
+          CFPassword: this.state.CFPassword,
+          Firstname: this.state.Firstname,
+          Lastname: this.state.Lastname,
+          Phone: this.state.Phone,
+          Address: this.state.Address,
+          UserType: this.state.UserType
+        };
+        setItemInsert.child(this.state.UserId).update(newState);
+        swal({
+          title: "You want Update User",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true
+        }).then(willDelete => {
+          if (willDelete) {
+            swal("Update User Success", {
+              icon: "success"
+            });
+            this.onClickCancel();
+          } else {
+            swal("Your imaginary file is safe!");
+          }
+        });
+      } else {
+        firebase
+          .auth()
+          .createUserWithEmailAndPassword(this.state.Email, this.state.Password)
+          .then(res => {
             const setItemInsert = firebase
               .database()
-              .ref(`User/${tempId.item_id * 1 + 1}`);
+              .ref(`MemberUser/${res.user.uid}`);
             let newState = {
-              UserID: tempId.item_id * 1 + 1,
               imageUrl: this.state.imageUrl,
+              UserId: res.user.uid,
               Username: this.state.Username,
               Email: this.state.Email,
               Password: this.state.Password,
@@ -158,26 +164,28 @@ export default class RegistrationForm extends Component {
               UserType: this.state.UserType
             };
             setItemInsert.set(newState);
-          } else {
-            const setItemInsert = firebase.database().ref(`MemberUser/1`);
-            let newState = {
-              ItemID: 1,
-              imageUrl: this.state.imageUrl,
-              Username: this.state.Username,
-              Email: this.state.Email,
-              Password: this.state.Password,
-              CFPassword: this.state.CFPassword,
-              Firstname: this.state.Firstname,
-              Lastname: this.state.Lastname,
-              Phone: this.state.Phone,
-              Address: this.state.Address,
-              UserType: this.state.UserType
-            };
-            setItemInsert.set(newState);
-          }
-        }
-      });
-      this.onClickCancel();
+            swal({
+              title: "Already Registered",
+              text: "ํYou want Continue or not?",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true
+            }).then(willDelete => {
+              if (willDelete) {
+                swal("Create User And Password Success", {
+                  icon: "success"
+                });
+                this.onClickCancel();
+              } else {
+                swal("Your imaginary file is safe!");
+              }
+            });
+          })
+          .catch(function(error) {
+            swal("ผิดพลาด!", "มีผู้ใช้งานอยู่ในระบบแล้ว", "error");
+            // ...
+          });
+      }
     }, 1000);
   }
   render() {

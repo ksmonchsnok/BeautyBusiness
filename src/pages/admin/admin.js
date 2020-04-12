@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Navbar from "../../components/navbar/navbar-Admin.js";
 import StoreList from "./storeList.js";
 import UserList from "./userList.js";
-import ManagePromotion from "./managePromotion.js";
+import PromotionList from "./promotionList.js";
 import Report from "./report.js";
 
 export default class Admin extends Component {
@@ -127,7 +127,7 @@ export default class Admin extends Component {
                   role="tabpanel"
                   aria-labelledby="v-pills-managePromotion-tab"
                 >
-                  <ManagePromotion {...this.props} />
+                  <PromotionList {...this.props} />
                 </div>
 
                 <div

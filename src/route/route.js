@@ -14,9 +14,8 @@ import Nearby from "../pages/nearby/nearby.js";
 import Register from "../pages/register/register.js";
 import Contact from "../pages/contact/contact.js";
 import RegisStore from "../pages/regisStore/regisStore.js";
-import ResetPassword from "../pages/login/reset-password/reset-password.js"
-import ForgotPassword from "../pages/login/reset-password/forgot-password.js"
-
+import ResetPassword from "../pages/login/reset-password/reset-password.js";
+import ForgotPassword from "../pages/login/reset-password/forgot-password.js";
 
 // Admin
 import Admin from "../pages/admin/loginForAdmin.js";
@@ -29,6 +28,7 @@ import UserList from "../pages/admin/userList.js";
 import StoreList from "../pages/admin/storeList.js";
 import AddStore from "../pages/admin/addStore.js";
 import AddUser from "../pages/admin/addUser.js";
+import PromotionList from "../pages/admin/promotionList";
 
 // User
 import User from "../pages/user/user.js";
@@ -67,10 +67,9 @@ export default () => (
       <Route exact path="/Nearby" component={Nearby} />
       <Route exact path="/Contact" component={Contact} />
       <Route exact path="/Regis-Store" component={RegisStore} />
-      <Route exact path="/Reset-Password" component={ResetPassword} />      
+      <Route exact path="/Reset-Password" component={ResetPassword} />
       <Route exact path="/Forgot-Password" component={ForgotPassword} />
 
-      
       {/* <PrivateRoute exact path="/admin" component={Admin} /> */}
 
       {/* Admin */}
@@ -79,7 +78,12 @@ export default () => (
       <Route exact path="/ManageUser" component={ManageUser} />
       <Route exact path="/AddUser" component={AddUser} />
       <Route exact path="/AddStore" component={AddStore} />
-      <Route exact path="/managePromotionAndDiscount" component={managePromotionAndDiscount}/>
+      <Route
+        exact
+        path="/managePromotionAndDiscount"
+        component={managePromotionAndDiscount}
+      />
+      <Route exact path="/PromotionList" component={PromotionList} />
       <Route exact path="/ReportForAdmin" component={ReportForAdmin} />
       <Route exact path="/UserList" component={UserList} />
       <Route exact path="/StoreList" component={StoreList} />

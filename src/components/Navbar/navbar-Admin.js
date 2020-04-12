@@ -74,7 +74,7 @@ class navbar extends Component {
   OnLogout = () => {
     swal({
       title: "Log out",
-      text: "ํYou want Continue or not?",
+      text: "Please Confirm Logout.",
       icon: "warning",
       buttons: true,
       dangerMode: true
@@ -83,17 +83,19 @@ class navbar extends Component {
         swal("Log out Success", {
           icon: "success"
         });
-        firebase
-          .auth()
-          .signOut()
-          .then(function() {
-            // Sign-out successful.
-            localStorage.removeItem("ObjUser");
-            window.location.reload();
-          })
-          .catch(function(error) {
-            // An error happened.
-          });
+
+        this.props.history.push("/LoginForAdmin");
+
+        // firebase
+        //   .auth()
+        //   .signOut()
+        //   .then(function() {
+        //     // Sign-out successful.
+        //     this.props.history.push("/LoginForAdmin");
+        //   })
+        //   .catch(function(error) {
+        //     // An error happened.
+        //   });
       } else {
         swal("Your imaginary file is safe!");
       }
@@ -149,7 +151,7 @@ class navbar extends Component {
                       alt="user"
                       style={{ marginRight: "7px" }}
                     />
-                    Name User
+                    Admin
                   </div>
 
                   {/* <a className="dropdown-item" href onClick={this.onClickEditProfile} history= {this.props.history}>

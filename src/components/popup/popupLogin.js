@@ -28,16 +28,6 @@ class LoginForm extends Component {
       type: "forgot"
     };
   }
-  uiConfig = {
-    signInFlow: "popup",
-    signInOptions: [
-      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-      firebase.auth.FacebookAuthProvider.PROVIDER_ID
-    ],
-    callbacks: {
-      signInSuccess: () => false
-    }
-  };
   componentDidMount() {
     this.unregisterAuthObserver = firebase
       .auth()
@@ -93,11 +83,12 @@ class LoginForm extends Component {
                       );
                     });
                 });
-              this.props.history.history.push({
+              this.props.history.push({
                 pathname: "/",
                 state: { ChekShowInOut: true }
               });
               this.setState({ checklogIn: true });
+              window.location.reload();
             } else {
               swal("Your imaginary file is safe!");
               this.setState({ checklogIn: false });
@@ -129,28 +120,7 @@ class LoginForm extends Component {
       );
     }
 
-    // if (!this.state.isSignedIn) {
-    //   return (
-    //     <StyledFirebaseAuth
-    //       uiConfig={this.uiConfig}
-    //       firebaseAuth={firebase.auth()}
-    //     />
-    //   );
-    // }
-    // const firebaseConfig = {
-    //   apiKey: "AIzaSyC9SnzFIrMF41K57it-skYg5DoQshD8uZ4",
-    //   authDomain: "beauty-busniess.firebaseapp.com",
-    //   databaseURL: "https://beauty-busniess.firebaseio.com",
-    //   projectId: "beauty-busniess",
-    //   storageBucket: "beauty-busniess.appspot.com",
-    //   messagingSenderId: "200711871568",
-    //   appId: "1:200711871568:web:cad3bdee0433a815928555",
-    //   measurementId: "G-9VGW3YM381"
-    // };
-    // firebase.initializeApp(firebaseConfig);
-
     const isVisible = this.props.isVisible;
-    const { email, password, loadingLogin, submitted, error } = this.state;
     const NormalLoginForm = () => {
       const onFinish = values => {
         console.log("Received values of form: ", values);
@@ -178,9 +148,6 @@ class LoginForm extends Component {
             </button>
           </div>
           <div className="modal-body log">
-            {/* <p>Welcome {firebase.auth().currentUser.displayName}! You are now signed-in!</p>
-          <img id="photo" className="pic" src={firebase.auth().currentUser.photoURL}/>
-        <button onClick={() => firebase.auth().signOut()}>Sign-out</button> */}
             <div className="nav justify-content-center">
               {message ? <p className="help is-danger">{message}</p> : null}
               <Form

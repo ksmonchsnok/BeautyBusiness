@@ -18,8 +18,8 @@ class LoginForAdmin extends Component {
   handleChange = e => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
-    // console.log(name, value);
   };
+
   onChangeUsername = event => {
     let username = this.state.username ? this.state.username : {};
     username = event.target.value;

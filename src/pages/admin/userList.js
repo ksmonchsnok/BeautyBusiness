@@ -24,24 +24,27 @@ class userList extends Component {
     setTimeout(() => {
       let ref = firebase.database().ref("MemberUser");
       ref.once("value").then(snapshot => {
-        const data = snapshot.val();
-        if (typeof data === "object" && data !== null && data !== undefined) {
-          let arr = [];
-          var key = Object.keys(data);
-          let arr1 = Object.values(data);
-          for (let i = 0; i < arr1.length; i++) {
-            arr[key[i]] = arr1[i];
+        if (snapshot.val()) {
+          const data = Object.values(snapshot.val());
+          if (typeof data === "object" && data !== null && data !== undefined) {
+            let arr = [];
+            var key = Object.keys(data);
+            let arr1 = Object.values(data);
+            for (let i = 0; i < arr1.length; i++) {
+              arr[key[i]] = arr1[i];
+            }
+            this.setState({ data: arr });
+          } else {
+            this.setState({ data });
           }
-          this.setState({ data: arr });
         } else {
-          this.setState({ data });
+          this.setState({ data: [] });
         }
       });
     }, 1000);
   }
 
   handleEdit = obj => {
-    console.log("Data", obj, this.props);
     swal({
       title: "Please Confirm for Edit ?",
       icon: "warning",
@@ -57,8 +60,6 @@ class userList extends Component {
   };
 
   handleDelete = (d, index) => {
-    console.log("ID", d.UserID, "index", index);
-    const itemsRef = firebase.database().ref("MemberUser");
     swal({
       title: "Please Confirm for Delete ?",
       icon: "error",
@@ -66,7 +67,7 @@ class userList extends Component {
       dangerMode: true
     }).then(willDelete => {
       if (willDelete) {
-        itemsRef.child(d.UserID).remove();
+        firebase.remove(`MemberUser/${d.UserId}`);
         this.onGetItemp();
       } else {
         return;
@@ -89,7 +90,7 @@ class userList extends Component {
             <table class="table">
               <thead class="thead-dark">
                 <tr>
-                  <th scope="col">#</th>
+                  {/* <th scope="col">#</th> */}
                   <th scope="col">E-mail</th>
                   <th scope="col">User Name</th>
                   <th scope="col">Name</th>
@@ -103,7 +104,7 @@ class userList extends Component {
                   this.state.data.map((d, index) => {
                     return (
                       <tr key={index}>
-                        <th scope="row">{index}</th>
+                        {/* <th scope="row">{index}</th> */}
                         <td>{d.Email}</td>
                         <td>{d.Username}</td>
                         <td>{d.Firstname}</td>
