@@ -25,58 +25,58 @@ class LoginForm extends Component {
       message: "",
       isSignedIn: false,
       checklogIn: false,
-      type: "forgot"
+      type: "forgot",
     };
   }
   componentDidMount() {
     this.unregisterAuthObserver = firebase
       .auth()
-      .onAuthStateChanged(user => this.setState({ isSignedIn: !!user }));
+      .onAuthStateChanged((user) => this.setState({ isSignedIn: !!user }));
   }
 
   componentWillUnmount() {
     this.unregisterAuthObserver();
   }
 
-  onChangeEmail = e => {
+  onChangeEmail = (e) => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
   };
 
-  onChangePassword = e => {
+  onChangePassword = (e) => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
   };
 
-  onClickLogin = e => {
+  onClickLogin = (e) => {
     e.preventDefault();
     const { email, password } = this.state;
     setTimeout(() => {
       firebase
         .auth()
         .signInWithEmailAndPassword(email, password)
-        .then(resp => {
+        .then((resp) => {
           swal({
             title: "Login Success",
             text: "ํYou want Continue or not?",
             icon: "warning",
             buttons: true,
-            dangerMode: true
-          }).then(willDelete => {
+            dangerMode: true,
+          }).then((willDelete) => {
             if (willDelete) {
               const setPassword = firebase.database().ref(`MumberUser`);
               setPassword
                 .child(resp.user.uid)
                 .update({
                   Password: this.state.password,
-                  CFPassword: this.state.password
+                  CFPassword: this.state.password,
                 })
-                .then(res => {
+                .then((res) => {
                   firebase
                     .database()
                     .ref(`MumberUser/${resp.user.uid}`)
                     .once("value")
-                    .then(snapshot => {
+                    .then((snapshot) => {
                       localStorage.setItem(
                         "ObjUser",
                         JSON.stringify(snapshot.val())
@@ -85,7 +85,7 @@ class LoginForm extends Component {
                 });
               this.props.history.push({
                 pathname: "/",
-                state: { ChekShowInOut: true }
+                state: { ChekShowInOut: true },
               });
               this.setState({ checklogIn: true });
               window.location.reload();
@@ -95,7 +95,7 @@ class LoginForm extends Component {
             }
           });
         })
-        .catch(function(error) {
+        .catch(function (error) {
           swal("ผิดพลาด!", "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง", "error");
         });
     }, 500);
@@ -106,7 +106,7 @@ class LoginForm extends Component {
   };
 
   onClickForgotPassword = () => {
-    this.props.history.push("/Reset-Password", { type: "forgot" });
+    this.props.history.push("/Forgot-Password", { type: "forgot" });
   };
 
   render() {
@@ -122,7 +122,7 @@ class LoginForm extends Component {
 
     const isVisible = this.props.isVisible;
     const NormalLoginForm = () => {
-      const onFinish = values => {
+      const onFinish = (values) => {
         console.log("Received values of form: ", values);
       };
     };
@@ -154,7 +154,7 @@ class LoginForm extends Component {
                 name="normal_login"
                 className="login-form"
                 initialValues={{
-                  remember: true
+                  remember: true,
                 }}
                 onFinish={this.onFinish}
                 // onSubmit={this.onClickLogin}
@@ -164,8 +164,8 @@ class LoginForm extends Component {
                   rules={[
                     {
                       required: true,
-                      message: "Please input your Username!"
-                    }
+                      message: "Please input your Username!",
+                    },
                   ]}
                 >
                   <Input
@@ -182,8 +182,8 @@ class LoginForm extends Component {
                   rules={[
                     {
                       required: true,
-                      message: "Please input your Password!"
-                    }
+                      message: "Please input your Password!",
+                    },
                   ]}
                 >
                   <Input

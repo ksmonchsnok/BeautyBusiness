@@ -5,7 +5,7 @@ import { Form, Input, Tooltip, Button, Upload, message, Radio } from "antd";
 import {
   LoadingOutlined,
   PlusOutlined,
-  QuestionCircleOutlined
+  QuestionCircleOutlined,
 } from "@ant-design/icons";
 import firebase from "firebase";
 import Navbar from "../../components/navbar/navbars.js";
@@ -27,7 +27,7 @@ export default class RegistrationForm extends Component {
       CFPassword: "",
       Phone: "",
       Username: "",
-      UserType: ""
+      UserType: "",
     };
   }
 
@@ -37,7 +37,7 @@ export default class RegistrationForm extends Component {
     reader.readAsDataURL(img);
   };
 
-  beforeUpload = file => {
+  beforeUpload = (file) => {
     const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
     if (!isJpgOrPng) {
       message.error("You can only upload JPG/PNG file!");
@@ -49,16 +49,16 @@ export default class RegistrationForm extends Component {
     return isJpgOrPng && isLt2M;
   };
 
-  handleChange = info => {
+  handleChange = (info) => {
     if (info.file.status === "uploading") {
       this.setState({ loading: true });
       return;
     }
     if (info.file.status === "done") {
-      this.getBase64(info.file.originFileObj, imageUrl =>
+      this.getBase64(info.file.originFileObj, (imageUrl) =>
         this.setState({
           imageUrl,
-          loading: false
+          loading: false,
         })
       );
     }
@@ -78,7 +78,7 @@ export default class RegistrationForm extends Component {
         Lastname: temp.Lastname,
         Phone: temp.Phone,
         Address: temp.Address,
-        UserType: temp.UserType
+        UserType: temp.UserType,
       });
       this.formRef.current.setFieldsValue({
         imageUrl: temp.imageUrl,
@@ -90,7 +90,7 @@ export default class RegistrationForm extends Component {
         Lastname: temp.Lastname,
         Phone: temp.Phone,
         Address: temp.Address,
-        UserType: temp.UserType
+        UserType: temp.UserType,
       });
     }
   }
@@ -120,7 +120,7 @@ export default class RegistrationForm extends Component {
         .then(() => {
           console.log("Password updated!");
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
       setTimeout(() => {
@@ -135,7 +135,7 @@ export default class RegistrationForm extends Component {
           Lastname: this.state.Lastname,
           Phone: this.state.Phone,
           Address: this.state.Address,
-          UserType: this.state.UserType
+          UserType: this.state.UserType,
         };
         setItemInsert.child(user.uid).update(newState);
         localStorage.setItem("ObjUser", JSON.stringify(this.state));
@@ -144,11 +144,11 @@ export default class RegistrationForm extends Component {
           firebase
             .auth()
             .signOut()
-            .then(function() {
+            .then(function () {
               // Sign-out successful.
               localStorage.removeItem("ObjUser");
             })
-            .catch(function(error) {
+            .catch(function (error) {
               // An error happened.
             });
         }
@@ -157,11 +157,11 @@ export default class RegistrationForm extends Component {
           text: "ํYou want Continue or not?",
           icon: "warning",
           buttons: true,
-          dangerMode: true
-        }).then(willDelete => {
+          dangerMode: true,
+        }).then((willDelete) => {
           if (willDelete) {
             swal("Up date Success", {
-              icon: "success"
+              icon: "success",
             });
             this.onClickCancel();
           } else {
@@ -173,7 +173,7 @@ export default class RegistrationForm extends Component {
       firebase
         .auth()
         .createUserWithEmailAndPassword(email, password)
-        .then(res => {
+        .then((res) => {
           setTimeout(() => {
             const setItemInsert = firebase
               .database()
@@ -188,7 +188,7 @@ export default class RegistrationForm extends Component {
               Lastname: this.state.Lastname,
               Phone: this.state.Phone,
               Address: this.state.Address,
-              UserType: this.state.UserType
+              UserType: this.state.UserType,
             };
             setItemInsert.set(newState);
             swal({
@@ -196,11 +196,11 @@ export default class RegistrationForm extends Component {
               text: "ํYou want Continue or not?",
               icon: "warning",
               buttons: true,
-              dangerMode: true
-            }).then(willDelete => {
+              dangerMode: true,
+            }).then((willDelete) => {
               if (willDelete) {
                 swal("Create User And Password Success", {
-                  icon: "success"
+                  icon: "success",
                 });
                 this.onClickCancel();
               } else {
@@ -210,14 +210,14 @@ export default class RegistrationForm extends Component {
           }, 100);
           // this.onClickCancel();
         })
-        .catch(function(error) {
+        .catch(function (error) {
           swal("ผิดพลาด!", "มีผู้ใช้งานอยู่ในระบบแล้ว", "error");
           // ...
         });
     }
   }
 
-  onChangeCheckRadio = e => {
+  onChangeCheckRadio = (e) => {
     this.setState({ UserType: e.target.value });
   };
 
@@ -235,32 +235,32 @@ export default class RegistrationForm extends Component {
     const formItemLayout = {
       labelCol: {
         xs: {
-          span: 10
+          span: 10,
         },
         sm: {
-          span: 6
-        }
+          span: 6,
+        },
       },
       wrapperCol: {
         xs: {
-          span: 6
+          span: 6,
         },
         sm: {
-          span: 10
-        }
-      }
+          span: 10,
+        },
+      },
     };
     const tailFormItemLayout = {
       wrapperCol: {
         xs: {
           span: 10,
-          offset: 0
+          offset: 0,
         },
         sm: {
           span: 10,
-          offset: 6
-        }
-      }
+          offset: 6,
+        },
+      },
     };
 
     // const RegistrationForm = () => {
@@ -312,17 +312,17 @@ export default class RegistrationForm extends Component {
               rules={[
                 {
                   required: true,
-                  message: <small>Please input your Username</small>
+                  message: <small>Please input your Username</small>,
                 },
                 {
                   type: "string",
                   pattern: new RegExp("^[A-Za-zก-๙0-9]*$"),
-                  message: <small>Please input alphabetical only.</small>
+                  message: <small>Please input alphabetical only.</small>,
                 },
                 {
                   min: 4,
-                  message: <small>Must be at least 3 characters</small>
-                }
+                  message: <small>Must be at least 3 characters</small>,
+                },
               ]}
             >
               <Input
@@ -330,7 +330,7 @@ export default class RegistrationForm extends Component {
                 name="Username"
                 id="Username"
                 value={this.state.Username}
-                onChange={e => this.setState({ Username: e.target.value })}
+                onChange={(e) => this.setState({ Username: e.target.value })}
                 whitespace={true}
                 maxLength={40}
                 allowClear
@@ -342,19 +342,19 @@ export default class RegistrationForm extends Component {
               rules={[
                 {
                   type: "email",
-                  message: <small>The input is not valid E-mail</small>
+                  message: <small>The input is not valid E-mail</small>,
                 },
                 {
                   pattern: new RegExp("^[0-9A-Za-z@.]*$"),
                   min: 6,
                   message: (
                     <small>Please input alphabetical and number only.</small>
-                  )
+                  ),
                 },
                 {
                   required: true,
-                  message: <small>Please input your E-mail</small>
-                }
+                  message: <small>Please input your E-mail</small>,
+                },
               ]}
             >
               <Input
@@ -362,7 +362,7 @@ export default class RegistrationForm extends Component {
                 name="Email"
                 id="Email"
                 value={this.state.Email}
-                onChange={e => this.setState({ Email: e.target.value })}
+                onChange={(e) => this.setState({ Email: e.target.value })}
                 whitespace={true}
                 maxLength={40}
                 allowClear
@@ -382,18 +382,20 @@ export default class RegistrationForm extends Component {
               rules={[
                 {
                   min: 6,
-                  message: <small>Password must be at least 6 characters</small>
+                  message: (
+                    <small>Password must be at least 6 characters</small>
+                  ),
                 },
                 {
                   pattern: new RegExp("^[A-Za-z0-9]*$"),
                   message: (
                     <small>Please input alphabetical and number only.</small>
-                  )
+                  ),
                 },
                 {
                   required: true,
-                  message: <small>Please input your password</small>
-                }
+                  message: <small>Please input your password</small>,
+                },
               ]}
               hasFeedback
             >
@@ -402,7 +404,7 @@ export default class RegistrationForm extends Component {
                 name="Password"
                 id="Password"
                 value={this.state.Password}
-                onChange={e => this.setState({ Password: e.target.value })}
+                onChange={(e) => this.setState({ Password: e.target.value })}
                 whitespace={true}
                 maxLength={16}
                 allowClear
@@ -433,7 +435,7 @@ export default class RegistrationForm extends Component {
               rules={[
                 {
                   required: true,
-                  message: <small>Please confirm your password</small>
+                  message: <small>Please confirm your password</small>,
                 },
                 ({ getFieldValue }) => ({
                   validator(rule, value) {
@@ -446,8 +448,8 @@ export default class RegistrationForm extends Component {
                         The two passwords that you entered do not match
                       </small>
                     );
-                  }
-                })
+                  },
+                }),
               ]}
             >
               <Input.Password
@@ -455,7 +457,7 @@ export default class RegistrationForm extends Component {
                 name="CFPassword"
                 id="CFPassword"
                 value={this.state.CFPassword}
-                onChange={e => this.setState({ CFPassword: e.target.value })}
+                onChange={(e) => this.setState({ CFPassword: e.target.value })}
                 whitespace={true}
                 maxLength={16}
                 allowClear
@@ -467,17 +469,17 @@ export default class RegistrationForm extends Component {
               rules={[
                 {
                   required: true,
-                  message: <small>Please input your First Name</small>
+                  message: <small>Please input your First Name</small>,
                 },
                 {
                   type: "string",
                   pattern: new RegExp("^[A-Za-zก-๙]*$"),
-                  message: <small>Please input alphabetical only.</small>
+                  message: <small>Please input alphabetical only.</small>,
                 },
                 {
                   min: 4,
-                  message: <small>Must be at least 3 characters</small>
-                }
+                  message: <small>Must be at least 3 characters</small>,
+                },
               ]}
             >
               <Input
@@ -485,7 +487,7 @@ export default class RegistrationForm extends Component {
                 name="Firstname"
                 id="Firstname"
                 value={this.state.Firstname}
-                onChange={e => this.setState({ Firstname: e.target.value })}
+                onChange={(e) => this.setState({ Firstname: e.target.value })}
                 whitespace={true}
                 maxLength={40}
                 allowClear
@@ -497,17 +499,17 @@ export default class RegistrationForm extends Component {
               rules={[
                 {
                   required: true,
-                  message: <small>Please input your Last Name</small>
+                  message: <small>Please input your Last Name</small>,
                 },
                 {
                   type: "string",
                   pattern: new RegExp("^[A-Za-zก-๙]*$"),
-                  message: <small>Please input alphabetical only.</small>
+                  message: <small>Please input alphabetical only.</small>,
                 },
                 {
                   min: 4,
-                  message: <small>Must be at least 3 characters</small>
-                }
+                  message: <small>Must be at least 3 characters</small>,
+                },
               ]}
             >
               <Input
@@ -515,7 +517,7 @@ export default class RegistrationForm extends Component {
                 name="Lastname"
                 id="Lastname"
                 value={this.state.Lastname}
-                onChange={e => this.setState({ Lastname: e.target.value })}
+                onChange={(e) => this.setState({ Lastname: e.target.value })}
                 whitespace={true}
                 maxLength={40}
                 allowClear
@@ -527,14 +529,14 @@ export default class RegistrationForm extends Component {
               rules={[
                 {
                   required: true,
-                  message: <small>Please input your Address</small>
+                  message: <small>Please input your Address</small>,
                 },
                 {
                   type: "regexp",
                   pattern: new RegExp("^[a-zA-Z0-9ก-๙'-./]*$"),
                   whitespace: false,
-                  message: <small>Please input alphabetical only.</small>
-                }
+                  message: <small>Please input alphabetical only.</small>,
+                },
               ]}
             >
               <TextArea
@@ -542,7 +544,7 @@ export default class RegistrationForm extends Component {
                 name="Address"
                 id="Address"
                 value={this.state.Address}
-                onChange={e => this.setState({ Address: e.target.value })}
+                onChange={(e) => this.setState({ Address: e.target.value })}
                 whitespace={true}
                 maxLength={150}
                 allowClear
@@ -554,17 +556,17 @@ export default class RegistrationForm extends Component {
               rules={[
                 {
                   required: true,
-                  message: <small>Please input your phone number</small>
+                  message: <small>Please input your phone number</small>,
                 },
                 {
                   min: 12,
                   pattern: new RegExp("^[0-9-]*$"),
-                  message: <small>Ex : 085-555-5555</small>
+                  message: <small>Ex : 085-555-5555</small>,
                 },
                 {
                   whitespace: true,
-                  message: <small>Can not is whitespace.</small>
-                }
+                  message: <small>Can not is whitespace.</small>,
+                },
               ]}
             >
               <Input
@@ -572,7 +574,7 @@ export default class RegistrationForm extends Component {
                 name="Phone"
                 id="Phone"
                 value={this.state.Phone}
-                onChange={e => this.setState({ Phone: e.target.value })}
+                onChange={(e) => this.setState({ Phone: e.target.value })}
                 whitespace={true}
                 maxLength={12}
                 allowClear
@@ -585,14 +587,14 @@ export default class RegistrationForm extends Component {
               rules={[
                 {
                   required: true,
-                  message: <small>Please input your User Type</small>
-                }
+                  message: <small>Please input your User Type</small>,
+                },
               ]}
             >
               <Radio.Group
                 id="UserType"
                 value={this.state.UserType}
-                onChange={e => this.onChangeCheckRadio(e)}
+                onChange={(e) => this.onChangeCheckRadio(e)}
               >
                 <Radio value="ผู้ใช้บริการ" name="ผู้ใช้บริการ">
                   ผู้ใช้บริการ

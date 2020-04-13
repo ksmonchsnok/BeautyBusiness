@@ -3,7 +3,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Redirect,
-  Route
+  Route,
 } from "react-router-dom";
 
 // Home
@@ -42,7 +42,7 @@ import Report from "../pages/manager/report.js";
 export const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
-    render={props =>
+    render={(props) =>
       localStorage.getItem("auth") ? (
         <Component {...props} />
       ) : (
