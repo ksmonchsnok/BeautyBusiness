@@ -65,7 +65,6 @@ export default class RegistrationForm extends Component {
   };
 
   async componentDidMount() {
-    console.log(this.props);
     let temp = await JSON.parse(localStorage.getItem("ObjUser"));
     if (temp) {
       this.setState({

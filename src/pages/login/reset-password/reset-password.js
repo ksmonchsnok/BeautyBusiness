@@ -46,8 +46,6 @@ export default class ResetPassword extends Component {
       },
     };
 
-    console.log(this.props);
-
     return (
       <div id="Reset-Password">
         <Navbar />

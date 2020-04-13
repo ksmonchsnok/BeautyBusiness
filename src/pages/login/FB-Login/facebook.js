@@ -11,17 +11,15 @@ export default class Facebook extends Component {
       userID: "",
       name: "",
       email: "",
-      picture: ""
+      picture: "",
     };
-
-    
   }
   componentClicked = () => {
     console.log("Login With Facebook");
   };
 
-  responseFacebook = response => {
-    console.log(response);
+  responseFacebook = (response) => {
+    // console.log(response);
     if (response.status !== "unknown") {
       let auth = response;
       localStorage.setItem("FB-Login", JSON.stringify(auth));
@@ -29,61 +27,54 @@ export default class Facebook extends Component {
         auth: true,
         name: response.name,
         email: response.email,
-        picture: response.picture.data.url
+        picture: response.picture.data.url,
       });
     }
-  };  
-  
-  loggedOut=() =>{
+  };
+
+  loggedOut = () => {
     this.setState({
-        loggedStatus: false,
-    })
-}
+      loggedStatus: false,
+    });
+  };
 
   render() {
-
     let facebookData;
 
-    this.state.auth ?
-    facebookData = (
-            <div style={{
-                width: '400px',
-                margin: 'auto',
-                background: '#f4f4f4',
-                padding: '20px',
-                color: '#000'
-            }}>
-                <img src={this.state.picture} alt={this.state.name} />
-                <h6>Welcome : {this.state.name}!</h6>
-            </div>
-        ) : 
-        facebookData = (<FacebookLogin
+    this.state.auth
+      ? (facebookData = (
+          <div
+            style={{
+              width: "400px",
+              margin: "auto",
+              background: "#f4f4f4",
+              padding: "20px",
+              color: "#000",
+            }}
+          >
+            <img src={this.state.picture} alt={this.state.name} />
+            <h6>Welcome : {this.state.name}!</h6>
+          </div>
+        ))
+      : (facebookData = (
+          <FacebookLogin
             appId="186461882774241"
             autoLoad={true}
             fields="name,email,picture"
             onClick={this.componentClicked}
-            callback={this.responseFacebook} 
-              class="fb-login-button"
-              data-width="250"
-              data-height="45"
-              data-size="medium"
-              data-button-type="login_with"
-              data-layout="default"
-              data-auto-logout-link="true" 
-              scope="public_profile,email"
-              icon="fa-facebook"
+            callback={this.responseFacebook}
+            class="fb-login-button"
+            data-width="250"
+            data-height="45"
+            data-size="medium"
+            data-button-type="login_with"
+            data-layout="default"
+            data-auto-logout-link="true"
+            scope="public_profile,email"
+            icon="fa-facebook"
+          />
+        ));
 
-
-/>);
-  
-    return (
-        <>
-            {facebookData}
-        </>
-    )
+    return <>{facebookData}</>;
   }
 }
-  
-
-
-

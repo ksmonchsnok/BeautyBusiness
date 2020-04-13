@@ -11,12 +11,12 @@ export default class Footer extends Component {
               <div className="container">
                 <div className="row">
                   <div className="col-lg-4 col-md-4 ">
-                    <a href="#" itemProp="url">
+                    <a href="/Admin" itemProp="url">
                       © BEAUTY BUSINESS
                     </a>
                   </div>
                   <div className="col-lg-4  col-md-4 ">
-                    <a href="/Admin" itemProp="url">
+                    <a href="/Contact" itemProp="url">
                       CONTACT
                     </a>
                   </div>
@@ -29,7 +29,6 @@ export default class Footer extends Component {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </div>

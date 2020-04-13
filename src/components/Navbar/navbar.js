@@ -97,7 +97,7 @@ class navbar extends Component {
             // An error happened.
           });
       } else {
-        swal("Your imaginary file is safe!");
+        swal("ออกจากระบบ");
       }
     });
   };

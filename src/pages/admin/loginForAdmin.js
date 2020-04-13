@@ -12,6 +12,7 @@ class LoginForAdmin extends Component {
     this.state = {
       username: "",
       password: "",
+      loadingLogin: false,
     };
   }
 
@@ -37,11 +38,21 @@ class LoginForAdmin extends Component {
   };
 
   onClickLogin = () => {
+    this.setState({ loadingLogin: true });
+
     if (this.state.username === "Admin" && this.state.password === "Admin") {
-      this.props.history.push("/AdminPage");
+      setTimeout(() => {
+        this.setState({ loadingLogin: true });
+
+        this.props.history.push("/AdminPage");
+      }, 800);
     } else {
+      this.setState({ loadingLogin: false });
+
       swal("ผิดพลาด", "Username หรือ Passpord ไม่ถูกต้อง", "error");
+      return;
     }
+    this.setState({ loadingLogin: true });
   };
 
   render() {
@@ -50,6 +61,9 @@ class LoginForAdmin extends Component {
         console.log("Received values of form: ", values);
       };
     };
+
+    const { loadingLogin } = this.state;
+
     return (
       <div id="Login-Admin">
         <Layout
@@ -99,6 +113,7 @@ class LoginForAdmin extends Component {
                       onChange={this.handleChange}
                       placeholder="E-mail"
                       style={{ marginTop: "2rem" }}
+                      allowClear
                     />
                   </Form.Item>
                   <Form.Item
@@ -145,6 +160,12 @@ class LoginForAdmin extends Component {
                         this.state.password.length === 0
                       }
                     >
+                      {loadingLogin && (
+                        <span
+                          className="spinner-border spinner-border-sm"
+                          style={{ marginRight: "1rem" }}
+                        />
+                      )}
                       Log in
                     </Button>
                   </Form.Item>

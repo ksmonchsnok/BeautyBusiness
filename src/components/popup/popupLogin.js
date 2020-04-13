@@ -51,6 +51,8 @@ class LoginForm extends Component {
   onClickLogin = (e) => {
     e.preventDefault();
     const { email, password } = this.state;
+    this.setState({ loadingLogin: true });
+
     setTimeout(() => {
       firebase
         .auth()
@@ -58,13 +60,13 @@ class LoginForm extends Component {
         .then((resp) => {
           swal({
             title: "Login Success",
-            text: "ํYou want Continue or not?",
+            text: "You want Continue or not?",
             icon: "warning",
             buttons: true,
             dangerMode: true,
           }).then((willDelete) => {
             if (willDelete) {
-              const setPassword = firebase.database().ref(`MumberUser`);
+              const setPassword = firebase.database().ref(`MemberUser`);
               setPassword
                 .child(resp.user.uid)
                 .update({
@@ -74,7 +76,7 @@ class LoginForm extends Component {
                 .then((res) => {
                   firebase
                     .database()
-                    .ref(`MumberUser/${resp.user.uid}`)
+                    .ref(`MemberUser/${resp.user.uid}`)
                     .once("value")
                     .then((snapshot) => {
                       localStorage.setItem(
@@ -99,6 +101,7 @@ class LoginForm extends Component {
           swal("ผิดพลาด!", "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง", "error");
         });
     }, 500);
+    this.setState({ loadingLogin: true });
   };
 
   onClickRegister = () => {
@@ -110,7 +113,7 @@ class LoginForm extends Component {
   };
 
   render() {
-    const { message, currentUser } = this.state;
+    const { message, currentUser, loadingLogin } = this.state;
     if (currentUser) {
       return (
         <div>
@@ -175,6 +178,7 @@ class LoginForm extends Component {
                     name="email"
                     onChange={this.onChangeEmail}
                     placeholder="E-mail"
+                    allowClear
                   />
                 </Form.Item>
                 <Form.Item
@@ -186,7 +190,7 @@ class LoginForm extends Component {
                     },
                   ]}
                 >
-                  <Input
+                  <Input.Password
                     id="InputPassword"
                     prefix={<LockOutlined className="site-form-item-icon" />}
                     type="password"
@@ -210,7 +214,13 @@ class LoginForm extends Component {
                       }
                       className="login-form-button"
                     >
-                      Log in
+                      {loadingLogin && (
+                        <span
+                          className="spinner-border spinner-border-sm"
+                          style={{ marginRight: "1rem" }}
+                        />
+                      )}
+                      Sign In
                     </Button>
                     &emsp;or{" "}
                     <a

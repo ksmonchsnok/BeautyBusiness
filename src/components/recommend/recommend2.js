@@ -9,7 +9,8 @@ class Recommened extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      Store: []
+      Store: [],
+      loadingData: false,
     };
   }
 
@@ -17,10 +18,10 @@ class Recommened extends Component {
     // console.log(this.props);
   };
 
-  onClickViewDetail = value => {
+  onClickViewDetail = (value) => {
     this.props.history.push({
       pathname: "/StoreDetail",
-      state: [value]
+      state: [value],
     });
   };
 
@@ -34,11 +35,13 @@ class Recommened extends Component {
     let Ref = rootRef
       .orderByChild("Recommend")
       .equalTo("true")
-      .on("child_added", snapshot => {
+      .on("child_added", (snapshot) => {
         Store.push(snapshot.val());
       });
 
-    const item = Store.map(value => (
+    // this.setState({ loadingData: true });
+
+    const item = Store.map((value) => (
       <div className="col-lg-3 col-md-6">
         <div key={value.ItemID}>
           <a href onClick={() => this.onClickViewDetail(value)}>
@@ -52,7 +55,7 @@ class Recommened extends Component {
               <h6 className="styleFont">
                 <p className="font">{value.Name}</p>
                 <hr />
-                {value.Type.map(el => (
+                {value.Type.map((el) => (
                   <p
                     style={{
                       marginLeft: -2,
@@ -60,7 +63,7 @@ class Recommened extends Component {
                       marginBottom: 3,
                       marginTop: 0.5,
                       fontWeight: "lighter",
-                      fontSize: 14 + "px"
+                      fontSize: 14 + "px",
                     }}
                     className="badge badge-warning"
                   >
@@ -73,6 +76,10 @@ class Recommened extends Component {
         </div>
       </div>
     ));
+    // this.setState({ loadingData: false });
+
+    const { loadingData } = this.state;
+
     return (
       <div id="Recommend">
         <div
@@ -95,21 +102,36 @@ class Recommened extends Component {
             ดูทั้งหมด>>
           </a>
         </div>
-
-        <div
-          className="row"
-          style={{ marginTop: "1.5rem" }}
-          history={this.props.history}
-        >
-          {item}
-        </div>
+        {!loadingData && (
+          <div
+            className="row"
+            style={{ marginTop: "1.5rem" }}
+            history={this.props.history}
+          >
+            {item}
+          </div>
+        )}
+        {loadingData && (
+          <div className="d-flex justify-content-center row col ">
+            <span
+              className="spinner-border text-dark"
+              style={{
+                marginTop: "3rem",
+                marginBottom: "2rem",
+                width: "10rem",
+                height: "10rem",
+              }}
+              role="status"
+            />
+          </div>
+        )}
       </div>
     );
   }
 }
 function mapStateToProps({ firebase }) {
   return {
-    Store: firebase.ordered.Store
+    Store: firebase.ordered.Store,
   };
 }
 

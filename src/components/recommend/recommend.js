@@ -1,13 +1,21 @@
 import React, { Component } from "react";
 import pic from "../../assets/image/pic1.jpg";
 export default class Recommend extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: [],
+      loadingData: false,
+    };
+  }
+
   render() {
     return (
       <div id="Recommend">
         <div className="container marketing">
           <div className="row">
             <div className="col-lg-4">
-            <img
+              <img
                 src={pic}
                 className="bd-placeholder-img rounded-circle"
                 width="140"
@@ -15,7 +23,7 @@ export default class Recommend extends Component {
                 role="img"
                 focusable="false"
               ></img>
-              
+
               <h2>Heading</h2>
               <p>
                 Donec sed odio dui. Etiam porta sem malesuada magna mollis
@@ -30,7 +38,7 @@ export default class Recommend extends Component {
               </p>
             </div>
             <div className="col-lg-4">
-            <img
+              <img
                 src={pic}
                 className="bd-placeholder-img rounded-circle"
                 width="140"
@@ -52,7 +60,7 @@ export default class Recommend extends Component {
               </p>
             </div>
             <div className="col-lg-4">
-            <img
+              <img
                 src={pic}
                 className="bd-placeholder-img rounded-circle"
                 width="140"
@@ -91,7 +99,7 @@ export default class Recommend extends Component {
               </p>
             </div>
             <div className="col-md-5">
-            <img
+              <img
                 src={pic}
                 className="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
                 width="500"
@@ -118,7 +126,7 @@ export default class Recommend extends Component {
               </p>
             </div>
             <div className="col-md-5 order-md-1">
-            <img
+              <img
                 src={pic}
                 className="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
                 width="500"
@@ -144,7 +152,7 @@ export default class Recommend extends Component {
               </p>
             </div>
             <div className="col-md-5">
-            <img
+              <img
                 src={pic}
                 className="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
                 width="500"

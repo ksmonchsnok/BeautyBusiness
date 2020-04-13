@@ -5,6 +5,7 @@ import { Form, Input, Button, Upload, message, Radio, Checkbox } from "antd";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import firebase from "firebase";
 import Navber from "../../components/navbar/navbar.js";
+import swal from "sweetalert";
 
 class RegistrationForm extends Component {
   formRef = React.createRef();
@@ -32,8 +33,8 @@ class RegistrationForm extends Component {
         { label: "สักคิ้ว", value: "สักคิ้ว" },
         { label: "แว็กซ์ขน", value: "แว็กซ์ขน" },
         { label: "สปา", value: "สปา" },
-        { label: "Tattoo", value: "Tattoo" }
-      ]
+        { label: "Tattoo", value: "Tattoo" },
+      ],
     };
   }
 
@@ -43,7 +44,7 @@ class RegistrationForm extends Component {
     reader.readAsDataURL(img);
   };
 
-  beforeUpload = file => {
+  beforeUpload = (file) => {
     const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
     if (!isJpgOrPng) {
       message.error("You can only upload JPG/PNG file!");
@@ -55,16 +56,16 @@ class RegistrationForm extends Component {
     return isJpgOrPng && isLt2M;
   };
 
-  handleChange = info => {
+  handleChange = (info) => {
     if (info.file.status === "uploading") {
       this.setState({ loading: true });
       return;
     }
     if (info.file.status === "done") {
-      this.getBase64(info.file.originFileObj, imageUrl =>
+      this.getBase64(info.file.originFileObj, (imageUrl) =>
         this.setState({
           imageUrl,
-          loading: false
+          loading: false,
         })
       );
     }
@@ -91,7 +92,7 @@ class RegistrationForm extends Component {
         Lat: obj.Lat,
         Lng: obj.Lng,
         Ref: obj.Ref,
-        ServiceType: obj.Type
+        ServiceType: obj.Type,
       });
       this.setState({
         ItemID: obj.ItemID,
@@ -105,7 +106,7 @@ class RegistrationForm extends Component {
         Lat: obj.Lat,
         Lng: obj.Lng,
         Ref: obj.Ref,
-        ServiceType: obj.Type
+        ServiceType: obj.Type,
       });
     }
   }
@@ -113,11 +114,11 @@ class RegistrationForm extends Component {
   onChangeCheckBox(checkedValues) {
     this.setState({ ServiceType: checkedValues });
   }
-  onChangeCheckRadio = e => {
+  onChangeCheckRadio = (e) => {
     this.setState({ BusinessType: e.target.value });
   };
 
-  onChangeCheckRadioRecommend = e => {
+  onChangeCheckRadioRecommend = (e) => {
     this.setState({ Recommend: e.target.value });
   };
 
@@ -125,17 +126,19 @@ class RegistrationForm extends Component {
     window.history.back();
   };
 
-  onGotoSave() {
+  onGotoSave = (e) => {
     setTimeout(() => {
+      swal("Suscess!", "ลงทะเบียนธุรกิจสำเร็จ!", "success");
+
       let tempId = [];
       const itemsRef = firebase.database().ref("Store");
-      itemsRef.once("value").then(snapshot => {
+      itemsRef.once("value").then((snapshot) => {
         const temp = snapshot.val();
         let newID = [];
         console.log(temp);
         for (let item in temp) {
           newID.push({
-            item_id: item
+            item_id: item,
           });
         }
         tempId = newID[newID.length - 1];
@@ -152,7 +155,7 @@ class RegistrationForm extends Component {
             Lat: this.state.Lat,
             Lng: this.state.Lng,
             Ref: this.state.Ref,
-            Type: this.state.ServiceType
+            Type: this.state.ServiceType,
           };
           setItemInsert.child(this.state.ItemID).update(newState);
         } else {
@@ -172,7 +175,7 @@ class RegistrationForm extends Component {
               Lat: this.state.Lat,
               Lng: this.state.Lng,
               Ref: this.state.Ref,
-              Type: this.state.ServiceType
+              Type: this.state.ServiceType,
             };
             setItemInsert.set(newState);
           } else {
@@ -189,7 +192,7 @@ class RegistrationForm extends Component {
               Lat: this.state.Lat,
               Lng: this.state.Lng,
               Ref: this.state.Ref,
-              Type: this.state.ServiceType
+              Type: this.state.ServiceType,
             };
             setItemInsert.set(newState);
           }
@@ -197,7 +200,7 @@ class RegistrationForm extends Component {
       });
       this.onClickCancel();
     }, 1000);
-  }
+  };
 
   render() {
     const uploadButton = (
@@ -213,44 +216,35 @@ class RegistrationForm extends Component {
     const formItemLayout = {
       labelCol: {
         xs: {
-          span: 10
+          span: 10,
         },
         sm: {
-          span: 6
-        }
+          span: 6,
+        },
       },
       wrapperCol: {
         xs: {
-          span: 6
+          span: 6,
         },
         sm: {
-          span: 10
-        }
-      }
+          span: 10,
+        },
+      },
     };
     const tailFormItemLayout = {
       wrapperCol: {
         xs: {
           span: 10,
-          offset: 0
+          offset: 0,
         },
         sm: {
           span: 10,
-          offset: 6
-        }
-      }
+          offset: 6,
+        },
+      },
     };
 
-    // const RegistrationForm = () => {
-    //   const [form] = Form.useForm();
-
-    //   const onFinish = values => {
-    //     console.log("Received values of form: ", values);
-    //   };
-    // };
     const { TextArea } = Input;
-
-    console.log(this.props);
 
     return (
       <div
@@ -294,17 +288,17 @@ class RegistrationForm extends Component {
               rules={[
                 {
                   required: true,
-                  message: <small>Please input your Business Name</small>
+                  message: <small>Please input your Business Name</small>,
                 },
                 {
                   type: "string",
                   pattern: new RegExp("^[A-Za-zก-๙0-9]*$"),
-                  message: <small>Please input alphabetical only.</small>
+                  message: <small>Please input alphabetical only.</small>,
                 },
                 {
                   min: 4,
-                  message: <small>Must be at least 3 characters</small>
-                }
+                  message: <small>Must be at least 3 characters</small>,
+                },
               ]}
             >
               {/* {JSON.stringify(this.state.BusinessName)} */}
@@ -313,7 +307,9 @@ class RegistrationForm extends Component {
                 name="BusinessName"
                 id="BusinessName"
                 value={this.state.BusinessName}
-                onChange={e => this.setState({ BusinessName: e.target.value })}
+                onChange={(e) =>
+                  this.setState({ BusinessName: e.target.value })
+                }
                 whitespace={true}
                 maxLength={40}
                 allowClear
@@ -326,17 +322,17 @@ class RegistrationForm extends Component {
               rules={[
                 {
                   required: true,
-                  message: <small>Please input your Open</small>
+                  message: <small>Please input your Open</small>,
                 },
                 {
                   type: "string",
                   pattern: new RegExp("^[A-Za-zก-๙0-9-.]*$"),
-                  message: <small>Please input alphabetical only.</small>
+                  message: <small>Please input alphabetical only.</small>,
                 },
                 {
                   min: 4,
-                  message: <small>Must be at least 3 characters</small>
-                }
+                  message: <small>Must be at least 3 characters</small>,
+                },
               ]}
             >
               <Input
@@ -345,7 +341,7 @@ class RegistrationForm extends Component {
                 // initialValue ={this.state.BusinessName}
                 id="OpenShop"
                 value={this.state.OpenShop}
-                onChange={e => this.setState({ OpenShop: e.target.value })}
+                onChange={(e) => this.setState({ OpenShop: e.target.value })}
                 whitespace={true}
                 maxLength={20}
                 allowClear
@@ -358,17 +354,17 @@ class RegistrationForm extends Component {
               rules={[
                 {
                   required: true,
-                  message: <small>Please input your phone number</small>
+                  message: <small>Please input your phone number</small>,
                 },
                 {
                   min: 12,
                   pattern: new RegExp("^[0-9-]*$"),
-                  message: <small>Ex : 085-555-5555</small>
+                  message: <small>Ex : 085-555-5555</small>,
                 },
                 {
                   whitespace: true,
-                  message: <small>Can not is whitespace.</small>
-                }
+                  message: <small>Can not is whitespace.</small>,
+                },
               ]}
             >
               <Input
@@ -376,7 +372,7 @@ class RegistrationForm extends Component {
                 name="PhoneNumbe"
                 id="PhoneNumbe"
                 value={this.state.PhoneNumbe}
-                onChange={e => this.setState({ PhoneNumbe: e.target.value })}
+                onChange={(e) => this.setState({ PhoneNumbe: e.target.value })}
                 whitespace={true}
                 maxLength={12}
                 allowClear
@@ -389,14 +385,14 @@ class RegistrationForm extends Component {
               rules={[
                 {
                   required: true,
-                  message: <small>Please input your Address</small>
+                  message: <small>Please input your Address</small>,
                 },
                 {
                   type: "regexp",
                   pattern: new RegExp("^[a-zA-Z0-9ก-๙'-./]*$"),
                   whitespace: false,
-                  message: <small>Please input alphabetical only.</small>
-                }
+                  message: <small>Please input alphabetical only.</small>,
+                },
               ]}
             >
               <TextArea
@@ -404,7 +400,7 @@ class RegistrationForm extends Component {
                 name="Address"
                 id="Address"
                 value={this.state.Address}
-                onChange={e => this.setState({ Address: e.target.value })}
+                onChange={(e) => this.setState({ Address: e.target.value })}
                 whitespace={true}
                 maxLength={150}
                 allowClear
@@ -416,8 +412,10 @@ class RegistrationForm extends Component {
               rules={[
                 {
                   required: true,
-                  message: <small>Please input your Facebook / Instagram</small>
-                }
+                  message: (
+                    <small>Please input your Facebook / Instagram</small>
+                  ),
+                },
                 // {
                 //   type: "string",
                 //   pattern: new RegExp("^[A-Za-zก-๙0-9-.]*$"),
@@ -435,7 +433,7 @@ class RegistrationForm extends Component {
                 // initialValue ={this.state.BusinessName}
                 id="Ref"
                 value={this.state.Ref}
-                onChange={e => this.setState({ OpenShop: e.target.value })}
+                onChange={(e) => this.setState({ OpenShop: e.target.value })}
                 // whitespace={true}
                 maxLength={150}
                 allowClear
@@ -531,14 +529,14 @@ class RegistrationForm extends Component {
               rules={[
                 {
                   required: true,
-                  message: <small>Please input your Business Type</small>
-                }
+                  message: <small>Please input your Business Type</small>,
+                },
               ]}
             >
               <Radio.Group
                 id="BusinessType"
                 value={this.state.BusinessType}
-                onChange={e => this.onChangeCheckRadio(e)}
+                onChange={(e) => this.onChangeCheckRadio(e)}
               >
                 <Radio value="มีหน้าร้าน" name="มีหน้าร้าน">
                   มีร้าน
@@ -555,14 +553,14 @@ class RegistrationForm extends Component {
               rules={[
                 {
                   required: true,
-                  message: <small>Please input your Service Type</small>
-                }
+                  message: <small>Please input your Service Type</small>,
+                },
               ]}
             >
               <Checkbox.Group
                 id="ServiceType"
                 options={this.state.options}
-                onChange={e => this.onChangeCheckBox(e)}
+                onChange={(e) => this.onChangeCheckBox(e)}
               />
             </Form.Item>
             <Form.Item
@@ -582,6 +580,7 @@ class RegistrationForm extends Component {
                 htmlType="submit"
                 // loading="true"
                 onClick={() => this.onGotoSave()}
+                // disabled={}
               >
                 Save
               </Button>

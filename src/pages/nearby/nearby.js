@@ -14,27 +14,30 @@ class Nearby extends Component {
     this.state = {
       dataitem: [],
       locations: [],
+      loadingData: false,
       data: [],
       coords: false,
       showingInfoWindow: false,
       activeMarker: {},
-      selectedPlace: {}
+      selectedPlace: {},
     };
     // this.locations = this.props.locations;
 
     if (this.props.isGeolocationAvailable && this.props.isGeolocationEnabled) {
       this.currentOfLocation();
     } else {
-      alert("Location is not available");
+      alert("Location is not available.");
     }
   }
 
   componentDidMount() {
+    this.setState({ loadingData: true });
+
     let ref = firebase.database().ref("Store");
     let locations = [];
-    ref.once("value").then(snapshot => {
+    ref.once("value").then((snapshot) => {
       const data = snapshot.val();
-      data.map(location =>
+      data.map((location) =>
         locations.push({
           Name: location.Name,
           Lat: location.Lat,
@@ -46,29 +49,30 @@ class Nearby extends Component {
           Address: location.Address,
           Type: location.Type,
           Open: location.Open,
-          Phone: location.Phone
+          Phone: location.Phone,
         })
       );
       this.setState({ locations });
     });
+    this.setState({ loadingData: false });
   }
 
-  onclickBack=()=>{
-    window.history.back()
-}   
+  onclickBack = () => {
+    window.history.back();
+  };
 
   onMarkerClick = (props, marker, e) =>
     this.setState({
       selectedPlace: props,
       activeMarker: marker,
-      showingInfoWindow: true
+      showingInfoWindow: true,
     });
 
-  onMapClicked = props => {
+  onMapClicked = (props) => {
     if (this.state.showingInfoWindow) {
       this.setState({
         showingInfoWindow: false,
-        activeMarker: null
+        activeMarker: null,
       });
     }
   };
@@ -105,28 +109,28 @@ class Nearby extends Component {
 
   handleToggle = () => {
     this.setState({
-      isOpen: !false
+      isOpen: !false,
     });
   };
 
   currentOfLocation = () => {
     const geolocation = navigator.geolocation;
-    return geolocation.getCurrentPosition(position => {
+    return geolocation.getCurrentPosition((position) => {
       this.setState({
         coords: {
           Lat: position.coords.latitude,
-          Lng: position.coords.longitude
-        }
+          Lng: position.coords.longitude,
+        },
       });
 
       console.log(position);
     });
   };
 
-  onClickViewDetail = value => {
+  onClickViewDetail = (value) => {
     this.props.history.push({
       pathname: "/Store",
-      state: [value]
+      state: [value],
     });
   };
 
@@ -170,7 +174,7 @@ class Nearby extends Component {
           Type: el.Type,
           Open: el.Open,
           Phone: el.Phone,
-          m: parseInt(m)
+          m: parseInt(m),
         });
       }
     });
@@ -188,19 +192,18 @@ class Nearby extends Component {
       borderRadius: "8px",
       boxShadow: "2px 2px 2px silver",
       display: "inline-flex",
-      position: "absolute"
+      position: "absolute",
     };
 
-    const item = this.state.data.map(value => (
+    const item = this.state.data.map((value) => (
       <div className="col-lg-3 col-md-6">
         <div key={value.ItemID}>
           <a href onClick={() => this.onClickViewDetail(value)}>
             <img
               className="card-img-top img-fluid rounded mx-auto d-block"
-              src={value.imageUrl}          
+              src={value.imageUrl}
               alt="image"
               aria-hidden="true"
-    
             />
             <div className="card-body text-left mb-auto">
               <h6 className="styleFont">
@@ -209,7 +212,7 @@ class Nearby extends Component {
                 <hr />
                 <p style={{ textAlign: "left", color: "#000" }}>{value.m} ม.</p>
 
-                {value.Type.map(el => (
+                {value.Type.map((el) => (
                   <p
                     style={{
                       marginLeft: -2,
@@ -217,7 +220,7 @@ class Nearby extends Component {
                       marginBottom: 5,
                       marginTop: 0.5,
                       fontWeight: "lighter",
-                      fontSize: 14 + "px"
+                      fontSize: 14 + "px",
                     }}
                     className="badge badge-secondary"
                   >
@@ -233,6 +236,8 @@ class Nearby extends Component {
         </div>
       </div>
     ));
+
+    const { loadingData } = this.state;
 
     return (
       <div id="nearby">
@@ -253,7 +258,7 @@ class Nearby extends Component {
                   style={styles}
                   initialCenter={{
                     lat: this.state.coords.Lat,
-                    lng: this.state.coords.Lng
+                    lng: this.state.coords.Lng,
                   }}
                 >
                   {this.state.data.map((l, i) => {
@@ -283,7 +288,7 @@ class Nearby extends Component {
                     name={"You"}
                     position={{
                       lat: this.state.coords.Lat,
-                      lng: this.state.coords.Lng
+                      lng: this.state.coords.Lng,
                     }}
                   >
                     <InfoWindow visible={true}>
@@ -296,24 +301,44 @@ class Nearby extends Component {
           </div>
         </div>
 
-         
         <div className="container">
           <div className="album bg-while pad">
-          <h4 className="text-center">ธุรกิจใกล้เคียงในระยะ 1 กิโลเมตร</h4>
+            <h4 className="text-center">ธุรกิจใกล้เคียงในระยะ 1 กิโลเมตร</h4>
 
             <hr style={{ marginTop: "1rem" }} />
-            <div className="row">{item}</div>
+            {!loadingData && <div className="row">{item}</div>}
+            {loadingData && (
+              <div className="d-flex justify-content-center row col ">
+                <span
+                  className="spinner-border text-dark"
+                  style={{
+                    marginTop: "3rem",
+                    marginBottom: "2rem",
+                    width: "10rem",
+                    height: "10rem",
+                  }}
+                  role="status"
+                />
+              </div>
+            )}
           </div>
-          <hr/>
+          <hr />
 
           <div className="row justify-content-start">
-            <div className="container"> <div className="col-xs-12 col-sm-4 col-md-2"> 
-                  <button type="button" onClick={this.onclickBack} 
-                  className="btn btn-dark btn-block" style={{marginBottom:"6em"}}>ย้อนกลับ</button>
-                  
-                     </div>
-                 </div>           
-             </div>
+            <div className="container">
+              {" "}
+              <div className="col-xs-12 col-sm-4 col-md-2">
+                <button
+                  type="button"
+                  onClick={this.onclickBack}
+                  className="btn btn-dark btn-block"
+                  style={{ marginBottom: "6em" }}
+                >
+                  ย้อนกลับ
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -321,20 +346,20 @@ class Nearby extends Component {
 }
 
 const googleApiWrapper = GoogleApiWrapper({
-  apiKey: "AIzaSyDdoBV1pjIyFVBXHdo7wje7WdLcnY0HpFw"
+  apiKey: "AIzaSyDdoBV1pjIyFVBXHdo7wje7WdLcnY0HpFw",
 });
 
 function mapStateToProps({ firebase }) {
   return {
-    Store: firebase.ordered.Store
+    Store: firebase.ordered.Store,
   };
 }
 
 const geo = geolocated({
   positionOptions: {
-    enableHighAccuracy: false
+    enableHighAccuracy: false,
   },
-  userDecisionTimeout: 5000
+  userDecisionTimeout: 5000,
 });
 
 const enhance = compose(
