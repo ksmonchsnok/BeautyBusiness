@@ -39,8 +39,6 @@ class Recommened extends Component {
         Store.push(snapshot.val());
       });
 
-    // this.setState({ loadingData: true });
-
     const item = Store.map((value) => (
       <div className="col-lg-3 col-md-6">
         <div key={value.ItemID}>
@@ -76,7 +74,6 @@ class Recommened extends Component {
         </div>
       </div>
     ));
-    // this.setState({ loadingData: false });
 
     const { loadingData } = this.state;
 

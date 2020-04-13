@@ -1,11 +1,23 @@
 import React, { Component } from "react";
 import "antd/dist/antd.css";
 import "../../style.css";
-import { Form, Input, Button, Upload, message, Radio, Checkbox } from "antd";
+import {
+  Form,
+  Input,
+  Button,
+  Upload,
+  message,
+  Radio,
+  Checkbox,
+  Select,
+} from "antd";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import firebase from "firebase";
 import Navber from "../../components/navbar/navbar-Admin.js";
 import swal from "sweetalert";
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { firebaseConnect } from "react-redux-firebase";
 
 class RegistrationForm extends Component {
   formRef = React.createRef();
@@ -35,6 +47,7 @@ class RegistrationForm extends Component {
         { label: "สปา", value: "สปา" },
         { label: "Tattoo", value: "Tattoo" },
       ],
+      user: [],
     };
   }
 
@@ -72,6 +85,7 @@ class RegistrationForm extends Component {
   };
 
   async componentDidMount() {
+    await this.getMemberUser();
     if (this.props.location.state.mode === "edit") {
       let obj = await this.props.location.state.obj;
       console.log(this.formRef);
@@ -107,6 +121,7 @@ class RegistrationForm extends Component {
       });
     }
   }
+
   onChangeCheckBox(checkedValues) {
     this.setState({ ServiceType: checkedValues });
   }
@@ -205,6 +220,19 @@ class RegistrationForm extends Component {
     }
   }
 
+  getMemberUser() {
+    let user = [];
+    let rootRef = firebase.database().ref("Memberuser");
+    let Ref = rootRef
+      .orderByChild("UserType")
+      .equalTo("ผู้ให้บริการ")
+      .on("child_added", (snapshot) => {
+        user.push(snapshot.val());
+      });
+
+    this.setState({ user: user });
+  }
+
   render() {
     const uploadButton = (
       <div>
@@ -255,6 +283,17 @@ class RegistrationForm extends Component {
       };
     };
     const { TextArea } = Input;
+    const { Option } = Select;
+
+    function onChange(value) {
+      console.log(`selected ${value}`);
+    }
+
+    function onSearch(val) {
+      console.log("search:", val);
+    }
+    console.log(this.state.user);
+
     return (
       <div
         id="Add-Update-Store"
@@ -265,6 +304,29 @@ class RegistrationForm extends Component {
           {" "}
           <h3>Create Business</h3>
           <hr />
+          <div
+            className="row container"
+            style={{ marginBottom: "1rem", marginTop: "1.5rem" }}
+          >
+            <h4>Select User</h4>
+
+            <Select
+              showSearch
+              style={{ width: 300, marginLeft: "1.5rem", height: "2rem" }}
+              placeholder="Select a User"
+              optionFilterProp="children"
+              onChange={onChange}
+              onSearch={onSearch}
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {this.state.user &&
+                this.state.user.map((d) => {
+                  return <Option value={d.Username}>{d.Username}</Option>;
+                })}
+            </Select>
+          </div>
         </div>
 
         <Form
@@ -589,4 +651,15 @@ class RegistrationForm extends Component {
   }
 }
 
-export default RegistrationForm;
+function mapStateToProps({ firebase }) {
+  return {
+    Memberuser: firebase.ordered.Memberuser,
+  };
+}
+
+const enhance = compose(
+  firebaseConnect([{ path: "/Memberuser" }]),
+  connect(mapStateToProps)
+);
+
+export default enhance(RegistrationForm);
