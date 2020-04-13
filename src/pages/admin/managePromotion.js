@@ -168,7 +168,10 @@ class ManagePromotion extends Component {
                     />
                   </div>
                   <div className="col-ms-6 col-sm-6 col-md-4 col-lg-4">
+                    <label>Start Date : &emsp;</label>
+
                     <DatePicker
+                      className="datePic"
                       name="StartDate"
                       selected={this.state.startDatePromotion}
                       onChange={this.onStartDatePromotionChange}
@@ -177,7 +180,9 @@ class ManagePromotion extends Component {
                     />
                   </div>
                   <div className="col-ms-6 col-sm-6 col-md-4 col-lg-4">
+                    <label>End Date : &emsp;&nbsp;</label>
                     <DatePicker
+                      className="datePic"
                       name="EndDate"
                       selected={this.state.endDatePromotion}
                       onChange={this.onEndDatePromotionChange}
@@ -234,7 +239,9 @@ class ManagePromotion extends Component {
                     />
                   </div>
                   <div className="col-ms-6 col-sm-6 col-md-4 col-lg-4">
+                    <label>Start Date :&emsp;</label>
                     <DatePicker
+                      className="datePic"
                       name="StartDate"
                       selected={this.state.startDateDiscount}
                       onChange={this.onStartDateDiscountChange}
@@ -243,7 +250,10 @@ class ManagePromotion extends Component {
                     />
                   </div>
                   <div className="col-ms-6 col-sm-6 col-md-4 col-lg-4">
+                    <label>End Date :&emsp;&nbsp;</label>
+
                     <DatePicker
+                      className="datePic"
                       name="EndDate"
                       selected={this.state.endDateDiscount}
                       onChange={this.onEndDateDiscountChange}
