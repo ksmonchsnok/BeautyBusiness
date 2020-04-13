@@ -90,7 +90,6 @@ class LoginForm extends Component {
                 state: { ChekShowInOut: true },
               });
               this.setState({ checklogIn: true });
-              window.location.reload();
             } else {
               swal("Your imaginary file is safe!");
               this.setState({ checklogIn: false });
