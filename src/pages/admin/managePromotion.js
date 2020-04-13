@@ -8,6 +8,8 @@ import { compose } from "redux";
 import { firebaseConnect } from "react-redux-firebase";
 import swal from "sweetalert";
 import Navbar from "../../components/navbar/navbar-Admin.js";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 class ManagePromotion extends Component {
   constructor(props) {
@@ -17,6 +19,10 @@ class ManagePromotion extends Component {
       Promotion: false,
       Discount: false,
       data: [],
+      startDatePromotion: new Date(),
+      endDatePromotion: new Date(),
+      startDateDiscount: new Date(),
+      endDateDiscount: new Date(),
     };
   }
 
@@ -54,6 +60,30 @@ class ManagePromotion extends Component {
     // console.log("radio checked", e.target.value);
     this.setState({
       Discount: e.target.value,
+    });
+  };
+
+  onStartDatePromotionChange = (date) => {
+    this.setState({
+      startDatePromotion: date,
+    });
+  };
+
+  onEndDatePromotionChange = (date) => {
+    this.setState({
+      endDatePromotion: date,
+    });
+  };
+
+  onStartDateDiscountChange = (date) => {
+    this.setState({
+      startDateDiscount: date,
+    });
+  };
+
+  onEndDateDiscountChange = (date) => {
+    this.setState({
+      endDateDiscount: date,
     });
   };
 
@@ -138,17 +168,19 @@ class ManagePromotion extends Component {
                     />
                   </div>
                   <div className="col-ms-6 col-sm-6 col-md-4 col-lg-4">
-                    <input
-                      type="date"
-                      className="form-control"
+                    <DatePicker
+                      name="StartDate"
+                      selected={this.state.startDatePromotion}
+                      onChange={this.onStartDatePromotionChange}
                       placeholder="Start Date"
                       style={{ marginBottom: "0.5rem" }}
                     />
                   </div>
                   <div className="col-ms-6 col-sm-6 col-md-4 col-lg-4">
-                    <input
-                      type="date"
-                      className="form-control"
+                    <DatePicker
+                      name="EndDate"
+                      selected={this.state.endDatePromotion}
+                      onChange={this.onEndDatePromotionChange}
                       placeholder="End Date"
                       style={{ marginBottom: "0.5rem" }}
                     />
@@ -202,17 +234,19 @@ class ManagePromotion extends Component {
                     />
                   </div>
                   <div className="col-ms-6 col-sm-6 col-md-4 col-lg-4">
-                    <input
-                      type="date"
-                      className="form-control"
+                    <DatePicker
+                      name="StartDate"
+                      selected={this.state.startDateDiscount}
+                      onChange={this.onStartDateDiscountChange}
                       placeholder="Start Date"
                       style={{ marginBottom: "0.5rem" }}
                     />
                   </div>
                   <div className="col-ms-6 col-sm-6 col-md-4 col-lg-4">
-                    <input
-                      type="date"
-                      className="form-control"
+                    <DatePicker
+                      name="EndDate"
+                      selected={this.state.endDateDiscount}
+                      onChange={this.onEndDateDiscountChange}
                       placeholder="End Date"
                       style={{ marginBottom: "0.5rem" }}
                     />
