@@ -21,15 +21,15 @@ class navbar extends Component {
       showPopupLogin: false,
       setimgShow: "",
       setFullName: "",
-      showlogInAndSignIn: false
+      showlogInAndSignIn: false,
     };
   }
 
   componentDidMount() {
-    firebase.auth().onAuthStateChanged(user => {
+    firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.setState({
-          currentUser: user
+          currentUser: user,
         });
       }
       setTimeout(() => {
@@ -46,11 +46,11 @@ class navbar extends Component {
           setimgShow: checkSigninAndOut.imageUrl,
           setFullName:
             checkSigninAndOut.Firstname + "-" + checkSigninAndOut.Lastname,
-          showlogInAndSignIn: true
+          showlogInAndSignIn: true,
         });
       } else {
         this.setState({
-          showlogInAndSignIn: false
+          showlogInAndSignIn: false,
         });
       }
     }, 500);
@@ -58,7 +58,7 @@ class navbar extends Component {
 
   showPopupLogin = () => {
     this.setState({
-      showPopupLogin: !this.state.showPopupLogin
+      showPopupLogin: !this.state.showPopupLogin,
     });
   };
 
@@ -69,7 +69,7 @@ class navbar extends Component {
   onClickEditProfile = () => {
     this.props.history.push({
       pathname: "/Register",
-      state: { mode: "EditUser" }
+      state: { mode: "EditUser" },
     });
   };
 
@@ -79,21 +79,21 @@ class navbar extends Component {
       text: "ํYou want Continue or not?",
       icon: "warning",
       buttons: true,
-      dangerMode: true
-    }).then(willDelete => {
+      dangerMode: true,
+    }).then((willDelete) => {
       if (willDelete) {
         swal("Log out Success", {
-          icon: "success"
+          icon: "success",
         });
         firebase
           .auth()
           .signOut()
-          .then(function() {
+          .then(function () {
             // Sign-out successful.
             localStorage.removeItem("ObjUser");
             window.location.reload();
           })
-          .catch(function(error) {
+          .catch(function (error) {
             // An error happened.
           });
       } else {
@@ -106,7 +106,7 @@ class navbar extends Component {
     const showPopupLogin = this.state.showPopupLogin;
 
     return (
-      <div id="Navbar" style={{ marginTop: "-0.5rem", marginBottom: "10rem" }}>
+      <div id="Navbar" style={{ marginTop: "-0.5rem", marginBottom: "12rem" }}>
         <nav className="fixed-top  navbar navbar-dark bg-dark navbar-expand-lg ">
           <NavLink exact to="/" className="navbar-brand">
             <img src={Logo} className="logoNav" alt="Logo" />

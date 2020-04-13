@@ -152,6 +152,7 @@ export default class RegistrationForm extends Component {
               .ref(`MemberUser/${res.user.uid}`);
             let newState = {
               imageUrl: this.state.imageUrl,
+              UserId : res.user.uid,
               UserId: res.user.uid,
               Username: this.state.Username,
               Email: this.state.Email,

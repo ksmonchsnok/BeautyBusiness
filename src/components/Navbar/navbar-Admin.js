@@ -20,15 +20,15 @@ class navbar extends Component {
       showPopupLogin: false,
       setimgShow: "",
       setFullName: "",
-      showlogInAndSignIn: false
+      showlogInAndSignIn: false,
     };
   }
 
   componentDidMount() {
-    firebase.auth().onAuthStateChanged(user => {
+    firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.setState({
-          currentUser: user
+          currentUser: user,
         });
       }
       setTimeout(() => {
@@ -45,11 +45,11 @@ class navbar extends Component {
           setimgShow: checkSigninAndOut.imageUrl,
           setFullName:
             checkSigninAndOut.Firstname + "-" + checkSigninAndOut.Lastname,
-          showlogInAndSignIn: true
+          showlogInAndSignIn: true,
         });
       } else {
         this.setState({
-          showlogInAndSignIn: false
+          showlogInAndSignIn: false,
         });
       }
     }, 500);
@@ -57,7 +57,7 @@ class navbar extends Component {
 
   showPopupLogin = () => {
     this.setState({
-      showPopupLogin: !this.state.showPopupLogin
+      showPopupLogin: !this.state.showPopupLogin,
     });
   };
   onClickHome = () => {
@@ -67,7 +67,7 @@ class navbar extends Component {
   onClickEditProfile = () => {
     this.props.history.push({
       pathname: "/Register",
-      state: { mode: "EditUser" }
+      state: { mode: "EditUser" },
     });
   };
 
@@ -77,11 +77,11 @@ class navbar extends Component {
       text: "Please Confirm Logout.",
       icon: "warning",
       buttons: true,
-      dangerMode: true
-    }).then(willDelete => {
+      dangerMode: true,
+    }).then((willDelete) => {
       if (willDelete) {
         swal("Log out Success", {
-          icon: "success"
+          icon: "success",
         });
 
         this.props.history.push("/LoginForAdmin");
@@ -103,8 +103,6 @@ class navbar extends Component {
   };
 
   render() {
-    const showPopupLogin = this.state.showPopupLogin;
-
     return (
       <div id="Navbar" style={{ marginTop: "-0.5rem", marginBottom: "10rem" }}>
         <nav className="fixed-top navbar navbar-dark bg-dark navbar-expand-lg ">
@@ -112,11 +110,7 @@ class navbar extends Component {
             <img src={Logo} className="logoNav" alt="Logo" />
           </NavLink>
           <ul className="navbar-nav mr-auto">
-            <li className="nav-item">
-              {/* <NavLink exact to="/" className="nav-link">
-                หน้าหลัก
-              </NavLink> */}
-            </li>
+            <li className="nav-item"></li>
           </ul>
           <form className="form-inline my-2 my-lg-0">
             <div className="nav justify-content-end">
@@ -135,6 +129,7 @@ class navbar extends Component {
                     data-toggle="modal"
                     data-target="#exampleModal"
                     onClick={this.showPopupLogin}
+                    style={{ margin: "-1rem" }}
                   >
                     <img src={setting} />
                   </button>
@@ -154,11 +149,6 @@ class navbar extends Component {
                     Admin
                   </div>
 
-                  {/* <a className="dropdown-item" href onClick={this.onClickEditProfile} history= {this.props.history}>
-                    {" "}
-                    <img src={edit} alt="user" style={{ marginRight: "7px" }} />
-                    แก้ไขข้อมูลผู้ใช้
-                  </a> */}
                   <div className="dropdown-divider" />
                   <a className="dropdown-item" href onClick={this.OnLogout}>
                     <img

@@ -11,28 +11,28 @@ class LoginForAdmin extends Component {
     super(props);
     this.state = {
       username: "",
-      password: ""
+      password: "",
     };
   }
 
-  handleChange = e => {
+  handleChange = (e) => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
   };
 
-  onChangeUsername = event => {
+  onChangeUsername = (event) => {
     let username = this.state.username ? this.state.username : {};
     username = event.target.value;
     this.setState({
-      username: username
+      username: username,
     });
   };
 
-  onChangePassword = event => {
+  onChangePassword = (event) => {
     let password = this.state.password ? this.state.Passwpasswordrd : {};
     password = event.target.value;
     this.setState({
-      password: password
+      password: password,
     });
   };
 
@@ -46,7 +46,7 @@ class LoginForAdmin extends Component {
 
   render() {
     const NormalLoginForm = () => {
-      const onFinish = values => {
+      const onFinish = (values) => {
         console.log("Received values of form: ", values);
       };
     };
@@ -60,7 +60,7 @@ class LoginForAdmin extends Component {
             <div className="">
               <Content
                 className="d-flex justify-content-center "
-                style={{ marginTop: "10rem", marginBottom: "13rem" }}
+                style={{ marginTop: "8rem", marginBottom: "8rem" }}
               >
                 <Form
                   //   onSubmit={}
@@ -70,7 +70,7 @@ class LoginForAdmin extends Component {
                   style={{
                     padding: "3rem",
                     paddingTop: "4rem",
-                    paddingBottom: "-2rem"
+                    paddingBottom: "-2rem",
                   }}
                 >
                   <h1>Beauty Business </h1>
@@ -81,12 +81,12 @@ class LoginForAdmin extends Component {
                     rules={[
                       {
                         required: true,
-                        message: <small>Please input your Username</small>
+                        message: <small>Please input your Username</small>,
                       },
                       {
                         whitespace: true,
-                        message: <small>Username cannot be empty</small>
-                      }
+                        message: <small>Username cannot be empty</small>,
+                      },
                     ]}
                   >
                     <Input
@@ -106,12 +106,12 @@ class LoginForAdmin extends Component {
                     rules={[
                       {
                         required: true,
-                        message: <small>Please input your Password</small>
+                        message: <small>Please input your Password</small>,
                       },
                       {
                         whitespace: true,
-                        message: <small>Password cannot be empty</small>
-                      }
+                        message: <small>Password cannot be empty</small>,
+                      },
                     ]}
                   >
                     <Input.Password
@@ -137,7 +137,7 @@ class LoginForAdmin extends Component {
                       style={{
                         marginTop: "2rem",
                         backgroundColor: "#343a40",
-                        color: "#fff"
+                        color: "#fff",
                       }}
                       onClick={this.onClickLogin}
                       disabled={

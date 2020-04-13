@@ -12,7 +12,8 @@ class userList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: []
+      data: [],
+      loadingData: false,
     };
   }
 
@@ -21,9 +22,11 @@ class userList extends Component {
   }
 
   onGetItemp() {
+    this.setState({ data: [], loadingData: true });
+
     setTimeout(() => {
       let ref = firebase.database().ref("MemberUser");
-      ref.once("value").then(snapshot => {
+      ref.once("value").then((snapshot) => {
         if (snapshot.val()) {
           const data = Object.values(snapshot.val());
           if (typeof data === "object" && data !== null && data !== undefined) {
@@ -40,17 +43,18 @@ class userList extends Component {
         } else {
           this.setState({ data: [] });
         }
+        this.setState({ loadingData: false });
       });
     }, 1000);
   }
 
-  handleEdit = obj => {
+  handleEdit = (obj) => {
     swal({
       title: "Please Confirm for Edit ?",
       icon: "warning",
       buttons: true,
-      dangerMode: true
-    }).then(willDelete => {
+      dangerMode: true,
+    }).then((willDelete) => {
       if (willDelete) {
         this.props.history.push("/AddUser", { obj, mode: "edit" });
       } else {
@@ -64,8 +68,8 @@ class userList extends Component {
       title: "Please Confirm for Delete ?",
       icon: "error",
       buttons: true,
-      dangerMode: true
-    }).then(willDelete => {
+      dangerMode: true,
+    }).then((willDelete) => {
       if (willDelete) {
         firebase.remove(`MemberUser/${d.UserId}`);
         this.onGetItemp();
@@ -81,61 +85,15 @@ class userList extends Component {
 
   render() {
     console.log(this.state.data);
+    const { loadingData } = this.state;
 
     return (
       <div id="User-List">
-        <div className="" style={{ marginTop: "3rem" }}>
+        <div className="" style={{ marginTop: "3rem", marginBottom: "4rem" }}>
           <h2>User List</h2>{" "}
-          <div class="table-responsive">
-            <table class="table">
-              <thead class="thead-dark">
-                <tr>
-                  {/* <th scope="col">#</th> */}
-                  <th scope="col">E-mail</th>
-                  <th scope="col">User Name</th>
-                  <th scope="col">Name</th>
-                  <th scope="col">Phone Number</th>
-                  <th scope="col">Edit</th>
-                  <th scope="col">Delete</th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.state.data &&
-                  this.state.data.map((d, index) => {
-                    return (
-                      <tr key={index}>
-                        {/* <th scope="row">{index}</th> */}
-                        <td>{d.Email}</td>
-                        <td>{d.Username}</td>
-                        <td>{d.Firstname}</td>
-                        <td>{d.Phone}</td>
-                        <td>
-                          <a href>
-                            <ion-icon
-                              size="large"
-                              name="create-outline"
-                              onClick={() => this.handleEdit(d, index)}
-                            ></ion-icon>
-                          </a>
-                        </td>
-                        <td>
-                          <a href>
-                            <ion-icon
-                              size="large"
-                              name="trash-outline"
-                              onClick={() => this.handleDelete(d, index)}
-                            ></ion-icon>
-                          </a>
-                        </td>
-                      </tr>
-                    );
-                  })}
-              </tbody>
-            </table>
-          </div>
           <div
-            className="col d-flex justify-content-center"
-            style={{ marginBottom: "5rem", marginTop: "4rem" }}
+            className="d-flex justify-content-start"
+            style={{ marginBottom: "2rem", marginTop: "1rem" }}
           >
             <Button
               type="primary"
@@ -145,6 +103,69 @@ class userList extends Component {
               Create New User
             </Button>
           </div>
+          {!loadingData && (
+            <div class="table-responsive">
+              <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    {/* <th scope="col">#</th> */}
+                    <th scope="col">E-mail</th>
+                    <th scope="col">User Name</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Phone Number</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {this.state.data &&
+                    this.state.data.map((d, index) => {
+                      return (
+                        <tr key={index}>
+                          {/* <th scope="row">{index}</th> */}
+                          <td>{d.Email}</td>
+                          <td>{d.Username}</td>
+                          <td>{d.Firstname}</td>
+                          <td>{d.Phone}</td>
+                          <td>
+                            <a href>
+                              <ion-icon
+                                size="large"
+                                name="create-outline"
+                                onClick={() => this.handleEdit(d, index)}
+                              ></ion-icon>
+                            </a>
+                          </td>
+                          <td>
+                            <a href>
+                              <ion-icon
+                                size="large"
+                                name="trash-outline"
+                                onClick={() => this.handleDelete(d, index)}
+                              ></ion-icon>
+                            </a>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
+              </table>
+            </div>
+          )}
+          {loadingData && (
+            <div className="d-flex justify-content-center row col ">
+              <span
+                className="spinner-border text-dark"
+                style={{
+                  marginTop: "3rem",
+                  marginBottom: "2rem",
+                  width: "10rem",
+                  height: "10rem",
+                }}
+                role="status"
+              />
+            </div>
+          )}
         </div>
       </div>
     );
@@ -153,7 +174,7 @@ class userList extends Component {
 
 function mapStateToProps({ firebase }) {
   return {
-    MemberUser: firebase.ordered.MemberUser
+    MemberUser: firebase.ordered.MemberUser,
   };
 }
 

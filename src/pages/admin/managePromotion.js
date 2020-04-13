@@ -1,39 +1,99 @@
 import React, { Component } from "react";
 import "antd/dist/antd.css";
 import "../../style.css";
-import { Form, Input, Tooltip, Button, Upload, message, Radio } from "antd";
+import { Radio, Select } from "antd";
+import firebase from "firebase";
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { firebaseConnect } from "react-redux-firebase";
+import swal from "sweetalert";
+import Navbar from "../../components/navbar/navbar-Admin.js";
 
-export default class ManagePromotion extends Component {
+class ManagePromotion extends Component {
   constructor(props) {
     super(props);
     this.state = {
       loading: false,
       Promotion: false,
-      Discount: false
+      Discount: false,
+      data: [],
     };
   }
 
-  onChangePromotion = e => {
+  async componentDidMount() {
+    await this.onGetItemp();
+  }
+  onGetItemp() {
+    setTimeout(() => {
+      let ref = firebase.database().ref("Store");
+      ref.once("value").then((snapshot) => {
+        const data = snapshot.val();
+        if (typeof data === "object" && data !== null && data !== undefined) {
+          let arr = [];
+          var key = Object.keys(data);
+          let arr1 = Object.values(data);
+          for (let i = 0; i < arr1.length; i++) {
+            arr[key[i]] = arr1[i];
+          }
+          this.setState({ data: arr });
+        } else {
+          this.setState({ data });
+        }
+      });
+    }, 1000);
+  }
+
+  onChangePromotion = (e) => {
     // console.log("radio checked", e.target.value);
     this.setState({
-      Promotion: e.target.value
+      Promotion: e.target.value,
     });
   };
 
-  onChangeDiscount = e => {
+  onChangeDiscount = (e) => {
     // console.log("radio checked", e.target.value);
     this.setState({
-      Discount: e.target.value
+      Discount: e.target.value,
     });
   };
+
   render() {
+    const { Option } = Select;
+
+    function onChange(value) {
+      console.log(`selected ${value}`);
+    }
+
+    function onSearch(val) {
+      console.log("search:", val);
+    }
     return (
       <div
         id="Manage-Promotion"
         style={{ marginTop: "3rem", marginLeft: "1rem", marginBottom: "5rem" }}
       >
+        <Navbar />
         <div className="container">
-          {" "}
+          <div className="row" style={{ marginBottom: "2rem" }}>
+            <h2>ธุรกิจ</h2>
+
+            <Select
+              showSearch
+              style={{ width: 200, marginLeft: "1.5rem", height: "2rem" }}
+              placeholder="Select a Business"
+              optionFilterProp="children"
+              onChange={onChange}
+              onSearch={onSearch}
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {this.state.data &&
+                this.state.data.map((d) => {
+                  return <Option value={d.Name}>{d.Name}</Option>;
+                })}
+            </Select>
+          </div>
           <div className="row">
             <h2>Promotion</h2>
             <Radio.Group
@@ -182,3 +242,16 @@ export default class ManagePromotion extends Component {
     );
   }
 }
+
+function mapStateToProps({ firebase }) {
+  return {
+    Store: firebase.ordered.Store,
+  };
+}
+
+const enhance = compose(
+  firebaseConnect([{ path: "/Store" }]),
+  connect(mapStateToProps)
+);
+
+export default enhance(ManagePromotion);

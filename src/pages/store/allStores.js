@@ -14,23 +14,23 @@ class AllStore extends Component {
       checkbox: [],
       rating: 0,
       discount: false,
-      promotion: false
+      promotion: false,
     };
   }
 
-  onclickBack=()=>{
-    window.history.back()
-}   
+  onclickBack = () => {
+    window.history.back();
+  };
 
-  searchHandler = event => {
+  searchHandler = (event) => {
     this.setState({
-      store: event.target.value
+      store: event.target.value,
     });
   };
 
-  onCheckType = e => {
+  onCheckType = (e) => {
     let checkbox = this.state.checkbox;
-    let index = checkbox.findIndex(el => el === e);
+    let index = checkbox.findIndex((el) => el === e);
     if (index < 0) {
       checkbox.push(e);
     } else {
@@ -71,15 +71,15 @@ class AllStore extends Component {
     return Data;
   };
 
-  onClickViewDetail = value => {
+  onClickViewDetail = (value) => {
     this.props.history.push({
       pathname: "/StoreDetail",
-      state: [value]
+      state: [value],
     });
   };
 
-  searchFilter=(store) =>{
-    return function(x) {
+  searchFilter = (store) => {
+    return function (x) {
       return (
         x.value.Name.toLowerCase().includes(store.toLowerCase()) ||
         x.value.Address.toLowerCase().includes(store.toLowerCase()) ||
@@ -87,7 +87,7 @@ class AllStore extends Component {
         !store
       );
     };
-  }
+  };
   render() {
     const { store, checkbox } = this.state;
     const { Store } = this.props;
@@ -115,14 +115,14 @@ class AllStore extends Component {
                           <p className="font">{value.Name}</p>
                           <hr />
 
-                          {value.Type.map(el => (
+                          {value.Type.map((el) => (
                             <p
                               style={{
                                 marginLeft: -2,
                                 marginRight: 8,
                                 marginBottom: 3,
                                 marginTop: 0.5,
-                                fontWeight: "lighter"
+                                fontWeight: "lighter",
                               }}
                               class="badge badge-warning"
                             >
@@ -156,14 +156,14 @@ class AllStore extends Component {
                         <h6 className="styleFont">
                           <p className="font">{value.Name}</p>
                           <hr />
-                          {value.Type.map(el => (
+                          {value.Type.map((el) => (
                             <p
                               style={{
                                 marginLeft: -2,
                                 marginRight: 8,
                                 marginBottom: 3,
                                 marginTop: 0.5,
-                                fontWeight: "lighter"
+                                fontWeight: "lighter",
                               }}
                               className="badge badge-warning"
                             >
@@ -193,7 +193,7 @@ class AllStore extends Component {
               <h2
                 className="font"
                 style={{
-                  marginBottom: "3.5rem"
+                  marginBottom: "3.5rem",
                 }}
               >
                 ธุรกิจทั้งหมด
@@ -202,8 +202,9 @@ class AllStore extends Component {
             </p>
 
             <div className="album  bg-while">
-              <div className="row" 
-              // style={{border:"0.5px solid gray"}}
+              <div
+                className="row"
+                // style={{border:"0.5px solid gray"}}
               >
                 <div
                   className="col-lg-3 col-md-5 col-sm-6 jumbotron jumbotron-fluid"
@@ -220,13 +221,13 @@ class AllStore extends Component {
                       style={{
                         marginTop: "4rem",
                         marginLeft: "1rem",
-                        marginRight: "1rem"
+                        marginRight: "1rem",
                       }}
                     />
                   </form>
                   <Filter
-                    onCheckType={e => this.onCheckType(e)}
-                    onFilterRating={e => this.onFilterRating(e)}
+                    onCheckType={(e) => this.onCheckType(e)}
+                    onFilterRating={(e) => this.onFilterRating(e)}
                     rating={this.state.rating}
                   />
                 </div>
@@ -246,12 +247,19 @@ class AllStore extends Component {
             </div>
           </div>
           <div className="justify-content-start">
-            <div className="container">         
-                <div className="col-xs-12 col-sm-4 col-md-2">  
-                        <button type="button" onClick={this.onclickBack} className="btn btn-dark btn-block">ย้อนกลับ</button>
-                </div>
+            <div className="container">
+              <div className="col-xs-12 col-sm-4 col-md-2">
+                <button
+                  type="button"
+                  onClick={this.onclickBack}
+                  className="btn btn-dark btn-block"
+                  style={{ marginBottom: "4rem" }}
+                >
+                  ย้อนกลับ
+                </button>
               </div>
             </div>
+          </div>
         </div>
       </div>
     );
@@ -260,7 +268,7 @@ class AllStore extends Component {
 
 function mapStateToProps({ firebase }) {
   return {
-    Store: firebase.ordered.Store
+    Store: firebase.ordered.Store,
   };
 }
 
