@@ -92,7 +92,7 @@ class LoginForm extends Component {
               this.setState({ checklogIn: true });
             } else {
               swal("ผิดพลาด");
-              this.setState({ checklogIn: false });
+              this.setState({ loadingLogin: false });
             }
           });
         })

@@ -101,8 +101,8 @@ class Login extends Component {
   onClickEditStore = (event) => {
     event.preventDefault();
     this.props.history.push({
-      pathname: "/Regis-Store",
-      state: { mode: "EditStore" },
+      pathname: "/Manager",
+      state: { mode: "edit" },
     });
   };
 

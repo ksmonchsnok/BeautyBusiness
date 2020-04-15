@@ -270,6 +270,7 @@ export default class RegistrationForm extends Component {
     //   };
     // };
     const { TextArea } = Input;
+
     return (
       <div
         id="Add-Update-User"
@@ -277,7 +278,15 @@ export default class RegistrationForm extends Component {
       >
         <Navbar />
         <div className="container">
+          {/* {this.props.location.state.mode ===
+            "EditUser"(
+              <span>
+                {" "}
+                <h3>แก้ข้อมูลผู้ใช้ </h3>
+              </span>
+            )} */}
           <h3>Register /สมัครสมาชิก </h3>
+
           <hr />
           <Form
             {...formItemLayout}
