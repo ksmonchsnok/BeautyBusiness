@@ -91,7 +91,7 @@ class LoginForm extends Component {
               });
               this.setState({ checklogIn: true });
             } else {
-              swal("Your imaginary file is safe!");
+              swal("ผิดพลาด");
               this.setState({ checklogIn: false });
             }
           });

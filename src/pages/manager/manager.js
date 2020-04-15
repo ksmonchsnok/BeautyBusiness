@@ -1,24 +1,24 @@
 import React, { Component } from "react";
-import Navbar from "../../components/navbar/navbars.js";
+import Navbar from "../../components/navbar/navbar.js";
 import UpdateStore from "../admin/addStore";
 import ManagePromotion from "./managePromotion.js";
 import Report from "./report.js";
 
 export default class Manager extends Component {
   state = {
-    collapsed: false
+    collapsed: false,
   };
 
   toggle = () => {
     this.setState({
-      collapsed: !this.state.collapsed
+      collapsed: !this.state.collapsed,
     });
   };
 
-  onClickViewDetail = value => {
+  onClickViewDetail = (value) => {
     this.props.history.push({
       pathname: "/Add",
-      state: [value]
+      state: [value],
     });
   };
 
@@ -36,7 +36,7 @@ export default class Manager extends Component {
             marginTop: "-1rem",
             marginRight: "1rem",
             height: "auto",
-            marginBottom: "-3rem"
+            marginBottom: "-3rem",
           }}
         >
           <div className="row">

@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import "../../style.css";
 import { NavLink } from "react-router-dom";
-import user from "../../assets/icon/user.png";
+import user from "../../assets/icon/user2.png";
 import users from "../../assets/icon/users.png";
 import setting from "../../assets/icon/setting.png";
 import edit from "../../assets/icon/edit.png";
 import logout from "../../assets/icon/logout.png";
+import store from "../../assets/icon/store.png";
 import "firebase/auth";
 import swal from "sweetalert";
 import firebase from "firebase/app";
@@ -22,10 +23,16 @@ class navbar extends Component {
       setimgShow: "",
       setFullName: "",
       showlogInAndSignIn: false,
+      showlogInAndSignInFb: false,
+      showlogInAndSignInGoogle: false,
     };
   }
 
   componentDidMount() {
+    JSON.parse(localStorage.getItem("ObjUser"));
+    JSON.parse(localStorage.getItem("FB-Login"));
+    JSON.parse(localStorage.getItem("Google-login"));
+
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.setState({
@@ -41,6 +48,10 @@ class navbar extends Component {
   async setUserLogin() {
     setTimeout(() => {
       let checkSigninAndOut = JSON.parse(localStorage.getItem("ObjUser"));
+      let checkSigninAndOutfb = JSON.parse(localStorage.getItem("FB-Login"));
+      let checkSigninAndOutgoogle = JSON.parse(
+        localStorage.getItem("Google-login")
+      );
       if (checkSigninAndOut) {
         this.setState({
           setimgShow: checkSigninAndOut.imageUrl,
@@ -53,27 +64,55 @@ class navbar extends Component {
           showlogInAndSignIn: false,
         });
       }
-    }, 500);
-  }
 
+      if (checkSigninAndOutfb) {
+        this.setState({
+          setimgShow: checkSigninAndOutfb.picture.data.url,
+          setFullName: checkSigninAndOutfb.name,
+          showlogInAndSignInFb: true,
+        });
+      } else {
+        this.setState({
+          showlogInAndSignInFb: false,
+        });
+      }
+
+      if (checkSigninAndOutgoogle) {
+        this.setState({
+          setimgShow: checkSigninAndOutgoogle.profileObj.imageUrl,
+          setFullName: checkSigninAndOutgoogle.profileObj.name,
+          showlogInAndSignInGoogle: true,
+        });
+      } else {
+        this.setState({
+          showlogInAndSignInGoogle: false,
+        });
+      }
+    }, 0);
+  }
   showPopupLogin = () => {
     this.setState({
       showPopupLogin: !this.state.showPopupLogin,
     });
   };
 
-  onClickHome = () => {
-    this.props.history.push("/");
-  };
-
-  onClickEditProfile = () => {
+  onClickEditProfile = (event) => {
+    event.preventDefault();
     this.props.history.push({
       pathname: "/Register",
       state: { mode: "EditUser" },
     });
   };
 
-  OnLogout = () => {
+  onClickEditStore = (event) => {
+    event.preventDefault();
+    this.props.history.push({
+      pathname: "/Regis-Store",
+      state: { mode: "EditStore" },
+    });
+  };
+
+  OnLogout() {
     swal({
       title: "Log out",
       text: "ํYou want Continue or not?",
@@ -91,16 +130,18 @@ class navbar extends Component {
           .then(function () {
             // Sign-out successful.
             localStorage.removeItem("ObjUser");
+            localStorage.removeItem("FB-Login");
+            localStorage.removeItem("Google-login");
             window.location.reload();
           })
           .catch(function (error) {
             // An error happened.
           });
       } else {
-        swal("ออกจากระบบ");
+        swal("ผิดพลาด");
       }
     });
-  };
+  }
 
   render() {
     const showPopupLogin = this.state.showPopupLogin;
@@ -108,18 +149,69 @@ class navbar extends Component {
     return (
       <div id="Navbar" style={{ marginTop: "-0.5rem", marginBottom: "12rem" }}>
         <nav className="fixed-top  navbar navbar-dark bg-dark navbar-expand-lg ">
-          <NavLink exact to="/" className="navbar-brand">
-            <img src={Logo} className="logoNav" alt="Logo" />
-          </NavLink>
+          <a className="navbar-brand" href="#">
+            {" "}
+            <NavLink exact to="/" className="navbar-brand">
+              <img src={Logo} className="logoNav" alt="Logo" />
+            </NavLink>
+          </a>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+            style={{ marginRight: "0.5rem" }}
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul className="navbar-nav" style={{ marginLeft: "2rem" }}>
+              <li className="nav-item">
+                <a
+                  className="nav-link"
+                  href
+                  onClick={() => this.props.history.push("/")}
+                >
+                  หน้าหลัก
+                </a>
+              </li>
+              <li className="nav-item">
+                <a
+                  className="nav-link"
+                  href
+                  onClick={() => this.props.history.push("/Nearby")}
+                >
+                  ค้นหาธุรกิจใกล้เคียง
+                </a>
+              </li>
+              <li className="nav-item">
+                <a
+                  className="nav-link"
+                  href
+                  onClick={() => this.props.history.push("/AllStores")}
+                >
+                  ธุรกิจทั้งหมด
+                </a>
+              </li>
 
-          <ul className="navbar-nav mr-auto">
-            <li className="nav-item">
-              <NavLink exact to="/" className="nav-link">
-                หน้าหลัก
-              </NavLink>
-            </li>
-          </ul>
-          {this.state.showlogInAndSignIn === true ? (
+              <li className="nav-item">
+                <a
+                  className="nav-link"
+                  href
+                  onClick={() => this.props.history.push("/Contact")}
+                >
+                  ติดต่อเรา
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {this.state.showlogInAndSignIn === true ||
+          this.state.showlogInAndSignInFb === true ||
+          this.state.showlogInAndSignInGoogle === true ? (
             <form className="form-inline my-2 my-lg-0">
               <div className="nav justify-content-end">
                 <div className="nav-item dropdown">
@@ -131,15 +223,9 @@ class navbar extends Component {
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
-                    <button
-                      type="button"
-                      className="btn btn-dark but"
-                      data-toggle="modal"
-                      data-target="#exampleModal"
-                      // onClick={this.showPopupLogin}
-                    >
+                    <a href data-toggle="modal" data-target="#exampleModal">
                       <img src={setting} />
-                    </button>
+                    </a>
                   </div>
                   <div
                     className="dropdown-menu"
@@ -153,7 +239,7 @@ class navbar extends Component {
                         alt="user"
                         style={{ marginRight: "7px" }}
                       />
-                      Name User
+                      {this.state.setFullName}
                     </div>
                     <a
                       className="dropdown-item"
@@ -167,6 +253,20 @@ class navbar extends Component {
                         style={{ marginRight: "7px" }}
                       />
                       แก้ไขข้อมูลผู้ใช้
+                    </a>
+                    <a
+                      className="dropdown-item"
+                      href
+                      onClick={this.onClickEditStore}
+                      history={this.props.history}
+                    >
+                      {" "}
+                      <img
+                        src={store}
+                        alt="user"
+                        style={{ marginRight: "7px" }}
+                      />
+                      แก้ไขข้อมูลธุรกิจ
                     </a>
                     <div className="dropdown-divider" />
                     <a className="dropdown-item" href onClick={this.OnLogout}>
@@ -182,18 +282,18 @@ class navbar extends Component {
               </div>
             </form>
           ) : (
-            <button
-              type="button"
-              className="btn btn-dark but"
-              data-toggle="modal"
-              data-target="#exampleModal"
-              onClick={this.showPopupLogin}
-              style={{ height: "60px" }}
-              history={this.props}
-            >
-              <img src={user} alt="sign in" />
-              &nbsp; Sing In
-            </button>
+            <div className="nav-link">
+              <a
+                href
+                data-toggle="modal"
+                data-target="#exampleModal"
+                // style={{ margin: "-0.5rem", height: "93px" }}
+                onClick={this.showPopupLogin}
+                history={this.props}
+              >
+                <img src={user} alt="sign in" />
+              </a>
+            </div>
           )}
         </nav>
 

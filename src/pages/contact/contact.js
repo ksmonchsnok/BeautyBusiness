@@ -124,22 +124,21 @@ export default class Contact extends Component {
                         required: true,
                         message: <small>กรุณากรอกชื่อ</small>,
                       },
-                    ]}
-                  >
-                    <Input allowClear />
-                  </Form.Item>
-                  <Form.Item
-                    name="lastName"
-                    label="นามสกุล"
-                    rules={[
                       {
-                        required: true,
-                        message: <small>กรุณากรอกนามสกุล</small>,
+                        type: "string",
+                        pattern: new RegExp("^[A-Za-zก-๙]*$"),
+                        message: <small>กรุณากรอกเฉพาะตัวอักษร</small>,
                       },
                     ]}
                   >
-                    <Input allowClear />
+                    <Input
+                      placeholder="ชื่อ-นามสกุล"
+                      minLength={5}
+                      maxLength={40}
+                      allowClear
+                    />
                   </Form.Item>
+
                   <Form.Item
                     name="phone"
                     label="เบอร์โทร"
@@ -148,9 +147,19 @@ export default class Contact extends Component {
                         required: true,
                         message: <small>กรุณากรอกเบอร์โทรศัพท์</small>,
                       },
+
+                      {
+                        pattern: new RegExp("^[0-9-]*$"),
+                        message: <small>กรุณากรอกเฉพาะตัวเลข</small>,
+                      },
                     ]}
                   >
-                    <Input allowClear />
+                    <Input
+                      placeholder="000-000-0000"
+                      min={10}
+                      maxLength={12}
+                      allowClear
+                    />
                   </Form.Item>
 
                   <Form.Item
@@ -167,9 +176,30 @@ export default class Contact extends Component {
                       },
                     ]}
                   >
-                    <Input allowClear />
+                    <Input
+                      placeholder="xxxxxx@gmail.com"
+                      maxLength={35}
+                      allowClear
+                    />
                   </Form.Item>
 
+                  <Form.Item
+                    name="message"
+                    label="message"
+                    rules={[
+                      {
+                        required: true,
+                        message: <small>กรุณากรอกข้อความ</small>,
+                      },
+                    ]}
+                  >
+                    <Input.TextArea
+                      minLength={10}
+                      maxLength={200}
+                      placeholder="เขียนข้อความถึงเรา..."
+                      allowClear
+                    />
+                  </Form.Item>
                   <div className="row justify-content-center">
                     <div className="col-xs-12 col-sm-12 col-md-6 col-lg-5">
                       <button

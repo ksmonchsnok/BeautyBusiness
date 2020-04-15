@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { firebaseConnect } from "react-redux-firebase";
 import Navbar from "../../components/navbar/navbar.js";
+import swal from "sweetalert";
 
 class StoreDetail extends Component {
   constructor(props) {
@@ -19,14 +20,18 @@ class StoreDetail extends Component {
     // let Store = this.state.Store;
     this.setState({ Store: this.props.history.location.state });
     // console.log(Store);
-    
   };
 
   onClickBack = () => {
     window.history.back();
   };
+
+  onClickDiscount = () => {
+    swal("Good job!", "You clicked the button!", "success");
+  };
+
   render() {
-    const item = this.state.Store.map(value => (
+    const item = this.state.Store.map((value) => (
       <div key={value.ItemID}>
         <h1
           className="text-center"
@@ -37,7 +42,7 @@ class StoreDetail extends Component {
 
         <img
           className="card-img-top img-fluid rounded mx-auto d-block"
-          src={value.imageUrl}          
+          src={value.imageUrl}
           alt="image"
           aria-hidden="true"
         />
@@ -48,23 +53,39 @@ class StoreDetail extends Component {
           รายละเอียดร้านค้า
         </h3>
         <li className="list-group-item">
-          <p style={{ marginTop: 1 + "rem" }}>เวลา :: {value.Open}</p>
+          <p style={{ marginTop: 1 + "rem" }}>
+            เวลา ::{" "}
+            <div class="badge badge-success" style={{ fontSize: "16px" }}>
+              {value.Open} น.
+            </div>
+          </p>
           <p>โทร :: {value.Phone}</p>
-          <p>{value.Address}</p>
+          <p>ที่อยู่ :: {value.Address}</p>
           <p>
             ติดต่อ :: <a href={value.Ref}> Facebook</a>
           </p>
 
           <div className="row col-6">
-            {value.Type.map(el => (
+            {value.Type.map((el) => (
               <h4 style={{ marginRight: 5 }}>
                 <span className="badge badge-warning">{el}</span>
               </h4>
             ))}
           </div>
+        </li>
 
+        <h3
+          className="text-center"
+          style={{ paddingBottom: 2 + "rem", paddingTop: 4 + "rem" }}
+        >
+          โปรโมชั่นและส่วนลดบริการของธุรกิจ
+        </h3>
+
+        <li className="list-group-item">
           <a href>
-            <h6 style={{ color: "red" }}>คลิกขอโค้ดส่วนลด</h6>
+            <h6 style={{ color: "red" }} onClick={this.onClickDiscount}>
+              คลิกขอโค้ดส่วนลด
+            </h6>
           </a>
         </li>
       </div>
@@ -76,7 +97,7 @@ class StoreDetail extends Component {
 
         <div
           className="container jumbotron"
-          style={{ backgroundColor: "#EBF5FF" }}
+          style={{ backgroundColor: "#EBF5FF", marginBottom: "5rem" }}
         >
           <div className="row marginDetail">
             <div className="col-8 ">{item}</div>
@@ -86,7 +107,7 @@ class StoreDetail extends Component {
             style={{
               marginLeft: "1rem",
               marginTop: "5rem",
-              marginBottom: "-3rem"
+              marginBottom: "-3rem",
             }}
           >
             <button
@@ -105,7 +126,7 @@ class StoreDetail extends Component {
 
 function mapStateToProps({ firebase }) {
   return {
-    Store: firebase.ordered.Store
+    Store: firebase.ordered.Store,
   };
 }
 

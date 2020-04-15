@@ -8,7 +8,7 @@ import {
   QuestionCircleOutlined,
 } from "@ant-design/icons";
 import firebase from "firebase";
-import Navbar from "../../components/navbar/navbars.js";
+import Navbar from "../../components/navbar/navbar.js";
 import swal from "sweetalert";
 
 export default class RegistrationForm extends Component {

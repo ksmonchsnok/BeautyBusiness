@@ -20,15 +20,17 @@ class Login extends Component {
       showPopupLogin: false,
       setimgShow: "",
       setFullName: "",
-      showlogInAndSignIn: false
+      showlogInAndSignIn: false,
+      showlogInAndSignInFb: false,
+      showlogInAndSignInGoogle: false,
     };
   }
 
   componentDidMount() {
-    firebase.auth().onAuthStateChanged(user => {
+    firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.setState({
-          currentUser: user
+          currentUser: user,
         });
       }
       setTimeout(() => {
@@ -49,11 +51,11 @@ class Login extends Component {
           setimgShow: checkSigninAndOut.imageUrl,
           setFullName:
             checkSigninAndOut.Firstname + "-" + checkSigninAndOut.Lastname,
-          showlogInAndSignIn: true
+          showlogInAndSignIn: true,
         });
       } else {
         this.setState({
-          showlogInAndSignIn: false
+          showlogInAndSignIn: false,
         });
       }
 
@@ -61,11 +63,11 @@ class Login extends Component {
         this.setState({
           setimgShow: checkSigninAndOutfb.picture.data.url,
           setFullName: checkSigninAndOutfb.name,
-          showlogInAndSignIn: true
+          showlogInAndSignInFb: true,
         });
       } else {
         this.setState({
-          showlogInAndSignIn: false
+          showlogInAndSignInFb: false,
         });
       }
 
@@ -73,65 +75,75 @@ class Login extends Component {
         this.setState({
           setimgShow: checkSigninAndOutgoogle.profileObj.imageUrl,
           setFullName: checkSigninAndOutgoogle.profileObj.name,
-          showlogInAndSignIn: true
+          showlogInAndSignInGoogle: true,
         });
       } else {
         this.setState({
-          showlogInAndSignIn: false
+          showlogInAndSignInGoogle: false,
         });
       }
-    }, 200);
+    }, 100);
   }
   showPopupLogin = () => {
     this.setState({
-      showPopupLogin: !this.state.showPopupLogin
+      showPopupLogin: !this.state.showPopupLogin,
     });
   };
 
-  onClickEditProfile = event => {
+  onClickEditProfile = (event) => {
     event.preventDefault();
     this.props.history.push({
       pathname: "/Register",
-      state: { mode: "EditUser" }
+      state: { mode: "EditUser" },
     });
   };
+
+  onClickEditStore = (event) => {
+    event.preventDefault();
+    this.props.history.push({
+      pathname: "/Regis-Store",
+      state: { mode: "EditStore" },
+    });
+  };
+
   OnLogout() {
     swal({
       title: "Log out",
       text: "ํYou want Continue or not?",
       icon: "warning",
       buttons: true,
-      dangerMode: true
-    }).then(willDelete => {
+      dangerMode: true,
+    }).then((willDelete) => {
       if (willDelete) {
         swal("Log out Success", {
-          icon: "success"
+          icon: "success",
         });
         firebase
           .auth()
           .signOut()
-          .then(function() {
+          .then(function () {
             // Sign-out successful.
             localStorage.removeItem("ObjUser");
             localStorage.removeItem("FB-Login");
             localStorage.removeItem("Google-login");
-
-            window.location.reload();
           })
-          .catch(function(error) {
+          .catch(function (error) {
             // An error happened.
           });
       } else {
-        swal("Your imaginary file is safe!");
+        swal("ผิดพลาด");
       }
     });
   }
+
   render() {
     const showPopupLogin = this.state.showPopupLogin;
     return (
       <div id="Login" history={this.props} style={{ marginBottom: "-9rem" }}>
         <div className="nav justify-content-end">
-          {this.state.showlogInAndSignIn === true ? (
+          {this.state.showlogInAndSignIn === true ||
+          this.state.showlogInAndSignInFb === true ||
+          this.state.showlogInAndSignInGoogle === true ? (
             <form className="form-inline my-2 my-lg-0" history={this.props}>
               <div className="nav align-self-center justify-content-end">
                 <div className="nav-item dropdown">
@@ -148,8 +160,12 @@ class Login extends Component {
                       className="btn btn-dark"
                       data-toggle="modal"
                       data-target="#exampleModal"
+                      style={{ width: "60px", height: "60px" }}
                     >
-                      <img src={setting} />
+                      <img
+                        src={setting}
+                        style={{ marginLeft: "-0.9rem", marginTop: "-0.5rem" }}
+                      />
                     </button>
                   </div>
                   <div
@@ -181,7 +197,12 @@ class Login extends Component {
                       />
                       แก้ไขข้อมูลผู้ใช้
                     </a>
-                    <a className="dropdown-item" href>
+                    <a
+                      className="dropdown-item"
+                      href
+                      onClick={this.onClickEditStore}
+                      history={this.props.history}
+                    >
                       {" "}
                       <img
                         src={store}
@@ -219,7 +240,6 @@ class Login extends Component {
           )}
 
           <PopupLogin
-            // confirm={() => this.onClickReject()}
             aria-labelledby="contained-modal-title-vcenter"
             className="modal-dialog"
             id="popUpLogin"

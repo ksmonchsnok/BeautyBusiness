@@ -355,6 +355,16 @@ a:active {
     margin: 0.5rem;
 }
 
+
+.dropdown-menu {
+    margin-left: -8rem !important;
+}
+
+.navbar-toggler {
+    position: absolute;
+    margin-left: 12rem !important;
+}
+
 /* ********************************************************************************************************************************************************************* */
 /* Ant Design */
 

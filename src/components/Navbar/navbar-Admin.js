@@ -134,11 +134,7 @@ class navbar extends Component {
                     <img src={setting} />
                   </button>
                 </div>
-                <div
-                  className="dropdown-menu"
-                  aria-labelledby="navbarDropdown"
-                  style={{ marginLeft: "-5rem" }}
-                >
+                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
                   <div className="dropdown-item">
                     {" "}
                     <img
