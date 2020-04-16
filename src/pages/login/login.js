@@ -23,67 +23,70 @@ class Login extends Component {
       showlogInAndSignIn: false,
       showlogInAndSignInFb: false,
       showlogInAndSignInGoogle: false,
+      setlogInFacebook: {},
+      setlogInGoogle: {},
     };
+  }
+  componentDidUpdate(prevProps, prevState) {
+    let checkSigninAndOutgoogle = JSON.parse(
+      localStorage.getItem("Google-login")
+    );
+
+    let checkSigninAndOutfb = JSON.parse(localStorage.getItem("FB-Login"));
+
+    if (checkSigninAndOutgoogle && !prevState.showlogInAndSignIn) {
+      if (prevState.setlogInGoogle !== checkSigninAndOutgoogle.profileObj) {
+        this.checkLoginGL(checkSigninAndOutgoogle);
+      }
+    }
+
+    if (checkSigninAndOutfb && !prevState.showlogInAndSignIn) {
+      if (prevState.setlogInFacebook !== checkSigninAndOutfb) {
+        this.checkLoginFB(checkSigninAndOutfb);
+      }
+    }
   }
 
   componentDidMount() {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.setState({
-          currentUser: user,
-        });
-      }
-      setTimeout(() => {
-        this.setUserLogin();
-      }, 1000);
+    let checkSigninAndOut = JSON.parse(localStorage.getItem("ObjUser"));
+    let checkSigninAndOutfb = JSON.parse(localStorage.getItem("FB-Login"));
+    let checkSigninAndOutgoogle = JSON.parse(
+      localStorage.getItem("Google-login")
+    );
+
+    if (checkSigninAndOut) {
+      this.checkLogin(checkSigninAndOut);
+    } else if (checkSigninAndOutfb) {
+      this.checkLoginFB(checkSigninAndOutfb);
+    } else if (checkSigninAndOutgoogle) {
+      this.checkLoginGL(checkSigninAndOutgoogle);
+    }
+  }
+
+  checkLogin = (e) => {
+    this.setState({
+      setimgShow: e.imageUrl,
+      setFullName: e.Firstname + "-" + e.Lastname,
+      showlogInAndSignIn: true,
     });
-  }
+  };
 
-  async setUserLogin() {
-    setTimeout(() => {
-      let checkSigninAndOut = JSON.parse(localStorage.getItem("ObjUser"));
-      let checkSigninAndOutfb = JSON.parse(localStorage.getItem("FB-Login"));
-      let checkSigninAndOutgoogle = JSON.parse(
-        localStorage.getItem("Google-login")
-      );
-      if (checkSigninAndOut) {
-        this.setState({
-          setimgShow: checkSigninAndOut.imageUrl,
-          setFullName:
-            checkSigninAndOut.Firstname + "-" + checkSigninAndOut.Lastname,
-          showlogInAndSignIn: true,
-        });
-      } else {
-        this.setState({
-          showlogInAndSignIn: false,
-        });
-      }
+  checkLoginGL = (e) => {
+    this.setState({
+      setimgShow: e.profileObj.imageUrl,
+      setFullName: e.profileObj.name,
+      showlogInAndSignIn: true,
+    });
+  };
 
-      if (checkSigninAndOutfb) {
-        this.setState({
-          setimgShow: checkSigninAndOutfb.picture.data.url,
-          setFullName: checkSigninAndOutfb.name,
-          showlogInAndSignInFb: true,
-        });
-      } else {
-        this.setState({
-          showlogInAndSignInFb: false,
-        });
-      }
+  checkLoginFB = (e) => {
+    this.setState({
+      setimgShow: e.picture.data.url,
+      setFullName: e.name,
+      showlogInAndSignIn: true,
+    });
+  };
 
-      if (checkSigninAndOutgoogle) {
-        this.setState({
-          setimgShow: checkSigninAndOutgoogle.profileObj.imageUrl,
-          setFullName: checkSigninAndOutgoogle.profileObj.name,
-          showlogInAndSignInGoogle: true,
-        });
-      } else {
-        this.setState({
-          showlogInAndSignInGoogle: false,
-        });
-      }
-    }, 100);
-  }
   showPopupLogin = () => {
     this.setState({
       showPopupLogin: !this.state.showPopupLogin,
@@ -126,24 +129,23 @@ class Login extends Component {
             localStorage.removeItem("ObjUser");
             localStorage.removeItem("FB-Login");
             localStorage.removeItem("Google-login");
+
+            window.location.reload();
           })
           .catch(function (error) {
             // An error happened.
           });
       } else {
-        swal("ผิดพลาด");
+        swal("ยกเลิก");
       }
     });
   }
-
   render() {
     const showPopupLogin = this.state.showPopupLogin;
     return (
       <div id="Login" history={this.props} style={{ marginBottom: "-9rem" }}>
         <div className="nav justify-content-end">
-          {this.state.showlogInAndSignIn === true ||
-          this.state.showlogInAndSignInFb === true ||
-          this.state.showlogInAndSignInGoogle === true ? (
+          {this.state.showlogInAndSignIn === true ? (
             <form className="form-inline my-2 my-lg-0" history={this.props}>
               <div className="nav align-self-center justify-content-end">
                 <div className="nav-item dropdown">
@@ -245,6 +247,7 @@ class Login extends Component {
             id="popUpLogin"
             isVisible={showPopupLogin}
             closePopup={this.showPopupLogin}
+            checkLogin={this.checkLogin}
             history={this.props}
           />
         </div>

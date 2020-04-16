@@ -9,7 +9,6 @@ import Google from "../../pages/login/Google-Login/google.js";
 import swal from "sweetalert";
 import firebase from "firebase/app";
 import "firebase/auth";
-import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import { withRouter } from "react-router-dom";
 
 class LoginForm extends Component {
@@ -28,6 +27,7 @@ class LoginForm extends Component {
       type: "forgot",
     };
   }
+
   componentDidMount() {
     this.unregisterAuthObserver = firebase
       .auth()
@@ -60,30 +60,27 @@ class LoginForm extends Component {
         .then((resp) => {
           swal({
             title: "Login Success",
-            text: "You want Continue or not?",
+            text: "ํYou want Continue or not?",
             icon: "warning",
             buttons: true,
             dangerMode: true,
           }).then((willDelete) => {
             if (willDelete) {
               const setPassword = firebase.database().ref(`MemberUser`);
-              setPassword
-                .child(resp.user.uid)
-                .update({
-                  Password: this.state.password,
-                  CFPassword: this.state.password,
-                })
-                .then((res) => {
-                  firebase
-                    .database()
-                    .ref(`MemberUser/${resp.user.uid}`)
-                    .once("value")
-                    .then((snapshot) => {
-                      localStorage.setItem(
-                        "ObjUser",
-                        JSON.stringify(snapshot.val())
-                      );
-                    });
+              setPassword.child(resp.user.uid).update({
+                Password: this.state.password,
+                CFPassword: this.state.password,
+              });
+              firebase
+                .database()
+                .ref(`MemberUser/${resp.user.uid}`)
+                .once("value")
+                .then((snapshot) => {
+                  localStorage.setItem(
+                    "ObjUser",
+                    JSON.stringify(snapshot.val())
+                  );
+                  this.props.checkLohin(snapshot.val());
                 });
               this.props.history.push({
                 pathname: "/",
@@ -91,8 +88,8 @@ class LoginForm extends Component {
               });
               this.setState({ checklogIn: true });
             } else {
-              swal("ผิดพลาด");
-              this.setState({ loadingLogin: false });
+              swal("Your imaginary file is safe!");
+              this.setState({ checklogIn: false });
             }
           });
         })
@@ -100,7 +97,7 @@ class LoginForm extends Component {
           swal("ผิดพลาด!", "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง", "error");
         });
     }, 500);
-    this.setState({ loadingLogin: true });
+    this.setState({ loadingLogin: false });
   };
 
   onClickRegister = () => {
@@ -125,7 +122,7 @@ class LoginForm extends Component {
     const isVisible = this.props.isVisible;
     const NormalLoginForm = () => {
       const onFinish = (values) => {
-        console.log("Received values of form: ", values);
+        // console.log("Received values of form: ", values);
       };
     };
     return (
@@ -159,14 +156,13 @@ class LoginForm extends Component {
                   remember: true,
                 }}
                 onFinish={this.onFinish}
-                // onSubmit={this.onClickLogin}
               >
                 <Form.Item
                   name="username"
                   rules={[
                     {
                       required: true,
-                      message: "Please input your Username!",
+                      message: <small>Please input your Username</small>,
                     },
                   ]}
                 >
@@ -177,6 +173,7 @@ class LoginForm extends Component {
                     name="email"
                     onChange={this.onChangeEmail}
                     placeholder="E-mail"
+                    maxLength={35}
                     allowClear
                   />
                 </Form.Item>
@@ -185,7 +182,7 @@ class LoginForm extends Component {
                   rules={[
                     {
                       required: true,
-                      message: "Please input your Password!",
+                      message: <small>Please input your Password</small>,
                     },
                   ]}
                 >
@@ -195,7 +192,7 @@ class LoginForm extends Component {
                     type="password"
                     name="password"
                     onChange={this.onChangePassword}
-                    minLength={2}
+                    minLength={6}
                     maxLength={16}
                     placeholder="Password"
                   />

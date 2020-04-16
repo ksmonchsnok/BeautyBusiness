@@ -19,7 +19,7 @@ export default class Facebook extends Component {
   };
 
   responseFacebook = (response) => {
-    // console.log(response);
+    console.log(response);
     if (response.status !== "unknown") {
       let auth = response;
       localStorage.setItem("FB-Login", JSON.stringify(auth));
