@@ -37,13 +37,14 @@ import User from "../pages/user/user.js";
 import Manager from "../pages/manager/manager.js";
 import managePromotion from "../pages/manager/managePromotion.js";
 import Report from "../pages/manager/report.js";
-// import Footer from "../components/footer/footer.js";
 
 export const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={(props) =>
-      localStorage.getItem("auth") ? (
+      localStorage.getItem("ObjUser") ||
+      localStorage.getItem("FB-Login") ||
+      localStorage.getItem("Google-login") ? (
         <Component {...props} />
       ) : (
         <Redirect to="/" />
@@ -69,8 +70,6 @@ export default () => (
       <Route exact path="/Regis-Store" component={RegisStore} />
       <Route exact path="/Reset-Password" component={ResetPassword} />
       <Route exact path="/Forgot-Password" component={ForgotPassword} />
-
-      {/* <PrivateRoute exact path="/admin" component={Admin} /> */}
 
       {/* Admin */}
       <Route exact path="/Admin" component={Admin} />

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Navbar from "../../components/navbar/navbar.js";
-import UpdateStore from "../admin/addStore";
+import UpdateStore from "../regisStore/regisStore.js";
 import ManagePromotion from "./managePromotion.js";
 import Report from "./report.js";
 

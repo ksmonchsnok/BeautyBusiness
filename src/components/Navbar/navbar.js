@@ -25,13 +25,45 @@ class navbar extends Component {
       showlogInAndSignIn: false,
       showlogInAndSignInFb: false,
       showlogInAndSignInGoogle: false,
+      setlogInFacebook: {},
+      setlogInGoogle: {},
     };
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    let checkSigninAndOutgoogle = JSON.parse(
+      localStorage.getItem("Google-login")
+    );
+
+    let checkSigninAndOutfb = JSON.parse(localStorage.getItem("FB-Login"));
+
+    if (checkSigninAndOutgoogle && !prevState.showlogInAndSignIn) {
+      if (prevState.setlogInGoogle !== checkSigninAndOutgoogle.profileObj) {
+        this.checkLoginGL(checkSigninAndOutgoogle);
+      }
+    }
+
+    if (checkSigninAndOutfb && !prevState.showlogInAndSignIn) {
+      if (prevState.setlogInFacebook !== checkSigninAndOutfb) {
+        this.checkLoginFB(checkSigninAndOutfb);
+      }
+    }
+  }
+
   componentDidMount() {
-    JSON.parse(localStorage.getItem("ObjUser"));
-    JSON.parse(localStorage.getItem("FB-Login"));
-    JSON.parse(localStorage.getItem("Google-login"));
+    let checkSigninAndOut = JSON.parse(localStorage.getItem("ObjUser"));
+    let checkSigninAndOutfb = JSON.parse(localStorage.getItem("FB-Login"));
+    let checkSigninAndOutgoogle = JSON.parse(
+      localStorage.getItem("Google-login")
+    );
+
+    if (checkSigninAndOut) {
+      this.checkLogin(checkSigninAndOut);
+    } else if (checkSigninAndOutfb) {
+      this.checkLoginFB(checkSigninAndOutfb);
+    } else if (checkSigninAndOutgoogle) {
+      this.checkLoginGL(checkSigninAndOutgoogle);
+    }
 
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
@@ -41,7 +73,7 @@ class navbar extends Component {
       }
       setTimeout(() => {
         this.setUserLogin();
-      }, 1000);
+      }, 100);
     });
   }
 
@@ -90,6 +122,31 @@ class navbar extends Component {
       }
     }, 0);
   }
+
+  // checkLogin = (e) => {
+  //   this.setState({
+  //     setimgShow: e.imageUrl,
+  //     setFullName: e.Firstname + "-" + e.Lastname,
+  //     showlogInAndSignIn: true,
+  //   });
+  // };
+
+  checkLoginGL = (e) => {
+    this.setState({
+      setimgShow: e.profileObj.imageUrl,
+      setFullName: e.profileObj.name,
+      showlogInAndSignIn: true,
+    });
+  };
+
+  checkLoginFB = (e) => {
+    this.setState({
+      setimgShow: e.picture.data.url,
+      setFullName: e.name,
+      showlogInAndSignIn: true,
+    });
+  };
+
   showPopupLogin = () => {
     this.setState({
       showPopupLogin: !this.state.showPopupLogin,
@@ -107,8 +164,8 @@ class navbar extends Component {
   onClickEditStore = (event) => {
     event.preventDefault();
     this.props.history.push({
-      pathname: "/Regis-Store",
-      state: { mode: "EditStore" },
+      pathname: "/Manager",
+      state: { mode: "edit" },
     });
   };
 
@@ -132,7 +189,6 @@ class navbar extends Component {
             localStorage.removeItem("ObjUser");
             localStorage.removeItem("FB-Login");
             localStorage.removeItem("Google-login");
-            window.location.reload();
           })
           .catch(function (error) {
             // An error happened.
@@ -141,6 +197,7 @@ class navbar extends Component {
         swal("ผิดพลาด");
       }
     });
+    window.location.reload();
   }
 
   render() {
@@ -230,7 +287,7 @@ class navbar extends Component {
                   <div
                     className="dropdown-menu"
                     aria-labelledby="navbarDropdown"
-                    style={{ marginLeft: "-5rem" }}
+                    style={{ marginRight: "1.5rem" }}
                   >
                     <div className="dropdown-item">
                       {" "}
@@ -287,7 +344,6 @@ class navbar extends Component {
                 href
                 data-toggle="modal"
                 data-target="#exampleModal"
-                // style={{ margin: "-0.5rem", height: "93px" }}
                 onClick={this.showPopupLogin}
                 history={this.props}
               >

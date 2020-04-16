@@ -136,7 +136,7 @@ class Login extends Component {
             // An error happened.
           });
       } else {
-        swal("ยกเลิก");
+        swal("ผิดพลาด");
       }
     });
   }
@@ -173,7 +173,7 @@ class Login extends Component {
                   <div
                     className="dropdown-menu"
                     aria-labelledby="navbarDropdown"
-                    style={{ marginLeft: "-9rem" }}
+                    style={{ marginRight: "1.5rem" }}
                   >
                     <div className="dropdown-item">
                       {" "}

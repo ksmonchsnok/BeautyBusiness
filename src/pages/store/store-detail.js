@@ -17,9 +17,7 @@ class StoreDetail extends Component {
   };
 
   Data = () => {
-    // let Store = this.state.Store;
     this.setState({ Store: this.props.history.location.state });
-    // console.log(Store);
   };
 
   onClickBack = () => {
@@ -27,7 +25,11 @@ class StoreDetail extends Component {
   };
 
   onClickDiscount = () => {
-    swal("Good job!", "You clicked the button!", "success");
+    swal(
+      "รหัสส่วนลดบริการ",
+      "Code : 0000000  วันหมดอายุ : 20-03-63",
+      "success"
+    );
   };
 
   render() {

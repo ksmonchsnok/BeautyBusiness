@@ -1,115 +1,239 @@
 import React, { Component } from "react";
 import "antd/dist/antd.css";
 import "../../style.css";
-// import { Form, Input, Tooltip, Button, Upload, message } from "antd";
+import { Radio } from "antd";
+import firebase from "firebase";
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { firebaseConnect } from "react-redux-firebase";
+import swal from "sweetalert";
+import Navbar from "../../components/navbar/navbar-Admin.js";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
-export default class ManagePromotion extends Component {
+class ManagePromotion extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: false
+      loading: false,
+      Promotion: false,
+      Discount: false,
+      data: [],
+      startDatePromotion: new Date(),
+      endDatePromotion: new Date(),
+      startDateDiscount: new Date(),
+      endDateDiscount: new Date(),
     };
   }
+
+  async componentDidMount() {
+    await this.onGetItemp();
+  }
+  onGetItemp() {
+    setTimeout(() => {
+      let ref = firebase.database().ref("Store");
+      ref.once("value").then((snapshot) => {
+        const data = snapshot.val();
+        if (typeof data === "object" && data !== null && data !== undefined) {
+          let arr = [];
+          var key = Object.keys(data);
+          let arr1 = Object.values(data);
+          for (let i = 0; i < arr1.length; i++) {
+            arr[key[i]] = arr1[i];
+          }
+          this.setState({ data: arr });
+        } else {
+          this.setState({ data });
+        }
+      });
+    }, 1000);
+  }
+
+  onChangePromotion = (e) => {
+    this.setState({
+      Promotion: e.target.value,
+    });
+  };
+
+  onChangeDiscount = (e) => {
+    this.setState({
+      Discount: e.target.value,
+    });
+  };
+
+  onStartDatePromotionChange = (date) => {
+    this.setState({
+      startDatePromotion: date,
+    });
+  };
+
+  onEndDatePromotionChange = (date) => {
+    this.setState({
+      endDatePromotion: date,
+    });
+  };
+
+  onStartDateDiscountChange = (date) => {
+    this.setState({
+      startDateDiscount: date,
+    });
+  };
+
+  onEndDateDiscountChange = (date) => {
+    this.setState({
+      endDateDiscount: date,
+    });
+  };
 
   render() {
     return (
       <div
         id="Manage-Promotion"
-        style={{ marginTop: "3rem", marginLeft: "1rem", marginBottom: "5rem" }}
+        style={{ marginLeft: "1rem", marginBottom: "5rem" }}
       >
+        <Navbar />
         <div className="container">
-          <h2>Promotion</h2>
-          <form>
-            <div className="form-row">
-              <div className="col">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Promotion Name"
-                />
-              </div>
-              <div className="col">
-                <input
-                  type="textbox"
-                  className="form-control"
-                  placeholder="Description"
-                />
-              </div>
-            </div>
-          </form>
+          <div className="row">
+            <h2>Promotion</h2>
+            <Radio.Group
+              onChange={this.onChangePromotion}
+              value={this.state.Promotion}
+              style={{ marginTop: "1rem", marginLeft: "1.5rem" }}
+            >
+              <Radio value={true}>มี</Radio>
+              <Radio value={false}>ไม่มี</Radio>
+            </Radio.Group>
+          </div>
+          {this.state.Promotion === true && (
+            <span>
+              <form>
+                <div className="form-row">
+                  <div className="col-ms-12 col-sm-12 col-md-6 col-lg-6">
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Promotion Name"
+                      style={{ marginBottom: "0.5rem" }}
+                    />
+                  </div>
+                  <div className="col-ms-12 col-sm-12 col-md-6 col-lg-6">
+                    <input
+                      type="textbox"
+                      className="form-control"
+                      placeholder="Description"
+                      style={{ marginBottom: "0.5rem" }}
+                    />
+                  </div>
+                </div>
+              </form>
+              <form style={{ marginTop: "2rem" }}>
+                <div className="form-row">
+                  <div className="col-ms-12 col-sm-12 col-md-4 col-lg-4">
+                    <input
+                      type="number"
+                      className="form-control"
+                      placeholder="Amount Promotion"
+                      style={{ marginBottom: "0.5rem" }}
+                    />
+                  </div>
+                  <div className="col-ms-6 col-sm-6 col-md-4 col-lg-4">
+                    <label>Start Date : &emsp;</label>
 
-          <form style={{ marginTop: "2rem" }}>
-            <div className="form-row">
-              <div className="col-2">
-                <input
-                  type="number"
-                  className="form-control"
-                  placeholder="Amount Promotion"
-                />
-              </div>
-              <div className="col">
-                <input
-                  type="date"
-                  className="form-control"
-                  placeholder="Start Date"
-                />
-              </div>
-              <div className="col">
-                <input
-                  type="date"
-                  className="form-control"
-                  placeholder="End Date"
-                />
-              </div>
-            </div>
-          </form>
-
+                    <DatePicker
+                      className="datePic"
+                      name="StartDate"
+                      selected={this.state.startDatePromotion}
+                      onChange={this.onStartDatePromotionChange}
+                      placeholder="Start Date"
+                      style={{ marginBottom: "0.5rem" }}
+                    />
+                  </div>
+                  <div className="col-ms-6 col-sm-6 col-md-4 col-lg-4">
+                    <label>End Date : &emsp;&nbsp;</label>
+                    <DatePicker
+                      className="datePic"
+                      name="EndDate"
+                      selected={this.state.endDatePromotion}
+                      onChange={this.onEndDatePromotionChange}
+                      placeholder="End Date"
+                      style={{ marginBottom: "0.5rem" }}
+                    />
+                  </div>
+                </div>
+              </form>
+            </span>
+          )}
           <hr style={{ margin: "3rem 0 3rem 0" }} />
-          <h2>ส่วนลดบริการ</h2>
-          <form>
-            <div className="form-row">
-              <div className="col">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Discount Name"
-                />
-              </div>
-              <div className="col">
-                <input
-                  type="textbox"
-                  className="form-control"
-                  placeholder="Description"
-                />
-              </div>
-            </div>
-          </form>
+          <div className="row">
+            <h2>ส่วนลดบริการ</h2>
+            <Radio.Group
+              onChange={this.onChangeDiscount}
+              value={this.state.Discount}
+              style={{ marginTop: "1rem", marginLeft: "1.5rem" }}
+            >
+              <Radio value={true}>มี</Radio>
+              <Radio value={false}>ไม่มี</Radio>
+            </Radio.Group>
+          </div>
+          {this.state.Discount === true && (
+            <span>
+              <form>
+                <div className="form-row">
+                  <div className="col-ms-12 col-sm-12 col-md-6 col-lg-6">
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Discount Name"
+                      style={{ marginBottom: "0.5rem" }}
+                    />
+                  </div>
+                  <div className="col-ms-12 col-sm-12 col-md-6 col-lg-6">
+                    <input
+                      type="textbox"
+                      className="form-control"
+                      placeholder="Description"
+                      style={{ marginBottom: "0.5rem" }}
+                    />
+                  </div>
+                </div>
+              </form>
+              <form style={{ marginTop: "2rem" }}>
+                <div className="form-row">
+                  <div className="col-ms-12 col-sm-12 col-md-4 col-lg-4">
+                    <input
+                      type="number"
+                      className="form-control"
+                      placeholder="Amount Description"
+                      style={{ marginBottom: "0.5rem" }}
+                    />
+                  </div>
+                  <div className="col-ms-6 col-sm-6 col-md-4 col-lg-4">
+                    <label>Start Date :&emsp;</label>
+                    <DatePicker
+                      className="datePic"
+                      name="StartDate"
+                      selected={this.state.startDateDiscount}
+                      onChange={this.onStartDateDiscountChange}
+                      placeholder="Start Date"
+                      style={{ marginBottom: "0.5rem" }}
+                    />
+                  </div>
+                  <div className="col-ms-6 col-sm-6 col-md-4 col-lg-4">
+                    <label>End Date :&emsp;&nbsp;</label>
 
-          <form style={{ marginTop: "2rem" }}>
-            <div className="form-row">
-              <div className="col-2">
-                <input
-                  type="number"
-                  className="form-control"
-                  placeholder="Amount Discount"
-                />
-              </div>
-              <div className="col">
-                <input
-                  type="date"
-                  className="form-control"
-                  placeholder="Start Date"
-                />
-              </div>
-              <div className="col">
-                <input
-                  type="date"
-                  className="form-control"
-                  placeholder="End Date"
-                />
-              </div>
-            </div>
-          </form>
+                    <DatePicker
+                      className="datePic"
+                      name="EndDate"
+                      selected={this.state.endDateDiscount}
+                      onChange={this.onEndDateDiscountChange}
+                      placeholder="End Date"
+                      style={{ marginBottom: "0.5rem" }}
+                    />
+                  </div>
+                </div>
+              </form>
+            </span>
+          )}
           <div
             className="col d-flex justify-content-center"
             style={{ marginTop: "6rem" }}
@@ -118,6 +242,7 @@ export default class ManagePromotion extends Component {
               type="button"
               className="btn btn-danger "
               style={{ marginRight: "2rem" }}
+              onClick={() => window.history.back()}
             >
               Cancel
             </button>
@@ -130,3 +255,16 @@ export default class ManagePromotion extends Component {
     );
   }
 }
+
+function mapStateToProps({ firebase }) {
+  return {
+    Store: firebase.ordered.Store,
+  };
+}
+
+const enhance = compose(
+  firebaseConnect([{ path: "/Store" }]),
+  connect(mapStateToProps)
+);
+
+export default enhance(ManagePromotion);
