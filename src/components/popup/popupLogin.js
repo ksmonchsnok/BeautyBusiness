@@ -80,7 +80,7 @@ class LoginForm extends Component {
                     "ObjUser",
                     JSON.stringify(snapshot.val())
                   );
-                  this.props.checkLohin(snapshot.val());
+                  this.props.checkLogin(snapshot.val());
                 });
               this.props.history.push({
                 pathname: "/",

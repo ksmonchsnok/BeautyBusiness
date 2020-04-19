@@ -84,7 +84,6 @@ class userList extends Component {
   };
 
   render() {
-    console.log(this.state.data);
     const { loadingData } = this.state;
 
     return (

@@ -37,6 +37,8 @@ class RegistrationForm extends Component {
       Lng: "",
       Recommend: "",
       ServiceType: [],
+      FaceInstagram: "",
+      UsernameOfSotre: "",
       options: [
         { label: "ตัดผมชาย", value: "ตัดผมชาย" },
         { label: "เสริมสวย", value: "เสริมสวย" },
@@ -47,7 +49,9 @@ class RegistrationForm extends Component {
         { label: "สปา", value: "สปา" },
         { label: "Tattoo", value: "Tattoo" },
       ],
-      user: [],
+      userLsit: [],
+      userOfStoreId: "",
+      UserSotreName: "",
     };
   }
 
@@ -88,10 +92,10 @@ class RegistrationForm extends Component {
     await this.getMemberUser();
     if (this.props.location.state.mode === "edit") {
       let obj = await this.props.location.state.obj;
-      console.log(this.formRef);
       this.formRef.current.setFieldsValue({
         mode: "edit",
-        ItemID: obj.ItemID,
+        userOfStoreId: obj.userOfStoreId,
+        UserSotreName: obj.UserSotreName,
         imageUrl: obj.imageUrl,
         BusinessName: obj.Name,
         OpenShop: obj.Open,
@@ -103,10 +107,12 @@ class RegistrationForm extends Component {
         Lng: obj.Lng,
         Ref: obj.Ref,
         ServiceType: obj.Type,
+        FaceInstagram: obj.FaceInstagram,
       });
       this.setState({
         mode: "edit",
-        ItemID: obj.ItemID,
+        userOfStoreId: obj.userOfStoreId,
+        UserSotreName: obj.UserSotreName,
         imageUrl: obj.imageUrl,
         BusinessName: obj.Name,
         OpenShop: obj.Open,
@@ -118,6 +124,7 @@ class RegistrationForm extends Component {
         Lng: obj.Lng,
         Ref: obj.Ref,
         ServiceType: obj.Type,
+        FaceInstagram: obj.FaceInstagram,
       });
     }
   }
@@ -138,82 +145,54 @@ class RegistrationForm extends Component {
   };
 
   onClickSave() {
-    if (this.state !== null) {
-      console.log(this.state !== null);
-
-      setTimeout(() => {
-        swal("เรียบร้อย", "สมัครสมาชิกเรียบร้อย", "success");
-        let tempId = [];
-        const itemsRef = firebase.database().ref("Store");
-        itemsRef.once("value").then((snapshot) => {
-          const temp = snapshot.val();
-          let newID = [];
-          console.log(temp);
-          for (let item in temp) {
-            newID.push({
-              item_id: item,
-            });
-          }
-          tempId = newID[newID.length - 1];
-          if (this.state.mode === "edit") {
-            const setItemInsert = firebase.database().ref(`Store`);
-
-            let newState = {
-              imageUrl: this.state.imageUrl,
-              Name: this.state.BusinessName,
-              Open: this.state.OpenShop,
-              Phone: this.state.PhoneNumbe,
-              Address: this.state.Address,
-              StoreType: this.state.BusinessType,
-              Recommend: this.state.Recommend,
-              Lat: this.state.Lat,
-              Lng: this.state.Lng,
-              Ref: this.state.Ref,
-              Type: this.state.ServiceType,
-            };
-            setItemInsert.child(this.state.ItemID).update(newState);
-          } else {
-            if (tempId !== [] && tempId !== undefined) {
-              const setItemInsert = firebase
-                .database()
-                .ref(`Store/${tempId.item_id * 1 + 1}`);
-              let newState = {
-                ItemID: tempId.item_id * 1 + 1,
-                imageUrl: this.state.imageUrl,
-                Name: this.state.BusinessName,
-                Open: this.state.OpenShop,
-                Phone: this.state.PhoneNumbe,
-                Address: this.state.Address,
-                StoreType: this.state.BusinessType,
-                Recommend: this.state.Recommend,
-                Lat: this.state.Lat,
-                Lng: this.state.Lng,
-                Ref: this.state.Ref,
-                Type: this.state.ServiceType,
-              };
-              setItemInsert.set(newState);
-            } else {
-              const setItemInsert = firebase.database().ref(`Store/1`);
-              let newState = {
-                ItemID: 1,
-                imageUrl: this.state.imageUrl,
-                Name: this.state.BusinessName,
-                Open: this.state.OpenShop,
-                Phone: this.state.PhoneNumbe,
-                Address: this.state.Address,
-                StoreType: this.state.BusinessType,
-                Recommend: this.state.Recommend,
-                Lat: this.state.Lat,
-                Lng: this.state.Lng,
-                Ref: this.state.Ref,
-                Type: this.state.ServiceType,
-              };
-              setItemInsert.set(newState);
-            }
-          }
-        });
-        this.onClickCancel();
-      }, 1000);
+    if (this.state !== null && this.state.userOfStoreId) {
+      if (this.state.mode === "edit") {
+        setTimeout(() => {
+          swal("แก้ไขเรียบร้อย", "success");
+          const setItemInsert = firebase.database().ref(`Store`);
+          let newState = {
+            imageUrl: this.state.imageUrl,
+            Name: this.state.BusinessName,
+            Open: this.state.OpenShop,
+            Phone: this.state.PhoneNumbe,
+            Address: this.state.Address,
+            StoreType: this.state.BusinessType,
+            Recommend: this.state.Recommend,
+            Lat: this.state.Lat,
+            Lng: this.state.Lng,
+            Ref: this.state.Ref,
+            Type: this.state.ServiceType,
+            FaceInstagram: this.state.FaceInstagram,
+          };
+          setItemInsert.child(this.state.userOfStoreId).update(newState);
+          this.onClickCancel();
+        }, 500);
+      } else {
+        setTimeout(() => {
+          swal("สร้างเรียบร้อย", "success");
+          const setItemInsert = firebase
+            .database()
+            .ref(`Store/${this.state.userOfStoreId}`);
+          let newState = {
+            userOfStoreId: this.state.userOfStoreId,
+            UserSotreName: this.state.UserSotreName,
+            imageUrl: this.state.imageUrl,
+            Name: this.state.BusinessName,
+            Open: this.state.OpenShop,
+            Phone: this.state.PhoneNumbe,
+            Address: this.state.Address,
+            StoreType: this.state.BusinessType,
+            Recommend: this.state.Recommend,
+            Lat: this.state.Lat,
+            Lng: this.state.Lng,
+            Ref: this.state.Ref,
+            Type: this.state.ServiceType,
+            FaceInstagram: this.state.FaceInstagram,
+          };
+          setItemInsert.set(newState);
+          this.onClickCancel();
+        }, 500);
+      }
     } else {
       swal("ผิดพลาด", "กรุณากรอกข้อมูลให้ครบ", "error");
       return;
@@ -221,17 +200,51 @@ class RegistrationForm extends Component {
   }
 
   getMemberUser() {
+    let checkUserStore = [];
     let user = [];
-    let rootRef = firebase.database().ref("Memberuser");
-    let Ref = rootRef
-      .orderByChild("UserType")
-      .equalTo("ผู้ให้บริการ")
-      .on("child_added", (snapshot) => {
-        user.push(snapshot.val());
+    firebase
+      .database()
+      .ref("Store")
+      .once("value")
+      .then((snapshot) => {
+        if (snapshot.val()) {
+          checkUserStore = Object.values(snapshot.val());
+        }
       });
-
-    this.setState({ user: user });
+    setTimeout(() => {
+      firebase
+        .database()
+        .ref("MemberUser")
+        .once("value")
+        .then((snapshot) => {
+          if (snapshot.val()) {
+            let data = Object.values(snapshot.val());
+            let index = "";
+            let arr = data;
+            for (let i = 0; i < checkUserStore.length; i++) {
+              index = data.findIndex(
+                (v) => v.UserId === checkUserStore[i].userOfStoreId
+              );
+              arr.splice(index, 1);
+              data = arr;
+            }
+            data.forEach((v) => {
+              if (v.UserType === "ผู้ให้บริการ") {
+                user.push({ value: v.UserId, label: v.Username });
+              }
+            });
+            this.setState({ userLsit: user });
+          }
+        });
+    }, 500);
   }
+  setStorename = (e) => {
+    this.state.userLsit.forEach((v) => {
+      if (v.value === e) {
+        this.setState({ userOfStoreId: e, UserSotreName: v.label });
+      }
+    });
+  };
 
   render() {
     const uploadButton = (
@@ -292,7 +305,6 @@ class RegistrationForm extends Component {
     function onSearch(val) {
       console.log("search:", val);
     }
-    console.log(this.state.user);
 
     return (
       <div
@@ -309,23 +321,36 @@ class RegistrationForm extends Component {
             style={{ marginBottom: "1rem", marginTop: "1.5rem" }}
           >
             <h4>Select User</h4>
-
-            <Select
-              showSearch
-              style={{ width: 300, marginLeft: "1.5rem", height: "2rem" }}
-              placeholder="Select a User"
-              optionFilterProp="children"
-              onChange={onChange}
-              onSearch={onSearch}
-              filterOption={(input, option) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-              }
-            >
-              {this.state.user &&
-                this.state.user.map((d) => {
-                  return <Option value={d.Username}>{d.Username}</Option>;
-                })}
-            </Select>
+            {this.state.mode === "edit" && this.state.UserSotreName !== "" ? (
+              <Input
+                style={{ width: 300, marginLeft: "1.5rem", height: "2rem" }}
+                value={this.state.UserSotreName}
+                whitespace={true}
+                disabled
+              />
+            ) : (
+              <Select
+                showSearch
+                style={{ width: 300, marginLeft: "1.5rem", height: "2rem" }}
+                placeholder="Select a User"
+                optionFilterProp="children"
+                onChange={this.setStorename}
+                onSearch={onSearch}
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
+                  0
+                }
+              >
+                {this.state.userLsit &&
+                  this.state.userLsit.map((d, index) => {
+                    return (
+                      <Option key={index} value={d.value}>
+                        {d.label}
+                      </Option>
+                    );
+                  })}
+              </Select>
+            )}
           </div>
         </div>
 
@@ -478,7 +503,7 @@ class RegistrationForm extends Component {
             />
           </Form.Item>
           <Form.Item
-            name="Ref"
+            name="FaceInstagram"
             label={<span>Facebook / Instagram</span>}
             rules={[
               {
@@ -498,11 +523,11 @@ class RegistrationForm extends Component {
           >
             <Input
               type="textbox"
-              name="Ref"
+              name="FaceInstagram"
               // initialValue ={this.state.BusinessName}
-              id="Ref"
-              value={this.state.Ref}
-              onChange={(e) => this.setState({ OpenShop: e.target.value })}
+              id="FaceInstagram"
+              value={this.state.FaceInstagram}
+              onChange={(e) => this.setState({ FaceInstagram: e.target.value })}
               // whitespace={true}
               maxLength={150}
               allowClear
@@ -529,7 +554,7 @@ class RegistrationForm extends Component {
               name="Lat"
               id="Lat"
               value={this.state.Lat}
-              onChange={(e) => this.setState({ PhoneNumbe: e.target.value })}
+              onChange={(e) => this.setState({ Lat: e.target.value })}
               // whitespace={true}
               maxLength={35}
               allowClear
@@ -555,7 +580,7 @@ class RegistrationForm extends Component {
               name="Lng"
               id="Lng"
               value={this.state.Lng}
-              onChange={(e) => this.setState({ PhoneNumbe: e.target.value })}
+              onChange={(e) => this.setState({ Lng: e.target.value })}
               // whitespace={true}
               maxLength={35}
               allowClear

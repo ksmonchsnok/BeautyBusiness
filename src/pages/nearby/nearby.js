@@ -21,7 +21,6 @@ class Nearby extends Component {
       activeMarker: {},
       selectedPlace: {},
     };
-    // this.locations = this.props.locations;
 
     if (this.props.isGeolocationAvailable && this.props.isGeolocationEnabled) {
       this.currentOfLocation();
@@ -34,24 +33,42 @@ class Nearby extends Component {
     this.setState({ loadingData: true });
 
     let ref = firebase.database().ref("Store");
+
     let locations = [];
+
     ref.once("value").then((snapshot) => {
-      const data = snapshot.val();
-      data.map((location) =>
-        locations.push({
-          Name: location.Name,
-          Lat: location.Lat,
-          Lng: location.Lng,
-          ID: location.ItemID,
-          imageUrl: location.imageUrl,
-          Star: location.Star,
-          Ref: location.Ref,
-          Address: location.Address,
-          Type: location.Type,
-          Open: location.Open,
-          Phone: location.Phone,
-        })
-      );
+      if (snapshot.val()) {
+        const data = Object.values(snapshot.val());
+        data.map((location) =>
+          locations.push({
+            Name: location.Name,
+            Lat: location.Lat,
+            Lng: location.Lng,
+            ID: location.userOfStoreId,
+            imageUrl: location.imageUrl,
+            FaceInstagram: location.Ref,
+            Address: location.Address,
+            Type: location.Type,
+            Open: location.Open,
+            Phone: location.Phone,
+          })
+        );
+        if (typeof data === "object" && data !== null && data !== undefined) {
+          let arr = [];
+          var key = Object.keys(data);
+          let arr1 = Object.values(data);
+          for (let i = 0; i < arr1.length; i++) {
+            arr[key[i]] = arr1[i];
+          }
+          // this.setState({ data: arr });
+        } else {
+          this.setState({ data });
+        }
+        this.setState({ loadingData: false });
+      } else {
+        this.setState({ loadingData: false });
+      }
+
       this.setState({ locations });
     });
     this.setState({ loadingData: false });
@@ -166,10 +183,9 @@ class Nearby extends Component {
           Name: el.Name,
           Lat: el.Lat,
           Lng: el.Lng,
-          ID: el.ItemID,
+          ID: el.userOfStoreId,
           imageUrl: el.imageUrl,
-          Star: el.Star,
-          Ref: el.Ref,
+          FaceInstagram: el.Ref,
           Address: el.Address,
           Type: el.Type,
           Open: el.Open,
@@ -197,7 +213,7 @@ class Nearby extends Component {
 
     const item = this.state.data.map((value) => (
       <div className="col-lg-3 col-md-6">
-        <div key={value.ItemID}>
+        <div key={value.userOfStoreId}>
           <a href onClick={() => this.onClickViewDetail(value)}>
             <img
               className="card-img-top img-fluid rounded mx-auto d-block"

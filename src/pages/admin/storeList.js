@@ -25,19 +25,23 @@ class storeList extends Component {
     setTimeout(() => {
       let ref = firebase.database().ref("Store");
       ref.once("value").then((snapshot) => {
-        const data = snapshot.val();
-        if (typeof data === "object" && data !== null && data !== undefined) {
-          let arr = [];
-          var key = Object.keys(data);
-          let arr1 = Object.values(data);
-          for (let i = 0; i < arr1.length; i++) {
-            arr[key[i]] = arr1[i];
+        if (snapshot.val()) {
+          const data = Object.values(snapshot.val());
+          if (typeof data === "object" && data !== null && data !== undefined) {
+            let arr = [];
+            var key = Object.keys(data);
+            let arr1 = Object.values(data);
+            for (let i = 0; i < arr1.length; i++) {
+              arr[key[i]] = arr1[i];
+            }
+            this.setState({ data: arr });
+          } else {
+            this.setState({ data });
           }
-          this.setState({ data: arr });
+          this.setState({ loadingData: false });
         } else {
-          this.setState({ data });
+          this.setState({ loadingData: false });
         }
-        this.setState({ loadingData: false });
       });
     }, 1000);
   }
@@ -60,7 +64,7 @@ class storeList extends Component {
   };
 
   handleDelete = (d, index) => {
-    console.log("ID", d.ItemID, "index", index);
+    console.log("ID", d);
     const itemsRef = firebase.database().ref("Store");
     swal({
       title: "Please Confirm for Delete ?",
@@ -69,7 +73,7 @@ class storeList extends Component {
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
-        itemsRef.child(d.ItemID).remove();
+        itemsRef.child(d.userOfStore).remove();
         this.onGetItemp();
       } else {
         return;
@@ -83,7 +87,6 @@ class storeList extends Component {
   };
 
   render() {
-    console.log(this.state.data);
     const { loadingData } = this.state;
 
     return (
@@ -107,7 +110,7 @@ class storeList extends Component {
               <table class="table">
                 <thead class="thead-dark">
                   <tr>
-                    <th scope="col">Business ID</th>
+                    <th scope="col">No.</th>
                     <th scope="col">Business Name</th>
                     <th scope="col">Open Store</th>
                     <th scope="col">Phone Number</th>
@@ -123,15 +126,17 @@ class storeList extends Component {
                     this.state.data.map((d, index) => {
                       return (
                         <tr key={index}>
-                          <th scope="row">{index}</th>
+                          <th scope="row">{index + 1}</th>
                           <td>{d.Name}</td>
                           <td>{d.Open}</td>
                           <td>{d.Phone}</td>
                           <td>{d.StoreType}</td>
                           <td>
-                            {d.Type.map((el) => (
-                              <p class="badge badge-warning">{el}</p>
-                            ))}
+                            {d.Type.length > 0
+                              ? d.Type.map((el) => (
+                                  <p class="badge badge-warning">{el}</p>
+                                ))
+                              : null}
                           </td>
                           <td>{d.Type}</td>
                           <td>

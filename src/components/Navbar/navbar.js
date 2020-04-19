@@ -123,13 +123,13 @@ class navbar extends Component {
     }, 0);
   }
 
-  // checkLogin = (e) => {
-  //   this.setState({
-  //     setimgShow: e.imageUrl,
-  //     setFullName: e.Firstname + "-" + e.Lastname,
-  //     showlogInAndSignIn: true,
-  //   });
-  // };
+  checkLogin = (e) => {
+    this.setState({
+      setimgShow: e.imageUrl,
+      setFullName: e.Firstname + "-" + e.Lastname,
+      showlogInAndSignIn: true,
+    });
+  };
 
   checkLoginGL = (e) => {
     this.setState({
@@ -189,6 +189,7 @@ class navbar extends Component {
             localStorage.removeItem("ObjUser");
             localStorage.removeItem("FB-Login");
             localStorage.removeItem("Google-login");
+            window.location.reload();
           })
           .catch(function (error) {
             // An error happened.
@@ -197,7 +198,6 @@ class navbar extends Component {
         swal("ผิดพลาด");
       }
     });
-    window.location.reload();
   }
 
   render() {

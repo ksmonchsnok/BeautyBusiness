@@ -25,6 +25,8 @@ class RegistrationForm extends Component {
       Lng: "",
       Recommend: "",
       ServiceType: [],
+      FaceInstagram: "",
+      UsernameOfSotre: "",
       options: [
         { label: "ตัดผมชาย", value: "ตัดผมชาย" },
         { label: "เสริมสวย", value: "เสริมสวย" },
@@ -35,6 +37,9 @@ class RegistrationForm extends Component {
         { label: "สปา", value: "สปา" },
         { label: "Tattoo", value: "Tattoo" },
       ],
+      userLsit: [],
+      userOfStoreId: "",
+      UserSotreName: "",
     };
   }
 
@@ -127,22 +132,29 @@ class RegistrationForm extends Component {
   };
 
   onGotoSave = (e) => {
-    setTimeout(() => {
-      swal("Suscess!", "ลงทะเบียนธุรกิจสำเร็จ!", "success");
+    console.log(this.state);
+    let userOfStoreId = "";
+    let UserSotreName = "";
+    let obj = JSON.parse(localStorage.getItem("ObjUser"));
+    let checkSigninAndOutgoogle = JSON.parse(
+      localStorage.getItem("Google-login")
+    );
+    let checkSigninAndOutfb = JSON.parse(localStorage.getItem("FB-Login"));
 
-      let tempId = [];
-      const itemsRef = firebase.database().ref("Store");
-      itemsRef.once("value").then((snapshot) => {
-        const temp = snapshot.val();
-        let newID = [];
-        console.log(temp);
-        for (let item in temp) {
-          newID.push({
-            item_id: item,
-          });
-        }
-        tempId = newID[newID.length - 1];
-        if (this.state.mode === "edit") {
+    console.log(obj);
+    if (obj) {
+      userOfStoreId = obj.UserId;
+      UserSotreName = obj.Username;
+    } else if (checkSigninAndOutgoogle) {
+      // userOfStoreId =obj.e.profileObj.name
+    } else if (checkSigninAndOutfb) {
+      // userOfStoreId = obj.name
+    }
+    if (this.state !== null) {
+      console.log(this.state !== null);
+      if (this.state.mode === "edit") {
+        setTimeout(() => {
+          swal("แก้ไขธุรกิจสำเร็จ", "success");
           const setItemInsert = firebase.database().ref(`Store`);
           let newState = {
             imageUrl: this.state.imageUrl,
@@ -156,50 +168,41 @@ class RegistrationForm extends Component {
             Lng: this.state.Lng,
             Ref: this.state.Ref,
             Type: this.state.ServiceType,
+            FaceInstagram: this.state.FaceInstagram,
           };
-          setItemInsert.child(this.state.ItemID).update(newState);
-        } else {
-          if (tempId !== [] && tempId !== undefined) {
-            const setItemInsert = firebase
-              .database()
-              .ref(`Store/${tempId.item_id * 1 + 1}`);
-            let newState = {
-              ItemID: tempId.item_id * 1 + 1,
-              imageUrl: this.state.imageUrl,
-              Name: this.state.BusinessName,
-              Open: this.state.OpenShop,
-              Phone: this.state.PhoneNumbe,
-              Address: this.state.Address,
-              StoreType: this.state.BusinessType,
-              Recommend: this.state.Recommend,
-              Lat: this.state.Lat,
-              Lng: this.state.Lng,
-              Ref: this.state.Ref,
-              Type: this.state.ServiceType,
-            };
-            setItemInsert.set(newState);
-          } else {
-            const setItemInsert = firebase.database().ref(`Store/1`);
-            let newState = {
-              ItemID: 1,
-              imageUrl: this.state.imageUrl,
-              Name: this.state.BusinessName,
-              Open: this.state.OpenShop,
-              Phone: this.state.PhoneNumbe,
-              Address: this.state.Address,
-              StoreType: this.state.BusinessType,
-              Recommend: this.state.Recommend,
-              Lat: this.state.Lat,
-              Lng: this.state.Lng,
-              Ref: this.state.Ref,
-              Type: this.state.ServiceType,
-            };
-            setItemInsert.set(newState);
-          }
-        }
-      });
-      this.onClickCancel();
-    }, 1000);
+          setItemInsert.child(userOfStoreId).update(newState);
+          this.onClickCancel();
+        }, 500);
+      } else {
+        setTimeout(() => {
+          swal("ลงทะเบียนธุรกิจสำเร็จ", "success");
+          const setItemInsert = firebase
+            .database()
+            .ref(`Store/${userOfStoreId}`);
+          let newState = {
+            userOfStoreId: userOfStoreId,
+            UserSotreName: UserSotreName,
+            imageUrl: this.state.imageUrl,
+            Name: this.state.BusinessName,
+            Open: this.state.OpenShop,
+            Phone: this.state.PhoneNumbe,
+            Address: this.state.Address,
+            StoreType: this.state.BusinessType,
+            Recommend: this.state.Recommend,
+            Lat: this.state.Lat,
+            Lng: this.state.Lng,
+            Ref: this.state.Ref,
+            Type: this.state.ServiceType,
+            FaceInstagram: this.state.FaceInstagram,
+          };
+          setItemInsert.set(newState);
+          this.onClickCancel();
+        }, 500);
+      }
+    } else {
+      swal("ผิดพลาด", "กรุณากรอกข้อมูลให้ครบ", "error");
+      return;
+    }
   };
 
   render() {
@@ -358,7 +361,7 @@ class RegistrationForm extends Component {
                 },
                 {
                   min: 12,
-                  pattern: new RegExp("^[0-9-]*$"),
+                  pattern: new RegExp("^[0-9 -]*$"),
                   message: <small>Ex : 085-555-5555</small>,
                 },
                 {
@@ -407,7 +410,7 @@ class RegistrationForm extends Component {
               />
             </Form.Item>
             <Form.Item
-              name="Ref"
+              name="FaceInstagram"
               label={<span>Facebook / Instagram</span>}
               rules={[
                 {
@@ -429,100 +432,94 @@ class RegistrationForm extends Component {
             >
               <Input
                 type="textbox"
-                name="Ref"
+                name="FaceInstagram"
                 // initialValue ={this.state.BusinessName}
-                id="Ref"
-                value={this.state.Ref}
-                onChange={(e) => this.setState({ OpenShop: e.target.value })}
+                id="FaceInstagram"
+                value={this.state.FaceInstagram}
+                onChange={(e) =>
+                  this.setState({ FaceInstagram: e.target.value })
+                }
                 // whitespace={true}
                 maxLength={150}
                 allowClear
               />
             </Form.Item>
 
-            {/* <Form.Item
-            name="Lat"
-            label="Latitude"
-            rules={[
-              {
-                required: true,
-                message: <small>Please input your Latitude</small>
-              },
-              {
-                min: 30,
-                pattern: new RegExp("^[0-9-]*$"),
-                message: <small>Number Only</small>
-              },
-              {
-                whitespace: true,
-                message: <small>Can not is whitespace.</small>
-              }
-            ]}
-          >
-            <Input
-              type="textbox"
+            <Form.Item
               name="Lat"
-              id="Lat"
-              value={this.state.Lat}
-              onChange={e => this.setState({ PhoneNumbe: e.target.value })}
-              whitespace={true}
-              maxLength={35}
-              allowClear
-            />
-          </Form.Item> */}
-            {/* <Form.Item
-            name="Lng"
-            label="Longitude"
-            rules={[
-              {
-                required: true,
-                message: <small>Please input your Longitude</small>
-              },
-              {
-                min: 30,
-                pattern: new RegExp("^[0-9-]*$"),
-                message: <small>Number Only</small>
-              },
-              {
-                whitespace: true,
-                message: <small>Can not is whitespace.</small>
-              }
-            ]}
-          >
-            <Input
-              type="textbox"
-              name="Lng"
-              id="Lng"
-              value={this.state.Lng}
-              onChange={e => this.setState({ PhoneNumbe: e.target.value })}
-              whitespace={true}
-              maxLength={35}
-              allowClear
-            />
-          </Form.Item> */}
-            {/* <Form.Item
-            name="Recommend"
-            label="Recommend Store"
-            rules={[
-              {
-                required: true,
-                message: <small>Please input your Recommend Store</small>
-              }
-            ]}
-          >
-            <Radio.Group
-              id="Recommend"
-              value={this.state.Recommend}
-              onChange={e => this.onChangeCheckRadioRecommend(e)}
+              label="Latitude"
+              rules={[
+                {
+                  required: true,
+                  message: <small>Please input your Latitude</small>,
+                },
+                {
+                  min: 30,
+                  pattern: new RegExp("^[0-9 .]*$"),
+                  message: <small>Number Only</small>,
+                },
+              ]}
             >
-              <Radio value="true" name="true">
-                แนะนำ
-              </Radio>
-              <Radio value="false" name="false">
-                ไม่แนะนำ
-              </Radio>
-            </Radio.Group>
-          </Form.Item> */}
+              <Input
+                type="textbox"
+                name="Lat"
+                id="Lat"
+                value={this.state.Lat}
+                onChange={(e) => this.setState({ Lat: e.target.value })}
+                // whitespace={true}
+                maxLength={35}
+                allowClear
+              />
+            </Form.Item>
+            <Form.Item
+              name="Lng"
+              label="Longitude"
+              rules={[
+                {
+                  required: true,
+                  message: <small>Please input your Longitude</small>,
+                },
+                {
+                  min: 30,
+                  pattern: new RegExp("^[0-9 .]*$"),
+                  message: <small>Number Only</small>,
+                },
+              ]}
+            >
+              <Input
+                type="textbox"
+                name="Lng"
+                id="Lng"
+                value={this.state.Lng}
+                onChange={(e) => this.setState({ Lng: e.target.value })}
+                // whitespace={true}
+                maxLength={35}
+                allowClear
+              />
+            </Form.Item>
+            <Form.Item
+              name="Recommend"
+              label="Recommend Store"
+              rules={[
+                {
+                  required: true,
+                  message: <small>Please input your Recommend Store</small>,
+                },
+              ]}
+            >
+              <Radio.Group
+                id="Recommend"
+                value={this.state.Recommend}
+                onChange={(e) => this.onChangeCheckRadioRecommend(e)}
+              >
+                <Radio value="true" name="true">
+                  แนะนำ
+                </Radio>
+                <Radio value="false" name="false">
+                  ไม่แนะนำ
+                </Radio>
+              </Radio.Group>
+            </Form.Item>
             <Form.Item
               name="BusinessType"
               label="Business Type"
@@ -580,7 +577,6 @@ class RegistrationForm extends Component {
                 htmlType="submit"
                 // loading="true"
                 onClick={() => this.onGotoSave()}
-                // disabled={}
               >
                 Save
               </Button>

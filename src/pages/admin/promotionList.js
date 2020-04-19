@@ -17,76 +17,31 @@ class storeList extends Component {
     };
   }
   async componentDidMount() {
-    await this.onGetItempStore();
     await this.onGetItempPromotion();
-    await this.onGetItempDiscount();
-  }
-
-  onGetItempStore() {
-    this.setState({ data: [], loadingData: true });
-
-    setTimeout(() => {
-      let ref = firebase.database().ref("Store");
-      ref.once("value").then((snapshot) => {
-        const data = snapshot.val();
-        if (typeof data === "object" && data !== null && data !== undefined) {
-          let arr = [];
-          var key = Object.keys(data);
-          let arr1 = Object.values(data);
-          for (let i = 0; i < arr1.length; i++) {
-            arr[key[i]] = arr1[i];
-          }
-          this.setState({ data: arr });
-        } else {
-          this.setState({ data });
-        }
-        this.setState({ loadingData: false });
-      });
-    }, 1000);
   }
 
   onGetItempPromotion() {
     this.setState({ data: [], loadingData: true });
-
     setTimeout(() => {
-      let ref = firebase.database().ref("Store/Promotion");
+      let ref = firebase.database().ref("Promotion");
       ref.once("value").then((snapshot) => {
-        const data = snapshot.val();
-        if (typeof data === "object" && data !== null && data !== undefined) {
-          let arr = [];
-          var key = Object.keys(data);
-          let arr1 = Object.values(data);
-          for (let i = 0; i < arr1.length; i++) {
-            arr[key[i]] = arr1[i];
+        if (snapshot.val()) {
+          const data = Object.values(snapshot.val());
+          if (typeof data === "object" && data !== null && data !== undefined) {
+            let arr = [];
+            var key = Object.keys(data);
+            let arr1 = Object.values(data);
+            for (let i = 0; i < arr1.length; i++) {
+              arr[key[i]] = arr1[i];
+            }
+            this.setState({ data: arr });
+          } else {
+            this.setState({ data });
           }
-          this.setState({ data: arr });
+          this.setState({ loadingData: false });
         } else {
-          this.setState({ data });
+          this.setState({ loadingData: false });
         }
-        this.setState({ loadingData: false });
-      });
-    }, 1000);
-  }
-
-  onGetItempDiscount() {
-    this.setState({ data: [], loadingData: true });
-
-    setTimeout(() => {
-      let ref = firebase.database().ref("Store/Discount");
-      ref.once("value").then((snapshot) => {
-        const data = snapshot.val();
-        if (typeof data === "object" && data !== null && data !== undefined) {
-          let arr = [];
-          var key = Object.keys(data);
-          let arr1 = Object.values(data);
-          for (let i = 0; i < arr1.length; i++) {
-            arr[key[i]] = arr1[i];
-          }
-          this.setState({ data: arr });
-        } else {
-          this.setState({ data });
-        }
-        this.setState({ loadingData: false });
       });
     }, 1000);
   }
@@ -119,8 +74,8 @@ class storeList extends Component {
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
-        firebase.remove(`MemberUser/${d.UserId}`);
-        this.onGetItemp();
+        firebase.remove(`Promotion/${d.businessId}`);
+        this.onGetItempPromotion();
       } else {
         return;
       }
@@ -137,7 +92,6 @@ class storeList extends Component {
   };
 
   render() {
-    console.log(this.state.data);
     const { loadingData } = this.state;
 
     return (
@@ -182,17 +136,13 @@ class storeList extends Component {
                       return (
                         <tr key={index}>
                           {/* <th scope="row"></th> */}
-                          <td>{d.Name}</td>
-                          <td>{d.Open}</td>
-                          <td>{d.Phone}</td>
-                          <td>{d.Phone}</td>
-                          <td>{d.StoreType}</td>
-                          <td>
-                            {d.Type.map((el) => (
-                              <p class="badge badge-warning">{el}</p>
-                            ))}
-                          </td>
-                          <td>{d.Type}</td>
+                          <td>{d.businessName}</td>
+                          <td>{d.promotionName}</td>
+                          <td>{d.promotionDescrip}</td>
+                          <td>{d.promotionAmount}</td>
+                          <td>{d.discountName}</td>
+                          <td>{d.discountDescrip}</td>
+                          <td>{d.discountAmount}</td>
                           <td>
                             <a href>
                               <ion-icon
