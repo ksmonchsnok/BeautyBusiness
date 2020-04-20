@@ -32,12 +32,11 @@ class RegistrationForm extends Component {
       PhoneNumbe: "",
       Address: "",
       BusinessType: "",
-      Ref: "",
       Lat: "",
       Lng: "",
       Recommend: "",
       ServiceType: [],
-      FaceInstagram: "",
+      Social: "",
       UsernameOfSotre: "",
       options: [
         { label: "ตัดผมชาย", value: "ตัดผมชาย" },
@@ -51,7 +50,7 @@ class RegistrationForm extends Component {
       ],
       userLsit: [],
       userOfStoreId: "",
-      UserSotreName: "",
+      UserStoreName: "",
     };
   }
 
@@ -95,7 +94,7 @@ class RegistrationForm extends Component {
       this.formRef.current.setFieldsValue({
         mode: "edit",
         userOfStoreId: obj.userOfStoreId,
-        UserSotreName: obj.UserSotreName,
+        UserStoreName: obj.UserSotreName,
         imageUrl: obj.imageUrl,
         BusinessName: obj.Name,
         OpenShop: obj.Open,
@@ -105,14 +104,13 @@ class RegistrationForm extends Component {
         Recommend: obj.Recommend,
         Lat: obj.Lat,
         Lng: obj.Lng,
-        Ref: obj.Ref,
         ServiceType: obj.Type,
-        FaceInstagram: obj.FaceInstagram,
+        Social: obj.Social,
       });
       this.setState({
         mode: "edit",
         userOfStoreId: obj.userOfStoreId,
-        UserSotreName: obj.UserSotreName,
+        UserStoreName: obj.UserSotreName,
         imageUrl: obj.imageUrl,
         BusinessName: obj.Name,
         OpenShop: obj.Open,
@@ -122,9 +120,8 @@ class RegistrationForm extends Component {
         Recommend: obj.Recommend,
         Lat: obj.Lat,
         Lng: obj.Lng,
-        Ref: obj.Ref,
         ServiceType: obj.Type,
-        FaceInstagram: obj.FaceInstagram,
+        Social: obj.Social,
       });
     }
   }
@@ -160,9 +157,8 @@ class RegistrationForm extends Component {
             Recommend: this.state.Recommend,
             Lat: this.state.Lat,
             Lng: this.state.Lng,
-            Ref: this.state.Ref,
             Type: this.state.ServiceType,
-            FaceInstagram: this.state.FaceInstagram,
+            Social: this.state.Social,
           };
           setItemInsert.child(this.state.userOfStoreId).update(newState);
           this.onClickCancel();
@@ -175,7 +171,7 @@ class RegistrationForm extends Component {
             .ref(`Store/${this.state.userOfStoreId}`);
           let newState = {
             userOfStoreId: this.state.userOfStoreId,
-            UserSotreName: this.state.UserSotreName,
+            UserStoreName: this.state.UserSotreName,
             imageUrl: this.state.imageUrl,
             Name: this.state.BusinessName,
             Open: this.state.OpenShop,
@@ -185,9 +181,8 @@ class RegistrationForm extends Component {
             Recommend: this.state.Recommend,
             Lat: this.state.Lat,
             Lng: this.state.Lng,
-            Ref: this.state.Ref,
             Type: this.state.ServiceType,
-            FaceInstagram: this.state.FaceInstagram,
+            Social: this.state.Social,
           };
           setItemInsert.set(newState);
           this.onClickCancel();
@@ -241,7 +236,7 @@ class RegistrationForm extends Component {
   setStorename = (e) => {
     this.state.userLsit.forEach((v) => {
       if (v.value === e) {
-        this.setState({ userOfStoreId: e, UserSotreName: v.label });
+        this.setState({ userOfStoreId: e, UserStoreName: v.label });
       }
     });
   };
@@ -503,7 +498,7 @@ class RegistrationForm extends Component {
             />
           </Form.Item>
           <Form.Item
-            name="FaceInstagram"
+            name="Social"
             label={<span>Facebook / Instagram</span>}
             rules={[
               {
@@ -523,11 +518,11 @@ class RegistrationForm extends Component {
           >
             <Input
               type="textbox"
-              name="FaceInstagram"
+              name="Social"
               // initialValue ={this.state.BusinessName}
-              id="FaceInstagram"
-              value={this.state.FaceInstagram}
-              onChange={(e) => this.setState({ FaceInstagram: e.target.value })}
+              id="Social"
+              value={this.state.Social}
+              onChange={(e) => this.setState({ Social: e.target.value })}
               // whitespace={true}
               maxLength={150}
               allowClear

@@ -10,6 +10,7 @@ import swal from "sweetalert";
 import Navbar from "../../components/navbar/navbar-Admin.js";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import moment from "moment";
 
 class ManagePromotion extends Component {
   constructor(props) {
@@ -18,11 +19,20 @@ class ManagePromotion extends Component {
       loading: false,
       Promotion: false,
       Discount: false,
-      data: [],
+      businessName: "",
+      promotionName: "",
+      promotionDescrip: "",
+      promotionAmount: 0,
+      discountName: "",
+      discountDescrip: "",
+      discountAmount: 0,
+      businessList: [],
+      businessId: "",
       startDatePromotion: new Date(),
       endDatePromotion: new Date(),
       startDateDiscount: new Date(),
       endDateDiscount: new Date(),
+      data: [],
     };
   }
 
@@ -31,21 +41,39 @@ class ManagePromotion extends Component {
   }
   onGetItemp() {
     setTimeout(() => {
-      let ref = firebase.database().ref("Store");
-      ref.once("value").then((snapshot) => {
-        const data = snapshot.val();
-        if (typeof data === "object" && data !== null && data !== undefined) {
-          let arr = [];
-          var key = Object.keys(data);
-          let arr1 = Object.values(data);
-          for (let i = 0; i < arr1.length; i++) {
-            arr[key[i]] = arr1[i];
-          }
-          this.setState({ data: arr });
-        } else {
-          this.setState({ data });
+      let ObjUser = JSON.parse(localStorage.getItem("ObjUser"));
+      this.setState({ businessId: ObjUser.UserId });
+      if (this.props.history.state) {
+        if (this.props.history.state.mode === "edit") {
+          let ref = firebase.database().ref(`Promotion/${ObjUser.UserId}`);
+          ref.once("value").then((snapshot) => {
+            if (snapshot.val()) {
+              const data = snapshot.val();
+              this.setState({
+                mode: "edit",
+                Promotion: data.Promotion,
+                Discount: data.Discount,
+                businessId: data.businessId,
+                businessName: data.businessName,
+                promotionName: data.promotionName,
+                promotionDescrip: data.promotionDescrip,
+                promotionAmount: data.promotionAmount,
+                discountName: data.discountName,
+                discountDescrip: data.discountDescrip,
+                discountAmount: data.discountAmount,
+                startDatePromotion: new Date(data.startDatePromotion),
+                endDatePromotion: new Date(data.endDatePromotion),
+                startDateDiscount: new Date(data.startDateDiscount),
+                endDateDiscount: new Date(data.endDateDiscount),
+                loadingData: false,
+                data,
+              });
+            } else {
+              this.setState({ loadingData: false });
+            }
+          });
         }
-      });
+      }
     }, 1000);
   }
 
@@ -84,6 +112,93 @@ class ManagePromotion extends Component {
       endDateDiscount: date,
     });
   };
+  onClickSave() {
+    setTimeout(() => {
+      if (this.state.mode === "edit" && this.state.data) {
+        const setItemInsert = firebase.database().ref(`Promotion`);
+        let newState = {
+          Promotion: this.state.Promotion,
+          Discount: this.state.Discount,
+          promotionName: this.state.promotionName,
+          promotionDescrip: this.state.promotionDescrip,
+          promotionAmount: this.state.promotionAmount,
+          discountName: this.state.discountName,
+          discountDescrip: this.state.discountDescrip,
+          discountAmount: this.state.discountAmount,
+          startDatePromotion: this.state.startDatePromotion,
+          endDatePromotion: this.state.endDatePromotion,
+          startDateDiscount: this.state.startDateDiscount,
+          endDateDiscount: this.state.endDateDiscount,
+        };
+        setItemInsert.child(this.state.businessId).update(newState);
+        swal({
+          title: "You want Update User",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        }).then((willDelete) => {
+          if (willDelete) {
+            swal("Update User Success", {
+              icon: "success",
+            });
+            this.onClickCancel();
+          } else {
+            swal("Your imaginary file is safe!");
+          }
+        });
+      } else {
+        const setItemInsert = firebase
+          .database()
+          .ref(`Promotion/${this.state.businessId}`);
+        let newState = {
+          Promotion: this.state.Promotion,
+          Discount: this.state.Discount,
+          businessId: this.state.businessId,
+          businessName: this.state.businessName,
+          promotionName: this.state.promotionName,
+          promotionDescrip: this.state.promotionDescrip,
+          promotionAmount: this.state.promotionAmount,
+          discountName: this.state.discountName,
+          discountDescrip: this.state.discountDescrip,
+          discountAmount: this.state.discountAmount,
+          startDatePromotion: moment(this.state.startDatePromotion).format(),
+          endDatePromotion: moment(this.state.endDatePromotion).format(),
+          startDateDiscount: moment(this.state.startDateDiscount).format(),
+          endDateDiscount: moment(this.state.endDateDiscount).format(),
+        };
+        setItemInsert.set(newState);
+        swal({
+          title: "Create promotion Success",
+          text: "ํYou want Continue or not?",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+          .then((willDelete) => {
+            if (willDelete) {
+              swal("Create promotion", {
+                icon: "success",
+              });
+              this.onClickCancel();
+            } else {
+              swal("Your imaginary file is safe!");
+            }
+          })
+          .catch(function (error) {
+            swal("ผิดพลาด!", "ร้านมีโปรโมชั่นอยู่แล้ว", "error");
+          });
+      }
+    }, 1000);
+    // if (this.state !== null&&this.state.dataใสำ) {
+
+    // } else {
+    //   swal("ผิดพลาด", "กรุณากรอกข้อมูลให้ครบ", "error");
+    //   return;
+    // }
+  }
+  onClickCancel() {
+    window.location.reload();
+  }
 
   render() {
     return (
@@ -113,6 +228,10 @@ class ManagePromotion extends Component {
                       type="text"
                       className="form-control"
                       placeholder="Promotion Name"
+                      value={this.state.promotionName}
+                      onChange={(e) =>
+                        this.setState({ promotionName: e.target.value })
+                      }
                       style={{ marginBottom: "0.5rem" }}
                     />
                   </div>
@@ -121,6 +240,10 @@ class ManagePromotion extends Component {
                       type="textbox"
                       className="form-control"
                       placeholder="Description"
+                      value={this.state.promotionDescrip}
+                      onChange={(e) =>
+                        this.setState({ promotionDescrip: e.target.value })
+                      }
                       style={{ marginBottom: "0.5rem" }}
                     />
                   </div>
@@ -133,6 +256,10 @@ class ManagePromotion extends Component {
                       type="number"
                       className="form-control"
                       placeholder="Amount Promotion"
+                      value={this.state.promotionAmount}
+                      onChange={(e) =>
+                        this.setState({ promotionAmount: e.target.value })
+                      }
                       style={{ marginBottom: "0.5rem" }}
                     />
                   </div>
@@ -145,6 +272,7 @@ class ManagePromotion extends Component {
                       selected={this.state.startDatePromotion}
                       onChange={this.onStartDatePromotionChange}
                       placeholder="Start Date"
+                      dateFormat="dd/MM/yyyy"
                       style={{ marginBottom: "0.5rem" }}
                     />
                   </div>
@@ -156,6 +284,7 @@ class ManagePromotion extends Component {
                       selected={this.state.endDatePromotion}
                       onChange={this.onEndDatePromotionChange}
                       placeholder="End Date"
+                      dateFormat="dd/MM/yyyy"
                       style={{ marginBottom: "0.5rem" }}
                     />
                   </div>
@@ -184,6 +313,10 @@ class ManagePromotion extends Component {
                       type="text"
                       className="form-control"
                       placeholder="Discount Name"
+                      value={this.state.discountName}
+                      onChange={(e) =>
+                        this.setState({ discountName: e.target.value })
+                      }
                       style={{ marginBottom: "0.5rem" }}
                     />
                   </div>
@@ -192,6 +325,10 @@ class ManagePromotion extends Component {
                       type="textbox"
                       className="form-control"
                       placeholder="Description"
+                      value={this.state.discountDescrip}
+                      onChange={(e) =>
+                        this.setState({ discountDescrip: e.target.value })
+                      }
                       style={{ marginBottom: "0.5rem" }}
                     />
                   </div>
@@ -204,6 +341,10 @@ class ManagePromotion extends Component {
                       type="number"
                       className="form-control"
                       placeholder="Amount Description"
+                      value={this.state.discountAmount}
+                      onChange={(e) =>
+                        this.setState({ discountAmount: e.target.value })
+                      }
                       style={{ marginBottom: "0.5rem" }}
                     />
                   </div>
@@ -215,6 +356,7 @@ class ManagePromotion extends Component {
                       selected={this.state.startDateDiscount}
                       onChange={this.onStartDateDiscountChange}
                       placeholder="Start Date"
+                      dateFormat="dd/MM/yyyy"
                       style={{ marginBottom: "0.5rem" }}
                     />
                   </div>
@@ -227,6 +369,7 @@ class ManagePromotion extends Component {
                       selected={this.state.endDateDiscount}
                       onChange={this.onEndDateDiscountChange}
                       placeholder="End Date"
+                      dateFormat="dd/MM/yyyy"
                       style={{ marginBottom: "0.5rem" }}
                     />
                   </div>
@@ -246,7 +389,11 @@ class ManagePromotion extends Component {
             >
               Cancel
             </button>
-            <button type="button" className="btn btn-primary ">
+            <button
+              type="button"
+              className="btn btn-primary "
+              onClick={() => this.onClickSave()}
+            >
               Save
             </button>
           </div>

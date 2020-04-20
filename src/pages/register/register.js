@@ -204,14 +204,14 @@ export default class RegistrationForm extends Component {
                 });
                 this.onClickCancel();
               } else {
-                swal("Your imaginary file is safe!");
+                // swal("Your imaginary file is safe!");
               }
             });
           }, 100);
           // this.onClickCancel();
         })
         .catch(function (error) {
-          swal("ผิดพลาด!", "มีผู้ใช้งานอยู่ในระบบแล้ว", "error");
+          swal("ผิดพลาด!", "กรุณากรอกข้อมูลให้ครบ", "error");
           // ...
         });
     }

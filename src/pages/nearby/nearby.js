@@ -46,7 +46,7 @@ class Nearby extends Component {
             Lng: location.Lng,
             ID: location.userOfStoreId,
             imageUrl: location.imageUrl,
-            FaceInstagram: location.Ref,
+            Social: location.Social,
             Address: location.Address,
             Type: location.Type,
             Open: location.Open,
@@ -133,20 +133,21 @@ class Nearby extends Component {
   currentOfLocation = () => {
     const geolocation = navigator.geolocation;
     return geolocation.getCurrentPosition((position) => {
-      this.setState({
-        coords: {
-          Lat: position.coords.latitude,
-          Lng: position.coords.longitude,
-        },
-      });
-
-      console.log(position);
+      {
+        this.setState({
+          coords: {
+            Lat: (position.coords.latitude + 0.000175).toFixed(6),
+            Lng: (position.coords.longitude + 0.000195).toFixed(6),
+          },
+        });
+      }
+      console.log(this.state.coords);
     });
   };
 
   onClickViewDetail = (value) => {
     this.props.history.push({
-      pathname: "/Store",
+      pathname: "/StoreDetail",
       state: [value],
     });
   };
@@ -185,7 +186,7 @@ class Nearby extends Component {
           Lng: el.Lng,
           ID: el.userOfStoreId,
           imageUrl: el.imageUrl,
-          FaceInstagram: el.Ref,
+          Social: el.Social,
           Address: el.Address,
           Type: el.Type,
           Open: el.Open,
@@ -270,7 +271,7 @@ class Nearby extends Component {
               {this.state.coords.Lat && this.state.coords.Lng && (
                 <Map
                   google={this.props.google}
-                  zoom={12}
+                  zoom={15}
                   style={styles}
                   initialCenter={{
                     lat: this.state.coords.Lat,

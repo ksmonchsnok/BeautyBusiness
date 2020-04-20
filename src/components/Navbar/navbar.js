@@ -27,6 +27,7 @@ class navbar extends Component {
       showlogInAndSignInGoogle: false,
       setlogInFacebook: {},
       setlogInGoogle: {},
+      checkTypeUser: false,
     };
   }
 
@@ -124,6 +125,15 @@ class navbar extends Component {
   }
 
   checkLogin = (e) => {
+    firebase
+      .database()
+      .ref(`Store/${e.UserId}`)
+      .once("value")
+      .then((snapshot) => {
+        if (snapshot.val()) {
+          this.setState({ checkTypeUser: true });
+        }
+      });
     this.setState({
       setimgShow: e.imageUrl,
       setFullName: e.Firstname + "-" + e.Lastname,
@@ -172,7 +182,7 @@ class navbar extends Component {
   OnLogout() {
     swal({
       title: "Log out",
-      text: "ํYou want Continue or not?",
+      text: "You want Continue or not?",
       icon: "warning",
       buttons: true,
       dangerMode: true,
@@ -190,6 +200,8 @@ class navbar extends Component {
             localStorage.removeItem("FB-Login");
             localStorage.removeItem("Google-login");
             window.location.reload();
+            window.open("/", "_self", localStorage.removeItem("FB-Login"));
+            // this.props.history.push("/");
           })
           .catch(function (error) {
             // An error happened.
@@ -311,20 +323,22 @@ class navbar extends Component {
                       />
                       แก้ไขข้อมูลผู้ใช้
                     </a>
-                    <a
-                      className="dropdown-item"
-                      href
-                      onClick={this.onClickEditStore}
-                      history={this.props.history}
-                    >
-                      {" "}
-                      <img
-                        src={store}
-                        alt="user"
-                        style={{ marginRight: "7px" }}
-                      />
-                      แก้ไขข้อมูลธุรกิจ
-                    </a>
+                    {this.state.checkTypeUser ? (
+                      <a
+                        className="dropdown-item"
+                        href
+                        onClick={this.onClickEditStore}
+                        history={this.props.history}
+                      >
+                        {" "}
+                        <img
+                          src={store}
+                          alt="user"
+                          style={{ marginRight: "7px" }}
+                        />
+                        แก้ไขข้อมูลธุรกิจ
+                      </a>
+                    ) : null}
                     <div className="dropdown-divider" />
                     <a className="dropdown-item" href onClick={this.OnLogout}>
                       <img

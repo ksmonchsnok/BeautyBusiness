@@ -1,17 +1,20 @@
 import React, { Component } from "react";
 import "../../style.css";
 import { NavLink } from "react-router-dom";
-
+import firebase from "firebase/app";
+import "firebase/auth";
 import near from "../../assets/icon/near.png";
 import home from "../../assets/icon/home.png";
 import contact from "../../assets/icon/contact.png";
 import createStore from "../../assets/icon/createStore.png";
+import swal from "sweetalert";
 
 export default class Menu extends Component {
   constructor(props) {
     super(props);
     this.state = {
       checkCreateBusinese: false,
+      checkBusiness: false,
     };
   }
 
@@ -23,6 +26,15 @@ export default class Menu extends Component {
       );
       let checkSigninAndOutfb = JSON.parse(localStorage.getItem("FB-Login"));
       if (!prevState.checkCreateBusinese && checkSigninAndOut) {
+        firebase
+          .database()
+          .ref(`Store/${checkSigninAndOut.UserId}`)
+          .once("value")
+          .then((snapshot) => {
+            if (snapshot.val()) {
+              this.setState({ checkBusiness: true });
+            }
+          });
         if (checkSigninAndOut.UserType == "ผู้ให้บริการ") {
           this.setState({ checkCreateBusinese: true });
         }
@@ -39,22 +51,26 @@ export default class Menu extends Component {
       );
       let checkSigninAndOutfb = JSON.parse(localStorage.getItem("FB-Login"));
       if (checkSigninAndOut) {
+        firebase
+          .database()
+          .ref(`Store/${checkSigninAndOut.UserId}`)
+          .once("value")
+          .then((snapshot) => {
+            if (snapshot.val()) {
+              this.setState({ checkBusiness: true });
+            }
+          });
         if (checkSigninAndOut.UserType == "ผู้ให้บริการ") {
           this.setState({ checkCreateBusinese: true });
         }
       } else if (checkSigninAndOut) {
       } else if (checkSigninAndOut) {
       }
-      console.table(
-        "EP :",
-        checkSigninAndOut,
-
-        "FB :",
-        checkSigninAndOutfb,
-        "GL :",
-        checkSigninAndOutgoogle
-      );
     }, 500);
+  }
+
+  checkHaveBusiness() {
+    swal("คุณมีธุรกิจแล้ว");
   }
 
   render() {
@@ -94,19 +110,35 @@ export default class Menu extends Component {
               </div>
               {this.state.checkCreateBusinese ? (
                 <div className="col-6 col-xs-6 col-sm-6 col-md-3 col-lg-3">
-                  <NavLink
-                    to="/Regis-Store"
-                    activeClassName="is-active"
-                    className="nav-link link-menu"
-                  >
-                    <img
-                      src={createStore}
-                      alt="contact"
-                      style={{ margin: "-1rem" }}
-                    />
-                    <br />
-                    สร้างธุรกิจ
-                  </NavLink>
+                  {this.state.checkBusiness ? (
+                    <span
+                      onClick={this.checkHaveBusiness}
+                      activeClassName="is-active"
+                      className="nav-link link-menu"
+                    >
+                      <img
+                        src={createStore}
+                        alt="contact"
+                        style={{ margin: "-1rem", cursor: "pointer" }}
+                      />
+                      <br />
+                      สร้างธุรกิจ
+                    </span>
+                  ) : (
+                    <NavLink
+                      to="/Regis-Store"
+                      activeClassName="is-active"
+                      className="nav-link link-menu"
+                    >
+                      <img
+                        src={createStore}
+                        alt="contact"
+                        style={{ margin: "-1rem" }}
+                      />
+                      <br />
+                      สร้างธุรกิจ
+                    </NavLink>
+                  )}
                 </div>
               ) : null}
 

@@ -25,6 +25,7 @@ class Login extends Component {
       showlogInAndSignInGoogle: false,
       setlogInFacebook: {},
       setlogInGoogle: {},
+      checkTypeUser: false,
     };
   }
   componentDidUpdate(prevProps, prevState) {
@@ -64,6 +65,15 @@ class Login extends Component {
   }
 
   checkLogin = (e) => {
+    firebase
+      .database()
+      .ref(`Store/${e.UserId}`)
+      .once("value")
+      .then((snapshot) => {
+        if (snapshot.val()) {
+          this.setState({ checkTypeUser: true });
+        }
+      });
     this.setState({
       setimgShow: e.imageUrl,
       setFullName: e.Firstname + "-" + e.Lastname,
@@ -112,7 +122,7 @@ class Login extends Component {
   OnLogout() {
     swal({
       title: "Log out",
-      text: "ํYou want Continue or not?",
+      text: "You want Continue or not?",
       icon: "warning",
       buttons: true,
       dangerMode: true,
@@ -199,20 +209,22 @@ class Login extends Component {
                       />
                       แก้ไขข้อมูลผู้ใช้
                     </a>
-                    <a
-                      className="dropdown-item"
-                      href
-                      onClick={this.onClickEditStore}
-                      history={this.props.history}
-                    >
-                      {" "}
-                      <img
-                        src={store}
-                        alt="user"
-                        style={{ marginRight: "7px" }}
-                      />
-                      แก้ไขข้อมูลธุรกิจ
-                    </a>
+                    {this.state.checkTypeUser ? (
+                      <a
+                        className="dropdown-item"
+                        href
+                        onClick={this.onClickEditStore}
+                        history={this.props.history}
+                      >
+                        {" "}
+                        <img
+                          src={store}
+                          alt="user"
+                          style={{ marginRight: "7px" }}
+                        />
+                        แก้ไขข้อมูลธุรกิจ
+                      </a>
+                    ) : null}
                     <div className="dropdown-divider" />
                     <a className="dropdown-item" onClick={this.OnLogout} href>
                       <img

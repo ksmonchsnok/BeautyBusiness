@@ -20,12 +20,11 @@ class RegistrationForm extends Component {
       PhoneNumbe: "",
       Address: "",
       BusinessType: "",
-      Ref: "",
       Lat: "",
       Lng: "",
       Recommend: "",
       ServiceType: [],
-      FaceInstagram: "",
+      Social: "",
       UsernameOfSotre: "",
       options: [
         { label: "ตัดผมชาย", value: "ตัดผมชาย" },
@@ -39,7 +38,7 @@ class RegistrationForm extends Component {
       ],
       userLsit: [],
       userOfStoreId: "",
-      UserSotreName: "",
+      UserStoreName: "",
     };
   }
 
@@ -82,9 +81,11 @@ class RegistrationForm extends Component {
         ? "pass"
         : null
       : null;
+    let checUserStore = this.props.UserEditStore
+      ? this.props.UserEditStore
+      : null;
     if (checkHistory === "pass") {
       let obj = await this.props.location.state.obj;
-      console.log(this.formRef);
       this.formRef.current.setFieldsValue({
         ItemID: obj.ItemID,
         imageUrl: obj.imageUrl,
@@ -96,8 +97,8 @@ class RegistrationForm extends Component {
         Recommend: obj.Recommend,
         Lat: obj.Lat,
         Lng: obj.Lng,
-        Ref: obj.Ref,
         ServiceType: obj.Type,
+        Social: obj.Social,
       });
       this.setState({
         ItemID: obj.ItemID,
@@ -110,8 +111,53 @@ class RegistrationForm extends Component {
         Recommend: obj.Recommend,
         Lat: obj.Lat,
         Lng: obj.Lng,
-        Ref: obj.Ref,
         ServiceType: obj.Type,
+        Social: obj.Social,
+        mode: "edit",
+      });
+    } else if (checUserStore === "userEditStore") {
+      console.log("userEditStore");
+      let obj = JSON.parse(localStorage.getItem("ObjUser"));
+      console.log(obj);
+      let ref = firebase.database().ref(`Store/${obj.UserId}`);
+      ref.once("value").then((snapshot) => {
+        if (snapshot.val()) {
+          const data = snapshot.val();
+          console.log(data);
+          this.formRef.current.setFieldsValue({
+            userOfStoreId: data.userOfStoreId,
+            UserStoreName: data.UserStoreName,
+            imageUrl: data.imageUrl,
+            BusinessName: data.Name,
+            OpenShop: data.Open,
+            PhoneNumbe: data.Phone,
+            Address: data.Address,
+            BusinessType: data.StoreType,
+            Recommend: data.Recommend,
+            Lat: data.Lat,
+            Lng: data.Lng,
+            ServiceType: data.Type,
+            Social: data.Social,
+          });
+          this.setState({
+            userOfStoreId: data.userOfStoreId,
+            UserStoreName: data.UserStoreName,
+            imageUrl: data.imageUrl,
+            BusinessName: data.Name,
+            OpenShop: data.Open,
+            PhoneNumbe: data.Phone,
+            Address: data.Address,
+            BusinessType: data.StoreType,
+            Recommend: data.Recommend,
+            Lat: data.Lat,
+            Lng: data.Lng,
+            ServiceType: data.Type,
+            Social: data.Social,
+            mode: "edit",
+          });
+        } else {
+          this.setState({ loadingData: false });
+        }
       });
     }
   }
@@ -128,33 +174,33 @@ class RegistrationForm extends Component {
   };
 
   onClickCancel = () => {
-    window.history.back();
+    if (this.props.UserEditStore) {
+      window.location.reload();
+    } else {
+      window.history.back();
+    }
   };
 
   onGotoSave = (e) => {
-    console.log(this.state);
     let userOfStoreId = "";
-    let UserSotreName = "";
+    let UserStoreName = "";
     let obj = JSON.parse(localStorage.getItem("ObjUser"));
     let checkSigninAndOutgoogle = JSON.parse(
       localStorage.getItem("Google-login")
     );
     let checkSigninAndOutfb = JSON.parse(localStorage.getItem("FB-Login"));
 
-    console.log(obj);
     if (obj) {
       userOfStoreId = obj.UserId;
-      UserSotreName = obj.Username;
+      UserStoreName = obj.Username;
     } else if (checkSigninAndOutgoogle) {
       // userOfStoreId =obj.e.profileObj.name
     } else if (checkSigninAndOutfb) {
       // userOfStoreId = obj.name
     }
-    if (this.state !== null) {
-      console.log(this.state !== null);
+    if (this.state !== null && this.state.userOfStoreId) {
       if (this.state.mode === "edit") {
         setTimeout(() => {
-          swal("แก้ไขธุรกิจสำเร็จ", "success");
           const setItemInsert = firebase.database().ref(`Store`);
           let newState = {
             imageUrl: this.state.imageUrl,
@@ -166,22 +212,40 @@ class RegistrationForm extends Component {
             Recommend: this.state.Recommend,
             Lat: this.state.Lat,
             Lng: this.state.Lng,
-            Ref: this.state.Ref,
             Type: this.state.ServiceType,
-            FaceInstagram: this.state.FaceInstagram,
+            Social: this.state.Social,
           };
           setItemInsert.child(userOfStoreId).update(newState);
-          this.onClickCancel();
-        }, 500);
+          swal({
+            title: "Update Business Success",
+            text: "ํYou want Continue or not?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+            .then((willDelete) => {
+              if (willDelete) {
+                swal("Create promotion", {
+                  icon: "success",
+                });
+                this.onClickCancel();
+              } else {
+                swal("Update Business", "success");
+              }
+            })
+            .catch(function (error) {
+              swal("ผิดพลาด!", "ไม่สามารถแก้ไขได้", "error");
+            });
+          // this.onClickCancel();
+        }, 1000);
       } else {
         setTimeout(() => {
-          swal("ลงทะเบียนธุรกิจสำเร็จ", "success");
           const setItemInsert = firebase
             .database()
             .ref(`Store/${userOfStoreId}`);
           let newState = {
             userOfStoreId: userOfStoreId,
-            UserSotreName: UserSotreName,
+            UserStoreName: UserStoreName,
             imageUrl: this.state.imageUrl,
             Name: this.state.BusinessName,
             Open: this.state.OpenShop,
@@ -191,13 +255,32 @@ class RegistrationForm extends Component {
             Recommend: this.state.Recommend,
             Lat: this.state.Lat,
             Lng: this.state.Lng,
-            Ref: this.state.Ref,
             Type: this.state.ServiceType,
-            FaceInstagram: this.state.FaceInstagram,
+            Social: this.state.Social,
           };
           setItemInsert.set(newState);
-          this.onClickCancel();
-        }, 500);
+          // this.onClickCancel();
+          swal({
+            title: "Create Business Success",
+            text: "ํYou want Continue or not?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+            .then((willDelete) => {
+              if (willDelete) {
+                swal("Create promotion", {
+                  icon: "success",
+                });
+                this.onClickCancel();
+              } else {
+                swal("Create Business", "success");
+              }
+            })
+            .catch(function (error) {
+              swal("ผิดพลาด!", "ไม่สามารถลงทะเบียนธุรกิจได้", "error");
+            });
+        }, 1000);
       }
     } else {
       swal("ผิดพลาด", "กรุณากรอกข้อมูลให้ครบ", "error");
@@ -410,7 +493,7 @@ class RegistrationForm extends Component {
               />
             </Form.Item>
             <Form.Item
-              name="FaceInstagram"
+              name="Social"
               label={<span>Facebook / Instagram</span>}
               rules={[
                 {
@@ -432,13 +515,11 @@ class RegistrationForm extends Component {
             >
               <Input
                 type="textbox"
-                name="FaceInstagram"
+                name="Social"
                 // initialValue ={this.state.BusinessName}
-                id="FaceInstagram"
-                value={this.state.FaceInstagram}
-                onChange={(e) =>
-                  this.setState({ FaceInstagram: e.target.value })
-                }
+                id="Social"
+                value={this.state.Social}
+                onChange={(e) => this.setState({ Social: e.target.value })}
                 // whitespace={true}
                 maxLength={150}
                 allowClear

@@ -7,8 +7,11 @@ import Report from "./report.js";
 export default class Manager extends Component {
   state = {
     collapsed: false,
+    userEditStore: "userEditStore",
   };
-
+  componentDidMount() {
+    console.log(this.props);
+  }
   toggle = () => {
     this.setState({
       collapsed: !this.state.collapsed,
@@ -97,7 +100,7 @@ export default class Manager extends Component {
                   role="tabpanel"
                   aria-labelledby="v-pills-manageStore-tab"
                 >
-                  <UpdateStore />
+                  <UpdateStore UserEditStore={this.state.userEditStore} />
                 </div>
                 <div
                   className="tab-pane fade"
@@ -105,7 +108,7 @@ export default class Manager extends Component {
                   role="tabpanel"
                   aria-labelledby="v-pills-managePromotion-tab"
                 >
-                  <ManagePromotion />
+                  <ManagePromotion history={this.props.location} />
                 </div>
 
                 <div

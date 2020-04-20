@@ -50,7 +50,7 @@ class StoreDetail extends Component {
     }, 500);
   };
 
-  onClickBack = () => {
+  onclickBack = () => {
     window.history.back();
   };
 
@@ -160,7 +160,7 @@ class StoreDetail extends Component {
           <p>โทร :: {value.Phone}</p>
           <p>ที่อยู่ :: {value.Address}</p>
           <p>
-            ติดต่อ :: <a href={value.Ref}> Facebook</a>
+            ติดต่อ :: <a href={value.Social}> Facebook</a>
           </p>
 
           <div className="row col-6">
