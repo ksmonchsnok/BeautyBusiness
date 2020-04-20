@@ -100,14 +100,7 @@ class StoreDetail extends Component {
         endDate: this.state.pormotion.endDateDiscount,
       };
       setReport.push(newReport);
-      if (
-        obj !== null &&
-        obj !== "undefined" &&
-        checkSigninAndOutfb !== null &&
-        checkSigninAndOutfb !== "undefined" &&
-        checkSigninAndOutgoogle !== null &&
-        checkSigninAndOutgoogle !== "undefined"
-      ) {
+      if (obj || checkSigninAndOutfb || checkSigninAndOutgoogle) {
         swal({
           title: "You want Discount",
           icon: "warning",
