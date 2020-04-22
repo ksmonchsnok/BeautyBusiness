@@ -79,15 +79,25 @@ export default class ForgotPassword extends Component {
                   label="Your Email"
                   rules={[
                     {
+                      whitespace: true,
+                      message: <small>Can not is whitespace.</small>,
+                    },
+                    {
                       required: true,
-                      message: <small>Please input your email!</small>,
+                      message: <small>Please input your E-mail</small>,
+                    },
+                    {
+                      type: "email",
+                      message: <small>This is not a valid E-mail.</small>,
                     },
                   ]}
                 >
                   <Input
-                    type="textbox"
+                    type="email"
                     name="Email"
                     id="Email"
+                    placeholder="Email@gmail.com"
+                    maxLength={40}
                     value={this.state.Email}
                     onChange={(e) => this.setState({ Email: e.target.value })}
                     allowClear
@@ -101,7 +111,7 @@ export default class ForgotPassword extends Component {
                     style={{ marginTop: "2rem" }}
                     onClick={this.onClickForgotPassword}
                   >
-                    Send
+                    Send To Forgot Password
                   </Button>
                 </Form.Item>
               </Form>

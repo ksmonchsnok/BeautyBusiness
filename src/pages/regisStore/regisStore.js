@@ -339,7 +339,7 @@ class RegistrationForm extends Component {
       >
         <Navber />
         <div className="container" style={{ marginBottom: "3rem" }}>
-          <h2>สร้างธุรกิจของคุณ</h2> <hr />
+          <h2>Regster Business / สร้างธุรกิจของคุณ</h2> <hr />
         </div>
         <div className="container">
           <Form
@@ -392,6 +392,7 @@ class RegistrationForm extends Component {
                 type="textbox"
                 name="BusinessName"
                 id="BusinessName"
+                placeholder="Ex. ร้านทำเล็บเจ็ดยอด"
                 value={this.state.BusinessName}
                 onChange={(e) =>
                   this.setState({ BusinessName: e.target.value })
@@ -412,24 +413,20 @@ class RegistrationForm extends Component {
                 },
                 {
                   type: "string",
-                  pattern: new RegExp("^[A-Za-zก-๙0-9-.]*$"),
-                  message: <small>Please input alphabetical only.</small>,
-                },
-                {
-                  min: 4,
-                  message: <small>Must be at least 3 characters</small>,
+                  pattern: new RegExp("^[0-9-.]*$"),
+                  message: <small>Please input format time only.</small>,
                 },
               ]}
             >
               <Input
                 type="textbox"
                 name="OpenShop"
-                // initialValue ={this.state.BusinessName}
                 id="OpenShop"
+                placeholder="Ex. 10.00 - 20.00"
                 value={this.state.OpenShop}
                 onChange={(e) => this.setState({ OpenShop: e.target.value })}
                 whitespace={true}
-                maxLength={20}
+                maxLength={11}
                 allowClear
               />
             </Form.Item>
@@ -457,6 +454,7 @@ class RegistrationForm extends Component {
                 type="textbox"
                 name="PhoneNumbe"
                 id="PhoneNumbe"
+                placeholder="Ex : 085-555-5555"
                 value={this.state.PhoneNumbe}
                 onChange={(e) => this.setState({ PhoneNumbe: e.target.value })}
                 whitespace={true}
@@ -485,6 +483,7 @@ class RegistrationForm extends Component {
                 rows={3}
                 name="Address"
                 id="Address"
+                placeholder="Ex. 111/2 เจ็ดยอด ต.ช้างเผือก อ.เมือง จ.เชียงใหม่"
                 value={this.state.Address}
                 onChange={(e) => this.setState({ Address: e.target.value })}
                 whitespace={true}
@@ -516,11 +515,10 @@ class RegistrationForm extends Component {
               <Input
                 type="textbox"
                 name="Social"
-                // initialValue ={this.state.BusinessName}
                 id="Social"
+                placeholder="Ex. https://www.facebook.com/me"
                 value={this.state.Social}
                 onChange={(e) => this.setState({ Social: e.target.value })}
-                // whitespace={true}
                 maxLength={150}
                 allowClear
               />
@@ -545,10 +543,10 @@ class RegistrationForm extends Component {
                 type="textbox"
                 name="Lat"
                 id="Lat"
+                placeholder="18.812623"
                 value={this.state.Lat}
                 onChange={(e) => this.setState({ Lat: e.target.value })}
-                // whitespace={true}
-                maxLength={35}
+                maxLength={10}
                 allowClear
               />
             </Form.Item>
@@ -571,10 +569,10 @@ class RegistrationForm extends Component {
                 type="textbox"
                 name="Lng"
                 id="Lng"
+                placeholder="98.964999"
                 value={this.state.Lng}
                 onChange={(e) => this.setState({ Lng: e.target.value })}
-                // whitespace={true}
-                maxLength={35}
+                maxLength={10}
                 allowClear
               />
             </Form.Item>
@@ -659,7 +657,7 @@ class RegistrationForm extends Component {
                 // loading="true"
                 onClick={() => this.onGotoSave()}
               >
-                Save
+                Regster Business
               </Button>
             </Form.Item>
           </Form>

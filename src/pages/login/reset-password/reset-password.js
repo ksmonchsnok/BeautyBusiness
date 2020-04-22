@@ -67,13 +67,26 @@ export default class ResetPassword extends Component {
                   label="Old Passsword"
                   rules={[
                     {
+                      whitespace: true,
+                      message: <small>Can not is whitespace.</small>,
+                    },
+                    {
                       required: true,
                       message: <small>Please input your Old Passsword!</small>,
+                    },
+                    {
+                      pattern: new RegExp("^[a-zA-Z0-9]*$"),
+                      message: <small>Please input alphabetical only.</small>,
                     },
                   ]}
                   hasFeedback
                 >
-                  <Input.Password />
+                  <Input.Password
+                    name="oldpassword"
+                    placeholder="Oldpassword1234"
+                    maxLength={16}
+                    allowClear
+                  />
                 </Form.Item>
 
                 <Form.Item
@@ -81,13 +94,26 @@ export default class ResetPassword extends Component {
                   label="New Password"
                   rules={[
                     {
+                      whitespace: true,
+                      message: <small>Can not is whitespace.</small>,
+                    },
+                    {
                       required: true,
-                      message: <small>Please input your password!</small>,
+                      message: <small>Please input your Password!</small>,
+                    },
+                    {
+                      pattern: new RegExp("^[a-zA-Z0-9]*$"),
+                      message: <small>Please input alphabetical only.</small>,
                     },
                   ]}
                   hasFeedback
                 >
-                  <Input.Password />
+                  <Input.Password
+                    name="newpassword"
+                    placeholder="Newpassword1234"
+                    maxLength={16}
+                    allowClear
+                  />
                 </Form.Item>
 
                 <Form.Item
@@ -97,8 +123,18 @@ export default class ResetPassword extends Component {
                   hasFeedback
                   rules={[
                     {
+                      whitespace: true,
+                      message: <small>Can not is whitespace.</small>,
+                    },
+                    {
                       required: true,
-                      message: <small>Please confirm your password!</small>,
+                      message: (
+                        <small>Please input Confirm your Password!</small>
+                      ),
+                    },
+                    {
+                      pattern: new RegExp("^[a-zA-Z0-9]*$"),
+                      message: <small>Please input alphabetical only.</small>,
                     },
                     ({ getFieldValue }) => ({
                       validator(rule, value) {
@@ -113,7 +149,12 @@ export default class ResetPassword extends Component {
                     }),
                   ]}
                 >
-                  <Input.Password />
+                  <Input.Password
+                    name="confirmpassword"
+                    placeholder="Confirmpassword1234"
+                    maxLength={16}
+                    allowClear
+                  />
                 </Form.Item>
 
                 <Form.Item {...tailFormItemLayout}>
@@ -123,7 +164,7 @@ export default class ResetPassword extends Component {
                     style={{ marginTop: "2rem" }}
                     onClick={this.onClickResetPassword}
                   >
-                    Submit
+                    Reset Your Passsword
                   </Button>
                 </Form.Item>
               </Form>

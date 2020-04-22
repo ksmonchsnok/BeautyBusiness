@@ -308,6 +308,7 @@ export default class RegistrationForm extends Component {
               type="textbox"
               name="Username"
               id="Username"
+              placeholder="Username"
               value={this.state.Username}
               onChange={(e) => this.setState({ Username: e.target.value })}
               whitespace={true}
@@ -340,6 +341,7 @@ export default class RegistrationForm extends Component {
               type="textbox"
               name="Email"
               id="Email"
+              placeholder="Email"
               value={this.state.Email}
               onChange={(e) => this.setState({ Email: e.target.value })}
               whitespace={true}
@@ -380,6 +382,7 @@ export default class RegistrationForm extends Component {
               type="textbox"
               name="Password"
               id="Password"
+              placeholder="Password"
               value={this.state.Password}
               onChange={(e) => this.setState({ Password: e.target.value })}
               whitespace={true}
@@ -424,6 +427,7 @@ export default class RegistrationForm extends Component {
               type="textbox"
               name="CFPassword"
               id="CFPassword"
+              placeholder="Confirmpassword"
               value={this.state.CFPassword}
               onChange={(e) => this.setState({ CFPassword: e.target.value })}
               whitespace={true}
@@ -454,6 +458,7 @@ export default class RegistrationForm extends Component {
               type="textbox"
               name="Firstname"
               id="Firstname"
+              placeholder="Firstname"
               value={this.state.Firstname}
               onChange={(e) => this.setState({ Firstname: e.target.value })}
               whitespace={true}
@@ -484,6 +489,7 @@ export default class RegistrationForm extends Component {
               type="textbox"
               name="Lastname"
               id="Lastname"
+              placeholder="Lastname"
               value={this.state.Lastname}
               onChange={(e) => this.setState({ Lastname: e.target.value })}
               whitespace={true}
@@ -511,6 +517,7 @@ export default class RegistrationForm extends Component {
               rows={3}
               name="Address"
               id="Address"
+              placeholder="Address"
               value={this.state.Address}
               onChange={(e) => this.setState({ Address: e.target.value })}
               whitespace={true}
@@ -541,6 +548,7 @@ export default class RegistrationForm extends Component {
               type="textbox"
               name="Phone"
               id="Phone"
+              placeholder="Ex. 085-555-5555"
               value={this.state.Phone}
               onChange={(e) => this.setState({ Phone: e.target.value })}
               whitespace={true}

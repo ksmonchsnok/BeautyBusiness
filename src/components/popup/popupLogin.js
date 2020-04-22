@@ -71,6 +71,7 @@ class LoginForm extends Component {
                 Password: this.state.password,
                 CFPassword: this.state.password,
               });
+
               firebase
                 .database()
                 .ref(`MemberUser/${resp.user.uid}`)
@@ -82,22 +83,27 @@ class LoginForm extends Component {
                   );
                   this.props.checkLogin(snapshot.val());
                 });
+              this.setState({ loadingLogin: true });
+
               this.props.history.push({
                 pathname: "/",
                 state: { ChekShowInOut: true },
               });
+
               this.setState({ checklogIn: true });
             } else {
-              swal("Your imaginary file is safe!");
+              swal("ยกเลิก");
               this.setState({ checklogIn: false });
+              this.setState({ loadingLogin: false });
             }
           });
         })
         .catch(function (error) {
           swal("ผิดพลาด!", "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง", "error");
         });
+      this.setState({ loadingLogin: false });
     }, 500);
-    this.setState({ loadingLogin: false });
+    this.setState({ loadingLogin: true });
   };
 
   onClickRegister = () => {
@@ -172,7 +178,7 @@ class LoginForm extends Component {
                     type="email"
                     name="email"
                     onChange={this.onChangeEmail}
-                    placeholder="E-mail"
+                    placeholder="&nbsp;&nbsp;E-mail"
                     maxLength={35}
                     allowClear
                   />
@@ -194,7 +200,7 @@ class LoginForm extends Component {
                     onChange={this.onChangePassword}
                     minLength={6}
                     maxLength={16}
-                    placeholder="Password"
+                    placeholder="&nbsp;&nbsp;Password"
                   />
                 </Form.Item>
                 <center>
@@ -216,7 +222,7 @@ class LoginForm extends Component {
                           style={{ marginRight: "1rem" }}
                         />
                       )}
-                      Sign In
+                      Log In
                     </Button>
                     &emsp;or{" "}
                     <a
