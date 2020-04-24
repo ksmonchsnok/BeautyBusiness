@@ -140,7 +140,7 @@ export default class RegistrationForm extends Component {
               });
               this.onClickCancel();
             } else {
-              swal("Your imaginary file is safe!");
+              // swal("Your imaginary file is safe!");
             }
           });
         } else {
@@ -176,18 +176,17 @@ export default class RegistrationForm extends Component {
                 dangerMode: true,
               }).then((willDelete) => {
                 if (willDelete) {
-                  swal("Create User And Password Success", {
+                  swal("Create User Success", {
                     icon: "success",
                   });
                   this.onClickCancel();
                 } else {
-                  swal("Your imaginary file is safe!");
+                  // swal("Your imaginary file is safe!");
                 }
               });
             })
             .catch(function (error) {
               swal("ผิดพลาด!", "มีผู้ใช้งานอยู่ในระบบแล้ว", "error");
-              // ...
             });
         }
       }, 1000);

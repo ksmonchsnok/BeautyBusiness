@@ -164,7 +164,7 @@ export default class RegistrationForm extends Component {
             });
             this.onClickCancel();
           } else {
-            swal("Your imaginary file is safe!");
+            // swal("Your imaginary file is safe!");
           }
         });
       }, 100);
@@ -199,7 +199,7 @@ export default class RegistrationForm extends Component {
               dangerMode: true,
             }).then((willDelete) => {
               if (willDelete) {
-                swal("Create User And Password Success", {
+                swal("Register Success", {
                   icon: "success",
                 });
                 this.onClickCancel();
@@ -379,6 +379,7 @@ export default class RegistrationForm extends Component {
                 allowClear
               />
             </Form.Item>
+
             <Form.Item
               name="Password"
               label={
@@ -414,25 +415,35 @@ export default class RegistrationForm extends Component {
                 type="textbox"
                 name="Password"
                 id="Password"
-                placeholder="Password123456"
+                placeholder="Password"
                 value={this.state.Password}
                 onChange={(e) => this.setState({ Password: e.target.value })}
                 whitespace={true}
                 maxLength={16}
                 allowClear
               />
-              <a
-                href
-                onClick={this.onClickResetPassword}
-                history={this.props.history}
-              >
-                <small className="d-flex justify-content-end">
-                  <u>เปลี่ยนรหัสผ่าน</u>
-                </small>
-              </a>
             </Form.Item>
+            <Form.Item>
+              {" "}
+              <>
+                <a
+                  href
+                  onClick={this.onClickResetPassword}
+                  history={this.props.history}
+                >
+                  <small
+                    className="d-flex justify-content-center"
+                    style={{ marginTop: "-2.5rem" }}
+                  >
+                    <u>เปลี่ยนรหัสผ่าน</u>
+                  </small>
+                </a>
+              </>
+            </Form.Item>
+
             <Form.Item
               name="CFPassword"
+              style={{ marginTop: "-3rem" }}
               label={
                 <span>
                   Confirm Password &nbsp;
@@ -468,7 +479,7 @@ export default class RegistrationForm extends Component {
                 type="textbox"
                 name="CFPassword"
                 id="CFPassword"
-                placeholder="Password123456"
+                placeholder="Confirmpassword"
                 value={this.state.CFPassword}
                 onChange={(e) => this.setState({ CFPassword: e.target.value })}
                 whitespace={true}
@@ -476,6 +487,7 @@ export default class RegistrationForm extends Component {
                 allowClear
               />
             </Form.Item>
+
             <Form.Item
               name="Firstname"
               label={<span>First Name</span>}

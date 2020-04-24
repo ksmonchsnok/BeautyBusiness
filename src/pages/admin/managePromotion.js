@@ -83,9 +83,9 @@ class ManagePromotion extends Component {
             let data = Object.values(snapshot.val());
             let index = "";
             let arr = data;
-            for (let i = 0; i < data.length; i++) {
-              index = checkUserPromotion.findIndex(
-                (v) => v.businessId === data[i].userOfStoreId
+            for (let i = 0; i < checkUserPromotion.length; i++) {
+              index = data.findIndex(
+                (v) => v.businessId === checkUserPromotion[i].userOfStoreId
               );
               arr.splice(index, 1);
               data = arr;
@@ -218,7 +218,7 @@ class ManagePromotion extends Component {
                 });
                 this.onClickCancel();
               } else {
-                swal("Your imaginary file is safe!");
+                // swal("Your imaginary file is safe!");
               }
             })
             .catch(function (error) {
@@ -236,6 +236,7 @@ class ManagePromotion extends Component {
   };
   render() {
     const { Option } = Select;
+    console.log(this.state.businessList);
 
     function onChange(value) {
       console.log(`selected ${value}`);

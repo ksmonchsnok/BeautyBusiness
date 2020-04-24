@@ -69,63 +69,68 @@ class StoreDetail extends Component {
     } else if (checkSigninAndOutfb) {
       CustomerName = checkSigninAndOutfb.name;
     }
-    const GenCode = Math.random().toString(26).substring(2, 10).toUpperCase();
-    let setItemInsert = firebase
-      .database()
-      .ref(`Store/${this.state.Store[0].userOfStoreId}`);
-    setItemInsert.once("value").then((snapshot) => {
-      if (snapshot.val()) {
-        this.setState({ dataStore: snapshot.val() });
-      }
-    });
-    setTimeout(() => {
-      let newState = {};
-      if (!this.state.dataStore.disCountRequest) {
-        newState = {
-          disCountRequest: 1,
+    if (obj || checkSigninAndOutfb || checkSigninAndOutgoogle) {
+      const GenCode = Math.random().toString(26).substring(2, 10).toUpperCase();
+      let setItemInsert = firebase
+        .database()
+        .ref(`Store/${this.state.Store[0].userOfStoreId}`);
+      setItemInsert.once("value").then((snapshot) => {
+        if (snapshot.val()) {
+          this.setState({ dataStore: snapshot.val() });
+        }
+      });
+
+      setTimeout(() => {
+        let newState = {};
+        if (!this.state.dataStore.disCountRequest) {
+          newState = {
+            disCountRequest: 1,
+          };
+        } else if (this.state.dataStore.disCountRequest) {
+          newState = {
+            disCountRequest: this.state.dataStore.disCountRequest * 1 + 1,
+          };
+        }
+        setItemInsert.update(newState);
+        const setReport = firebase.database().ref(`Report`);
+        let newReport = {
+          ReportId: this.state.pormotion.businessId,
+          discountCode: GenCode,
+          businessName: this.state.pormotion.businessName,
+          customerName: CustomerName,
+          startDate: this.state.pormotion.startDateDiscount,
+          endDate: this.state.pormotion.endDateDiscount,
         };
-      } else if (this.state.dataStore.disCountRequest) {
-        newState = {
-          disCountRequest: this.state.dataStore.disCountRequest * 1 + 1,
-        };
-      }
-      setItemInsert.update(newState);
-      const setReport = firebase.database().ref(`Report`);
-      let newReport = {
-        ReportId: this.state.pormotion.businessId,
-        discountCode: GenCode,
-        businessName: this.state.pormotion.businessName,
-        customerName: CustomerName,
-        startDate: this.state.pormotion.startDateDiscount,
-        endDate: this.state.pormotion.endDateDiscount,
-      };
-      setReport.push(newReport);
-      if (obj || checkSigninAndOutfb || checkSigninAndOutgoogle) {
-        swal({
-          title: "You want Discount",
-          icon: "warning",
-          buttons: true,
-          dangerMode: true,
-        }).then((willDelete) => {
-          if (willDelete) {
-            swal(
-              "รหัสส่วนลดบริการ",
-              `Code : ${GenCode}  วันหมดอายุ : ${moment(
-                this.state.pormotion.endDateDiscount
-              ).format("DD/MM/YYYY")}`,
-              "success",
-              {
-                icon: "success",
-              }
-            );
-          } else {
-            swal("ยกเลิก");
-          }
-        });
-      } else {
-        swal("Warning", "กรุณาเข้าสู่ระบบเพื่อขอรหัสส่วนลดบริการ", "warning");
-      }
-    }, 100);
+        setReport.push(newReport);
+        if (obj || checkSigninAndOutfb || checkSigninAndOutgoogle) {
+          swal({
+            title: "You want Discount",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          }).then((willDelete) => {
+            if (willDelete) {
+              swal(
+                "รหัสส่วนลดบริการ",
+                `Code : ${GenCode}  วันหมดอายุ : ${moment(
+                  this.state.pormotion.endDateDiscount
+                ).format("DD/MM/YYYY")}`,
+                "success",
+                {
+                  icon: "success",
+                }
+              );
+            } else {
+              swal("ยกเลิก");
+            }
+          });
+        } else {
+          swal("Warning", "กรุณาเข้าสู่ระบบเพื่อขอรหัสส่วนลดบริการ", "warning");
+        }
+      }, 100);
+    } else {
+      swal("Warning", "กรุณาเข้าสู่ระบบเพื่อขอรหัสส่วนลดบริการ", "warning");
+    }
   };
 
   render() {

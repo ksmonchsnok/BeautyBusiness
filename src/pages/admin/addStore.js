@@ -94,7 +94,7 @@ class RegistrationForm extends Component {
       this.formRef.current.setFieldsValue({
         mode: "edit",
         userOfStoreId: obj.userOfStoreId,
-        UserStoreName: obj.UserSotreName,
+        UserStoreName: obj.UserStoreName,
         imageUrl: obj.imageUrl,
         BusinessName: obj.Name,
         OpenShop: obj.Open,
@@ -110,7 +110,7 @@ class RegistrationForm extends Component {
       this.setState({
         mode: "edit",
         userOfStoreId: obj.userOfStoreId,
-        UserStoreName: obj.UserSotreName,
+        UserStoreName: obj.UserStoreName,
         imageUrl: obj.imageUrl,
         BusinessName: obj.Name,
         OpenShop: obj.Open,
@@ -171,7 +171,7 @@ class RegistrationForm extends Component {
             .ref(`Store/${this.state.userOfStoreId}`);
           let newState = {
             userOfStoreId: this.state.userOfStoreId,
-            UserStoreName: this.state.UserSotreName,
+            UserStoreName: this.state.UserStoreName,
             imageUrl: this.state.imageUrl,
             Name: this.state.BusinessName,
             Open: this.state.OpenShop,
@@ -316,10 +316,10 @@ class RegistrationForm extends Component {
             style={{ marginBottom: "1rem", marginTop: "1.5rem" }}
           >
             <h4>Select User</h4>
-            {this.state.mode === "edit" && this.state.UserSotreName !== "" ? (
+            {this.state.mode === "edit" && this.state.UserStoreName !== "" ? (
               <Input
                 style={{ width: 300, marginLeft: "1.5rem", height: "2rem" }}
-                value={this.state.UserSotreName}
+                value={this.state.UserStoreName}
                 whitespace={true}
                 disabled
               />
