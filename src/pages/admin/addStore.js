@@ -88,7 +88,7 @@ class RegistrationForm extends Component {
   };
 
   async componentDidMount() {
-    await this.getMemberUser();
+    await this.getMember();
     if (this.props.location.state.mode === "edit") {
       let obj = await this.props.location.state.obj;
       this.formRef.current.setFieldsValue({
@@ -194,7 +194,7 @@ class RegistrationForm extends Component {
     }
   }
 
-  getMemberUser() {
+  getMember() {
     let checkUserStore = [];
     let user = [];
     firebase
@@ -209,7 +209,7 @@ class RegistrationForm extends Component {
     setTimeout(() => {
       firebase
         .database()
-        .ref("MemberUser")
+        .ref("Member")
         .once("value")
         .then((snapshot) => {
           if (snapshot.val()) {
@@ -218,14 +218,14 @@ class RegistrationForm extends Component {
             let arr = data;
             for (let i = 0; i < checkUserStore.length; i++) {
               index = data.findIndex(
-                (v) => v.UserId === checkUserStore[i].userOfStoreId
+                (v) => v.MemberId === checkUserStore[i].userOfStoreId
               );
               arr.splice(index, 1);
               data = arr;
             }
             data.forEach((v) => {
-              if (v.UserType === "ผู้ให้บริการ") {
-                user.push({ value: v.UserId, label: v.Username });
+              if (v.MemberType === "ผู้ให้บริการ") {
+                user.push({ value: v.MemberId, label: v.Username });
               }
             });
             this.setState({ userLsit: user });
@@ -675,12 +675,12 @@ class RegistrationForm extends Component {
 
 function mapStateToProps({ firebase }) {
   return {
-    Memberuser: firebase.ordered.Memberuser,
+    Member: firebase.ordered.Member,
   };
 }
 
 const enhance = compose(
-  firebaseConnect([{ path: "/Memberuser" }]),
+  firebaseConnect([{ path: "/Member" }]),
   connect(mapStateToProps)
 );
 

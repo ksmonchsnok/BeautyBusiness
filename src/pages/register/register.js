@@ -18,7 +18,7 @@ export default class RegistrationForm extends Component {
     this.state = {
       loading: false,
       mode: "",
-      UserID: "",
+      MemberId: "",
       Address: "",
       Email: "",
       Firstname: "",
@@ -27,7 +27,7 @@ export default class RegistrationForm extends Component {
       CFPassword: "",
       Phone: "",
       Username: "",
-      UserType: "",
+      MemberType: "",
     };
   }
 
@@ -77,7 +77,7 @@ export default class RegistrationForm extends Component {
         Lastname: temp.Lastname,
         Phone: temp.Phone,
         Address: temp.Address,
-        UserType: temp.UserType,
+        MemberType: temp.MemberType,
       });
       this.formRef.current.setFieldsValue({
         imageUrl: temp.imageUrl,
@@ -89,7 +89,7 @@ export default class RegistrationForm extends Component {
         Lastname: temp.Lastname,
         Phone: temp.Phone,
         Address: temp.Address,
-        UserType: temp.UserType,
+        MemberType: temp.MemberType,
       });
     }
   }
@@ -123,7 +123,7 @@ export default class RegistrationForm extends Component {
           console.log(error);
         });
       setTimeout(() => {
-        const setItemInsert = firebase.database().ref(`MemberUser`);
+        const setItemInsert = firebase.database().ref(`Member`);
         let newState = {
           imageUrl: this.state.imageUrl,
           Username: this.state.Username,
@@ -134,7 +134,7 @@ export default class RegistrationForm extends Component {
           Lastname: this.state.Lastname,
           Phone: this.state.Phone,
           Address: this.state.Address,
-          UserType: this.state.UserType,
+          MemberType: this.state.MemberType,
         };
         setItemInsert.child(user.uid).update(newState);
         localStorage.setItem("ObjUser", JSON.stringify(this.state));
@@ -176,9 +176,9 @@ export default class RegistrationForm extends Component {
           setTimeout(() => {
             const setItemInsert = firebase
               .database()
-              .ref(`MemberUser/${res.user.uid}`);
+              .ref(`Member/${res.user.uid}`);
             let newState = {
-              UserId: res.user.uid,
+              MemberId: res.user.uid,
               imageUrl: this.state.imageUrl,
               Username: this.state.Username,
               Email: this.state.Email,
@@ -188,7 +188,7 @@ export default class RegistrationForm extends Component {
               Lastname: this.state.Lastname,
               Phone: this.state.Phone,
               Address: this.state.Address,
-              UserType: this.state.UserType,
+              MemberType: this.state.MemberType,
             };
             setItemInsert.set(newState);
             swal({
@@ -218,7 +218,7 @@ export default class RegistrationForm extends Component {
   }
 
   onChangeCheckRadio = (e) => {
-    this.setState({ UserType: e.target.value });
+    this.setState({ MemberType: e.target.value });
   };
 
   render() {
@@ -611,7 +611,7 @@ export default class RegistrationForm extends Component {
             </Form.Item>
 
             <Form.Item
-              name="UserType"
+              name="MemberType"
               label="User Type"
               rules={[
                 {
@@ -621,8 +621,8 @@ export default class RegistrationForm extends Component {
               ]}
             >
               <Radio.Group
-                id="UserType"
-                value={this.state.UserType}
+                id="MemberType"
+                value={this.state.MemberType}
                 onChange={(e) => this.onChangeCheckRadio(e)}
               >
                 <Radio value="ผู้ใช้บริการ" name="ผู้ใช้บริการ">

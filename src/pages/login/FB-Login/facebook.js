@@ -8,7 +8,7 @@ export default class Facebook extends Component {
     this.state = {
       loggedStatus: false,
       auth: false,
-      userID: "",
+      MemberId: "",
       name: "",
       email: "",
       picture: "",

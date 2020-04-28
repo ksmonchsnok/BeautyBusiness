@@ -20,7 +20,7 @@ class storeList extends Component {
     await this.onGetItempPromotion();
   }
 
-  onGetItempPromotion() {
+  onGetItempPromotion = () => {
     this.setState({ data: [], loadingData: true });
     setTimeout(() => {
       let ref = firebase.database().ref("Promotion");
@@ -44,7 +44,7 @@ class storeList extends Component {
         }
       });
     }, 1000);
-  }
+  };
 
   handleEdit = (obj) => {
     console.log("Data", obj);

@@ -22,7 +22,7 @@ class Report extends Component {
     ref.once("value").then((snapshot) => {
       if (snapshot.val()) {
         const data = Object.values(snapshot.val());
-        let arr = data.filter((v) => v.ReportId === ObjUser.UserId);
+        let arr = data.filter((v) => v.ReportId === ObjUser.MemberId);
         this.setState({ loadingData: false, reportList: arr });
       } else {
         this.setState({ loadingData: false });

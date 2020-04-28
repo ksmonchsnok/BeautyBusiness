@@ -39,7 +39,7 @@ class ManagePromotion extends Component {
   async componentDidMount() {
     await this.onGetItemp();
   }
-  onGetItemp() {
+  onGetItemp = () => {
     setTimeout(() => {
       let ObjUser = JSON.parse(localStorage.getItem("ObjUser"));
       this.setState({ businessId: ObjUser.UserId });
@@ -75,7 +75,7 @@ class ManagePromotion extends Component {
         }
       }
     }, 1000);
-  }
+  };
 
   onChangePromotion = (e) => {
     this.setState({
@@ -112,7 +112,7 @@ class ManagePromotion extends Component {
       endDateDiscount: date,
     });
   };
-  onClickSave() {
+  onClickSave = () => {
     setTimeout(() => {
       if (this.state.mode === "edit" && this.state.data) {
         const setItemInsert = firebase.database().ref(`Promotion`);
@@ -195,10 +195,10 @@ class ManagePromotion extends Component {
     //   swal("ผิดพลาด", "กรุณากรอกข้อมูลให้ครบ", "error");
     //   return;
     // }
-  }
-  onClickCancel() {
+  };
+  onClickCancel = () => {
     window.location.reload();
-  }
+  };
 
   render() {
     return (

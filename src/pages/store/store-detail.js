@@ -94,7 +94,7 @@ class StoreDetail extends Component {
         setItemInsert.update(newState);
         const setReport = firebase.database().ref(`Report`);
         let newReport = {
-          ReportId: this.state.pormotion.businessId,
+          ReportId: this.state.pormotion.BusinessId,
           discountCode: GenCode,
           businessName: this.state.pormotion.businessName,
           customerName: CustomerName,

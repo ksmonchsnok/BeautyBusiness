@@ -6,24 +6,24 @@ export default class Google extends Component {
     super(props);
     this.state = {
       auth: false,
-      userID: "",
+      MemberId: "",
       name: "",
       email: "",
-      picture: ""
+      picture: "",
     };
   }
 
-  responseGoogle = response => {
+  responseGoogle = (response) => {
     if (response.status !== "unknown") {
       let res = response;
       let auth = res;
       localStorage.setItem("Google-login", JSON.stringify(auth));
       this.setState({
         auth: true,
-        userID: auth.tokenId,
+        MemberId: auth.tokenId,
         name: auth.profileObj.givenName,
         email: auth.profileObj.email,
-        picture: auth.profileObj.imageUrl
+        picture: auth.profileObj.imageUrl,
       });
     }
   };
@@ -38,7 +38,7 @@ export default class Google extends Component {
               margin: "auto",
               background: "#f4f4f4",
               padding: "20px",
-              color: "#000"
+              color: "#000",
             }}
           >
             <img src={this.state.picture} alt={this.state.name} />

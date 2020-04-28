@@ -28,14 +28,14 @@ export default class Menu extends Component {
       if (!prevState.checkCreateBusinese && checkSigninAndOut) {
         firebase
           .database()
-          .ref(`Store/${checkSigninAndOut.UserId}`)
+          .ref(`Store/${checkSigninAndOut.MemberId}`)
           .once("value")
           .then((snapshot) => {
             if (snapshot.val()) {
               this.setState({ checkBusiness: true });
             }
           });
-        if (checkSigninAndOut.UserType == "ผู้ให้บริการ") {
+        if (checkSigninAndOut.MemberType == "ผู้ให้บริการ") {
           this.setState({ checkCreateBusinese: true });
         }
       } else if (!prevState.checkCreateBusinese && checkSigninAndOutgoogle) {
@@ -53,14 +53,14 @@ export default class Menu extends Component {
       if (checkSigninAndOut) {
         firebase
           .database()
-          .ref(`Store/${checkSigninAndOut.UserId}`)
+          .ref(`Store/${checkSigninAndOut.MemberId}`)
           .once("value")
           .then((snapshot) => {
             if (snapshot.val()) {
               this.setState({ checkBusiness: true });
             }
           });
-        if (checkSigninAndOut.UserType == "ผู้ให้บริการ") {
+        if (checkSigninAndOut.MemberType == "ผู้ให้บริการ") {
           this.setState({ checkCreateBusinese: true });
         }
       } else if (checkSigninAndOut) {
@@ -79,7 +79,7 @@ export default class Menu extends Component {
         <div className="container">
           <div className="row d-flex justify-content-center">
             <div
-              className="navbar-menu"
+              className="col navbar-menu d-flex justify-content-center"
               style={{
                 border: "0.3px solid Black",
                 boxShadow: "5px 5px 5px LightGray",

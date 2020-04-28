@@ -119,7 +119,7 @@ class RegistrationForm extends Component {
       console.log("userEditStore");
       let obj = JSON.parse(localStorage.getItem("ObjUser"));
       console.log(obj);
-      let ref = firebase.database().ref(`Store/${obj.UserId}`);
+      let ref = firebase.database().ref(`Store/${obj.MemberId}`);
       ref.once("value").then((snapshot) => {
         if (snapshot.val()) {
           const data = snapshot.val();
@@ -191,7 +191,7 @@ class RegistrationForm extends Component {
     let checkSigninAndOutfb = JSON.parse(localStorage.getItem("FB-Login"));
 
     if (obj) {
-      userOfStoreId = obj.UserId;
+      userOfStoreId = obj.MemberId;
       UserStoreName = obj.Username;
     } else if (checkSigninAndOutgoogle) {
       // userOfStoreId =obj.e.profileObj.name

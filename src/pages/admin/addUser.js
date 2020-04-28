@@ -18,7 +18,7 @@ export default class RegistrationForm extends Component {
     this.state = {
       loading: false,
       mode: "",
-      UserId: "",
+      MemberId: "",
       Address: "",
       Email: "",
       Firstname: "",
@@ -27,7 +27,7 @@ export default class RegistrationForm extends Component {
       CFPassword: "",
       Phone: "",
       Username: "",
-      UserType: "",
+      MemberType: "",
     };
   }
 
@@ -65,7 +65,7 @@ export default class RegistrationForm extends Component {
   };
 
   onChangeCheckRadio = (e) => {
-    this.setState({ UserType: e.target.value });
+    this.setState({ MemberType: e.target.value });
   };
 
   async componentDidMount() {
@@ -76,7 +76,7 @@ export default class RegistrationForm extends Component {
         console.log(obj);
         this.formRef.current.setFieldsValue({
           mode: "edit",
-          UserId: obj.UserId,
+          MemberId: obj.MemberId,
           imageUrl: obj.imageUrl,
           Username: obj.Username,
           Email: obj.Email,
@@ -86,11 +86,11 @@ export default class RegistrationForm extends Component {
           Lastname: obj.Lastname,
           Phone: obj.Phone,
           Address: obj.Address,
-          UserType: obj.UserType,
+          MemberType: obj.MemberType,
         });
         this.setState({
           mode: "edit",
-          UserId: obj.UserId,
+          MemberId: obj.MemberId,
           imageUrl: obj.imageUrl,
           Username: obj.Username,
           Email: obj.Email,
@@ -100,7 +100,7 @@ export default class RegistrationForm extends Component {
           Lastname: obj.Lastname,
           Phone: obj.Phone,
           Address: obj.Address,
-          UserType: obj.UserType,
+          MemberType: obj.MemberType,
         });
       }
     }
@@ -114,7 +114,7 @@ export default class RegistrationForm extends Component {
     if (this.state.Username) {
       setTimeout(() => {
         if (this.state.mode === "edit") {
-          const setItemInsert = firebase.database().ref(`MemberUser`);
+          const setItemInsert = firebase.database().ref(`Member`);
           let newState = {
             imageUrl: this.state.imageUrl,
             Username: this.state.Username,
@@ -125,9 +125,9 @@ export default class RegistrationForm extends Component {
             Lastname: this.state.Lastname,
             Phone: this.state.Phone,
             Address: this.state.Address,
-            UserType: this.state.UserType,
+            MemberType: this.state.MemberType,
           };
-          setItemInsert.child(this.state.UserId).update(newState);
+          setItemInsert.child(this.state.MemberId).update(newState);
           swal({
             title: "You want Update User",
             icon: "warning",
@@ -153,10 +153,10 @@ export default class RegistrationForm extends Component {
             .then((res) => {
               const setItemInsert = firebase
                 .database()
-                .ref(`MemberUser/${res.user.uid}`);
+                .ref(`Member/${res.user.uid}`);
               let newState = {
                 imageUrl: this.state.imageUrl,
-                UserId: res.user.uid,
+                MemberId: res.user.uid,
                 Username: this.state.Username,
                 Email: this.state.Email,
                 Password: this.state.Password,
@@ -165,7 +165,7 @@ export default class RegistrationForm extends Component {
                 Lastname: this.state.Lastname,
                 Phone: this.state.Phone,
                 Address: this.state.Address,
-                UserType: this.state.UserType,
+                MemberType: this.state.MemberType,
               };
               setItemInsert.set(newState);
               swal({
@@ -557,7 +557,7 @@ export default class RegistrationForm extends Component {
           </Form.Item>
 
           <Form.Item
-            name="UserType"
+            name="MemberType"
             label="User Type"
             rules={[
               {
@@ -567,8 +567,8 @@ export default class RegistrationForm extends Component {
             ]}
           >
             <Radio.Group
-              id="UserType"
-              value={this.state.UserType}
+              id="MemberType"
+              value={this.state.MemberType}
               onChange={(e) => this.onChangeCheckRadio(e)}
             >
               <Radio value="ผู้ใช้บริการ" name="ผู้ใช้บริการ">

@@ -67,7 +67,7 @@ class Login extends Component {
   checkLogin = (e) => {
     firebase
       .database()
-      .ref(`Store/${e.UserId}`)
+      .ref(`Store/${e.MemberId}`)
       .once("value")
       .then((snapshot) => {
         if (snapshot.val()) {
@@ -249,7 +249,7 @@ class Login extends Component {
               history={this.props}
             >
               <img src={user} alt="sign in" />
-              &nbsp; Sing In
+              &nbsp; Sign In
             </button>
           )}
 

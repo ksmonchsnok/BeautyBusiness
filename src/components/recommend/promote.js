@@ -10,7 +10,8 @@ class Promote extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      Store: [],
+      Promotion: [],
+      Discount: [],
       loadingData: false,
     };
   }
@@ -33,23 +34,35 @@ class Promote extends Component {
   render() {
     const { loadingData } = this.state;
 
-    let Store = [];
+    let Promotion = [];
 
-    let rootRef = firebase.database().ref("Store");
+    let rootRefPromotion = firebase.database().ref("Promotion");
 
-    rootRef
-      .orderByChild("StoreType")
-      .equalTo("มีหน้าร้าน")
+    rootRefPromotion
+      .orderByChild("Promotion")
+      .equalTo(true)
       .on("child_added", (snapshot) => {
-        Store.push(snapshot.val());
-        // console.log(Store);
+        Promotion.push(snapshot.val());
+        console.log(Promotion);
       });
 
-    const promotion = Store.map((value) => (
+    let Discount = [];
+
+    let rootRef = firebase.database().ref("Discount");
+
+    rootRef
+      .orderByChild("Discount")
+      .equalTo(true)
+      .on("child_added", (snapshot) => {
+        Promotion.push(snapshot.val());
+        console.log(Promotion);
+      });
+
+    const promotion = Promotion.map((value) => (
       <div className="col-lg-4 d-flex justify-content-center">
-        <div key={value.ItemID}>
+        <div key={value.BusinessId}>
           <a href onClick={() => this.onClickViewDetail(value)}>
-            <img
+            {/* <img
               src={value.imageUrl}
               alt="imageStore"
               className="bd-placeholder-img rounded-circle"
@@ -57,26 +70,12 @@ class Promote extends Component {
               height="140"
               role="img"
               focusable="false"
-            ></img>
+            ></img> */}
 
-            <h2>{value.Name}</h2>
-            <p>
-              {value.Type.map((el) => (
-                <p
-                  style={{
-                    marginLeft: -2,
-                    marginRight: 8,
-                    marginBottom: 3,
-                    marginTop: 0.5,
-                    fontWeight: "lighter",
-                    fontSize: 14 + "px",
-                  }}
-                  className="badge badge-warning"
-                >
-                  {el}
-                </p>
-              ))}
-            </p>
+            <h2>{value.businessName}</h2>
+            <h2>{value.promotionName}</h2>
+            <h2>{value.promotionDescrip}</h2>
+
             <p>
               <a
                 className="btn btn-secondary"
@@ -92,7 +91,7 @@ class Promote extends Component {
       </div>
     ));
 
-    const discount = Store.map((value) => (
+    const discount = Discount.map((value) => (
       <div className="row featurette">
         <div key={value.ItemID}>
           <a href onClick={() => this.onClickViewDetail(value)}>
@@ -171,12 +170,13 @@ class Promote extends Component {
 
 function mapStateToProps({ firebase }) {
   return {
-    Store: firebase.ordered.Store,
+    Promotion: firebase.ordered.Promotion,
+    Discount: firebase.ordered.Discount,
   };
 }
 
 const enhance = compose(
-  firebaseConnect([{ path: "/Store" }]),
+  firebaseConnect([{ path: "/Promotion" }, { path: "/Discount" }]),
   connect(mapStateToProps)
 );
 

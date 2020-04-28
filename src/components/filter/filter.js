@@ -5,7 +5,7 @@ export default class Filter extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      filter: []
+      filter: [],
     };
   }
 
@@ -81,7 +81,7 @@ export default class Filter extends Component {
 
         <div
           className="col"
-          onChange={e => this.props.onCheckType(e.target.value)}
+          onChange={(e) => this.props.onCheckType(e.target.value)}
         >
           <ul class="list-group list-group-flush text-left">
             <h5 className="">ประเภทธุรกิจ</h5>

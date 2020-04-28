@@ -28,7 +28,7 @@ class ManagePromotion extends Component {
       discountDescrip: "",
       discountAmount: 0,
       businessList: [],
-      businessId: "",
+      BusinessId: "",
       startDatePromotion: new Date(),
       endDatePromotion: new Date(),
       startDateDiscount: new Date(),
@@ -45,7 +45,7 @@ class ManagePromotion extends Component {
           mode: "edit",
           Promotion: obj.Promotion,
           Discount: obj.Discount,
-          businessId: obj.businessId,
+          BusinessId: obj.BusinessId,
           businessName: obj.businessName,
           promotionName: obj.promotionName,
           promotionDescrip: obj.promotionDescrip,
@@ -61,7 +61,7 @@ class ManagePromotion extends Component {
       }
     }
   }
-  setBusinessList() {
+  setBusinessList = () => {
     let business = [];
     let checkUserPromotion = [];
     firebase
@@ -85,7 +85,7 @@ class ManagePromotion extends Component {
             let arr = data;
             for (let i = 0; i < checkUserPromotion.length; i++) {
               index = data.findIndex(
-                (v) => v.businessId === checkUserPromotion[i].userOfStoreId
+                (v) => v.BusinessId === checkUserPromotion[i].userOfStoreId
               );
               arr.splice(index, 1);
               data = arr;
@@ -97,7 +97,7 @@ class ManagePromotion extends Component {
           }
         });
     }, 500);
-  }
+  };
 
   onChangePromotion = (e) => {
     this.setState({
@@ -142,14 +142,14 @@ class ManagePromotion extends Component {
       if (v.value === e) {
         console.log(v);
         this.setState({
-          businessId: e,
+          BusinessId: e,
           businessName: v.label,
         });
       }
     });
   };
-  onClickSave() {
-    if (this.state !== null && this.state.businessId) {
+  onClickSave = () => {
+    if (this.state !== null && this.state.BusinessId) {
       setTimeout(() => {
         if (this.state.mode === "edit") {
           const setItemInsert = firebase.database().ref(`Promotion`);
@@ -167,7 +167,7 @@ class ManagePromotion extends Component {
             startDateDiscount: this.state.startDateDiscount,
             endDateDiscount: this.state.endDateDiscount,
           };
-          setItemInsert.child(this.state.businessId).update(newState);
+          setItemInsert.child(this.state.BusinessId).update(newState);
           swal({
             title: "You want Update User",
             icon: "warning",
@@ -186,11 +186,11 @@ class ManagePromotion extends Component {
         } else {
           const setItemInsert = firebase
             .database()
-            .ref(`Promotion/${this.state.businessId}`);
+            .ref(`Promotion/${this.state.BusinessId}`);
           let newState = {
             Promotion: this.state.Promotion,
             Discount: this.state.Discount,
-            businessId: this.state.businessId,
+            BusinessId: this.state.BusinessId,
             businessName: this.state.businessName,
             promotionName: this.state.promotionName,
             promotionDescrip: this.state.promotionDescrip,
@@ -230,7 +230,7 @@ class ManagePromotion extends Component {
       swal("ผิดพลาด", "กรุณากรอกข้อมูลให้ครบ", "error");
       return;
     }
-  }
+  };
   onClickCancel = () => {
     window.history.back();
   };
