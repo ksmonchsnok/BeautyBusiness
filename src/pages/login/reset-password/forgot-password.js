@@ -21,6 +21,7 @@ export default class ForgotPassword extends Component {
     firebase.resetPassword(`${this.state.Email}`).then((res) => {
       swal("Success Check your email");
     });
+    this.props.history.push("/");
   };
 
   render() {

@@ -1,10 +1,9 @@
-export default  { 
-    apiKey: "AIzaSyC9SnzFIrMF41K57it-skYg5DoQshD8uZ4",
-    authDomain: "beauty-busniess.firebaseapp.com",
-    databaseURL: "https://beauty-busniess.firebaseio.com",
-    projectId: "beauty-busniess",
-    storageBucket: "beauty-busniess.appspot.com",
-    messagingSenderId: "200711871568",
-    appId: "1:200711871568:web:cad3bdee0433a815928555",
-    measurementId: "G-9VGW3YM381"
+export default {
+  apiKey: "AIzaSyA4471yqhPSDjCW2o6nb_d-UX0ZNVlHLYo",
+  authDomain: "beauty-business-store.firebaseapp.com",
+  databaseURL: "https://beauty-business-store.firebaseio.com",
+  projectId: "beauty-business-store",
+  storageBucket: "beauty-business-store.appspot.com",
+  messagingSenderId: "319306673804",
+  appId: "1:319306673804:web:88b5568b5d6cb409a895a9",
 };

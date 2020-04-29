@@ -48,7 +48,7 @@ class Promote extends Component {
 
     let Discount = [];
 
-    let rootRef = firebase.database().ref("Discount");
+    let rootRef = firebase.database().ref("Promotion");
 
     rootRef
       .orderByChild("Discount")
@@ -171,12 +171,11 @@ class Promote extends Component {
 function mapStateToProps({ firebase }) {
   return {
     Promotion: firebase.ordered.Promotion,
-    Discount: firebase.ordered.Discount,
   };
 }
 
 const enhance = compose(
-  firebaseConnect([{ path: "/Promotion" }, { path: "/Discount" }]),
+  firebaseConnect([{ path: "/Promotion" }]),
   connect(mapStateToProps)
 );
 

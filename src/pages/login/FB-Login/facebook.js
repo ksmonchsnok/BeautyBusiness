@@ -1,8 +1,12 @@
 import React, { Component } from "react";
 import "../../../style.css";
 import FacebookLogin from "react-facebook-login";
+import firebase from "firebase/app";
+import "firebase/auth";
+import swal from "sweetalert";
+import { withRouter } from "react-router-dom";
 
-export default class Facebook extends Component {
+class Facebook extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -14,6 +18,7 @@ export default class Facebook extends Component {
       picture: "",
     };
   }
+
   componentClicked = () => {
     console.log("Login With Facebook");
   };
@@ -78,3 +83,5 @@ export default class Facebook extends Component {
     return <>{facebookData}</>;
   }
 }
+
+export default withRouter(Facebook);

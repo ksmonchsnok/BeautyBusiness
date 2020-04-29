@@ -26,6 +26,8 @@ class Login extends Component {
       setlogInFacebook: {},
       setlogInGoogle: {},
       checkTypeUser: false,
+      responseFB: JSON.parse(localStorage.getItem("FB-Login")),
+      responseGL: JSON.parse(localStorage.getItem("Google-login")),
     };
   }
   componentDidUpdate(prevProps, prevState) {

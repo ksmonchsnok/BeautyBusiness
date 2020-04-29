@@ -62,6 +62,7 @@ export default class RegistrationForm extends Component {
         })
       );
     }
+    console.log(info.file.status);
   };
 
   async componentDidMount() {
@@ -109,111 +110,128 @@ export default class RegistrationForm extends Component {
         ? "pass"
         : null
       : null;
-    if (
-      checkProps === "pass" &&
-      this.props.location.state.mode === "EditUser"
-    ) {
-      var user = firebase.auth().currentUser;
-      user
-        .updatePassword(password)
-        .then(() => {
-          console.log("Password updated!");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      setTimeout(() => {
-        const setItemInsert = firebase.database().ref(`Member`);
-        let newState = {
-          imageUrl: this.state.imageUrl,
-          Username: this.state.Username,
-          Email: this.state.Email,
-          Password: this.state.Password,
-          CFPassword: this.state.CFPassword,
-          Firstname: this.state.Firstname,
-          Lastname: this.state.Lastname,
-          Phone: this.state.Phone,
-          Address: this.state.Address,
-          MemberType: this.state.MemberType,
-        };
-        setItemInsert.child(user.uid).update(newState);
-        localStorage.setItem("ObjUser", JSON.stringify(this.state));
-        let temp = JSON.parse(localStorage.getItem("ObjUser"));
-        if (temp.Password !== this.state.Password) {
-          firebase
-            .auth()
-            .signOut()
-            .then(function () {
-              // Sign-out successful.
-              localStorage.removeItem("ObjUser");
-            })
-            .catch(function (error) {
-              // An error happened.
-            });
-        }
-        swal({
-          title: "Update Registered",
-          text: "ํYou want Continue or not?",
-          icon: "warning",
-          buttons: true,
-          dangerMode: true,
-        }).then((willDelete) => {
-          if (willDelete) {
-            swal("Up date Success", {
-              icon: "success",
-            });
-            this.onClickCancel();
-          } else {
-            // swal("Your imaginary file is safe!");
+    if (this.state.imageUrl !== undefined) {
+      // console.log(this.state.imageUrl);
+
+      if (
+        checkProps === "pass" &&
+        this.props.location.state.mode === "EditUser"
+      ) {
+        var user = firebase.auth().currentUser;
+        user
+          .updatePassword(password)
+          .then(() => {
+            console.log("Password Updated !");
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+
+        setTimeout(() => {
+          const setItemInsert = firebase.database().ref(`Member`);
+          let newState = {
+            imageUrl: this.state.imageUrl,
+            Username: this.state.Username,
+            Email: this.state.Email,
+            Password: this.state.Password,
+            CFPassword: this.state.CFPassword,
+            Firstname: this.state.Firstname,
+            Lastname: this.state.Lastname,
+            Phone: this.state.Phone,
+            Address: this.state.Address,
+            MemberType: this.state.MemberType,
+          };
+          setItemInsert.child(user.uid).update(newState);
+          localStorage.setItem("ObjUser", JSON.stringify(this.state));
+          let temp = JSON.parse(localStorage.getItem("ObjUser"));
+          if (temp.Password !== this.state.Password) {
+            firebase
+              .auth()
+              .signOut()
+              .then(function () {
+                // Sign-out successful.
+                localStorage.removeItem("ObjUser");
+              })
+              .catch(function (error) {
+                // An error happened.
+              });
           }
-        });
-      }, 100);
+          swal("Update Success!", "", "success").then((value) => {
+            this.props.history.push("/");
+          });
+
+          // swal({
+          //   title: "Update Success",
+          //   text: "ํYou want Continue or not?",
+          //   icon: "warning",
+          //   buttons: true,
+          //   dangerMode: true,
+          // }).then((willDelete) => {
+          //   if (willDelete) {
+          //     swal("Up date Success", {
+          //       icon: "success",
+          //     });
+          //     this.onClickCancel();
+          //   } else {
+          //     swal("Success!");
+          //   }
+          // });
+        }, 100);
+      } else {
+        firebase
+          .auth()
+          .createUserWithEmailAndPassword(email, password)
+          .then((res) => {
+            setTimeout(() => {
+              const setItemInsert = firebase
+                .database()
+                .ref(`Member/${res.user.uid}`);
+              let newState = {
+                MemberId: res.user.uid,
+                imageUrl: this.state.imageUrl,
+                Username: this.state.Username,
+                Email: this.state.Email,
+                Password: this.state.Password,
+                CFPassword: this.state.CFPassword,
+                Firstname: this.state.Firstname,
+                Lastname: this.state.Lastname,
+                Phone: this.state.Phone,
+                Address: this.state.Address,
+                MemberType: this.state.MemberType,
+              };
+              setItemInsert.set(newState);
+              swal("Register Success!", "", "success").then((value) => {
+                this.props.history.push("/");
+              });
+
+              // swal({
+              //   title: "Registered",
+              //   text: "ํYou want Continue or not?",
+              //   icon: "warning",
+              //   buttons: true,
+              //   dangerMode: true,
+              // }).then((willDelete) => {
+              //   if (willDelete) {
+              //     swal("Register Success", {
+              //       icon: "success",
+              //     });
+              //     this.onClickCancel();
+              //   } else {
+              //     swal("Success!");
+              //   }
+              // });
+            }, 100);
+          })
+          .catch(function (error) {
+            swal(
+              "ผิดพลาด!",
+              "กรุณากรอก 'ข้อมูล' และ 'รูปภาพ' ให้ครบ ",
+              "error"
+            );
+          });
+      }
     } else {
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(email, password)
-        .then((res) => {
-          setTimeout(() => {
-            const setItemInsert = firebase
-              .database()
-              .ref(`Member/${res.user.uid}`);
-            let newState = {
-              MemberId: res.user.uid,
-              imageUrl: this.state.imageUrl,
-              Username: this.state.Username,
-              Email: this.state.Email,
-              Password: this.state.Password,
-              CFPassword: this.state.CFPassword,
-              Firstname: this.state.Firstname,
-              Lastname: this.state.Lastname,
-              Phone: this.state.Phone,
-              Address: this.state.Address,
-              MemberType: this.state.MemberType,
-            };
-            setItemInsert.set(newState);
-            swal({
-              title: "Already Registered",
-              text: "ํYou want Continue or not?",
-              icon: "warning",
-              buttons: true,
-              dangerMode: true,
-            }).then((willDelete) => {
-              if (willDelete) {
-                swal("Register Success", {
-                  icon: "success",
-                });
-                this.onClickCancel();
-              } else {
-                // swal("Your imaginary file is safe!");
-              }
-            });
-          }, 100);
-          // this.onClickCancel();
-        })
-        .catch(function (error) {
-          swal("ผิดพลาด!", "กรุณากรอกข้อมูลให้ครบ", "error");
-          // ...
-        });
+      swal("ผิดพลาด!", "กรุณาอัพโหลดรูปภาพ", "error");
     }
   }
 
@@ -587,7 +605,7 @@ export default class RegistrationForm extends Component {
                   message: <small>Please input your phone number</small>,
                 },
                 {
-                  min: 12,
+                  min: 10,
                   pattern: new RegExp("^[0-9-]*$"),
                   message: <small>Ex : 085-555-5555</small>,
                 },
@@ -601,11 +619,11 @@ export default class RegistrationForm extends Component {
                 type="textbox"
                 name="Phone"
                 id="Phone"
-                placeholder="Ex. 085-555-5555"
+                placeholder="Ex. 085 555 5555"
                 value={this.state.Phone}
                 onChange={(e) => this.setState({ Phone: e.target.value })}
                 whitespace={true}
-                maxLength={12}
+                maxLength={10}
                 allowClear
               />
             </Form.Item>

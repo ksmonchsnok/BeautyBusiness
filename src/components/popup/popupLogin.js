@@ -52,52 +52,49 @@ class LoginForm extends Component {
     e.preventDefault();
     const { email, password } = this.state;
     this.setState({ loadingLogin: true });
-
     setTimeout(() => {
       firebase
         .auth()
         .signInWithEmailAndPassword(email, password)
         .then((resp) => {
-          swal({
-            title: "Login Success",
-            text: "ํYou want Continue or not?",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-          }).then((willDelete) => {
-            if (willDelete) {
-              const setPassword = firebase.database().ref(`Member`);
-              setPassword.child(resp.user.uid).update({
-                Password: this.state.password,
-                CFPassword: this.state.password,
-              });
-
-              firebase
-                .database()
-                .ref(`Member/${resp.user.uid}`)
-                .once("value")
-                .then((snapshot) => {
-                  localStorage.setItem(
-                    "ObjUser",
-                    JSON.stringify(snapshot.val())
-                  );
-                  this.props.checkLogin(snapshot.val());
-                });
-              this.setState({ loadingLogin: true });
-
-              this.props.history.push({
-                pathname: "/",
-                state: { ChekShowInOut: true },
-              });
-
-              this.setState({ checklogIn: true });
-            } else {
-              swal("ยกเลิก");
-              this.setState({ checklogIn: false });
-              this.setState({ loadingLogin: false });
-            }
+          // swal({
+          //   title: "Login Success",
+          //   text: "ํYou want Continue or not?",
+          //   icon: "warning",
+          //   buttons: true,
+          //   dangerMode: true,
+          // }).then((willDelete) => {
+          // if (willDelete) {
+          const setPassword = firebase.database().ref(`Member`);
+          setPassword.child(resp.user.uid).update({
+            Password: this.state.password,
+            CFPassword: this.state.password,
           });
+
+          firebase
+            .database()
+            .ref(`Member/${resp.user.uid}`)
+            .once("value")
+            .then((snapshot) => {
+              localStorage.setItem("ObjUser", JSON.stringify(snapshot.val()));
+              this.props.checkLogin(snapshot.val());
+            });
+          this.setState({ loadingLogin: true });
+
+          this.props.history.push({
+            pathname: "/",
+            state: { ChekShowInOut: true },
+          });
+
+          this.setState({ checklogIn: true });
+          // } else {
+          //   // swal("ยกเลิก");
+          //   this.setState({ checklogIn: false });
+          //   this.setState({ loadingLogin: false });
+          // }
+          // });
         })
+
         .catch(function (error) {
           swal("ผิดพลาด!", "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง", "error");
         });

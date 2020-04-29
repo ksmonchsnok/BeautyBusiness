@@ -140,7 +140,7 @@ export default class RegistrationForm extends Component {
               });
               this.onClickCancel();
             } else {
-              // swal("Your imaginary file is safe!");
+              swal("Success!");
             }
           });
         } else {
@@ -181,7 +181,7 @@ export default class RegistrationForm extends Component {
                   });
                   this.onClickCancel();
                 } else {
-                  // swal("Your imaginary file is safe!");
+                  swal("Success!");
                 }
               });
             })
@@ -195,6 +195,7 @@ export default class RegistrationForm extends Component {
       return;
     }
   }
+
   render() {
     const uploadButton = (
       <div>
@@ -533,7 +534,7 @@ export default class RegistrationForm extends Component {
                 message: <small>Please input your phone number</small>,
               },
               {
-                min: 12,
+                min: 10,
                 pattern: new RegExp("^[0-9-]*$"),
                 message: <small>Ex : 085-555-5555</small>,
               },
@@ -547,11 +548,11 @@ export default class RegistrationForm extends Component {
               type="textbox"
               name="Phone"
               id="Phone"
-              placeholder="Ex. 085-555-5555"
+              placeholder="Ex. 085 555 5555"
               value={this.state.Phone}
               onChange={(e) => this.setState({ Phone: e.target.value })}
               whitespace={true}
-              maxLength={12}
+              maxLength={10}
               allowClear
             />
           </Form.Item>

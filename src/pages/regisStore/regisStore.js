@@ -339,7 +339,7 @@ class RegistrationForm extends Component {
       >
         <Navber />
         <div className="container" style={{ marginBottom: "3rem" }}>
-          <h2>Regster Business / สร้างธุรกิจของคุณ</h2> <hr />
+          <h2>Register Business / สร้างธุรกิจของคุณ</h2> <hr />
         </div>
         <div className="container">
           <Form
@@ -440,7 +440,7 @@ class RegistrationForm extends Component {
                   message: <small>Please input your phone number</small>,
                 },
                 {
-                  min: 12,
+                  min: 10,
                   pattern: new RegExp("^[0-9 -]*$"),
                   message: <small>Ex : 085-555-5555</small>,
                 },
@@ -454,11 +454,11 @@ class RegistrationForm extends Component {
                 type="textbox"
                 name="PhoneNumbe"
                 id="PhoneNumbe"
-                placeholder="Ex : 085-555-5555"
+                placeholder="Ex : 085 555 5555"
                 value={this.state.PhoneNumbe}
                 onChange={(e) => this.setState({ PhoneNumbe: e.target.value })}
                 whitespace={true}
-                maxLength={12}
+                maxLength={10}
                 allowClear
               />
             </Form.Item>
@@ -657,7 +657,7 @@ class RegistrationForm extends Component {
                 // loading="true"
                 onClick={() => this.onGotoSave()}
               >
-                Regster Business
+                Register Business
               </Button>
             </Form.Item>
           </Form>
