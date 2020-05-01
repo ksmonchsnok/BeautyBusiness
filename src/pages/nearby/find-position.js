@@ -4,11 +4,10 @@ import "../../style.css";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { firebaseConnect } from "react-redux-firebase";
-import Navber from "../../components/navbar/navbar.js";
-import { Map, GoogleApiWrapper, Marker, InfoWindow } from "google-maps-react";
+import { GoogleApiWrapper } from "google-maps-react";
 import { geolocated } from "react-geolocated";
 
-class Nearby extends Component {
+class FindPosition extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -74,61 +73,20 @@ class Nearby extends Component {
     this.setState({ loadingData: false });
   }
 
-  onclickBack = () => {
-    window.history.back();
-  };
-
-  onMarkerClick = (props, marker, e) =>
-    this.setState({
-      selectedPlace: props,
-      activeMarker: marker,
-      showingInfoWindow: true,
-    });
-
-  onMapClicked = (props) => {
-    if (this.state.showingInfoWindow) {
-      this.setState({
-        showingInfoWindow: false,
-        activeMarker: null,
-      });
-    }
-  };
-
-  // markStore = () => {
-  //   const locations = this.state.locations;
-  //   return locations.map(location => (
-  //     <Marker
-  //       onClick={this.onMarkerClick}
-  //       title={location.Name}
-  //       name={location.Name}
-  //       position={{ Lat: location.Lat, Lng: location.Lng }}
-  //     />
-  //   ));
+  // currentOfLocation = () => {
+  //   const geolocation = navigator.geolocation;
+  //   return geolocation.getCurrentPosition((position) => {
+  //     {
+  //       this.setState({
+  //         coords: {
+  //           Lat: (position.coords.latitude + 0.000175).toFixed(6),
+  //           Lng: (position.coords.longitude + 0.000195).toFixed(6),
+  //         },
+  //       });
+  //     }
+  //     console.log(this.state.coords);
+  //   });
   // };
-
-  //markCurent = () => {
-  //   let iconmark = "https://img.icons8.com/cotton/64/000000/place-marker.png";
-  //   const current = this.state.coords;
-  //   console.log(current, "Mark Current Now!");
-  //   return (
-  //     <Marker
-  //       onClick={this.onMarkerClick}
-  //       name={"Curent Now !!"}
-  //       title={"Curent Now !!"}
-  //       icon={iconmark}
-  //       position={{
-  //         Lat: current.Lat,
-  //         Lng: current.Lng
-  //       }}
-  //     />
-  //   );
-  // };
-
-  handleToggle = () => {
-    this.setState({
-      isOpen: !false,
-    });
-  };
 
   currentOfLocation = () => {
     let position = JSON.parse(localStorage.getItem("Position"));
@@ -252,71 +210,20 @@ class Nearby extends Component {
 
     return (
       <div id="nearby">
-        <Navber />
-
-        <div className="" style={{ height: "80vh", width: "100%" }}>
-          <h2 className="text-center"> ตำแหน่งธุรกิจทั้งหมดในระบบ</h2>
-
-          <div
-            className="jumbotron justify-content-center d-flex"
-            style={{ backgroundColor: "#ffffff" }}
-          >
-            <div className="col-11">
-              {this.state.coords.Lat && this.state.coords.Lng && (
-                <Map
-                  google={this.props.google}
-                  zoom={15}
-                  style={styles}
-                  initialCenter={{
-                    lat: this.state.coords.Lat,
-                    lng: this.state.coords.Lng,
-                  }}
-                >
-                  {this.state.data.map((l, i) => {
-                    return (
-                      <Marker
-                        key={i}
-                        title={l.Name}
-                        name={l.Name}
-                        position={{ lat: l.Lat, lng: l.Lng }}
-                      >
-                        <InfoWindow
-                          key={"win_" + i}
-                          visible={true}
-                          onCloseClick={this.handleToggle}
-                          position={{ lat: l.Lat, lng: l.Lng }}
-                        >
-                          <h4>{l.Name}</h4>
-                        </InfoWindow>
-                      </Marker>
-                    );
-                  })}
-
-                  <Marker
-                    key={"2"}
-                    label={"You"}
-                    title={"You"}
-                    name={"You"}
-                    position={{
-                      lat: this.state.coords.Lat,
-                      lng: this.state.coords.Lng,
-                    }}
-                  >
-                    <InfoWindow visible={true}>
-                      <h5>You</h5>
-                    </InfoWindow>
-                  </Marker>
-                </Map>
-              )}
-            </div>
-          </div>
-        </div>
-
         <div className="container">
           <div className="album bg-while pad">
-            <h4 className="text-center">ธุรกิจใกล้เคียงในระยะ 1 กิโลเมตร</h4>
+            <div
+              className="container jumbotron jumbotron-fluid"
+              style={{ backgroundColor: "transparent" }}
+            >
+              <h1
+                className="col text-left font row"
+                style={{ marginBottom: "-2rem" }}
+              >
+                ธุรกิจใกล้เคียงในระยะ 1 กิโลเมตร
+              </h1>
+            </div>
 
-            <hr style={{ marginTop: "1rem" }} />
             {!loadingData && <div className="row">{item}</div>}
             {loadingData && (
               <div className="d-flex justify-content-center row col ">
@@ -332,23 +239,6 @@ class Nearby extends Component {
                 />
               </div>
             )}
-          </div>
-          <hr />
-
-          <div className="row justify-content-start">
-            <div className="container">
-              {" "}
-              <div className="col-xs-12 col-sm-4 col-md-2">
-                <button
-                  type="button"
-                  onClick={this.onclickBack}
-                  className="btn btn-dark btn-block"
-                  style={{ marginBottom: "6em" }}
-                >
-                  ย้อนกลับ
-                </button>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -379,4 +269,4 @@ const enhance = compose(
   googleApiWrapper,
   geo
 );
-export default enhance(Nearby);
+export default enhance(FindPosition);

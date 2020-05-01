@@ -139,7 +139,7 @@ class LoginForm extends Component {
           history={this.props}
         >
           <div className="modal-header">
-            <h5 className="modal-title">Log In | Sing In</h5>
+            <h3 className="modal-title">Log In | Sing In</h3>
             <button
               type="button"
               className="close"
@@ -165,7 +165,7 @@ class LoginForm extends Component {
                   rules={[
                     {
                       required: true,
-                      message: <small>Please input your Username</small>,
+                      message: "Please input your Username",
                     },
                   ]}
                 >
@@ -185,7 +185,7 @@ class LoginForm extends Component {
                   rules={[
                     {
                       required: true,
-                      message: <small>Please input your Password</small>,
+                      message: "Please input your Password",
                     },
                   ]}
                 >
@@ -221,7 +221,7 @@ class LoginForm extends Component {
                       )}
                       Log In
                     </Button>
-                    &emsp;or{" "}
+                    &emsp; <span>or</span>
                     <a
                       onClick={this.onClickForgotPassword}
                       history={this.props}
@@ -230,16 +230,17 @@ class LoginForm extends Component {
                     </a>
                   </Form.Item>
                   <Form.Item>
-                    ยังไม่ได้เป็นสมาชิก ?
+                    <span>ยังไม่ได้เป็นสมาชิก ?</span>
+
                     <a onClick={this.onClickRegister}>
                       &nbsp; <u>สมัครสมาชิก</u>
                     </a>
                   </Form.Item>
                 </center>
                 <div className="modal-footer d-flex justify-content-start">
-                  <h5 className="d-flex justify-content-start">
+                  <h4 className="d-flex justify-content-start">
                     เข้าสู่ระบบด้วย
-                  </h5>
+                  </h4>
                 </div>
                 <center>
                   <div

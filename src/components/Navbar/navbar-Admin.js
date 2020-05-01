@@ -60,16 +60,6 @@ class navbar extends Component {
       showPopupLogin: !this.state.showPopupLogin,
     });
   };
-  onClickHome = () => {
-    this.props.history.push("/");
-  };
-
-  onClickEditProfile = () => {
-    this.props.history.push({
-      pathname: "/Register",
-      state: { mode: "EditUser" },
-    });
-  };
 
   OnLogout = () => {
     swal({
@@ -106,7 +96,7 @@ class navbar extends Component {
     return (
       <div id="Navbar" style={{ marginTop: "-0.5rem", marginBottom: "10rem" }}>
         <nav className="fixed-top navbar navbar-dark bg-dark navbar-expand-lg ">
-          <NavLink exact to="/" className="navbar-brand">
+          <NavLink exact to="/AdminPage" className="navbar-brand">
             <img src={Logo} className="logoNav" alt="Logo" />
           </NavLink>
           <ul className="navbar-nav mr-auto">

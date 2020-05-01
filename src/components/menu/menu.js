@@ -25,6 +25,7 @@ export default class Menu extends Component {
         localStorage.getItem("Google-login")
       );
       let checkSigninAndOutfb = JSON.parse(localStorage.getItem("FB-Login"));
+
       if (!prevState.checkCreateBusinese && checkSigninAndOut) {
         firebase
           .database()
@@ -41,7 +42,7 @@ export default class Menu extends Component {
       } else if (!prevState.checkCreateBusinese && checkSigninAndOutgoogle) {
       } else if (!prevState.checkCreateBusinese && checkSigninAndOutfb) {
       }
-    }, 500);
+    }, 200);
   }
   componentDidMount() {
     setTimeout(() => {

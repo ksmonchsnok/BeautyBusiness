@@ -254,8 +254,8 @@ export default class RegistrationForm extends Component {
       >
         <Navber />
         <div className="container" style={{ marginBottom: "5rem" }}>
-          {" "}
-          <h3>Create User</h3>
+          {this.props.location.state.mode !== "edit" && <h1>Create User</h1>}
+          {this.props.location.state.mode === "edit" && <h1>Update User</h1>}
           <hr />
         </div>
 

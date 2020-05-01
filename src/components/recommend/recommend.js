@@ -14,10 +14,6 @@ class Recommened extends Component {
     };
   }
 
-  componentWillMount = () => {
-    // console.log(this.props);
-  };
-
   onClickViewDetail = (value) => {
     this.props.history.push({
       pathname: "/StoreDetail",
@@ -41,38 +37,48 @@ class Recommened extends Component {
       });
 
     const item = Store.map((value) => (
-      <div className="col-lg-3 col-md-6">
-        <div key={value.ItemID}>
-          <a href onClick={() => this.onClickViewDetail(value)}>
-            <img
-              className="card-img-top img-fluid rounded mx-auto d-block"
-              src={value.imageUrl}
-              alt="imageStore"
-              style={{ width: "100%;", height: "200px" }}
-            />
-            <div className="card-body text-left mb-auto">
-              <h6 className="styleFont">
-                <p className="font">{value.Name}</p>
-                <hr />
-                {value.Type.map((el) => (
-                  <p
-                    style={{
-                      marginLeft: -2,
-                      marginRight: 8,
-                      marginBottom: 3,
-                      marginTop: 0.5,
-                      fontWeight: "lighter",
-                      fontSize: 14 + "px",
-                    }}
-                    className="badge badge-warning"
-                  >
-                    {el}
-                  </p>
-                ))}
-              </h6>
+      <div className="">
+        <a href onClick={() => this.onClickViewDetail(value)}>
+          <div key={value.ItemID}>
+            <div class="col-lg-4">
+              <img
+                src={value.imageUrl}
+                className="bd-placeholder-img rounded-circle"
+                width="140"
+                height="140"
+                focusable="false"
+                role="img"
+                aria-label="Placeholder: 140x140"
+              ></img>
+              <h2>{value.Name}</h2>
+              {value.Type.map((el) => (
+                <p
+                  style={{
+                    marginLeft: -2,
+                    marginRight: 8,
+                    marginBottom: 3,
+                    marginTop: 0.5,
+                    fontWeight: "lighter",
+                    fontSize: 14 + "px",
+                  }}
+                  className="badge badge-warning"
+                >
+                  {el}
+                </p>
+              ))}
+              <p>
+                <a
+                  class="btn btn-secondary"
+                  href="#"
+                  role="button"
+                  onClick={() => this.onClickViewDetail(value)}
+                >
+                  View details »
+                </a>
+              </p>
             </div>
-          </a>
-        </div>
+          </div>
+        </a>
       </div>
     ));
 
@@ -82,12 +88,12 @@ class Recommened extends Component {
           className="container jumbotron jumbotron-fluid"
           style={{ backgroundColor: "transparent" }}
         >
-          <h2
+          <h1
             className="col text-left font row"
             style={{ marginBottom: "-2rem" }}
           >
-            แนะนำ
-          </h2>
+            ร้านแนะนำ
+          </h1>
         </div>
         <div className="row d-flex justify-content-end">
           <a
@@ -99,11 +105,7 @@ class Recommened extends Component {
           </a>
         </div>
         {!loadingData && (
-          <div
-            className="row"
-            style={{ marginTop: "1.5rem" }}
-            history={this.props.history}
-          >
+          <div style={{ marginTop: "1.5rem" }} history={this.props.history}>
             {item}
           </div>
         )}

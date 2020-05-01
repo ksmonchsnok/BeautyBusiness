@@ -4,28 +4,30 @@ import StoreList from "./storeList.js";
 import UserList from "./userList.js";
 import PromotionList from "./promotionList.js";
 import Report from "./report.js";
+import Position from "../nearby/position";
 
 export default class Admin extends Component {
   state = {
-    collapsed: false
+    collapsed: false,
   };
 
   toggle = () => {
     this.setState({
-      collapsed: !this.state.collapsed
+      collapsed: !this.state.collapsed,
     });
   };
 
-  onClickViewDetail = value => {
+  onClickViewDetail = (value) => {
     this.props.history.push({
       pathname: "/Add",
-      state: [value]
+      state: [value],
     });
   };
 
   render() {
     return (
       <div id="Admin-Page">
+        <Position />
         <Navbar />
         <h2 className="text-left" style={{ marginLeft: "1.5rem" }}>
           Admin
@@ -37,7 +39,7 @@ export default class Admin extends Component {
             marginTop: "-1rem",
             marginRight: "1rem",
             height: "auto",
-            marginBottom: "-3rem"
+            marginBottom: "-3rem",
           }}
         >
           <div className="row">

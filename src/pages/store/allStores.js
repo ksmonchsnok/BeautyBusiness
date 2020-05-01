@@ -253,7 +253,7 @@ class AllStore extends Component {
                   type="button"
                   onClick={this.onclickBack}
                   className="btn btn-dark btn-block"
-                  style={{ marginBottom: "4rem" }}
+                  style={{ marginBottom: "5rem" }}
                 >
                   ย้อนกลับ
                 </button>

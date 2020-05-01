@@ -1,15 +1,45 @@
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
+@import url('./assets/fonts/fonts.css');
+
+body {
+    display: flex;
+    flex-direction: column;
+    grid-template-rows: 1fr auto;
+    height: 100%;
+    font-size: 1.3rem !important;
+    line-height: 1.5;
+    font-family: 'Conv_DB Helvethaica X Li v3.2' !important;
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
+    -moz-osx-font-smoothing: grayscale;
+
 }
 
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
+label,
+button,
+input,
+textarea,
+a,
+span,
+.swal-text,
+.dropdown-item {
+    font-size: 1.3rem !important;
 }
 
-.App-header {
+.ant-form-item-explain {
+    font-size: 1.3rem !important;
+}
+
+.swal-title {
+    font-size: 2.5rem !important;
+
+}
+
+.modal.show.fade {
+    margin-top: 6rem;
+}
+
+/* .App-header {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -17,9 +47,8 @@
     justify-content: center;
     font-size: calc(10px + 2vmin);
     color: white;
-}
-
-.App-footer {
+    align-content: center;
+    overflow: auto;
     flex-shrink: 0;
     grid-row-start: 2;
     grid-row-end: 3;
@@ -28,53 +57,33 @@
     bottom: 0;
     width: 100%;
     text-align: center;
-}
+    font-size: 13px !important; */
 
-.logoNav {
-    width: 180px;
-    height: 40px;
-}
-
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-
-.modal-dialog {
-    min-height: calc(100vh - 100px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-content: center;
-    overflow: auto;
-}
-
-body {
-    display: flex;
-    flex-direction: column;
-    grid-template-rows: 1fr auto;
-    height: 100%;
-    font-size: 13px;
-    line-height: 1.5;
-    font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
-    font-weight: normal;
-    -webkit-font-smoothing: antialiased;
-    -webkit-text-size-adjust: 100%;
-    -moz-osx-font-smoothing: grayscale;
-
-}
+/* ********************************************************************************************************************************************************************* */
+/* Navbar */
 
 #Menu {
     display: grid;
     position: sticky;
 }
 
+
+#navbarNavDropdown ul li {
+    margin: 0 0.2px 0 0.2px;
+}
+
+
+
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: #F69220 !important;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: #ffffff !important;
+}
+
+
+/* ********************************************************************************************************************************************************************* */
 /* Login */
 
 .admin {
@@ -93,6 +102,23 @@ body {
     padding-bottom: 35px;
 }
 
+.kep-login-facebook {
+    font-family: Helvetica, sans-serif;
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+    -webkit-font-smoothing: antialiased;
+    color: rgb(255, 255, 255);
+    width: 100% !important;
+    cursor: pointer;
+    display: inline-block;
+    font-size: calc(.27548vw + 12.71074px);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: background-color .3s, border-color .3s;
+    background-color: rgb(76, 105, 186);
+    border: calc(.06887vw + .67769px) solid rgb(76, 105, 186);
+    padding: calc(.34435vw + 13.38843px) calc(.34435vw + 18.38843px);
+}
 
 /* ********************************************************************************************************************************************************************* */
 /* Manager */
@@ -168,33 +194,23 @@ body {
 /* ********************************************************************************************************************************************************************* */
 /* Link */
 
-a:link {
-    text-decoration: none;
-    color: #517381;
-}
-
-a:link:hover {
-    text-decoration: none;
-    color: #c76945;
-}
-
-a:hover {
-    text-decoration: none;
-    color: #c76945;
-}
-
-a:visited {
-    text-decoration: none;
-    color: #c76945;
-}
-
+a:link,
 a:active {
     text-decoration: none;
-    color: #517381;
+    color: #ffffff;
 }
 
+a:link:hover,
+a:hover,
+a:visited {
+    text-decoration: none;
+    color: #F69220;
+
+}
+
+
 /* ********************************************************************************************************************************************************************* */
-/* Search */
+/* Search Page*/
 
 .search {
     width: 100%;
@@ -234,8 +250,41 @@ a:active {
     font-size: 16px;
 }
 
+
+.filter-Business {
+    height: 300px;
+    max-width: auto;
+    overflow-y: scroll;
+    height: 15rem;
+    overflow-x: hidden;
+    margin-top: 9px;
+    margin-bottom: 9px;
+    margin-right: 0.8rem;
+    border-radius: 10px;
+}
+
+.filter-Business::-webkit-scrollbar-track {
+    background-color: #f5f5f5;
+    border-radius: 10px;
+}
+
+.filter-Business::-webkit-scrollbar {
+    width: 10px;
+    background-color: #f5f5f5;
+}
+
+.filter-Business::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-image: -webkit-gradient(linear,
+            left bottom,
+            left top,
+            color-stop(0.44, #F69220),
+            color-stop(0.72, #F69220),
+            color-stop(0.86, #F69220));
+}
+
 /* ********************************************************************************************************************************************************************* */
-/* Contact */
+/* Contact Page*/
 
 .mail,
 .phone,
@@ -262,13 +311,6 @@ a:active {
     margin: 0 auto;
 }
 
-/* ********************************************************************************************************************************************************************* */
-/* layout */
-
-.rout {
-    margin-top: 10rem;
-    margin-bottom: 5rem;
-}
 
 /* ********************************************************************************************************************************************************************* */
 /* footer */
@@ -360,11 +402,6 @@ a:active {
     margin-left: -8rem !important;
 }
 
-.navbar-toggler {
-    position: absolute;
-    margin-left: 12rem !important;
-}
-
 /* ********************************************************************************************************************************************************************* */
 /* Ant Design */
 
@@ -378,4 +415,106 @@ a:active {
     padding-left: 1rem;
 }
 
-/* ********************************************************************************************************************************************************************* */
+
+/* *************************************************************************************************************************************************** */
+/* Responsive Styles */
+
+/* XL */
+@media only screen and (min-width: 1200px) and (max-width: 2200px) {
+    .logoNav {
+        width: 200px;
+        height: 55px;
+        pointer-events: none !important;
+
+    }
+
+    .navbar-dark .navbar-nav .nav-link {
+        font-size: 1.4rem !important;
+    }
+
+}
+
+/* LG */
+@media only screen and (min-width: 992px) and (max-width: 1199.98px) {
+    button.navbar-toggler {
+        margin-top: 1.3rem;
+    }
+
+}
+
+/* MD */
+@media only screen and (min-width: 768px) and (max-width: 991.98px) {
+    button.navbar-toggler {
+        margin-top: 1.8rem !important;
+    }
+
+}
+
+
+/* SM */
+@media only screen and (min-width: 576px) and (max-width: 767.98px) {}
+
+/* XS */
+@media only screen and (min-width: 768px) and (max-width: 575.98px) {}
+
+
+@media only screen and (min-width: 100px) and (max-width: 767.98px) {
+    button.navbar-toggler {
+        margin-top: 1.8rem !important;
+    }
+
+}
+
+@media only screen and (min-width: 100px) and (max-width: 1199px) {
+
+    #navbarNavDropdown {
+        top: 5.9rem;
+        right: 0;
+        left: 0;
+        height: 100%;
+        overflow: hidden;
+        background: rgba(49, 49, 42, 0.9);
+        filter: alpha(opacity=95);
+        position: fixed;
+    }
+
+    #navbarNavDropdown ul {
+        margin-top: 5rem;
+        margin-left: -1rem;
+    }
+
+    #navbarNavDropdown ul li {
+        margin: -1rem 0 1rem 0;
+    }
+
+
+    .logoNav {
+        width: 160px;
+        height: 35px;
+        pointer-events: none !important;
+
+    }
+
+    .navbar-dark .navbar-nav .nav-link {
+        font-size: 2rem !important;
+    }
+
+    /* ul / li */
+    hr.d-sm-block.d-md-block.d-lg-block.d-xl-none {
+        border-top: 1px solid #F69220 !important;
+        width: 70% !important;
+    }
+
+}
+
+
+/* *************************************************************************************************************************************************** */
+/* Animation */
+@media (prefers-reduced-motion: no-preference) {
+    .logoNav {
+        animation: App-logo-spin infinite 20s linear;
+    }
+}
+
+
+/* *************************************************************************************************************************************************** */

@@ -204,7 +204,7 @@ class ManagePromotion extends Component {
     return (
       <div
         id="Manage-Promotion"
-        style={{ marginLeft: "1rem", marginBottom: "5rem" }}
+        style={{ marginLeft: "1rem", marginBottom: "5rem", marginTop: "-6rem" }}
       >
         <Navbar />
         <div className="container">
@@ -213,7 +213,7 @@ class ManagePromotion extends Component {
             <Radio.Group
               onChange={this.onChangePromotion}
               value={this.state.Promotion}
-              style={{ marginTop: "1rem", marginLeft: "1.5rem" }}
+              style={{ marginLeft: "1.5rem" }}
             >
               <Radio value={true}>มี</Radio>
               <Radio value={false}>ไม่มี</Radio>

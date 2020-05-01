@@ -8,15 +8,14 @@ export default function App() {
     <div id="App" className="App">
       <div id="page-container">
         <header>
-        <div id="content-wrap">
-
-          <Route />
+          <div id="content-wrap">
+            <Route />
           </div>
         </header>
-        <footer id="footer">
+        <footer class="App-footer" id="footer">
           <Footer />
         </footer>
-    </div>
+      </div>
     </div>
   );
 }

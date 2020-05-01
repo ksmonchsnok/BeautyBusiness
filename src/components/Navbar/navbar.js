@@ -28,27 +28,49 @@ class navbar extends Component {
       setlogInFacebook: {},
       setlogInGoogle: {},
       checkTypeUser: false,
+      checkCreateBusinese: false,
+      checkBusiness: false,
     };
   }
 
   componentDidUpdate(prevProps, prevState) {
-    let checkSigninAndOutgoogle = JSON.parse(
-      localStorage.getItem("Google-login")
-    );
+    setTimeout(() => {
+      let checkSigninAndOut = JSON.parse(localStorage.getItem("ObjUser"));
 
-    let checkSigninAndOutfb = JSON.parse(localStorage.getItem("FB-Login"));
+      let checkSigninAndOutgoogle = JSON.parse(
+        localStorage.getItem("Google-login")
+      );
 
-    if (checkSigninAndOutgoogle && !prevState.showlogInAndSignIn) {
-      if (prevState.setlogInGoogle !== checkSigninAndOutgoogle.profileObj) {
-        this.checkLoginGL(checkSigninAndOutgoogle);
+      let checkSigninAndOutfb = JSON.parse(localStorage.getItem("FB-Login"));
+
+      if (checkSigninAndOutgoogle && !prevState.showlogInAndSignIn) {
+        if (prevState.setlogInGoogle !== checkSigninAndOutgoogle.profileObj) {
+          this.checkLoginGL(checkSigninAndOutgoogle);
+        }
       }
-    }
 
-    if (checkSigninAndOutfb && !prevState.showlogInAndSignIn) {
-      if (prevState.setlogInFacebook !== checkSigninAndOutfb) {
-        this.checkLoginFB(checkSigninAndOutfb);
+      if (checkSigninAndOutfb && !prevState.showlogInAndSignIn) {
+        if (prevState.setlogInFacebook !== checkSigninAndOutfb) {
+          this.checkLoginFB(checkSigninAndOutfb);
+        }
       }
-    }
+      if (!prevState.checkCreateBusinese && checkSigninAndOut) {
+        firebase
+          .database()
+          .ref(`Store/${checkSigninAndOut.MemberId}`)
+          .once("value")
+          .then((snapshot) => {
+            if (snapshot.val()) {
+              this.setState({ checkBusiness: true });
+            }
+          });
+        if (checkSigninAndOut.MemberType == "ผู้ให้บริการ") {
+          this.setState({ checkCreateBusinese: true });
+        }
+      } else if (!prevState.checkCreateBusinese && checkSigninAndOutgoogle) {
+      } else if (!prevState.checkCreateBusinese && checkSigninAndOutfb) {
+      }
+    }, 200);
   }
 
   componentDidMount() {
@@ -76,6 +98,27 @@ class navbar extends Component {
         this.setUserLogin();
       }, 100);
     });
+
+    if (checkSigninAndOut) {
+      firebase
+        .database()
+        .ref(`Store/${checkSigninAndOut.MemberId}`)
+        .once("value")
+        .then((snapshot) => {
+          if (snapshot.val()) {
+            this.setState({ checkBusiness: true });
+          }
+        });
+      if (checkSigninAndOut.MemberType == "ผู้ให้บริการ") {
+        this.setState({ checkCreateBusinese: true });
+      }
+    } else if (checkSigninAndOut) {
+    } else if (checkSigninAndOut) {
+    }
+  }
+
+  checkHaveBusiness() {
+    swal("คุณมีธุรกิจแล้ว");
   }
 
   async setUserLogin() {
@@ -175,7 +218,7 @@ class navbar extends Component {
     event.preventDefault();
     this.props.history.push({
       pathname: "/Manager",
-      state: { mode: "edit" },
+      state: { mode: "userEditStore" },
     });
   };
 
@@ -207,7 +250,7 @@ class navbar extends Component {
             // An error happened.
           });
       } else {
-        swal("ผิดพลาด");
+        // swal("ผิดพลาด");
       }
     });
   }
@@ -216,165 +259,212 @@ class navbar extends Component {
     const showPopupLogin = this.state.showPopupLogin;
 
     return (
-      <div id="Navbar" style={{ marginTop: "-0.5rem", marginBottom: "12rem" }}>
-        <nav className="fixed-top  navbar navbar-dark bg-dark navbar-expand-lg ">
-          <a className="navbar-brand" href="#">
-            {" "}
-            <NavLink exact to="/" className="navbar-brand">
-              <img src={Logo} className="logoNav" alt="Logo" />
-            </NavLink>
-          </a>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarNavDropdown"
-            aria-controls="navbarNavDropdown"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-            style={{ marginRight: "0.5rem" }}
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul className="navbar-nav" style={{ marginLeft: "2rem" }}>
-              <li className="nav-item">
-                <a
-                  className="nav-link"
-                  href
-                  onClick={() => this.props.history.push("/")}
-                >
-                  หน้าหลัก
-                </a>
-              </li>
-              <li className="nav-item">
-                <a
-                  className="nav-link"
-                  href
-                  onClick={() => this.props.history.push("/Nearby")}
-                >
-                  ค้นหาธุรกิจใกล้เคียง
-                </a>
-              </li>
-              <li className="nav-item">
-                <a
-                  className="nav-link"
-                  href
-                  onClick={() => this.props.history.push("/AllStores")}
-                >
-                  ธุรกิจทั้งหมด
-                </a>
-              </li>
-
-              <li className="nav-item">
-                <a
-                  className="nav-link"
-                  href
-                  onClick={() => this.props.history.push("/Contact")}
-                >
-                  ติดต่อเรา
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {this.state.showlogInAndSignIn === true ||
-          this.state.showlogInAndSignInFb === true ||
-          this.state.showlogInAndSignInGoogle === true ? (
-            <form className="form-inline my-2 my-lg-0">
-              <div className="nav justify-content-end">
-                <div className="nav-item dropdown">
-                  <div
-                    className="nav-link"
-                    id="setting"
-                    role="button"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    <a href data-toggle="modal" data-target="#exampleModal">
-                      <img src={setting} />
-                    </a>
-                  </div>
-                  <div
-                    className="dropdown-menu"
-                    aria-labelledby="navbarDropdown"
-                    style={{ marginRight: "1.5rem" }}
-                  >
-                    <div className="dropdown-item">
-                      {" "}
-                      <img
-                        src={users}
-                        alt="user"
-                        style={{ marginRight: "7px" }}
-                      />
-                      {this.state.setFullName}
-                    </div>
-                    <a
-                      className="dropdown-item"
-                      href
-                      onClick={this.onClickEditProfile}
-                    >
-                      {" "}
-                      <img
-                        src={edit}
-                        alt="user"
-                        style={{ marginRight: "7px" }}
-                      />
-                      แก้ไขข้อมูลผู้ใช้
-                    </a>
-                    {this.state.checkTypeUser ? (
-                      <a
-                        className="dropdown-item"
-                        href
-                        onClick={this.onClickEditStore}
-                        history={this.props.history}
-                      >
-                        {" "}
-                        <img
-                          src={store}
-                          alt="user"
-                          style={{ marginRight: "7px" }}
-                        />
-                        แก้ไขข้อมูลธุรกิจ
-                      </a>
-                    ) : null}
-                    <div className="dropdown-divider" />
-                    <a className="dropdown-item" href onClick={this.OnLogout}>
-                      <img
-                        src={logout}
-                        alt="user"
-                        style={{ marginRight: "7px" }}
-                      />
-                      Log Out
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </form>
-          ) : (
-            <div className="nav-link">
-              <a
-                href
-                data-toggle="modal"
-                data-target="#exampleModal"
-                onClick={this.showPopupLogin}
-                history={this.props}
-              >
-                <img src={user} alt="sign in" />
+      <div id="Navbar" style={{ marginBottom: "10rem" }}>
+        <nav className="navbar navbar-dark bg-dark navbar-expand-xl fixed-top">
+          <div className="container">
+            <div class="col-6 col-lg-5" id="logo">
+              <a className="navbar-brand" href="#">
+                {" "}
+                <NavLink exact to="/" className="navbar-brand">
+                  <img src={Logo} className="logoNav" alt="Logo" />
+                </NavLink>
               </a>
             </div>
-          )}
-        </nav>
 
-        <PopupLogin
-          aria-labelledby="contained-modal-title-vcenter"
-          className="modal-dialog"
-          id="popUpLogin"
-          isVisible={showPopupLogin}
-          closePopup={this.showPopupLogin}
-          history={this.props}
-        />
+            <div className="row">
+              <span class="d-sm-block d-md-block d-lg-block d-xl-none">
+                <ul class="navbar-nav">
+                  <button
+                    className="navbar-toggler"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#navbarNavDropdown"
+                    aria-controls="navbarNavDropdown"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                  >
+                    <span className="navbar-toggler-icon"></span>
+                  </button>
+                </ul>
+              </span>
+
+              <div className="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul className="navbar-nav mr-auto">
+                  <li className="nav-item">
+                    <a
+                      className="nav-link text-center"
+                      href
+                      onClick={() => this.props.history.push("/")}
+                    >
+                      หน้าหลัก
+                    </a>
+                    <hr class="d-sm-block d-md-block d-lg-block d-xl-none" />
+                  </li>
+                  <li className="nav-item">
+                    <a
+                      className="nav-link text-center"
+                      href
+                      onClick={() => this.props.history.push("/AllStores")}
+                      style={{ fontSize: "1.6rem" }}
+                    >
+                      ธุรกิจทั้งหมด
+                    </a>
+                    <hr class="d-sm-block d-md-block d-lg-block d-xl-none" />
+                  </li>
+                  <li className="nav-item">
+                    <a
+                      className="nav-link text-center"
+                      href
+                      onClick={() => this.props.history.push("/Nearby")}
+                    >
+                      ค้นหาธุรกิจใกล้เคียง
+                    </a>
+                    <hr class="d-sm-block d-md-block d-lg-block d-xl-none" />
+                  </li>
+
+                  {this.state.checkCreateBusinese ? (
+                    <li className="nav-item">
+                      {this.state.checkBusiness ? (
+                        <span
+                          onClick={this.checkHaveBusiness}
+                          activeClassName="is-active"
+                          className="nav-link link-menu"
+                          style={{ marginTop: "-8px" }}
+                        >
+                          <a className="nav-link text-center" href>
+                            สร้างธุรกิจของคุณ
+                          </a>
+                          <hr class="d-sm-block d-md-block d-lg-block d-xl-none" />
+                        </span>
+                      ) : (
+                        <a
+                          className="nav-link text-center"
+                          href
+                          onClick={() =>
+                            this.props.history.push("/Regis-Store")
+                          }
+                        >
+                          สร้างธุรกิจของคุณ
+                        </a>
+                      )}
+                    </li>
+                  ) : null}
+
+                  <li className="nav-item">
+                    <a
+                      className="nav-link text-center"
+                      href
+                      onClick={() => this.props.history.push("/Contact")}
+                    >
+                      ติดต่อเรา
+                    </a>
+                    <hr class="d-sm-block d-md-block d-lg-block d-xl-none" />
+                  </li>
+                </ul>
+              </div>
+
+              {this.state.showlogInAndSignIn === true ||
+              this.state.showlogInAndSignInFb === true ||
+              this.state.showlogInAndSignInGoogle === true ? (
+                <form className="form-inline my-2 my-lg-0">
+                  <div className="nav justify-content-end">
+                    <div className="nav-item dropdown">
+                      <div
+                        className="nav-link"
+                        id="setting"
+                        role="button"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                      >
+                        <a href data-toggle="modal" data-target="#exampleModal">
+                          <img src={setting} />
+                        </a>
+                      </div>
+                      <div
+                        className="dropdown-menu"
+                        aria-labelledby="navbarDropdown"
+                        style={{ marginRight: "1.5rem" }}
+                      >
+                        <div className="dropdown-item">
+                          {" "}
+                          <img
+                            src={users}
+                            alt="user"
+                            style={{ marginRight: "7px" }}
+                          />
+                          {this.state.setFullName}
+                        </div>
+                        <a
+                          className="dropdown-item"
+                          href
+                          onClick={this.onClickEditProfile}
+                        >
+                          {" "}
+                          <img
+                            src={edit}
+                            alt="user"
+                            style={{ marginRight: "7px" }}
+                          />
+                          แก้ไขข้อมูลผู้ใช้
+                        </a>
+                        {this.state.checkTypeUser ? (
+                          <a
+                            className="dropdown-item"
+                            href
+                            onClick={this.onClickEditStore}
+                            history={this.props.history}
+                          >
+                            {" "}
+                            <img
+                              src={store}
+                              alt="user"
+                              style={{ marginRight: "7px" }}
+                            />
+                            แก้ไขข้อมูลธุรกิจ
+                          </a>
+                        ) : null}
+                        <div className="dropdown-divider" />
+                        <a
+                          className="dropdown-item"
+                          href
+                          onClick={this.OnLogout}
+                        >
+                          <img
+                            src={logout}
+                            alt="user"
+                            style={{ marginRight: "7px" }}
+                          />
+                          Log Out
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              ) : (
+                <div className="nav-link">
+                  <a
+                    href
+                    data-toggle="modal"
+                    data-target="#exampleModal"
+                    onClick={this.showPopupLogin}
+                    history={this.props}
+                  >
+                    <img src={user} alt="sign in" />
+                  </a>
+                </div>
+              )}
+              <PopupLogin
+                aria-labelledby="contained-modal-title-vcenter"
+                className="modal-dialog"
+                id="popUpLogin"
+                isVisible={showPopupLogin}
+                closePopup={this.showPopupLogin}
+                history={this.props}
+              />
+            </div>
+          </div>
+        </nav>
       </div>
     );
   }

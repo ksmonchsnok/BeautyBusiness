@@ -134,7 +134,12 @@ class storeList extends Component {
                           <td>
                             {d.Type.length > 0
                               ? d.Type.map((el) => (
-                                  <p class="badge badge-warning">{el}</p>
+                                  <p
+                                    class="badge badge-warning"
+                                    style={{ marginRight: "3px" }}
+                                  >
+                                    {el}
+                                  </p>
                                 ))
                               : null}
                           </td>

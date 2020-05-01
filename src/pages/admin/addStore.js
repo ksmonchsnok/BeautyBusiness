@@ -51,6 +51,9 @@ class RegistrationForm extends Component {
       userLsit: [],
       userOfStoreId: "",
       UserStoreName: "",
+      customPosition: "",
+      currentPosition: JSON.parse(localStorage.getItem("Position")),
+      fixposition: "",
     };
   }
 
@@ -106,7 +109,9 @@ class RegistrationForm extends Component {
         Lng: obj.Lng,
         ServiceType: obj.Type,
         Social: obj.Social,
+        customPosition: obj.customPosition,
       });
+
       this.setState({
         mode: "edit",
         userOfStoreId: obj.userOfStoreId,
@@ -122,6 +127,7 @@ class RegistrationForm extends Component {
         Lng: obj.Lng,
         ServiceType: obj.Type,
         Social: obj.Social,
+        customPosition: obj.customPosition,
       });
     }
   }
@@ -137,60 +143,134 @@ class RegistrationForm extends Component {
     this.setState({ Recommend: e.target.value });
   };
 
+  onChangeCheckCurent = (e) => {
+    this.setState({ customPosition: e.target.value });
+  };
+
   onClickCancel = () => {
     window.history.back();
   };
 
   onClickSave() {
-    if (this.state !== null && this.state.userOfStoreId) {
-      if (this.state.mode === "edit") {
-        setTimeout(() => {
-          swal("แก้ไขเรียบร้อย", "success");
-          const setItemInsert = firebase.database().ref(`Store`);
-          let newState = {
-            imageUrl: this.state.imageUrl,
-            Name: this.state.BusinessName,
-            Open: this.state.OpenShop,
-            Phone: this.state.PhoneNumbe,
-            Address: this.state.Address,
-            StoreType: this.state.BusinessType,
-            Recommend: this.state.Recommend,
-            Lat: this.state.Lat,
-            Lng: this.state.Lng,
-            Type: this.state.ServiceType,
-            Social: this.state.Social,
-          };
-          setItemInsert.child(this.state.userOfStoreId).update(newState);
-          this.onClickCancel();
-        }, 500);
+    let fixposition = this.state.currentPosition;
+
+    if (this.state.customPosition !== false) {
+      console.log("Fix Position");
+      if (
+        this.state !== null &&
+        this.state.userOfStoreId &&
+        this.state.imageUrl !== undefined
+      ) {
+        if (this.state.mode === "edit") {
+          setTimeout(() => {
+            swal("แก้ไขเรียบร้อย", "success");
+            const setItemInsert = firebase.database().ref(`Store`);
+            let newState = {
+              imageUrl: this.state.imageUrl,
+              Name: this.state.BusinessName,
+              Open: this.state.OpenShop,
+              Phone: this.state.PhoneNumbe,
+              Address: this.state.Address,
+              StoreType: this.state.BusinessType,
+              Recommend: this.state.Recommend,
+              Lat: fixposition.Lat,
+              Lng: fixposition.Lng,
+              Type: this.state.ServiceType,
+              Social: this.state.Social,
+              customPosition: this.state.customPosition,
+            };
+            setItemInsert.child(this.state.userOfStoreId).update(newState);
+            this.onClickCancel();
+          }, 500);
+        } else {
+          setTimeout(() => {
+            swal("สร้างเรียบร้อย", "success");
+            const setItemInsert = firebase
+              .database()
+              .ref(`Store/${this.state.userOfStoreId}`);
+            let newState = {
+              userOfStoreId: this.state.userOfStoreId,
+              UserStoreName: this.state.UserStoreName,
+              imageUrl: this.state.imageUrl,
+              Name: this.state.BusinessName,
+              Open: this.state.OpenShop,
+              Phone: this.state.PhoneNumbe,
+              Address: this.state.Address,
+              StoreType: this.state.BusinessType,
+              Recommend: this.state.Recommend,
+              Lat: fixposition.Lat,
+              Lng: fixposition.Lng,
+              Type: this.state.ServiceType,
+              Social: this.state.Social,
+              customPosition: this.state.customPosition,
+            };
+            setItemInsert.set(newState);
+            this.onClickCancel();
+          }, 500);
+        }
       } else {
-        setTimeout(() => {
-          swal("สร้างเรียบร้อย", "success");
-          const setItemInsert = firebase
-            .database()
-            .ref(`Store/${this.state.userOfStoreId}`);
-          let newState = {
-            userOfStoreId: this.state.userOfStoreId,
-            UserStoreName: this.state.UserStoreName,
-            imageUrl: this.state.imageUrl,
-            Name: this.state.BusinessName,
-            Open: this.state.OpenShop,
-            Phone: this.state.PhoneNumbe,
-            Address: this.state.Address,
-            StoreType: this.state.BusinessType,
-            Recommend: this.state.Recommend,
-            Lat: this.state.Lat,
-            Lng: this.state.Lng,
-            Type: this.state.ServiceType,
-            Social: this.state.Social,
-          };
-          setItemInsert.set(newState);
-          this.onClickCancel();
-        }, 500);
+        swal("ผิดพลาด", "กรุณากรอก 'ข้อมูล' และ 'รูปภาพ' ให้ครบ", "error");
+        return;
       }
     } else {
-      swal("ผิดพลาด", "กรุณากรอกข้อมูลให้ครบ", "error");
-      return;
+      console.log("custom");
+
+      if (
+        this.state !== null &&
+        this.state.userOfStoreId &&
+        this.state.imageUrl !== undefined
+      ) {
+        if (this.state.mode === "edit") {
+          setTimeout(() => {
+            swal("แก้ไขเรียบร้อย", "success");
+            const setItemInsert = firebase.database().ref(`Store`);
+            let newState = {
+              imageUrl: this.state.imageUrl,
+              Name: this.state.BusinessName,
+              Open: this.state.OpenShop,
+              Phone: this.state.PhoneNumbe,
+              Address: this.state.Address,
+              StoreType: this.state.BusinessType,
+              Recommend: this.state.Recommend,
+              Lat: this.state.Lat,
+              Lng: this.state.Lng,
+              Type: this.state.ServiceType,
+              Social: this.state.Social,
+              customPosition: this.state.customPosition,
+            };
+            setItemInsert.child(this.state.userOfStoreId).update(newState);
+            this.onClickCancel();
+          }, 500);
+        } else {
+          setTimeout(() => {
+            swal("สร้างเรียบร้อย", "success");
+            const setItemInsert = firebase
+              .database()
+              .ref(`Store/${this.state.userOfStoreId}`);
+            let newState = {
+              userOfStoreId: this.state.userOfStoreId,
+              UserStoreName: this.state.UserStoreName,
+              imageUrl: this.state.imageUrl,
+              Name: this.state.BusinessName,
+              Open: this.state.OpenShop,
+              Phone: this.state.PhoneNumbe,
+              Address: this.state.Address,
+              StoreType: this.state.BusinessType,
+              Recommend: this.state.Recommend,
+              Lat: this.state.Lat,
+              Lng: this.state.Lng,
+              Type: this.state.ServiceType,
+              Social: this.state.Social,
+              customPosition: this.state.customPosition,
+            };
+            setItemInsert.set(newState);
+            this.onClickCancel();
+          }, 500);
+        }
+      } else {
+        swal("ผิดพลาด", "กรุณากรอก 'ข้อมูล' และ 'รูปภาพ' ให้ครบ", "error");
+        return;
+      }
     }
   }
 
@@ -308,8 +388,13 @@ class RegistrationForm extends Component {
       >
         <Navber />
         <div className="container" style={{ marginBottom: "5rem" }}>
-          {" "}
-          <h3>Create Business</h3>
+          {this.props.location.state.mode !== "edit" && (
+            <h1>Create Business</h1>
+          )}
+          {this.props.location.state.mode === "edit" && (
+            <h1>Update Business</h1>
+          )}
+
           <hr />
           <div
             className="row container"
@@ -532,57 +617,87 @@ class RegistrationForm extends Component {
           </Form.Item>
 
           <Form.Item
-            name="Lat"
-            label="Latitude"
-            rules={[
-              {
-                required: true,
-                message: <small>Please input your Latitude</small>,
-              },
-              {
-                min: 30,
-                pattern: new RegExp("^[0-9 .]*$"),
-                message: <small>Number Only</small>,
-              },
-            ]}
+            name="customPosition"
+            label="ตำแหน่งที่ตั้งธุรกิจ"
+            // rules={[
+            //   {
+            //     required: true,
+            //     message: <small>Please input your Business Location</small>,
+            //   },
+            // ]}
           >
-            <Input
-              type="textbox"
-              name="Lat"
-              id="Lat"
-              placeholder="18.812138"
-              value={this.state.Lat}
-              onChange={(e) => this.setState({ Lat: e.target.value })}
-              maxLength={10}
-              allowClear
-            />
+            {" "}
+            <Radio.Group
+              id="customPosition"
+              value={this.state.customPosition}
+              onChange={(e) => this.onChangeCheckCurent(e)}
+            >
+              <Radio value="true" name="true">
+                ใช้ตำแหน่งปัจจุบัน
+              </Radio>
+              <Radio value="false" name="false">
+                กำหนดเอง
+              </Radio>
+            </Radio.Group>
           </Form.Item>
-          <Form.Item
-            name="Lng"
-            label="Longitude"
-            rules={[
-              {
-                required: true,
-                message: <small>Please input your Longitude</small>,
-              },
-              {
-                min: 30,
-                pattern: new RegExp("^[0-9 .]*$"),
-                message: <small>Number Only</small>,
-              },
-            ]}
-          >
-            <Input
-              type="textbox"
-              name="Lng"
-              id="Lng"
-              placeholder="98.964444"
-              value={this.state.Lng}
-              onChange={(e) => this.setState({ Lng: e.target.value })}
-              maxLength={10}
-              allowClear
-            />
-          </Form.Item>
+
+          {this.state.customPosition === "false" && (
+            <span>
+              <Form.Item
+                name="Lat"
+                label="Latitude"
+                rules={[
+                  {
+                    required: true,
+                    message: <small>Please input your Latitude</small>,
+                  },
+                  {
+                    min: 30,
+                    pattern: new RegExp("^[0-9 .]*$"),
+                    message: <small>Number Only</small>,
+                  },
+                ]}
+              >
+                <Input
+                  type="textbox"
+                  name="Lat"
+                  id="Lat"
+                  placeholder="18.812138"
+                  value={this.state.Lat}
+                  onChange={(e) => this.setState({ Lat: e.target.value })}
+                  maxLength={10}
+                  allowClear
+                />
+              </Form.Item>
+              <Form.Item
+                name="Lng"
+                label="Longitude"
+                rules={[
+                  {
+                    required: true,
+                    message: <small>Please input your Longitude</small>,
+                  },
+                  {
+                    min: 30,
+                    pattern: new RegExp("^[0-9 .]*$"),
+                    message: <small>Number Only</small>,
+                  },
+                ]}
+              >
+                <Input
+                  type="textbox"
+                  name="Lng"
+                  id="Lng"
+                  placeholder="98.964444"
+                  value={this.state.Lng}
+                  onChange={(e) => this.setState({ Lng: e.target.value })}
+                  maxLength={10}
+                  allowClear
+                />
+              </Form.Item>
+            </span>
+          )}
+
           <Form.Item
             name="Recommend"
             label="Recommend Store"

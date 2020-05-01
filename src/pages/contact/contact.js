@@ -50,10 +50,10 @@ export default class Contact extends Component {
       <div id="Contact">
         <Navbar />
         <div className="container">
-          <h2 className="text-center" style={{ marginTop: "-2rem" }}>
+          <h1 className="text-center">
             <br />
             Contact Us
-          </h2>
+          </h1>
           {/* <hr style={{marginBottom:"1rem"}}/> */}
           <div className="row jumbotron" style={{ background: "transparent" }}>
             <div className="col-xs-12 col-md-6 col-lg-6">

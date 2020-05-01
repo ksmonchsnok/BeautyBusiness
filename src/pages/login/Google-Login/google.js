@@ -38,6 +38,7 @@ export default class Google extends Component {
               margin: "auto",
               background: "#f4f4f4",
               padding: "20px",
+              paddingRight: "10px",
               color: "#000",
             }}
           >
@@ -53,12 +54,14 @@ export default class Google extends Component {
             className="g-signin2"
             data-onsuccess="onSignIn"
             data-theme="Light"
-            data-width="260"
+            data-width="270"
             data-height="45"
             data-longtitle="true"
           >
             {" "}
-            LOGIN WITH GOOGLE
+            <h6 style={{ marginLeft: "8px", marginRight: "15px" }}>
+              LOGIN WITH GOOGLE
+            </h6>
           </GoogleLogin>
         ));
 

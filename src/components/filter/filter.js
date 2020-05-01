@@ -80,7 +80,7 @@ export default class Filter extends Component {
         </div>
 
         <div
-          className="col"
+          className="filter-Business col"
           onChange={(e) => this.props.onCheckType(e.target.value)}
         >
           <ul class="list-group list-group-flush text-left">
