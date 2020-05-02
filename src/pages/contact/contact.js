@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Navbar from "../../components/navbar/navbar.js";
 import "antd/dist/antd.css";
 import { Form, Input, Button } from "antd";
+import BG from "../../assets/image/beautysalonjpg.jpg";
 
 export default class Contact extends Component {
   onclickBack = () => {
@@ -47,62 +48,23 @@ export default class Contact extends Component {
       };
     };
     return (
-      <div id="Contact">
+      <div
+        id="Contact"
+        className="p-3 mb-2 bg-light text-dark"
+        style={{ marginBottom: "-8em" }}
+      >
         <Navbar />
-        <div className="container">
-          <h1 className="text-center">
-            <br />
-            Contact Us
-          </h1>
-          {/* <hr style={{marginBottom:"1rem"}}/> */}
-          <div className="row jumbotron" style={{ background: "transparent" }}>
-            <div className="col-xs-12 col-md-6 col-lg-6">
-              <h3>
-                <u>ติดต่อเรา</u>
-              </h3>
-              <ion-icon
-                name="call"
-                size="large"
-                style={{ marginRight: "1rem" }}
-              />
-              085-521-0364 <br />
-              <ion-icon
-                name="mail"
-                size="large"
-                style={{ marginRight: "1rem" }}
-              />{" "}
-              <a href>ksmonchsnok@gmail.com</a> <br />
-              <ion-icon
-                name="logo-facebook"
-                size="large"
-                style={{ marginRight: "1rem" }}
-              />
-              <a href="https://www.facebook.com/papadagon">Kp lyn</a> <br />
-              <ion-icon
-                name="logo-instagram"
-                size="large"
-                style={{ marginRight: "1rem" }}
-              />
-              <a href="https://www.instagram.com/kplynx">Kplynx</a>
-              <h3 style={{ marginTop: "2rem" }}>
-                <u>เวลาทำการ</u>
-              </h3>
-              <ion-icon
-                name="time"
-                size="large"
-                style={{ marginRight: "1rem" }}
-              />
-              วันจันทร์ -วันศุกร์ <br />
-              <p style={{ textIndent: "3.5em", marginBottom: "2rem" }}>
-                เวลา 09.00 น. - 17.00 น.
-              </p>
-            </div>
-
-            <div
-              className="col-xs-12 col-md-6 col-lg-6"
-              style={{ border: "2px solid #000" }}
-            >
-              <h3 className="text-center" style={{ marginTop: "1rem" }}>
+        <div className="card container  rounded-lg" id="contact-message">
+          <br />
+          {/* <h1
+            className="text-center"
+            style={{ fontSize: "4rem", marginBottom: "-1.3rem" }}
+          >
+            ติดต่อเรา
+          </h1> */}
+          <div className="row " style={{ background: "transparent" }}>
+            <div className="col-xs-12 col-md-12 col-lg-8">
+              <h3 className="text-center">
                 <u>กรอกข้อมูลติดต่อ</u>
               </h3>
               <div
@@ -164,7 +126,7 @@ export default class Contact extends Component {
 
                   <Form.Item
                     name="email"
-                    label="E-mail"
+                    label="อีเมล์"
                     rules={[
                       {
                         type: "email",
@@ -185,7 +147,7 @@ export default class Contact extends Component {
 
                   <Form.Item
                     name="message"
-                    label="message"
+                    label="ข้อความ"
                     rules={[
                       {
                         required: true,
@@ -201,16 +163,20 @@ export default class Contact extends Component {
                     />
                   </Form.Item>
                   <div className="row justify-content-center">
-                    <div className="col-xs-12 col-sm-12 col-md-6 col-lg-5">
+                    <div className="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                       <button
                         type="button"
                         type="submit"
-                        className="btn btn-success btn-block"
+                        className="btn  btn-block"
+                        style={{
+                          backgroundColor: "#F69220",
+                          color: "#ffffff",
+                        }}
                         {...tailFormItemLayout}
                       >
-                        ส่งข้อมูล
+                        ส่งข้อความ
                       </button>
-                      <button
+                      {/* <button
                         type="button"
                         type="reset"
                         className="btn btn-danger btn-block"
@@ -219,25 +185,90 @@ export default class Contact extends Component {
                         }}
                       >
                         ยกเลิก
-                      </button>
+                      </button> */}
                     </div>
                   </div>
                 </Form>
               </div>
             </div>
+            <div className="col-xs-12 col-md-12 col-lg-4">
+              <h3>
+                <u>ติดต่อเรา</u>
+              </h3>
+              <a href="tel:0855210364" style={{ color: "#343a40" }}>
+                <ion-icon
+                  name="call"
+                  size="large"
+                  style={{ marginRight: "1rem" }}
+                />
+                085-521-0364 <br />
+              </a>
+              <a
+                href="mailto:ksmonchsnok@gmail.com"
+                style={{ color: "#343a40" }}
+              >
+                {" "}
+                <ion-icon
+                  name="mail"
+                  size="large"
+                  style={{ marginRight: "1rem" }}
+                  alt="ksmonchsnok@gmail.com"
+                />
+                ksmonchsnok@gmail.com
+              </a>
+              <br />
+              <a
+                href="https://www.facebook.com/papadagon"
+                style={{ color: "#343a40" }}
+              >
+                {" "}
+                <ion-icon
+                  name="logo-facebook"
+                  size="large"
+                  style={{ marginRight: "1rem" }}
+                />
+              </a>{" "}
+              <a
+                href="https://www.instagram.com/kplynx"
+                style={{ color: "#343a40" }}
+              >
+                {" "}
+                <ion-icon
+                  name="logo-instagram"
+                  size="large"
+                  style={{ marginRight: "1rem" }}
+                />
+              </a>
+              <h3 style={{ marginTop: "2rem" }}>
+                <u>เวลาทำการ</u>
+              </h3>
+              <ion-icon
+                name="time"
+                size="large"
+                style={{ marginRight: "1rem" }}
+              />
+              วันจันทร์ -วันศุกร์ <br />
+              <p style={{ textIndent: "3.5em", marginBottom: "2rem" }}>
+                เวลา 09.00 น. - 17.00 น.
+              </p>
+            </div>
           </div>
-          <hr />
-
-          <div className="row container">
-            <button
-              type="button"
-              onClick={this.onclickBack}
-              className="btn btn-dark"
-              style={{ marginBottom: "4rem" }}
-            >
-              ย้อนกลับ
-            </button>
-          </div>
+          {/* <hr />
+          <div className="row justify-content-start">
+            <div className="container">
+              {" "}
+              <div className="col-xs-12 col-sm-4 col-md-2">
+                <button
+                  type="button"
+                  onClick={this.onclickBack}
+                  className="btn btn-dark btn-block"
+                  style={{ marginBottom: "1em" }}
+                >
+                  ย้อนกลับ
+                </button>
+              </div>
+            </div>
+          </div> */}
         </div>
       </div>
     );

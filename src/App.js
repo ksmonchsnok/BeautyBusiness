@@ -5,16 +5,12 @@ import Footer from "./components/footer/footer";
 
 export default function App() {
   return (
-    <div id="App" className="App">
+    <div id="App">
       <div id="page-container">
-        <header>
-          <div id="content-wrap">
-            <Route />
-          </div>
-        </header>
-        <footer class="App-footer" id="footer">
+        <Route />
+        <div id="footer">
           <Footer />
-        </footer>
+        </div>
       </div>
     </div>
   );

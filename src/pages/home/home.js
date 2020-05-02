@@ -1,17 +1,14 @@
 import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "../../components/navbar/navbar.js";
-// import Headder from "../../components/header/header";
 import Position from "../nearby/position.js";
 import Intro from "../../components/intro/intro.js";
 import Web from "../web/web.js";
 import FindPosition from "../nearby/find-position.js";
 import Recommend from "../../components/recommend/recommend.js";
 import Promotions from "../../components/recommend/promote.js";
-import AOS from "aos";
-import "aos/dist/aos.css";
-import "animate.css/animate.min.css";
 import ScrollAnimation from "react-animate-on-scroll";
+import "animate.css/animate.min.css";
 import { BackTop } from "antd";
 import "antd/dist/antd.css";
 import { UpOutlined } from "@ant-design/icons";
@@ -41,22 +38,10 @@ export default class Home extends Component {
         <div style={{ height: "auto", padding: 8 }}>
           <div className="container" style={{ marginTop: "1rem" }}>
             <ScrollAnimation animateIn="bounceInLeft">
-              <section>
+              <div class="animated bounce delay-2s">
                 <Recommend history={this.props.history} />
-              </section>
+              </div>
             </ScrollAnimation>
-
-            {/* <ScrollAnimation animateIn="bounceInRight">
-              <section>
-                <FindPosition history={this.props.history} />
-              </section>
-            </ScrollAnimation> */}
-
-            {/* <ScrollAnimation animateIn="bounceInLeft">
-              <section>
-                <Promotions history={this.props.history} />
-              </section>
-            </ScrollAnimation> */}
 
             <ScrollAnimation animateIn="bounceInRight">
               <section>
@@ -64,9 +49,21 @@ export default class Home extends Component {
               </section>
             </ScrollAnimation>
           </div>
+          {/* <ScrollAnimation animateIn="bounceInRight">
+            <section>
+              <FindPosition history={this.props.history} />
+            </section>
+          </ScrollAnimation> */}
+
+          {/* <ScrollAnimation animateIn="bounceInLeft">
+            <section>
+              <Promotions history={this.props.history} />
+            </section>
+          </ScrollAnimation>
+ */}
           <BackTop>
             <div style={style}>
-              <UpOutlined />{" "}
+              <UpOutlined />
             </div>
           </BackTop>
         </div>

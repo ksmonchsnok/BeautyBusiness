@@ -4,8 +4,6 @@
 /node_modules
 Project
 
-support
-.firebase
 .firebase
 firebase.json
 /.pnp
@@ -27,3 +25,6 @@ firebase.json
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Local Netlify folder
+.netlify

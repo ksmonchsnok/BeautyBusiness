@@ -30,6 +30,7 @@ class StoreDetail extends Component {
       let ref = firebase
         .database()
         .ref(`Promotion/${this.state.Store[0].userOfStoreId}`);
+
       ref.once("value").then((snapshot) => {
         if (snapshot.val()) {
           const data = snapshot.val();
@@ -93,6 +94,8 @@ class StoreDetail extends Component {
         }
         setItemInsert.update(newState);
         const setReport = firebase.database().ref(`Report`);
+        console.log(this.state.pormotion);
+
         let newReport = {
           ReportId: this.state.pormotion.BusinessId,
           discountCode: GenCode,
@@ -189,23 +192,22 @@ class StoreDetail extends Component {
               {" "}
               <div className="row">
                 <div className="col-xs-12 col-sm-12 col-md-6 d-flex justify-content-center">
-                  <h6>โปรโมชั่น :: {this.state.pormotion.promotionName}</h6>
+                  <h3>โปรโมชั่น :: {this.state.pormotion.promotionName}</h3>
                 </div>
                 <div className="col-xs-12 col-sm-12 col-md-6 d-flex justify-content-center">
-                  <h6>
-                    รายละเอียดโปรโมชั่น ::{" "}
-                    {this.state.pormotion.promotionDescrip}
-                  </h6>
+                  <h3>
+                    รายละเอียดโปรโมชั่น :: {this.state.pormotion.promotionName}
+                  </h3>
                 </div>
               </div>
               <div className="row ">
                 <div className="col-xs-12 col-sm-12 col-md-6 d-flex justify-content-center">
-                  <h6>ส่วนลดบริการ :: {this.state.pormotion.discountName}</h6>
+                  <h3>ส่วนลดบริการ :: {this.state.pormotion.discountName}</h3>
                 </div>
                 <div className="col-xs-12 col-sm-12 col-md-6 d-flex justify-content-center">
-                  <h6>
+                  <h3>
                     รายละเอียดส่วนลด :: {this.state.pormotion.discountDescrip}
-                  </h6>
+                  </h3>
                 </div>
               </div>
               <div className="row d-flex justify-content-center">
@@ -224,10 +226,15 @@ class StoreDetail extends Component {
       </div>
     ));
 
+    console.log(this.props.history.location.state);
+
+    // console.log(this.state.Store[0].userOfStoreId);
+    console.log(this.state.dataStore);
+
     return (
       <div id="Store-Detail">
         <Navbar />
-        <div className="container">
+        <div className="">
           {" "}
           <div
             className="jumbotron"
@@ -236,16 +243,16 @@ class StoreDetail extends Component {
             <div className="row marginDetail">
               <div className="col-8 ">{item}</div>
             </div>
-          </div>
-          <div className="container row justify-content-start col-xs-12 col-sm-3 col-md-2">
-            <button
-              type="button"
-              onClick={this.onclickBack}
-              className="btn btn-dark btn-block"
-              style={{ marginBottom: "4rem" }}
-            >
-              ย้อนกลับ
-            </button>
+            <div className="row justify-content-start col-xs-12 col-sm-3 col-md-2">
+              <button
+                type="button"
+                onClick={this.onclickBack}
+                className="btn btn-dark btn-block"
+                style={{ marginBottom: "4rem" }}
+              >
+                ย้อนกลับ
+              </button>
+            </div>
           </div>
         </div>
       </div>

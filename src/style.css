@@ -287,6 +287,16 @@ a:visited {
 
 /* ********************************************************************************************************************************************************************* */
 /* Contact Page*/
+#contact-message {
+    /* background: linear-gradient(to bottom right, #F69220, #ffffff); */
+    margin-bottom: 8em;
+    box-shadow: -1px 1px 18px -5px #aaaaaa;
+}
+
+#Contact {
+    margin-bottom: -3em;
+
+}
 
 .mail,
 .phone,
@@ -319,17 +329,21 @@ a:visited {
 
 #page-container {
     position: absolute;
-    min-height: 100vh;
+    height: 100vh;
     width: 100%;
 
 }
 
-#content-wrap {
-    padding-bottom: 5em;
+
+#Navbar {
+    position: relative;
+    height: 18vh;
+    width: 100%;
+
 }
 
 #footer {
-    position: absolute;
+    position: relative;
     bottom: 0;
     width: 100%;
     background-color: #343a40;
@@ -421,7 +435,12 @@ a:visited {
     padding-left: 1rem;
 }
 
+/* ********************************************************************************************************************************************************************* */
+/* Date Picker */
 
+/* #Contact{
+    background-image: ;
+} */
 /* *************************************************************************************************************************************************** */
 /* Responsive Styles */
 
@@ -453,6 +472,7 @@ a:visited {
     button.navbar-toggler {
         margin-top: 1.8rem !important;
     }
+
 
 }
 
@@ -512,15 +532,5 @@ a:visited {
     }
 
 }
-
-
-/* *************************************************************************************************************************************************** */
-/* Animation */
-@media (prefers-reduced-motion: no-preference) {
-    .logoNav {
-        animation: App-logo-spin infinite 20s linear;
-    }
-}
-
 
 /* *************************************************************************************************************************************************** */
