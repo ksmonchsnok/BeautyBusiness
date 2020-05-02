@@ -65,7 +65,7 @@ class LoginForm extends Component {
           //   dangerMode: true,
           // }).then((willDelete) => {
           // if (willDelete) {
-          const setPassword = firebase.database().ref(`Member`);
+          const setPassword = firebase.database().ref(`member`);
           setPassword.child(resp.user.uid).update({
             Password: this.state.password,
             CFPassword: this.state.password,
@@ -73,7 +73,7 @@ class LoginForm extends Component {
 
           firebase
             .database()
-            .ref(`Member/${resp.user.uid}`)
+            .ref(`member/${resp.user.uid}`)
             .once("value")
             .then((snapshot) => {
               localStorage.setItem("ObjUser", JSON.stringify(snapshot.val()));

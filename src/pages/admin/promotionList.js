@@ -13,6 +13,8 @@ class storeList extends Component {
     super(props);
     this.state = {
       data: [],
+      arrPromotion: [],
+      arrDiscount: [],
       loadingData: false,
     };
   }
@@ -21,34 +23,74 @@ class storeList extends Component {
   }
 
   onGetItempPromotion = () => {
-    this.setState({ data: [], loadingData: true });
+    this.setState({
+      data: [],
+      loadingData: true,
+      arrPromotion: [],
+      arrDiscount: [],
+    });
+    let arr = [];
+    let arrDIs = [];
     setTimeout(() => {
       let ref = firebase.database().ref("Promotion");
       ref.once("value").then((snapshot) => {
+        let data = [];
         if (snapshot.val()) {
-          const data = Object.values(snapshot.val());
-          if (typeof data === "object" && data !== null && data !== undefined) {
-            let arr = [];
-            var key = Object.keys(data);
-            let arr1 = Object.values(data);
-            for (let i = 0; i < arr1.length; i++) {
-              arr[key[i]] = arr1[i];
-            }
-            this.setState({ data: arr });
-          } else {
-            this.setState({ data });
-          }
-          this.setState({ loadingData: false });
-        } else {
-          this.setState({ loadingData: false });
+          data = Object.values(snapshot.val());
         }
+
+        let refStore = firebase.database().ref("Discount");
+        refStore.once("value").then((snapshot) => {
+          if (snapshot.val()) {
+            const dataDis = Object.values(snapshot.val());
+            if (data.length > 0) {
+              if (
+                typeof data === "object" &&
+                data !== null &&
+                data !== undefined
+              ) {
+                var key = Object.keys(data);
+                let arr1 = Object.values(data);
+                for (let i = 0; i < arr1.length; i++) {
+                  arr[key[i]] = arr1[i];
+                }
+              }
+            }
+            if (dataDis.length > 0) {
+              if (
+                typeof dataDis === "object" &&
+                dataDis !== null &&
+                dataDis !== undefined
+              ) {
+                var keyd = Object.keys(dataDis);
+                let arrDiscount = Object.values(dataDis);
+                for (let i = 0; i < arrDiscount.length; i++) {
+                  arrDIs[keyd[i]] = arrDiscount[i];
+                }
+              }
+            }
+            for (let i = 0; i < arr.length; i++) {
+              for (let j = 0; j < arrDIs.length; j++) {
+                if (arr[i].businessId === arrDIs[j].businessId) {
+                  arr[i].Discount = arrDIs[j].Discount;
+                  arr[i].discountName = arrDIs[j].discountName;
+                  arr[i].discountDescrip = arrDIs[j].discountDescrip;
+                  arr[i].discountAmount = arrDIs[j].discountAmount;
+                  arr[i].startDateDiscount = arrDIs[j].startDateDiscount;
+                  arr[i].endDateDiscount = arrDIs[j].endDateDiscount;
+                }
+              }
+            }
+            this.setState({ data: arr, loadingData: false });
+          } else {
+            this.setState({ loadingData: false });
+          }
+        });
       });
     }, 1000);
   };
 
   handleEdit = (obj) => {
-    console.log("Data", obj);
-
     swal({
       title: "Please Confirm for Edit ?",
       icon: "warning",
@@ -75,6 +117,7 @@ class storeList extends Component {
     }).then((willDelete) => {
       if (willDelete) {
         firebase.remove(`Promotion/${d.businessId}`);
+        firebase.remove(`Discount/${d.businessId}`);
         this.onGetItempPromotion();
       } else {
         return;
@@ -131,39 +174,38 @@ class storeList extends Component {
                   </tr>
                 </thead>
                 <tbody>
-                  {this.state.data &&
-                    this.state.data.map((d, index) => {
-                      return (
-                        <tr key={index}>
-                          {/* <th scope="row"></th> */}
-                          <td>{d.businessName}</td>
-                          <td>{d.promotionName}</td>
-                          <td>{d.promotionDescrip}</td>
-                          <td>{d.promotionAmount}</td>
-                          <td>{d.discountName}</td>
-                          <td>{d.discountDescrip}</td>
-                          <td>{d.discountAmount}</td>
-                          <td>
-                            <a href>
-                              <ion-icon
-                                name="create-outline"
-                                size="large"
-                                onClick={() => this.handleEdit(d, index)}
-                              ></ion-icon>
-                            </a>
-                          </td>
-                          <td>
-                            <a href>
-                              <ion-icon
-                                size="large"
-                                name="trash-outline"
-                                onClick={() => this.handleDelete(d, index)}
-                              ></ion-icon>
-                            </a>
-                          </td>
-                        </tr>
-                      );
-                    })}
+                  {this.state.data.map((d, index) => {
+                    return (
+                      <tr key={index}>
+                        {/* <th scope="row"></th> */}
+                        <td>{d.businessName}</td>
+                        <td>{d.promotionName ? d.promotionName : "-"}</td>
+                        <td>{d.promotionDescrip ? d.promotionDescrip : "-"}</td>
+                        <td>{d.promotionAmount ? d.promotionAmount : "-"}</td>
+                        <td>{d.discountName ? d.discountName : "-"}</td>
+                        <td>{d.discountDescrip ? d.discountDescrip : "-"}</td>
+                        <td>{d.discountAmount ? d.discountAmount : "-"}</td>
+                        <td>
+                          <a href>
+                            <ion-icon
+                              name="create-outline"
+                              size="large"
+                              onClick={() => this.handleEdit(d, index)}
+                            ></ion-icon>
+                          </a>
+                        </td>
+                        <td>
+                          <a href>
+                            <ion-icon
+                              size="large"
+                              name="trash-outline"
+                              onClick={() => this.handleDelete(d, index)}
+                            ></ion-icon>
+                          </a>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>

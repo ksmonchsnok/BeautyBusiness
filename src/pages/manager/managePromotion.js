@@ -7,31 +7,31 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { firebaseConnect } from "react-redux-firebase";
 import swal from "sweetalert";
-import Navbar from "../../components/navbar/navbar.js";
+import Navbar from "../../components/navbar/navbar-Admin.js";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 
-class ManagePromotion extends Component {
+class Managepromotion extends Component {
   constructor(props) {
     super(props);
     this.state = {
       loading: false,
-      Promotion: false,
-      Discount: false,
-      businessName: "",
-      promotionName: "",
-      promotionDescrip: "",
-      promotionAmount: 0,
-      discountName: "",
-      discountDescrip: "",
-      discountAmount: 0,
+      promotion: false,
+      discount: false,
+      store_name: "",
+      promotion_name: "",
+      promotion_description: "",
+      amount_promotion: 0,
+      discount_name: "",
+      discount_description: "",
+      amount_discount: 0,
       businessList: [],
-      businessId: "",
-      startDatePromotion: new Date(),
-      endDatePromotion: new Date(),
-      startDateDiscount: new Date(),
-      endDateDiscount: new Date(),
+      store_id: "",
+      startdate_promotion: new Date(),
+      enddate_promotion: new Date(),
+      startdate_discount: new Date(),
+      enddate_discount: new Date(),
       data: [],
     };
   }
@@ -42,29 +42,66 @@ class ManagePromotion extends Component {
   onGetItemp = () => {
     setTimeout(() => {
       let ObjUser = JSON.parse(localStorage.getItem("ObjUser"));
-      this.setState({ businessId: ObjUser.MemberId });
+      this.setState({ store_id: ObjUser.member_id });
       if (this.props.history.state) {
-        if (this.props.history.state.mode === "edit") {
-          let ref = firebase.database().ref(`Promotion/${ObjUser.MemberId}`);
+        if (this.props.history.state.mode === "userEditStore") {
+          let refStore = firebase.database().ref(`store/${ObjUser.member_id}`);
+          refStore.once("value").then((snapshot) => {
+            if (snapshot.val()) {
+              const data = snapshot.val();
+              this.setState({
+                store_name: data.store_name,
+              });
+            } else {
+              this.setState({ loadingData: false });
+            }
+          });
+          let ref = firebase.database().ref(`promotion/${ObjUser.member_id}`);
           ref.once("value").then((snapshot) => {
             if (snapshot.val()) {
               const data = snapshot.val();
               this.setState({
                 mode: "edit",
-                Promotion: data.Promotion,
-                Discount: data.Discount,
-                businessId: data.businessId,
-                businessName: data.businessName,
-                promotionName: data.promotionName,
-                promotionDescrip: data.promotionDescrip,
-                promotionAmount: data.promotionAmount,
-                discountName: data.discountName,
-                discountDescrip: data.discountDescrip,
-                discountAmount: data.discountAmount,
-                startDatePromotion: new Date(data.startDatePromotion),
-                endDatePromotion: new Date(data.endDatePromotion),
-                startDateDiscount: new Date(data.startDateDiscount),
-                endDateDiscount: new Date(data.endDateDiscount),
+                promotion_status: data.promotion_status
+                  ? data.promotion_status
+                  : false,
+                store_id: data.store_id,
+                store_name: data.store_name,
+                promotion_name: data.promotion_name,
+                promotion_description: data.promotion_description,
+                amount_promotion: data.amount_promotion,
+                startdate_promotion: !data.promotion_status
+                  ? new Date()
+                  : new Date(data.startdate_promotion),
+                enddate_promotion: !data.promotion_status
+                  ? new Date()
+                  : new Date(data.enddate_promotion),
+                loadingData: false,
+                data,
+              });
+            } else {
+              this.setState({ loadingData: false });
+            }
+          });
+          let refDis = firebase.database().ref(`discount/${ObjUser.member_id}`);
+          refDis.once("value").then((snapshot) => {
+            if (snapshot.val()) {
+              const data = snapshot.val();
+              this.setState({
+                discount_status: data.discount_status
+                  ? data.discount_status
+                  : false,
+                discount_name: data.discount_name,
+                store_id: data.store_id,
+                store_name: data.store_name,
+                discount_description: data.discount_description,
+                amount_discount: data.amount_discount,
+                startdate_discount: !data.discount_status
+                  ? new Date()
+                  : new Date(data.startdate_discount),
+                enddate_discount: !data.discount_status
+                  ? new Date()
+                  : new Date(data.enddate_discount),
                 loadingData: false,
                 data,
               });
@@ -77,60 +114,88 @@ class ManagePromotion extends Component {
     }, 1000);
   };
 
-  onChangePromotion = (e) => {
+  onChangepromotion = (e) => {
     this.setState({
-      Promotion: e.target.value,
+      promotion: e.target.value,
     });
   };
 
-  onChangeDiscount = (e) => {
+  onChangediscount = (e) => {
     this.setState({
-      Discount: e.target.value,
+      discount: e.target.value,
     });
   };
 
-  onStartDatePromotionChange = (date) => {
+  onstartdate_promotionChange = (date) => {
     this.setState({
-      startDatePromotion: date,
+      startdate_promotion: date,
     });
   };
 
-  onEndDatePromotionChange = (date) => {
+  onenddate_promotionChange = (date) => {
     this.setState({
-      endDatePromotion: date,
+      enddate_promotion: date,
     });
   };
 
-  onStartDateDiscountChange = (date) => {
+  onstartdate_discountChange = (date) => {
     this.setState({
-      startDateDiscount: date,
+      startdate_discount: date,
     });
   };
 
-  onEndDateDiscountChange = (date) => {
+  onenddate_discountChange = (date) => {
     this.setState({
-      endDateDiscount: date,
+      enddate_discount: date,
     });
   };
   onClickSave = () => {
     setTimeout(() => {
       if (this.state.mode === "edit" && this.state.data) {
-        const setItemInsert = firebase.database().ref(`Promotion`);
+        const setItemInsert = firebase.database().ref(`promotion`);
         let newState = {
-          Promotion: this.state.Promotion,
-          Discount: this.state.Discount,
-          promotionName: this.state.promotionName,
-          promotionDescrip: this.state.promotionDescrip,
-          promotionAmount: this.state.promotionAmount,
-          discountName: this.state.discountName,
-          discountDescrip: this.state.discountDescrip,
-          discountAmount: this.state.discountAmount,
-          startDatePromotion: this.state.startDatePromotion,
-          endDatePromotion: this.state.endDatePromotion,
-          startDateDiscount: this.state.startDateDiscount,
-          endDateDiscount: this.state.endDateDiscount,
+          promotion_status: this.state.promotion_status,
+          store_id: this.state.store_id,
+          store_name: this.state.store_name,
+          promotion_name: !this.state.promotion_status
+            ? null
+            : this.state.promotion_name,
+          promotion_description: !this.state.promotion_status
+            ? null
+            : this.state.promotion_description,
+          amount_promotion: !this.state.promotion_status
+            ? null
+            : this.state.amount_promotion,
+          startdate_promotion: !this.state.promotion_status
+            ? null
+            : moment(this.state.startdate_promotion).format(),
+          enddate_promotion: !this.state.promotion_status
+            ? null
+            : moment(this.state.enddate_promotion).format(),
         };
-        setItemInsert.child(this.state.businessId).update(newState);
+        setItemInsert.child(this.state.store_id).update(newState);
+        const setdiscountInsert = firebase.database().ref(`discount`);
+        let newStateDis = {
+          discount_status: this.state.discount_status,
+          store_id: this.state.store_id,
+          store_name: this.state.store_name,
+          discount_name: !this.state.discount_status
+            ? null
+            : this.state.discount_name,
+          discount_description: !this.state.discount_status
+            ? null
+            : this.state.discount_description,
+          amount_discount: !this.state.discount_status
+            ? null
+            : this.state.amount_discount,
+          startdate_discount: !this.state.discount_status
+            ? null
+            : moment(this.state.startdate_discount).format(),
+          enddate_discount: !this.state.discount_status
+            ? null
+            : moment(this.state.enddate_discount).format(),
+        };
+        setdiscountInsert.child(this.state.store_id).update(newStateDis);
         swal({
           title: "You want Update User",
           icon: "warning",
@@ -149,24 +214,53 @@ class ManagePromotion extends Component {
       } else {
         const setItemInsert = firebase
           .database()
-          .ref(`Promotion/${this.state.businessId}`);
+          .ref(`promotion/${this.state.store_id}`);
         let newState = {
-          Promotion: this.state.Promotion,
-          Discount: this.state.Discount,
-          businessId: this.state.businessId,
-          businessName: this.state.businessName,
-          promotionName: this.state.promotionName,
-          promotionDescrip: this.state.promotionDescrip,
-          promotionAmount: this.state.promotionAmount,
-          discountName: this.state.discountName,
-          discountDescrip: this.state.discountDescrip,
-          discountAmount: this.state.discountAmount,
-          startDatePromotion: moment(this.state.startDatePromotion).format(),
-          endDatePromotion: moment(this.state.endDatePromotion).format(),
-          startDateDiscount: moment(this.state.startDateDiscount).format(),
-          endDateDiscount: moment(this.state.endDateDiscount).format(),
+          promotion_status: this.state.promotion_status,
+          store_id: this.state.store_id,
+          store_name: this.state.store_name,
+          promotion_name: !this.state.promotion_status
+            ? null
+            : this.state.promotion_name,
+          promotion_description: !this.state.promotion_status
+            ? null
+            : this.state.promotion_description,
+          amount_promotion: !this.state.promotion_status
+            ? null
+            : this.state.amount_promotion,
+          startdate_promotion: !this.state.promotion_status
+            ? null
+            : moment(this.state.startdate_promotion).format(),
+          enddate_promotion: !this.state.promotion_status
+            ? null
+            : moment(this.state.enddate_promotion).format(),
         };
         setItemInsert.set(newState);
+        const setdiscountInsert = firebase
+          .database()
+          .ref(`discount/${this.state.store_id}`);
+        let newStateDis = {
+          discount_status: this.state.discount_status,
+          store_id: this.state.store_id,
+          store_name: this.state.store_name,
+          discount_name: !this.state.discount_status
+            ? null
+            : this.state.discount_name,
+          discount_description: !this.state.discount_status
+            ? null
+            : this.state.discount_description,
+          amount_discount: !this.state.discount_status
+            ? null
+            : this.state.amount_discount,
+          startdate_discount: !this.state.discount_status
+            ? null
+            : moment(this.state.startdate_discount).format(),
+          enddate_discount: !this.state.discount_status
+            ? null
+            : moment(this.state.enddate_discount).format(),
+        };
+        setdiscountInsert.set(newStateDis);
+
         swal({
           title: "Create promotion Success",
           text: "ํYou want Continue or not?",
@@ -189,12 +283,6 @@ class ManagePromotion extends Component {
           });
       }
     }, 1000);
-    // if (this.state !== null&&this.state.dataใสำ) {
-
-    // } else {
-    //   swal("ผิดพลาด", "กรุณากรอกข้อมูลให้ครบ", "error");
-    //   return;
-    // }
   };
   onClickCancel = () => {
     window.location.reload();
@@ -203,27 +291,23 @@ class ManagePromotion extends Component {
   render() {
     return (
       <div
-        id="Manage-Promotion"
-        style={{
-          marginLeft: "1rem",
-          marginBottom: "5rem",
-          marginTop: "-8rem",
-        }}
+        id="Manage-promotion"
+        style={{ marginLeft: "1rem", marginBottom: "5rem", marginTop: "-6rem" }}
       >
         <Navbar />
         <div className="container">
           <div className="row">
-            <h2>Promotion</h2>
+            <h2>promotion</h2>
             <Radio.Group
-              onChange={this.onChangePromotion}
-              value={this.state.Promotion}
+              onChange={this.onChangepromotion}
+              value={this.state.promotion_status}
               style={{ marginLeft: "1.5rem" }}
             >
               <Radio value={true}>มี</Radio>
               <Radio value={false}>ไม่มี</Radio>
             </Radio.Group>
           </div>
-          {this.state.Promotion === true && (
+          {this.state.promotion_status === true && (
             <span>
               <form>
                 <div className="form-row">
@@ -231,10 +315,10 @@ class ManagePromotion extends Component {
                     <input
                       type="text"
                       className="form-control"
-                      placeholder="Promotion Name"
-                      value={this.state.promotionName}
+                      placeholder="promotion Name"
+                      value={this.state.promotion_name}
                       onChange={(e) =>
-                        this.setState({ promotionName: e.target.value })
+                        this.setState({ promotion_name: e.target.value })
                       }
                       style={{ marginBottom: "0.5rem" }}
                     />
@@ -244,9 +328,9 @@ class ManagePromotion extends Component {
                       type="textbox"
                       className="form-control"
                       placeholder="Description"
-                      value={this.state.promotionDescrip}
+                      value={this.state.promotion_description}
                       onChange={(e) =>
-                        this.setState({ promotionDescrip: e.target.value })
+                        this.setState({ promotion_description: e.target.value })
                       }
                       style={{ marginBottom: "0.5rem" }}
                     />
@@ -259,10 +343,10 @@ class ManagePromotion extends Component {
                     <input
                       type="number"
                       className="form-control"
-                      placeholder="Amount Promotion"
-                      value={this.state.promotionAmount}
+                      placeholder="Amount promotion"
+                      value={this.state.amount_promotion}
                       onChange={(e) =>
-                        this.setState({ promotionAmount: e.target.value })
+                        this.setState({ amount_promotion: e.target.value })
                       }
                       style={{ marginBottom: "0.5rem" }}
                     />
@@ -273,8 +357,8 @@ class ManagePromotion extends Component {
                     <DatePicker
                       className="datePic"
                       name="StartDate"
-                      selected={this.state.startDatePromotion}
-                      onChange={this.onStartDatePromotionChange}
+                      selected={this.state.startdate_promotion}
+                      onChange={this.onstartdate_promotionChange}
                       placeholder="Start Date"
                       dateFormat="dd/MM/yyyy"
                       style={{ marginBottom: "0.5rem" }}
@@ -285,8 +369,8 @@ class ManagePromotion extends Component {
                     <DatePicker
                       className="datePic"
                       name="EndDate"
-                      selected={this.state.endDatePromotion}
-                      onChange={this.onEndDatePromotionChange}
+                      selected={this.state.enddate_promotion}
+                      onChange={this.onenddate_promotionChange}
                       placeholder="End Date"
                       dateFormat="dd/MM/yyyy"
                       style={{ marginBottom: "0.5rem" }}
@@ -300,15 +384,15 @@ class ManagePromotion extends Component {
           <div className="row">
             <h2>ส่วนลดบริการ</h2>
             <Radio.Group
-              onChange={this.onChangeDiscount}
-              value={this.state.Discount}
+              onChange={this.onChangediscount}
+              value={this.state.discount_status}
               style={{ marginTop: "1rem", marginLeft: "1.5rem" }}
             >
               <Radio value={true}>มี</Radio>
               <Radio value={false}>ไม่มี</Radio>
             </Radio.Group>
           </div>
-          {this.state.Discount === true && (
+          {this.state.discount_status === true && (
             <span>
               <form>
                 <div className="form-row">
@@ -316,10 +400,10 @@ class ManagePromotion extends Component {
                     <input
                       type="text"
                       className="form-control"
-                      placeholder="Discount Name"
-                      value={this.state.discountName}
+                      placeholder="discount Name"
+                      value={this.state.discount_name}
                       onChange={(e) =>
-                        this.setState({ discountName: e.target.value })
+                        this.setState({ discount_name: e.target.value })
                       }
                       style={{ marginBottom: "0.5rem" }}
                     />
@@ -329,9 +413,9 @@ class ManagePromotion extends Component {
                       type="textbox"
                       className="form-control"
                       placeholder="Description"
-                      value={this.state.discountDescrip}
+                      value={this.state.discount_description}
                       onChange={(e) =>
-                        this.setState({ discountDescrip: e.target.value })
+                        this.setState({ discount_description: e.target.value })
                       }
                       style={{ marginBottom: "0.5rem" }}
                     />
@@ -345,9 +429,9 @@ class ManagePromotion extends Component {
                       type="number"
                       className="form-control"
                       placeholder="Amount Description"
-                      value={this.state.discountAmount}
+                      value={this.state.amount_discount}
                       onChange={(e) =>
-                        this.setState({ discountAmount: e.target.value })
+                        this.setState({ amount_discount: e.target.value })
                       }
                       style={{ marginBottom: "0.5rem" }}
                     />
@@ -357,8 +441,8 @@ class ManagePromotion extends Component {
                     <DatePicker
                       className="datePic"
                       name="StartDate"
-                      selected={this.state.startDateDiscount}
-                      onChange={this.onStartDateDiscountChange}
+                      selected={this.state.startdate_discount}
+                      onChange={this.onstartdate_discountChange}
                       placeholder="Start Date"
                       dateFormat="dd/MM/yyyy"
                       style={{ marginBottom: "0.5rem" }}
@@ -370,8 +454,8 @@ class ManagePromotion extends Component {
                     <DatePicker
                       className="datePic"
                       name="EndDate"
-                      selected={this.state.endDateDiscount}
-                      onChange={this.onEndDateDiscountChange}
+                      selected={this.state.enddate_discount}
+                      onChange={this.onenddate_discountChange}
                       placeholder="End Date"
                       dateFormat="dd/MM/yyyy"
                       style={{ marginBottom: "0.5rem" }}
@@ -409,13 +493,13 @@ class ManagePromotion extends Component {
 
 function mapStateToProps({ firebase }) {
   return {
-    Store: firebase.ordered.Store,
+    Store: firebase.ordered.store,
   };
 }
 
 const enhance = compose(
-  firebaseConnect([{ path: "/Store" }]),
+  firebaseConnect([{ path: "/store" }]),
   connect(mapStateToProps)
 );
 
-export default enhance(ManagePromotion);
+export default enhance(Managepromotion);

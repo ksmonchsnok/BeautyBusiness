@@ -65,6 +65,6 @@ export default class Google extends Component {
           </GoogleLogin>
         ));
 
-    return <>{GoogleData}</>;
+    return <div>{GoogleData}</div>;
   }
 }

@@ -42,9 +42,9 @@ class navbar extends Component {
       let checkSigninAndOut = JSON.parse(localStorage.getItem("ObjUser"));
       if (checkSigninAndOut) {
         this.setState({
-          setimgShow: checkSigninAndOut.imageUrl,
+          setimgShow: checkSigninAndOut.image,
           setFullName:
-            checkSigninAndOut.Firstname + "-" + checkSigninAndOut.Lastname,
+            checkSigninAndOut.firstname + "-" + checkSigninAndOut.lastname,
           showlogInAndSignIn: true,
         });
       } else {

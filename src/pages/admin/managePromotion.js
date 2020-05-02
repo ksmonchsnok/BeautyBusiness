@@ -28,7 +28,7 @@ class ManagePromotion extends Component {
       discountDescrip: "",
       discountAmount: 0,
       businessList: [],
-      BusinessId: "",
+      businessId: "",
       startDatePromotion: new Date(),
       endDatePromotion: new Date(),
       startDateDiscount: new Date(),
@@ -43,9 +43,9 @@ class ManagePromotion extends Component {
         let obj = await this.props.location.state.obj;
         this.setState({
           mode: "edit",
-          Promotion: obj.Promotion,
-          Discount: obj.Discount,
-          BusinessId: obj.BusinessId,
+          Promotion: obj.Promotion ? obj.Promotion : false,
+          Discount: obj.Discount ? obj.Discount : false,
+          businessId: obj.businessId,
           businessName: obj.businessName,
           promotionName: obj.promotionName,
           promotionDescrip: obj.promotionDescrip,
@@ -53,10 +53,18 @@ class ManagePromotion extends Component {
           discountName: obj.discountName,
           discountDescrip: obj.discountDescrip,
           discountAmount: obj.discountAmount,
-          startDatePromotion: new Date(obj.startDatePromotion),
-          endDatePromotion: new Date(obj.endDatePromotion),
-          startDateDiscount: new Date(obj.startDateDiscount),
-          endDateDiscount: new Date(obj.endDateDiscount),
+          startDatePromotion: !obj.Promotion
+            ? new Date()
+            : new Date(obj.startDatePromotion),
+          endDatePromotion: !obj.Promotion
+            ? new Date()
+            : new Date(obj.endDatePromotion),
+          startDateDiscount: !obj.Discount
+            ? new Date()
+            : new Date(obj.startDateDiscount),
+          endDateDiscount: !obj.Discount
+            ? new Date()
+            : new Date(obj.endDateDiscount),
         });
       }
     }
@@ -64,6 +72,7 @@ class ManagePromotion extends Component {
   setBusinessList = () => {
     let business = [];
     let checkUserPromotion = [];
+    let checkUserDiscount = [];
     firebase
       .database()
       .ref("Promotion")
@@ -71,6 +80,15 @@ class ManagePromotion extends Component {
       .then((snapshot) => {
         if (snapshot.val()) {
           checkUserPromotion = Object.values(snapshot.val());
+        }
+      });
+    firebase
+      .database()
+      .ref("Discount")
+      .once("value")
+      .then((snapshot) => {
+        if (snapshot.val()) {
+          checkUserDiscount = Object.values(snapshot.val());
         }
       });
     setTimeout(() => {
@@ -85,9 +103,14 @@ class ManagePromotion extends Component {
             let arr = data;
             for (let i = 0; i < checkUserPromotion.length; i++) {
               index = data.findIndex(
-                (v) => v.BusinessId === checkUserPromotion[i].userOfStoreId
+                (v) =>
+                  v.businessId === checkUserPromotion[i].userOfStoreId &&
+                  (checkUserPromotion[i].Promotion ||
+                    checkUserDiscount[i].Discount)
               );
-              arr.splice(index, 1);
+              if (index > -1) {
+                arr.splice(index, 1);
+              }
               data = arr;
             }
             data.forEach((v) => {
@@ -136,38 +159,61 @@ class ManagePromotion extends Component {
   };
 
   setBusinessName = (e) => {
-    console.log(e);
-    console.log(this.state.businessList);
     this.state.businessList.forEach((v) => {
       if (v.value === e) {
-        console.log(v);
         this.setState({
-          BusinessId: e,
+          businessId: e,
           businessName: v.label,
         });
       }
     });
   };
   onClickSave = () => {
-    if (this.state !== null && this.state.BusinessId) {
+    if (this.state !== null && this.state.businessId) {
       setTimeout(() => {
         if (this.state.mode === "edit") {
           const setItemInsert = firebase.database().ref(`Promotion`);
           let newState = {
             Promotion: this.state.Promotion,
-            Discount: this.state.Discount,
-            promotionName: this.state.promotionName,
-            promotionDescrip: this.state.promotionDescrip,
-            promotionAmount: this.state.promotionAmount,
-            discountName: this.state.discountName,
-            discountDescrip: this.state.discountDescrip,
-            discountAmount: this.state.discountAmount,
-            startDatePromotion: this.state.startDatePromotion,
-            endDatePromotion: this.state.endDatePromotion,
-            startDateDiscount: this.state.startDateDiscount,
-            endDateDiscount: this.state.endDateDiscount,
+            businessId: this.state.businessId,
+            businessName: this.state.businessName,
+            promotionName: !this.state.Promotion
+              ? null
+              : this.state.promotionName,
+            promotionDescrip: !this.state.Promotion
+              ? null
+              : this.state.promotionDescrip,
+            promotionAmount: !this.state.Promotion
+              ? null
+              : this.state.promotionAmount,
+            startDatePromotion: !this.state.Promotion
+              ? null
+              : moment(this.state.startDatePromotion).format(),
+            endDatePromotion: !this.state.Promotion
+              ? null
+              : moment(this.state.endDatePromotion).format(),
           };
-          setItemInsert.child(this.state.BusinessId).update(newState);
+          setItemInsert.child(this.state.businessId).update(newState);
+          const setDiscountInsert = firebase.database().ref(`Discount`);
+          let newStateDis = {
+            Discount: this.state.Discount,
+            businessId: this.state.businessId,
+            businessName: this.state.businessName,
+            discountName: !this.state.Discount ? null : this.state.discountName,
+            discountDescrip: !this.state.Discount
+              ? null
+              : this.state.discountDescrip,
+            discountAmount: !this.state.Discount
+              ? null
+              : this.state.discountAmount,
+            startDateDiscount: !this.state.Discount
+              ? null
+              : moment(this.state.startDateDiscount).format(),
+            endDateDiscount: !this.state.Discount
+              ? null
+              : moment(this.state.endDateDiscount).format(),
+          };
+          setDiscountInsert.child(this.state.businessId).update(newStateDis);
           swal({
             title: "You want Update User",
             icon: "warning",
@@ -186,24 +232,50 @@ class ManagePromotion extends Component {
         } else {
           const setItemInsert = firebase
             .database()
-            .ref(`Promotion/${this.state.BusinessId}`);
+            .ref(`Promotion/${this.state.businessId}`);
           let newState = {
             Promotion: this.state.Promotion,
-            Discount: this.state.Discount,
-            BusinessId: this.state.BusinessId,
+            businessId: this.state.businessId,
             businessName: this.state.businessName,
-            promotionName: this.state.promotionName,
-            promotionDescrip: this.state.promotionDescrip,
-            promotionAmount: this.state.promotionAmount,
-            discountName: this.state.discountName,
-            discountDescrip: this.state.discountDescrip,
-            discountAmount: this.state.discountAmount,
-            startDatePromotion: moment(this.state.startDatePromotion).format(),
-            endDatePromotion: moment(this.state.endDatePromotion).format(),
-            startDateDiscount: moment(this.state.startDateDiscount).format(),
-            endDateDiscount: moment(this.state.endDateDiscount).format(),
+            promotionName: !this.state.Promotion
+              ? null
+              : this.state.promotionName,
+            promotionDescrip: !this.state.Promotion
+              ? null
+              : this.state.promotionDescrip,
+            promotionAmount: !this.state.Promotion
+              ? null
+              : this.state.promotionAmount,
+            startDatePromotion: !this.state.Promotion
+              ? null
+              : moment(this.state.startDatePromotion).format(),
+            endDatePromotion: !this.state.Promotion
+              ? null
+              : moment(this.state.endDatePromotion).format(),
           };
           setItemInsert.set(newState);
+          const setDiscountInsert = firebase
+            .database()
+            .ref(`Discount/${this.state.businessId}`);
+          let newStateDis = {
+            Discount: this.state.Discount,
+            businessId: this.state.businessId,
+            businessName: this.state.businessName,
+            discountName: !this.state.Discount ? null : this.state.discountName,
+            discountDescrip: !this.state.Discount
+              ? null
+              : this.state.discountDescrip,
+            discountAmount: !this.state.Discount
+              ? null
+              : this.state.discountAmount,
+            startDateDiscount: !this.state.Discount
+              ? null
+              : moment(this.state.startDateDiscount).format(),
+            endDateDiscount: !this.state.Discount
+              ? null
+              : moment(this.state.endDateDiscount).format(),
+          };
+          setDiscountInsert.set(newStateDis);
           swal({
             title: "Create promotion Success",
             text: "ํYou want Continue or not?",

@@ -18,11 +18,11 @@ class Report extends Component {
 
   async componentDidMount() {
     let ObjUser = await JSON.parse(localStorage.getItem("ObjUser"));
-    let ref = firebase.database().ref("Report");
+    let ref = firebase.database().ref("report");
     ref.once("value").then((snapshot) => {
       if (snapshot.val()) {
         const data = Object.values(snapshot.val());
-        let arr = data.filter((v) => v.ReportId === ObjUser.MemberId);
+        let arr = data.filter((v) => v.report_id === ObjUser.member_id);
         this.setState({ loadingData: false, reportList: arr });
       } else {
         this.setState({ loadingData: false });
@@ -56,11 +56,15 @@ class Report extends Component {
                     return (
                       <tr key={index}>
                         {/* <th scope="row"></th> */}
-                        <td>{d.discountCode}</td>
-                        <td>{d.businessName}</td>
-                        <td>{d.customerName}</td>
-                        <td>{moment(d.startDate).format("DD/MM/YYYY")}</td>
-                        <td>{moment(d.endDate).format("DD/MM/YYYY")}</td>
+                        <td>{d.discount_code}</td>
+                        <td>{d.store_name}</td>
+                        <td>{d.username}</td>
+                        <td>
+                          {moment(d.startdate_discount).format("DD/MM/YYYY")}
+                        </td>
+                        <td>
+                          {moment(d.enddate_discount).format("DD/MM/YYYY")}
+                        </td>
                       </tr>
                     );
                   })}
@@ -88,12 +92,12 @@ class Report extends Component {
 }
 function mapStateToProps({ firebase }) {
   return {
-    Store: firebase.ordered.Store,
+    Store: firebase.ordered.store,
   };
 }
 
 const enhance = compose(
-  firebaseConnect([{ path: "/Store" }]),
+  firebaseConnect([{ path: "/store" }]),
   connect(mapStateToProps)
 );
 export default enhance(Report);

@@ -60,14 +60,14 @@ class navbar extends Component {
       if (!prevState.checkCreateBusinese && checkSigninAndOut) {
         firebase
           .database()
-          .ref(`Store/${checkSigninAndOut.MemberId}`)
+          .ref(`store/${checkSigninAndOut.member_id}`)
           .once("value")
           .then((snapshot) => {
             if (snapshot.val()) {
               this.setState({ checkBusiness: true });
             }
           });
-        if (checkSigninAndOut.MemberType == "ผู้ให้บริการ") {
+        if (checkSigninAndOut.member_type == "ผู้ให้บริการ") {
           this.setState({ checkCreateBusinese: true });
         }
       } else if (!prevState.checkCreateBusinese && checkSigninAndOutgoogle) {
@@ -105,14 +105,14 @@ class navbar extends Component {
     if (checkSigninAndOut) {
       firebase
         .database()
-        .ref(`Store/${checkSigninAndOut.MemberId}`)
+        .ref(`store/${checkSigninAndOut.member_id}`)
         .once("value")
         .then((snapshot) => {
           if (snapshot.val()) {
             this.setState({ checkBusiness: true });
           }
         });
-      if (checkSigninAndOut.MemberType == "ผู้ให้บริการ") {
+      if (checkSigninAndOut.member_type == "ผู้ให้บริการ") {
         this.setState({ checkCreateBusinese: true });
       }
     } else if (checkSigninAndOut) {
@@ -121,7 +121,7 @@ class navbar extends Component {
   }
 
   checkHaveBusiness() {
-    swal("คุณมีธุรกิจแล้ว");
+    swal("คุณมีธุรกิจแล้ว", "", "warning");
   }
 
   async setUserLogin() {
@@ -133,9 +133,9 @@ class navbar extends Component {
       );
       if (checkSigninAndOut) {
         this.setState({
-          setimgShow: checkSigninAndOut.imageUrl,
+          setimgShow: checkSigninAndOut.image,
           setFullName:
-            checkSigninAndOut.Firstname + "-" + checkSigninAndOut.Lastname,
+            checkSigninAndOut.firstname + "-" + checkSigninAndOut.lastname,
           showlogInAndSignIn: true,
         });
       } else {
@@ -173,7 +173,7 @@ class navbar extends Component {
   checkLogin = (e) => {
     firebase
       .database()
-      .ref(`Store/${e.MemberId}`)
+      .ref(`store/${e.member_id}`)
       .once("value")
       .then((snapshot) => {
         if (snapshot.val()) {
@@ -181,8 +181,8 @@ class navbar extends Component {
         }
       });
     this.setState({
-      setimgShow: e.imageUrl,
-      setFullName: e.Firstname + "-" + e.Lastname,
+      setimgShow: e.image,
+      setFullName: e.firstname + "-" + e.lastname,
       showlogInAndSignIn: true,
     });
   };

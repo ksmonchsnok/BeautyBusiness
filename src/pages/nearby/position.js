@@ -53,7 +53,7 @@ const googleApiWrapper = GoogleApiWrapper({
 
 function mapStateToProps({ firebase }) {
   return {
-    Store: firebase.ordered.Store,
+    Store: firebase.ordered.store,
   };
 }
 

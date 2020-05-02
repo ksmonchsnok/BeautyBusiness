@@ -29,14 +29,14 @@ export default class Menu extends Component {
       if (!prevState.checkCreateBusinese && checkSigninAndOut) {
         firebase
           .database()
-          .ref(`Store/${checkSigninAndOut.MemberId}`)
+          .ref(`store/${checkSigninAndOut.member_id}`)
           .once("value")
           .then((snapshot) => {
             if (snapshot.val()) {
               this.setState({ checkBusiness: true });
             }
           });
-        if (checkSigninAndOut.MemberType == "ผู้ให้บริการ") {
+        if (checkSigninAndOut.member_type == "ผู้ให้บริการ") {
           this.setState({ checkCreateBusinese: true });
         }
       } else if (!prevState.checkCreateBusinese && checkSigninAndOutgoogle) {
@@ -54,14 +54,14 @@ export default class Menu extends Component {
       if (checkSigninAndOut) {
         firebase
           .database()
-          .ref(`Store/${checkSigninAndOut.MemberId}`)
+          .ref(`store/${checkSigninAndOut.member_id}`)
           .once("value")
           .then((snapshot) => {
             if (snapshot.val()) {
               this.setState({ checkBusiness: true });
             }
           });
-        if (checkSigninAndOut.MemberType == "ผู้ให้บริการ") {
+        if (checkSigninAndOut.member_type == "ผู้ให้บริการ") {
           this.setState({ checkCreateBusinese: true });
         }
       } else if (checkSigninAndOut) {

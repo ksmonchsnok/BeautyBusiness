@@ -9,15 +9,13 @@ export default class Filter extends Component {
     };
   }
 
-  componentWillMount = () => {
-    // console.log(this.props.rating, "ratting");
-  };
+  componentDidMount = () => {};
 
   render() {
     return (
       <div id="Filter">
         <div className="col pad">
-          {/* <ul class="list-group list-group-flush text-left">
+          <ul class="list-group list-group-flush text-left">
             <h5>ส่วนลดบริการ</h5>
             <ul>
               <div class="form-check form-check-inline">
@@ -27,7 +25,7 @@ export default class Filter extends Component {
                   name="inlineRadioOptions"
                   id="inlineRadio1"
                   value={this.props.discount}
-                  onChange={e => this.onCheckDiscount(e.target.value)}
+                  onChange={(e) => this.onCheckDiscount(e.target.value)}
                 />
                 <label class="form-check-label" for="inlineRadio1">
                   มี
@@ -39,7 +37,7 @@ export default class Filter extends Component {
                   name="inlineRadioOptions"
                   id="inlineRadio2"
                   value={this.props.discount}
-                  onChange={e => this.onCheckDiscount(e.target.value)}
+                  onChange={(e) => this.onCheckDiscount(e.target.value)}
                 />
                 <label class="form-check-label" for="inlineRadio2">
                   ไม่มี
@@ -56,7 +54,7 @@ export default class Filter extends Component {
                   name="inlineRadioOptions"
                   id="inlineRadio1"
                   value={this.props.promotion}
-                  onChange={e => this.props.onCheckPromotion(e.target.value)}
+                  onChange={(e) => this.props.onCheckPromotion(e.target.value)}
                 />
                 <label class="form-check-label" for="inlineRadio1">
                   มี
@@ -68,7 +66,7 @@ export default class Filter extends Component {
                   name="inlineRadioOptions"
                   id="inlineRadio2"
                   value={this.props.promotion}
-                  onChange={e => this.props.onCheckPromotion(e.target.value)}
+                  onChange={(e) => this.props.onCheckPromotion(e.target.value)}
                 />
                 <label class="form-check-label" for="inlineRadio2">
                   ไม่มี
@@ -76,7 +74,7 @@ export default class Filter extends Component {
               </div>
             </ul>
             <hr />
-          </ul> */}
+          </ul>
         </div>
 
         <div

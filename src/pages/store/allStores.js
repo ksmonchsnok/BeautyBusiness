@@ -41,21 +41,21 @@ class AllStore extends Component {
     this.setState({ checkbox: checkbox });
   };
 
-  // onCheckDiscount = e => {
-  //   if (this.state.discount === "true") {
-  //     this.setState({ discount: e });
-  //   } else {
-  //     this.setState({ discount: "" });
-  //   }
-  // };
+  onCheckDiscount = (e) => {
+    if (this.state.discount === "true") {
+      this.setState({ discount: e });
+    } else {
+      this.setState({ discount: "" });
+    }
+  };
 
-  // onCheckPromotion = e => {
-  //   if (this.state.promotion === "true") {
-  //     this.setState({ promotion: e });
-  //   } else {
-  //     this.setState({ promotion: "" });
-  //   }
-  // };
+  onCheckPromotion = (e) => {
+    if (this.state.promotion === "true") {
+      this.setState({ promotion: e });
+    } else {
+      this.setState({ promotion: "" });
+    }
+  };
 
   checkType = (value, checkbox) => {
     if (this.state.checkbox.length === 0) {
@@ -83,15 +83,17 @@ class AllStore extends Component {
   searchFilter = (store) => {
     return function (x) {
       return (
-        x.value.Name.toLowerCase().includes(store.toLowerCase()) ||
-        x.value.Address.toLowerCase().includes(store.toLowerCase()) ||
-        x.value.Type[0].toLowerCase().includes(store.toLowerCase()) ||
+        x.value.store_name.toLowerCase().includes(store.toLowerCase()) ||
+        x.value.address.toLowerCase().includes(store.toLowerCase()) ||
+        x.value.type[0].toLowerCase().includes(store.toLowerCase()) ||
         !store
       );
     };
   };
   render() {
-    const { store, checkbox } = this.state;
+    console.log(this.props);
+
+    const { store, promotion, discount, checkbox } = this.state;
     const { Store } = this.props;
 
     const item = Store
@@ -103,21 +105,21 @@ class AllStore extends Component {
             if (this.state.rating === 0) {
               return (
                 <div className="col-lg-4 col-md-6">
-                  <div key={value.ItemID}>
+                  <div key={value.store_id}>
                     <a href onClick={() => this.onClickViewDetail(value)}>
                       <img
                         className="card-img-top img-fluid rounded mx-auto d-block"
-                        src={value.imageUrl}
+                        src={value.image}
                         alt="image"
                         style={{ width: "300px", height: "250px" }}
                         aria-hidden="true"
                       />
                       <div className="card-body text-left mb-auto">
                         <h6 className="styleFont">
-                          <h2>{value.Name}</h2>
+                          <h2>{value.store_name}</h2>
                           <hr />
 
-                          {value.Type.map((el) => (
+                          {value.type.map((el) => (
                             <Tag
                               color="gold"
                               style={{ marginBottom: "0.6rem" }}
@@ -126,7 +128,7 @@ class AllStore extends Component {
                             </Tag>
                           ))}
 
-                          <h4 style={{ color: "#000" }}>{value.Address}</h4>
+                          <h4 style={{ color: "#000" }}>{value.address}</h4>
                         </h6>
                       </div>
                     </a>
@@ -137,20 +139,20 @@ class AllStore extends Component {
             if (value.Star >= this.state.rating) {
               return (
                 <div className="col-lg-4 col-md-6">
-                  <div key={value.ItemID}>
+                  <div key={value.store_id}>
                     <a href onClick={() => this.onClickViewDetail(value)}>
                       <img
                         className="card-img-top img-fluid rounded mx-auto d-block"
-                        src={value.imageUrl}
+                        src={value.image}
                         alt="image"
                         style={{ width: "300px", height: "250px" }}
                         aria-hidden="true"
                       />
                       <div className="card-body text-left mb-auto">
                         <h6 className="styleFont">
-                          <p className="font">{value.Name}</p>
+                          <p className="font">{value.store_name}</p>
                           <hr />
-                          {value.Type.map((el) => (
+                          {value.type.map((el) => (
                             <p
                               style={{
                                 marginLeft: -2,
@@ -166,7 +168,7 @@ class AllStore extends Component {
                           ))}
 
                           <p style={{ lineHeight: 1 + "rem", color: "#000" }}>
-                            {value.Address}
+                            {value.address}
                           </p>
                         </h6>
                       </div>
@@ -261,12 +263,14 @@ class AllStore extends Component {
 
 function mapStateToProps({ firebase }) {
   return {
-    Store: firebase.ordered.Store,
+    Store: firebase.ordered.store,
+    Promotion: firebase.ordered.promotion,
+    discount: firebase.ordered.discount,
   };
 }
 
 const enhance = compose(
-  firebaseConnect([{ path: "/Store" }]),
+  firebaseConnect([{ path: "/store", path: "/promotion", path: "/discount" }]),
   connect(mapStateToProps)
 );
 

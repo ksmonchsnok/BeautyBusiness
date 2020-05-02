@@ -80,7 +80,7 @@ class Facebook extends Component {
           />
         ));
 
-    return <>{facebookData}</>;
+    return <div>{facebookData}</div>;
   }
 }
 

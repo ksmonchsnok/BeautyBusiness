@@ -15,8 +15,10 @@ class StoreDetail extends Component {
       Store: [],
       loadingData: false,
       pormotion: {},
+      discont: {},
       dataStore: {},
       checkDiscount: false,
+      checkdisCountRequest: 0,
     };
   }
 
@@ -29,21 +31,34 @@ class StoreDetail extends Component {
     setTimeout(() => {
       let ref = firebase
         .database()
-        .ref(`Promotion/${this.state.Store[0].userOfStoreId}`);
-
+        .ref(`promotion/${this.state.Store[0].store_id}`);
       ref.once("value").then((snapshot) => {
         if (snapshot.val()) {
           const data = snapshot.val();
-          console.log(data);
+          this.setState({ loadingData: false, pormotion: data });
+        } else {
+          this.setState({ loadingData: false });
+        }
+      });
+      let refDis = firebase
+        .database()
+        .ref(`discount/${this.state.Store[0].store_id}`);
+      refDis.once("value").then((snapshot) => {
+        if (snapshot.val()) {
+          const data = snapshot.val();
           let cDate = new Date().getTime();
-          let sDate = new Date(data.startDateDiscount).getTime();
-          let eDate = new Date(data.endDateDiscount).getTime();
+          let sDate = new Date(data.startdate_discount).getTime();
+          let eDate = new Date(data.enddate_discount).getTime();
           if (cDate >= sDate && cDate <= eDate) {
             this.checkDiscount = true;
           } else {
             this.checkDiscount = false;
           }
-          this.setState({ loadingData: false, pormotion: data });
+          this.setState({
+            loadingData: false,
+            discont: data,
+            checkdisCountRequest: data.amount_discount,
+          });
         } else {
           this.setState({ loadingData: false });
         }
@@ -56,7 +71,8 @@ class StoreDetail extends Component {
   };
 
   onClickDiscount = () => {
-    let CustomerName = "";
+    let alertWarringCount = true;
+    let username = "";
     let obj = JSON.parse(localStorage.getItem("ObjUser"));
     let checkSigninAndOutgoogle = JSON.parse(
       localStorage.getItem("Google-login")
@@ -64,71 +80,90 @@ class StoreDetail extends Component {
     let checkSigninAndOutfb = JSON.parse(localStorage.getItem("FB-Login"));
 
     if (obj) {
-      CustomerName = obj.Firstname + "-" + obj.Lastname;
+      username = obj.firstname + "-" + obj.lastname;
     } else if (checkSigninAndOutgoogle) {
-      CustomerName = checkSigninAndOutgoogle.e.profileObj.name;
+      username = checkSigninAndOutgoogle.e.profileObj.name;
     } else if (checkSigninAndOutfb) {
-      CustomerName = checkSigninAndOutfb.name;
+      username = checkSigninAndOutfb.name;
     }
     if (obj || checkSigninAndOutfb || checkSigninAndOutgoogle) {
       const GenCode = Math.random().toString(26).substring(2, 10).toUpperCase();
       let setItemInsert = firebase
         .database()
-        .ref(`Store/${this.state.Store[0].userOfStoreId}`);
+        .ref(`store/${this.state.Store[0].store_id}`);
       setItemInsert.once("value").then((snapshot) => {
         if (snapshot.val()) {
           this.setState({ dataStore: snapshot.val() });
+          console.log(snapshot.val());
+          console.log(this.state.checkdisCountRequest);
+          if (
+            snapshot.val().discount_request >= this.state.checkdisCountRequest
+          ) {
+            alertWarringCount = false;
+          } else {
+            alertWarringCount = true;
+          }
         }
       });
-
+      console.log(alertWarringCount);
       setTimeout(() => {
-        let newState = {};
-        if (!this.state.dataStore.disCountRequest) {
-          newState = {
-            disCountRequest: 1,
+        if (alertWarringCount) {
+          let newState = {};
+          if (!this.state.dataStore.discount_request) {
+            newState = {
+              discount_request: 1,
+            };
+          } else if (this.state.dataStore.discount_request) {
+            newState = {
+              discount_request: this.state.dataStore.discount_request * 1 + 1,
+            };
+          }
+          setItemInsert.update(newState);
+          const setReport = firebase.database().ref(`report`);
+          let newReport = {
+            report_id: this.state.discont.store_id,
+            discount_code: GenCode,
+            store_name: this.state.discont.store_name,
+            username: username,
+            startdate_discount: this.state.discont.startdate_discount,
+            enddate_discount: this.state.discont.enddate_discount,
           };
-        } else if (this.state.dataStore.disCountRequest) {
-          newState = {
-            disCountRequest: this.state.dataStore.disCountRequest * 1 + 1,
-          };
-        }
-        setItemInsert.update(newState);
-        const setReport = firebase.database().ref(`Report`);
-        console.log(this.state.pormotion);
-
-        let newReport = {
-          ReportId: this.state.pormotion.BusinessId,
-          discountCode: GenCode,
-          businessName: this.state.pormotion.businessName,
-          customerName: CustomerName,
-          startDate: this.state.pormotion.startDateDiscount,
-          endDate: this.state.pormotion.endDateDiscount,
-        };
-        setReport.push(newReport);
-        if (obj || checkSigninAndOutfb || checkSigninAndOutgoogle) {
-          swal({
-            title: "You want Discount",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-          }).then((willDelete) => {
-            if (willDelete) {
-              swal(
-                "รหัสส่วนลดบริการ",
-                `Code : ${GenCode}  วันหมดอายุ : ${moment(
-                  this.state.pormotion.endDateDiscount
-                ).format("DD/MM/YYYY")}`,
-                "success",
-                {
-                  icon: "success",
-                }
-              );
-            } else {
-              swal("ยกเลิก");
-            }
-          });
+          setReport.push(newReport);
+          if (obj || checkSigninAndOutfb || checkSigninAndOutgoogle) {
+            swal({
+              title: "You want Discount",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            }).then((willDelete) => {
+              if (willDelete) {
+                swal(
+                  "รหัสส่วนลดบริการ",
+                  `Code : ${GenCode}  วันหมดอายุ : ${moment(
+                    this.state.discont.enddate_discount
+                  ).format("DD/MM/YYYY")}`,
+                  "success",
+                  {
+                    icon: "success",
+                  }
+                );
+              } else {
+                swal("ยกเลิก");
+              }
+            });
+          } else {
+            swal(
+              "Warning",
+              "กรุณาเข้าสู่ระบบเพื่อขอรหัสส่วนลดบริการ",
+              "warning"
+            );
+          }
         } else {
-          swal("Warning", "กรุณาเข้าสู่ระบบเพื่อขอรหัสส่วนลดบริการ", "warning");
+          swal(
+            "Warning",
+            "โควต้าส่วนลดเต็มแล้วไม่สามารถขอรหัสส่วนลดได้",
+            "warning"
+          );
         }
       }, 100);
     } else {
@@ -138,17 +173,17 @@ class StoreDetail extends Component {
 
   render() {
     const item = this.state.Store.map((value) => (
-      <div key={value.userOfStoreId}>
+      <div key={value.store_id}>
         <h1
           className="text-center"
           style={{ paddingBottom: 2 + "rem", paddingTop: 3 + "rem" }}
         >
-          {value.Name}
+          {value.store_name}
         </h1>
 
         <img
           className="card-img-top img-fluid rounded mx-auto d-block"
-          src={value.imageUrl}
+          src={value.image}
           alt="image"
           aria-hidden="true"
         />
@@ -162,17 +197,17 @@ class StoreDetail extends Component {
           <p style={{ marginTop: 1 + "rem" }}>
             เวลา ::{" "}
             <div class="badge badge-success" style={{ fontSize: "16px" }}>
-              {value.Open} น.
+              {value.open} น.
             </div>
           </p>
-          <p>โทร :: {value.Phone}</p>
-          <p>ที่อยู่ :: {value.Address}</p>
+          <p>โทร :: {value.phone}</p>
+          <p>ที่อยู่ :: {value.address}</p>
           <p>
-            ติดต่อ :: <a href={value.Social}> Facebook</a>
+            ติดต่อ :: <a href={value.social}> Facebook</a>
           </p>
 
           <div className="row col-6">
-            {value.Type.map((el) => (
+            {value.type.map((el) => (
               <h5 style={{ marginRight: 5 }}>
                 <span className="badge badge-warning">{el}</span>
               </h5>
@@ -192,21 +227,23 @@ class StoreDetail extends Component {
               {" "}
               <div className="row">
                 <div className="col-xs-12 col-sm-12 col-md-6 d-flex justify-content-center">
-                  <h3>โปรโมชั่น :: {this.state.pormotion.promotionName}</h3>
+                  <h3>โปรโมชั่น :: {this.state.pormotion.promotion_name}</h3>
                 </div>
                 <div className="col-xs-12 col-sm-12 col-md-6 d-flex justify-content-center">
                   <h3>
-                    รายละเอียดโปรโมชั่น :: {this.state.pormotion.promotionName}
+                    รายละเอียดโปรโมชั่น ::{" "}
+                    {this.state.pormotion.promotion_description}
                   </h3>
                 </div>
               </div>
               <div className="row ">
                 <div className="col-xs-12 col-sm-12 col-md-6 d-flex justify-content-center">
-                  <h3>ส่วนลดบริการ :: {this.state.pormotion.discountName}</h3>
+                  <h3>ส่วนลดบริการ :: {this.state.discont.discount_name}</h3>
                 </div>
                 <div className="col-xs-12 col-sm-12 col-md-6 d-flex justify-content-center">
                   <h3>
-                    รายละเอียดส่วนลด :: {this.state.pormotion.discountDescrip}
+                    รายละเอียดส่วนลด ::{" "}
+                    {this.state.discont.discount_description}
                   </h3>
                 </div>
               </div>
@@ -262,12 +299,12 @@ class StoreDetail extends Component {
 
 function mapStateToProps({ firebase }) {
   return {
-    Store: firebase.ordered.Store,
+    Store: firebase.ordered.store,
   };
 }
 
 const enhance = compose(
-  firebaseConnect([{ path: "/Store" }]),
+  firebaseConnect([{ path: "/store" }]),
   connect(mapStateToProps)
 );
 export default enhance(StoreDetail);

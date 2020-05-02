@@ -24,7 +24,7 @@ class Nearby extends Component {
 
   componentDidMount() {
     this.setState({ loadingData: true });
-    let ref = firebase.database().ref("Store");
+    let ref = firebase.database().ref("store");
 
     let locations = [];
 
@@ -33,16 +33,16 @@ class Nearby extends Component {
         const data = Object.values(snapshot.val());
         data.map((location) =>
           locations.push({
-            Name: location.Name,
-            Lat: location.Lat,
-            Lng: location.Lng,
-            ID: location.userOfStoreId,
-            imageUrl: location.imageUrl,
-            Social: location.Social,
-            Address: location.Address,
-            Type: location.Type,
-            Open: location.Open,
-            Phone: location.Phone,
+            store_name: location.store_name,
+            Lat: location.lat,
+            Lng: location.lng,
+            store_id: location.store_id,
+            image: location.image,
+            social: location.social,
+            address: location.address,
+            type: location.type,
+            open: location.open,
+            phone: location.phone,
           })
         );
         if (typeof data === "object" && data !== null && data !== undefined) {
@@ -111,16 +111,16 @@ class Nearby extends Component {
       result.push(Name + " ==> " + m.toFixed(0));
       if (d < 1) {
         data.push({
-          Name: el.Name,
+          store_name: el.store_name,
           Lat: el.Lat,
           Lng: el.Lng,
-          ID: el.userOfStoreId,
-          imageUrl: el.imageUrl,
-          Social: el.Social,
-          Address: el.Address,
-          Type: el.Type,
-          Open: el.Open,
-          Phone: el.Phone,
+          store_id: el.store_id,
+          image: el.image,
+          social: el.social,
+          address: el.address,
+          type: el.type,
+          open: el.open,
+          phone: el.phone,
           m: parseInt(m),
         });
       }
@@ -144,23 +144,23 @@ class Nearby extends Component {
 
     const item = this.state.data.map((value) => (
       <div className="col-lg-3 col-md-6">
-        <div key={value.userOfStoreId}>
+        <div key={value.store_id}>
           <a href onClick={() => this.onClickViewDetail(value)}>
             <img
               className="card-img-top img-fluid rounded mx-auto d-block"
-              src={value.imageUrl}
+              src={value.image}
               alt="image"
               aria-hidden="true"
             />
             <div className="card-body text-left mb-auto">
               <h5 className="styleFont">
-                <h3 className="font">{value.Name}</h3>
+                <h3 className="font">{value.store_name}</h3>
 
                 <h4 style={{ textAlign: "left", color: "#000" }}>
                   {value.m} ม.
                 </h4>
 
-                {value.Type.map((el) => (
+                {value.type.map((el) => (
                   <h5
                     style={{
                       marginLeft: -2,
@@ -209,7 +209,7 @@ const googleApiWrapper = GoogleApiWrapper({
 
 function mapStateToProps({ firebase }) {
   return {
-    Store: firebase.ordered.Store,
+    Store: firebase.ordered.store,
   };
 }
 
@@ -221,7 +221,7 @@ const geo = geolocated({
 });
 
 const enhance = compose(
-  firebaseConnect([{ path: "/Store" }]),
+  firebaseConnect([{ path: "/store" }]),
   connect(mapStateToProps),
   googleApiWrapper,
   geo

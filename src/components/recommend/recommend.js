@@ -31,9 +31,9 @@ class Recommened extends Component {
   render() {
     const { loadingData } = this.state;
     let Store = [];
-    let rootRef = firebase.database().ref("Store");
+    let rootRef = firebase.database().ref("store");
     let Ref = rootRef
-      .orderByChild("Recommend")
+      .orderByChild("recommend")
       .equalTo("true")
       .on("child_added", (snapshot) => {
         Store.push(snapshot.val());
@@ -42,10 +42,10 @@ class Recommened extends Component {
     const item = Store.map((value) => (
       <div className="col-lg-4">
         <a href onClick={() => this.onClickViewDetail(value)}>
-          <div key={value.ItemID}>
+          <div key={value.store_id}>
             <div class="">
               <img
-                src={value.imageUrl}
+                src={value.image}
                 className="bd-placeholder-img rounded-circle"
                 width="170"
                 height="170"
@@ -53,8 +53,8 @@ class Recommened extends Component {
                 role="img"
                 aria-label="Placeholder: 140x140"
               ></img>
-              <h2>{value.Name}</h2>
-              {value.Type.map((el) => (
+              <h2>{value.store_name}</h2>
+              {value.type.map((el) => (
                 <Tag color="blue">{el}</Tag>
               ))}
               <p>
@@ -126,12 +126,12 @@ class Recommened extends Component {
 }
 function mapStateToProps({ firebase }) {
   return {
-    Store: firebase.ordered.Store,
+    Store: firebase.ordered.store,
   };
 }
 
 const enhance = compose(
-  firebaseConnect([{ path: "/Store" }]),
+  firebaseConnect([{ path: "/store" }]),
   connect(mapStateToProps)
 );
 

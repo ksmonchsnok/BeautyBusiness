@@ -14,17 +14,17 @@ class RegistrationForm extends Component {
     this.state = {
       loading: false,
       mode: "",
-      BusinessName: "",
-      OpenShop: "",
-      PhoneNumber: "",
-      Address: "",
-      BusinessType: "",
-      Lat: "",
-      Lng: "",
-      Recommend: "",
-      ServiceType: [],
-      Social: "",
-      UsernameOfSotre: "",
+      store_name: "",
+      open: "",
+      phone: "",
+      address: "",
+      store_type: "",
+      lat: "",
+      lng: "",
+      recommend: "",
+      type: [],
+      social: "",
+      username: "",
       options: [
         { label: "ตัดผมชาย", value: "ตัดผมชาย" },
         { label: "เสริมสวย", value: "เสริมสวย" },
@@ -36,9 +36,9 @@ class RegistrationForm extends Component {
         { label: "Tattoo", value: "Tattoo" },
       ],
       userLsit: [],
-      userOfStoreId: "",
-      UserStoreName: "",
-      customPosition: "",
+      store_id: "",
+      username: "",
+      custom_position: "",
       currentPosition: JSON.parse(localStorage.getItem("Position")),
       fixposition: "",
     };
@@ -68,9 +68,9 @@ class RegistrationForm extends Component {
       return;
     }
     if (info.file.status === "done") {
-      this.getBase64(info.file.originFileObj, (imageUrl) =>
+      this.getBase64(info.file.originFileObj, (image) =>
         this.setState({
-          imageUrl,
+          image,
           loading: false,
         })
       );
@@ -89,34 +89,34 @@ class RegistrationForm extends Component {
     if (checkHistory === "pass") {
       let obj = await this.props.location.state.obj;
       this.formRef.current.setFieldsValue({
-        MemberId: obj.MemberId,
-        imageUrl: obj.imageUrl,
-        BusinessName: obj.Name,
-        OpenShop: obj.Open,
-        PhoneNumber: obj.Phone,
-        Address: obj.Address,
-        BusinessType: obj.StoreType,
-        Recommend: obj.Recommend,
-        Lat: obj.Lat,
-        Lng: obj.Lng,
-        ServiceType: obj.Type,
-        Social: obj.Social,
-        customPosition: obj.customPosition,
+        member_id: obj.member_id,
+        image: obj.image,
+        store_name: obj.store_name,
+        open: obj.open,
+        phone: obj.phone,
+        address: obj.address,
+        store_type: obj.store_type,
+        recommend: obj.recommend,
+        lat: obj.lat,
+        lng: obj.lng,
+        type: obj.type,
+        social: obj.social,
+        custom_position: obj.custom_position,
       });
       this.setState({
-        MemberId: obj.MemberId,
-        imageUrl: obj.imageUrl,
-        BusinessName: obj.Name,
-        OpenShop: obj.Open,
-        PhoneNumber: obj.Phone,
-        Address: obj.Address,
-        BusinessType: obj.StoreType,
-        Recommend: obj.Recommend,
-        Lat: obj.Lat,
-        Lng: obj.Lng,
-        ServiceType: obj.Type,
-        Social: obj.Social,
-        customPosition: obj.customPosition,
+        member_id: obj.member_id,
+        image: obj.image,
+        store_name: obj.store_name,
+        open: obj.open,
+        phone: obj.phone,
+        address: obj.address,
+        store_type: obj.store_type,
+        recommend: obj.recommend,
+        lat: obj.lat,
+        lng: obj.lng,
+        type: obj.type,
+        social: obj.social,
+        custom_position: obj.custom_position,
 
         mode: "edit",
       });
@@ -124,42 +124,42 @@ class RegistrationForm extends Component {
       console.log("userEditStore");
       let obj = JSON.parse(localStorage.getItem("ObjUser"));
       console.log(obj);
-      let ref = firebase.database().ref(`Store/${obj.MemberId}`);
+      let ref = firebase.database().ref(`Store/${obj.member_id}`);
       ref.once("value").then((snapshot) => {
         if (snapshot.val()) {
           const data = snapshot.val();
           console.log(data);
           this.formRef.current.setFieldsValue({
-            userOfStoreId: data.userOfStoreId,
-            UserStoreName: data.UserStoreName,
-            imageUrl: data.imageUrl,
-            BusinessName: data.Name,
-            OpenShop: data.Open,
-            PhoneNumber: data.Phone,
-            Address: data.Address,
-            BusinessType: data.StoreType,
-            Recommend: data.Recommend,
-            Lat: data.Lat,
-            Lng: data.Lng,
-            ServiceType: data.Type,
-            Social: data.Social,
-            customPosition: obj.customPosition,
+            store_id: data.store_id,
+            username: data.username,
+            image: data.image,
+            store_name: data.store_name,
+            open: data.open,
+            phone: data.phone,
+            address: data.address,
+            store_type: data.store_type,
+            recommend: data.recommend,
+            lat: data.lat,
+            lng: data.lng,
+            type: data.type,
+            social: data.social,
+            custom_position: obj.custom_position,
           });
           this.setState({
-            userOfStoreId: data.userOfStoreId,
-            UserStoreName: data.UserStoreName,
-            imageUrl: data.imageUrl,
-            BusinessName: data.Name,
-            OpenShop: data.Open,
-            PhoneNumber: data.Phone,
-            Address: data.Address,
-            BusinessType: data.StoreType,
-            Recommend: data.Recommend,
-            Lat: data.Lat,
-            Lng: data.Lng,
-            ServiceType: data.Type,
-            Social: data.Social,
-            customPosition: obj.customPosition,
+            store_id: data.store_id,
+            username: data.username,
+            image: data.image,
+            store_name: data.store_name,
+            open: data.open,
+            phone: data.phone,
+            address: data.address,
+            store_type: data.store_type,
+            recommend: data.recommend,
+            lat: data.lat,
+            lng: data.lng,
+            type: data.type,
+            social: data.social,
+            custom_position: obj.custom_position,
             mode: "edit",
           });
         } else {
@@ -170,18 +170,18 @@ class RegistrationForm extends Component {
   }
 
   onChangeCheckBox(checkedValues) {
-    this.setState({ ServiceType: checkedValues });
+    this.setState({ type: checkedValues });
   }
   onChangeCheckRadio = (e) => {
-    this.setState({ BusinessType: e.target.value });
+    this.setState({ store_type: e.target.value });
   };
 
-  onChangeCheckRadioRecommend = (e) => {
-    this.setState({ Recommend: e.target.value });
+  onChangeCheckRadiorecommend = (e) => {
+    this.setState({ recommend: e.target.value });
   };
 
   onChangeCheckCurent = (e) => {
-    this.setState({ customPosition: e.target.value });
+    this.setState({ custom_position: e.target.value });
   };
 
   onClickCancel = () => {
@@ -194,8 +194,8 @@ class RegistrationForm extends Component {
 
   onGotoSave = (e) => {
     let fixposition = this.state.currentPosition;
-    let userOfStoreId = "";
-    let UserStoreName = "";
+    let store_id = "";
+    let username = "";
     let obj = JSON.parse(localStorage.getItem("ObjUser"));
     let checkSigninAndOutgoogle = JSON.parse(
       localStorage.getItem("Google-login")
@@ -203,40 +203,40 @@ class RegistrationForm extends Component {
     let checkSigninAndOutfb = JSON.parse(localStorage.getItem("FB-Login"));
 
     if (obj) {
-      userOfStoreId = obj.MemberId;
-      UserStoreName = obj.Username;
+      store_id = obj.member_id;
+      username = obj.username;
     } else if (checkSigninAndOutgoogle) {
-      // userOfStoreId =obj.e.profileObj.name
+      // store_id =obj.e.profileObj.store_name
     } else if (checkSigninAndOutfb) {
-      // userOfStoreId = obj.name
+      // store_id = obj.store_name
     }
 
-    if (this.state.customPosition === "true") {
+    if (this.state.custom_position === "true") {
       console.log("Fix Position");
 
       if (
         this.state !== null &&
-        this.state.userOfStoreId !== undefined &&
-        this.state.imageUrl !== undefined
+        this.state.store_id !== undefined &&
+        this.state.image !== undefined
       ) {
         if (this.state.mode === "edit") {
           setTimeout(() => {
             const setItemInsert = firebase.database().ref(`Store`);
             let newState = {
-              imageUrl: this.state.imageUrl,
-              Name: this.state.BusinessName,
-              Open: this.state.OpenShop,
-              Phone: this.state.PhoneNumbe,
-              Address: this.state.Address,
-              StoreType: this.state.BusinessType,
-              Recommend: this.state.Recommend,
-              Lat: fixposition.Lat,
-              Lng: fixposition.Lng,
-              Type: this.state.ServiceType,
-              Social: this.state.Social,
-              customPosition: this.state.customPosition,
+              image: this.state.image,
+              store_name: this.state.store_name,
+              open: this.state.open,
+              phone: this.state.phone,
+              address: this.state.address,
+              store_type: this.state.store_type,
+              recommend: this.state.recommend,
+              lat: fixposition.lat,
+              lng: fixposition.lng,
+              type: this.state.type,
+              social: this.state.social,
+              custom_position: this.state.custom_position,
             };
-            setItemInsert.child(userOfStoreId).update(newState);
+            setItemInsert.child(store_id).update(newState);
             swal({
               title: "Update Business Success",
               text: "ํYou want Continue or not?",
@@ -260,24 +260,22 @@ class RegistrationForm extends Component {
           }, 1000);
         } else {
           setTimeout(() => {
-            const setItemInsert = firebase
-              .database()
-              .ref(`Store/${userOfStoreId}`);
+            const setItemInsert = firebase.database().ref(`Store/${store_id}`);
             let newState = {
-              userOfStoreId: userOfStoreId,
-              UserStoreName: UserStoreName,
-              imageUrl: this.state.imageUrl,
-              Name: this.state.BusinessName,
-              Open: this.state.OpenShop,
-              Phone: this.state.PhoneNumber,
-              Address: this.state.Address,
-              StoreType: this.state.BusinessType,
-              Recommend: this.state.Recommend,
-              Lat: fixposition.Lat,
-              Lng: fixposition.Lng,
-              Type: this.state.ServiceType,
-              Social: this.state.Social,
-              customPosition: this.state.customPosition,
+              store_id: store_id,
+              username: username,
+              image: this.state.image,
+              store_name: this.state.store_name,
+              open: this.state.open,
+              phone: this.state.phone,
+              address: this.state.address,
+              store_type: this.state.store_type,
+              recommend: this.state.recommend,
+              lat: fixposition.lat,
+              lng: fixposition.lng,
+              type: this.state.type,
+              social: this.state.social,
+              custom_position: this.state.custom_position,
             };
             setItemInsert.set(newState);
             swal({
@@ -311,27 +309,27 @@ class RegistrationForm extends Component {
 
       if (
         this.state !== null &&
-        this.state.userOfStoreId !== undefined &&
-        this.state.imageUrl !== undefined
+        this.state.store_id !== undefined &&
+        this.state.image !== undefined
       ) {
         if (this.state.mode === "edit") {
           setTimeout(() => {
             const setItemInsert = firebase.database().ref(`Store`);
             let newState = {
-              imageUrl: this.state.imageUrl,
-              Name: this.state.BusinessName,
-              Open: this.state.OpenShop,
-              Phone: this.state.PhoneNumbe,
-              Address: this.state.Address,
-              StoreType: this.state.BusinessType,
-              Recommend: this.state.Recommend,
-              Lat: this.state.Lat,
-              Lng: this.state.Lng,
-              Type: this.state.ServiceType,
-              Social: this.state.Social,
-              customPosition: this.state.customPosition,
+              image: this.state.image,
+              store_name: this.state.store_name,
+              open: this.state.open,
+              phone: this.state.phone,
+              address: this.state.address,
+              store_type: this.state.store_type,
+              recommend: this.state.recommend,
+              lat: this.state.lat,
+              lng: this.state.lng,
+              type: this.state.type,
+              social: this.state.social,
+              custom_position: this.state.custom_position,
             };
-            setItemInsert.child(userOfStoreId).update(newState);
+            setItemInsert.child(store_id).update(newState);
             swal({
               title: "Update Business Success",
               text: "ํYou want Continue or not?",
@@ -355,24 +353,22 @@ class RegistrationForm extends Component {
           }, 1000);
         } else {
           setTimeout(() => {
-            const setItemInsert = firebase
-              .database()
-              .ref(`Store/${userOfStoreId}`);
+            const setItemInsert = firebase.database().ref(`Store/${store_id}`);
             let newState = {
-              userOfStoreId: userOfStoreId,
-              UserStoreName: UserStoreName,
-              imageUrl: this.state.imageUrl,
-              Name: this.state.BusinessName,
-              Open: this.state.OpenShop,
-              Phone: this.state.PhoneNumber,
-              Address: this.state.Address,
-              StoreType: this.state.BusinessType,
-              Recommend: this.state.Recommend,
-              Lat: this.state.Lat,
-              Lng: this.state.Lng,
-              Type: this.state.ServiceType,
-              Social: this.state.Social,
-              customPosition: this.state.customPosition,
+              store_id: store_id,
+              username: username,
+              image: this.state.image,
+              store_name: this.state.store_name,
+              open: this.state.open,
+              phone: this.state.phone,
+              address: this.state.address,
+              store_type: this.state.store_type,
+              recommend: this.state.recommend,
+              lat: this.state.lat,
+              lng: this.state.lng,
+              type: this.state.type,
+              social: this.state.social,
+              custom_position: this.state.custom_position,
             };
             setItemInsert.set(newState);
             swal({
@@ -408,12 +404,12 @@ class RegistrationForm extends Component {
     const uploadButton = (
       <div>
         {this.state.loading ? <LoadingOutlined /> : <PlusOutlined />}
-        <div className="ant-upload-text" style={{ marginTop: "1rem" }}>
+        <div classstore_name="ant-upload-text" style={{ marginTop: "1rem" }}>
           Add Picture
         </div>
       </div>
     );
-    const { imageUrl } = this.state;
+    const { image } = this.state;
 
     const formItemLayout = {
       labelCol: {
@@ -454,43 +450,43 @@ class RegistrationForm extends Component {
         style={{ marginTop: "3rem", marginLeft: "1rem" }}
       >
         <Navber />
-        <div className="container" style={{ marginBottom: "3rem" }}>
+        <div classstore_name="container" style={{ marginBottom: "3rem" }}>
           <h2>Register Business / สร้างธุรกิจของคุณ</h2> <hr />
         </div>
-        <div className="container">
+        <div classstore_name="container">
           <Form
             {...formItemLayout}
             ref={this.formRef}
             form={this.form}
-            name="addNewStore"
+            store_name="addNewStore"
             onFinish={this.onFinish}
             scrollToFirstError
           >
-            <Form.Item name="imageUrl" label="Picture">
+            <Form.Item store_name="image" label="Picture">
               <Upload
-                name="imageUrl"
-                id="imageUrl"
-                listType="picture-card"
-                className="avatar-uploader"
+                store_name="image"
+                id="image"
+                listtype="picture-card"
+                classstore_name="avatar-uploader"
                 showUploadList={false}
                 action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                 beforeUpload={this.beforeUpload}
                 onChange={this.handleChange}
               >
-                {imageUrl ? (
-                  <img src={imageUrl} alt="avatar" style={{ width: "100%" }} />
+                {image ? (
+                  <img src={image} alt="avatar" style={{ width: "100%" }} />
                 ) : (
                   uploadButton
                 )}
               </Upload>
             </Form.Item>
             <Form.Item
-              name="BusinessName"
-              label={<span>Business Name</span>}
+              store_name="store_name"
+              label={<span>Business store_name</span>}
               rules={[
                 {
                   required: true,
-                  message: <small>Please input your Business Name</small>,
+                  message: <small>Please input your Business store_name</small>,
                 },
                 {
                   type: "string",
@@ -503,16 +499,14 @@ class RegistrationForm extends Component {
                 },
               ]}
             >
-              {/* {JSON.stringify(this.state.BusinessName)} */}
+              {/* {JSON.stringify(this.state.store_name)} */}
               <Input
                 type="textbox"
-                name="BusinessName"
-                id="BusinessName"
+                store_name="store_name"
+                id="store_name"
                 placeholder="Ex. ร้านทำเล็บเจ็ดยอด"
-                value={this.state.BusinessName}
-                onChange={(e) =>
-                  this.setState({ BusinessName: e.target.value })
-                }
+                value={this.state.store_name}
+                onChange={(e) => this.setState({ store_name: e.target.value })}
                 whitespace={true}
                 maxLength={40}
                 allowClear
@@ -520,12 +514,12 @@ class RegistrationForm extends Component {
             </Form.Item>
 
             <Form.Item
-              name="OpenShop"
-              label={<span>Open</span>}
+              store_name="open"
+              label={<span>open</span>}
               rules={[
                 {
                   required: true,
-                  message: <small>Please input your Open</small>,
+                  message: <small>Please input your open</small>,
                 },
                 {
                   type: "string",
@@ -536,11 +530,11 @@ class RegistrationForm extends Component {
             >
               <Input
                 type="textbox"
-                name="OpenShop"
-                id="OpenShop"
+                store_name="open"
+                id="open"
                 placeholder="Ex. 10.00 - 20.00"
-                value={this.state.OpenShop}
-                onChange={(e) => this.setState({ OpenShop: e.target.value })}
+                value={this.state.open}
+                onChange={(e) => this.setState({ open: e.target.value })}
                 whitespace={true}
                 maxLength={11}
                 allowClear
@@ -548,8 +542,8 @@ class RegistrationForm extends Component {
             </Form.Item>
 
             <Form.Item
-              name="PhoneNumber"
-              label="Phone Number"
+              store_name="phone"
+              label="phone Number"
               rules={[
                 {
                   required: true,
@@ -568,11 +562,11 @@ class RegistrationForm extends Component {
             >
               <Input
                 type="textbox"
-                name="PhoneNumber"
-                id="PhoneNumber"
+                store_name="phone"
+                id="phone"
                 placeholder="Ex : 085 555 5555"
-                value={this.state.PhoneNumber}
-                onChange={(e) => this.setState({ PhoneNumber: e.target.value })}
+                value={this.state.phone}
+                onChange={(e) => this.setState({ phone: e.target.value })}
                 whitespace={true}
                 maxLength={10}
                 allowClear
@@ -580,12 +574,12 @@ class RegistrationForm extends Component {
             </Form.Item>
 
             <Form.Item
-              name="Address"
-              label="Address"
+              store_name="address"
+              label="address"
               rules={[
                 {
                   required: true,
-                  message: <small>Please input your Address</small>,
+                  message: <small>Please input your address</small>,
                 },
                 {
                   type: "regexp",
@@ -597,18 +591,18 @@ class RegistrationForm extends Component {
             >
               <TextArea
                 rows={3}
-                name="Address"
-                id="Address"
+                store_name="address"
+                id="address"
                 placeholder="Ex. 111/2 เจ็ดยอด ต.ช้างเผือก อ.เมือง จ.เชียงใหม่"
-                value={this.state.Address}
-                onChange={(e) => this.setState({ Address: e.target.value })}
+                value={this.state.address}
+                onChange={(e) => this.setState({ address: e.target.value })}
                 whitespace={true}
                 maxLength={150}
                 allowClear
               />
             </Form.Item>
             <Form.Item
-              name="Social"
+              store_name="social"
               label={<span>Facebook / Instagram</span>}
               rules={[
                 {
@@ -630,18 +624,18 @@ class RegistrationForm extends Component {
             >
               <Input
                 type="textbox"
-                name="Social"
-                id="Social"
+                store_name="social"
+                id="social"
                 placeholder="Ex. https://www.facebook.com/me"
-                value={this.state.Social}
-                onChange={(e) => this.setState({ Social: e.target.value })}
+                value={this.state.social}
+                onChange={(e) => this.setState({ social: e.target.value })}
                 maxLength={150}
                 allowClear
               />
             </Form.Item>
 
             <Form.Item
-              name="customPosition"
+              store_name="custom_position"
               label="ตำแหน่งที่ตั้งธุรกิจ"
               rules={[
                 {
@@ -652,28 +646,28 @@ class RegistrationForm extends Component {
             >
               {" "}
               <Radio.Group
-                id="customPosition"
-                value={this.state.customPosition}
+                id="custom_position"
+                value={this.state.custom_position}
                 onChange={(e) => this.onChangeCheckCurent(e)}
               >
-                <Radio value="true" name="true">
+                <Radio value="true" store_name="true">
                   ใช้ตำแหน่งปัจจุบัน
                 </Radio>
-                <Radio value="false" name="false">
+                <Radio value="false" store_name="false">
                   กำหนดเอง
                 </Radio>
               </Radio.Group>
             </Form.Item>
 
-            {this.state.customPosition === "false" && (
+            {this.state.custom_position === "false" && (
               <span>
                 <Form.Item
-                  name="Lat"
-                  label="Latitude"
+                  store_name="lat"
+                  label="latitude"
                   rules={[
                     {
                       required: true,
-                      message: <small>Please input your Latitude</small>,
+                      message: <small>Please input your latitude</small>,
                     },
                     {
                       min: 30,
@@ -684,17 +678,17 @@ class RegistrationForm extends Component {
                 >
                   <Input
                     type="textbox"
-                    name="Lat"
-                    id="Lat"
+                    store_name="lat"
+                    id="lat"
                     placeholder="18.812138"
-                    value={this.state.Lat}
-                    onChange={(e) => this.setState({ Lat: e.target.value })}
+                    value={this.state.lat}
+                    onChange={(e) => this.setState({ lat: e.target.value })}
                     maxLength={10}
                     allowClear
                   />
                 </Form.Item>
                 <Form.Item
-                  name="Lng"
+                  store_name="lng"
                   label="Longitude"
                   rules={[
                     {
@@ -710,11 +704,11 @@ class RegistrationForm extends Component {
                 >
                   <Input
                     type="textbox"
-                    name="Lng"
-                    id="Lng"
+                    store_name="lng"
+                    id="lng"
                     placeholder="98.964444"
-                    value={this.state.Lng}
-                    onChange={(e) => this.setState({ Lng: e.target.value })}
+                    value={this.state.lng}
+                    onChange={(e) => this.setState({ lng: e.target.value })}
                     maxLength={10}
                     allowClear
                   />
@@ -723,64 +717,64 @@ class RegistrationForm extends Component {
             )}
 
             <Form.Item
-              name="Recommend"
-              label="Recommend Store"
+              store_name="recommend"
+              label="recommend Store"
               rules={[
                 {
                   required: true,
-                  message: <small>Please input your Recommend Store</small>,
+                  message: <small>Please input your recommend Store</small>,
                 },
               ]}
             >
               <Radio.Group
-                id="Recommend"
-                value={this.state.Recommend}
-                onChange={(e) => this.onChangeCheckRadioRecommend(e)}
+                id="recommend"
+                value={this.state.recommend}
+                onChange={(e) => this.onChangeCheckRadiorecommend(e)}
               >
-                <Radio value="true" name="true">
+                <Radio value="true" store_name="true">
                   แนะนำ
                 </Radio>
-                <Radio value="false" name="false">
+                <Radio value="false" store_name="false">
                   ไม่แนะนำ
                 </Radio>
               </Radio.Group>
             </Form.Item>
             <Form.Item
-              name="BusinessType"
-              label="Business Type"
+              store_name="store_type"
+              label="Business type"
               rules={[
                 {
                   required: true,
-                  message: <small>Please input your Business Type</small>,
+                  message: <small>Please input your Business type</small>,
                 },
               ]}
             >
               <Radio.Group
-                id="BusinessType"
-                value={this.state.BusinessType}
+                id="store_type"
+                value={this.state.store_type}
                 onChange={(e) => this.onChangeCheckRadio(e)}
               >
-                <Radio value="มีหน้าร้าน" name="มีหน้าร้าน">
+                <Radio value="มีหน้าร้าน" store_name="มีหน้าร้าน">
                   มีร้าน
                 </Radio>
-                <Radio value="ฟรีแลนซ์" name="ฟรีแลนซ์">
+                <Radio value="ฟรีแลนซ์" store_name="ฟรีแลนซ์">
                   ฟรีแลนซ์
                 </Radio>
               </Radio.Group>
             </Form.Item>
 
             <Form.Item
-              name="ServiceType"
-              label="Service Type"
+              store_name="type"
+              label="Service type"
               rules={[
                 {
                   required: true,
-                  message: <small>Please input your Service Type</small>,
+                  message: <small>Please input your Service type</small>,
                 },
               ]}
             >
               <Checkbox.Group
-                id="ServiceType"
+                id="type"
                 options={this.state.options}
                 onChange={(e) => this.onChangeCheckBox(e)}
               />
@@ -791,7 +785,7 @@ class RegistrationForm extends Component {
             >
               <Button
                 type="danger"
-                htmlType="reset"
+                htmltype="reset"
                 style={{ marginRight: "2rem" }}
                 onClick={this.onClickCancel}
               >
@@ -799,7 +793,7 @@ class RegistrationForm extends Component {
               </Button>
               <Button
                 type="primary"
-                htmlType="submit"
+                htmltype="submit"
                 // loading="true"
                 onClick={() => this.onGotoSave()}
               >
