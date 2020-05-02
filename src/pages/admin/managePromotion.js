@@ -236,7 +236,7 @@ class ManagePromotion extends Component {
   };
   render() {
     const { Option } = Select;
-    console.log(this.state.businessList);
+    // console.log(this.state.businessList);
 
     function onChange(value) {
       console.log(`selected ${value}`);

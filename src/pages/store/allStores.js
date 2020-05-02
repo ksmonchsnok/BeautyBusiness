@@ -5,6 +5,8 @@ import { compose } from "redux";
 import { firebaseConnect } from "react-redux-firebase";
 import Filter from "../../components/filter/filter.js";
 import Navbar from "../../components/navbar/navbar.js";
+import "antd/dist/antd.css";
+import { Tag } from "antd";
 
 class AllStore extends Component {
   constructor(props) {
@@ -112,27 +114,19 @@ class AllStore extends Component {
                       />
                       <div className="card-body text-left mb-auto">
                         <h6 className="styleFont">
-                          <p className="font">{value.Name}</p>
+                          <h2>{value.Name}</h2>
                           <hr />
 
                           {value.Type.map((el) => (
-                            <p
-                              style={{
-                                marginLeft: -2,
-                                marginRight: 8,
-                                marginBottom: 3,
-                                marginTop: 0.5,
-                                fontWeight: "lighter",
-                              }}
-                              class="badge badge-warning"
+                            <Tag
+                              color="gold"
+                              style={{ marginBottom: "0.6rem" }}
                             >
                               {el}
-                            </p>
+                            </Tag>
                           ))}
 
-                          <p style={{ lineHeight: 1 + "rem", color: "#000" }}>
-                            {value.Address}
-                          </p>
+                          <h4 style={{ color: "#000" }}>{value.Address}</h4>
                         </h6>
                       </div>
                     </a>
@@ -188,16 +182,15 @@ class AllStore extends Component {
       <div id="search">
         <Navbar />
         <div className="search align-self-center">
-          <div className="container">
+          <div style={{ padding: "0 3rem 0 3rem " }}>
             <p>
-              <h2
-                className="font"
+              <h1
                 style={{
                   marginBottom: "3.5rem",
                 }}
               >
                 ธุรกิจทั้งหมด
-              </h2>
+              </h1>
               {/* <div className="dropdown-divider" /> */}
             </p>
 
@@ -247,7 +240,7 @@ class AllStore extends Component {
             </div>
           </div>
           <div className="justify-content-start">
-            <div className="container">
+            <div style={{ padding: "0 3rem 0 3rem " }}>
               <div className="col-xs-12 col-sm-4 col-md-2">
                 <button
                   type="button"

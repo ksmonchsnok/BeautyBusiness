@@ -77,7 +77,7 @@ class LoginForm extends Component {
             .once("value")
             .then((snapshot) => {
               localStorage.setItem("ObjUser", JSON.stringify(snapshot.val()));
-              this.props.checkLogin(snapshot.val());
+              // this.props.checkLogin(snapshot.val());
             });
           this.setState({ loadingLogin: true });
 
@@ -212,11 +212,15 @@ class LoginForm extends Component {
                         this.state.password.length === 0
                       }
                       className="login-form-button"
+                      style={{ paddingBottom: "1rem" }}
                     >
                       {loadingLogin && (
                         <span
                           className="spinner-border spinner-border-sm"
-                          style={{ marginRight: "1rem" }}
+                          style={{
+                            marginRight: "1rem",
+                            marginBottom: "0.4rem",
+                          }}
                         />
                       )}
                       Log In

@@ -69,7 +69,7 @@ export default class RegistrationForm extends Component {
   };
 
   async componentDidMount() {
-    console.log(this.props);
+    // console.log(this.props);
     if (this.props.location.state !== undefined) {
       if (this.props.location.state.mode === "edit") {
         let obj = await this.props.location.state.obj;
@@ -250,7 +250,7 @@ export default class RegistrationForm extends Component {
     return (
       <div
         id="Add-Update-User"
-        style={{ marginTop: "3rem", marginLeft: "1rem" }}
+        style={{ marginTop: "3rem", marginLeft: "1rem", paddingRight: "1rem" }}
       >
         <Navber />
         <div className="container" style={{ marginBottom: "5rem" }}>

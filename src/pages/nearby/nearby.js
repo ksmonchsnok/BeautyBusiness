@@ -217,31 +217,33 @@ class Nearby extends Component {
               aria-hidden="true"
             />
             <div className="card-body text-left mb-auto">
-              <h6 className="styleFont">
-                <p className="font">{value.Name}</p>
+              <h5 className="styleFont">
+                <h3 className="font">{value.Name}</h3>
 
                 <hr />
-                <p style={{ textAlign: "left", color: "#000" }}>{value.m} ม.</p>
+                <h4 style={{ textAlign: "left", color: "#000" }}>
+                  {value.m} ม.
+                </h4>
 
                 {value.Type.map((el) => (
-                  <p
+                  <h5
                     style={{
                       marginLeft: -2,
                       marginRight: 8,
                       marginBottom: 5,
                       marginTop: 0.5,
                       fontWeight: "lighter",
-                      fontSize: 14 + "px",
+                      fontSize: 18 + "px",
                     }}
-                    className="badge badge-secondary"
+                    className="badge badge-success"
                   >
                     {el}
-                  </p>
+                  </h5>
                 ))}
-                <p style={{ lineHeight: 1 + "rem", color: "#000" }}>
+                {/* <h6 style={{ lineHeight: 1 + "rem", color: "#000" }}>
                   {value.Address}
-                </p>
-              </h6>
+                </h6> */}
+              </h5>
             </div>
           </a>
         </div>
@@ -251,12 +253,12 @@ class Nearby extends Component {
     const { loadingData } = this.state;
 
     return (
-      <div id="nearby">
+      <div id="nearby" style={{ marginTop: "2rem" }}>
         <Navber />
 
         <div className="" style={{ height: "80vh", width: "100%" }}>
-          <h2 className="text-center"> ตำแหน่งธุรกิจทั้งหมดในระบบ</h2>
-
+          <h1 className="text-center"> ตำแหน่งธุรกิจทั้งหมดในระบบ</h1>
+          {/* <div class="animated heartBeat slower delay-2s"> */}
           <div
             className="jumbotron justify-content-center d-flex"
             style={{ backgroundColor: "#ffffff" }}
@@ -310,29 +312,63 @@ class Nearby extends Component {
               )}
             </div>
           </div>
+          {/* </div> */}
         </div>
 
         <div className="container">
           <div className="album bg-while pad">
-            <h4 className="text-center">ธุรกิจใกล้เคียงในระยะ 1 กิโลเมตร</h4>
+            <h1 className="text-center">
+              ธุรกิจใกล้เคียงในระยะ{" "}
+              <div class="btn-group">
+                <button
+                  type="button"
+                  class="btn btn-danger dropdown-toggle"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  1 เมตร
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="#">
+                    2 เมตร
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    Another action
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    Something else here
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#">
+                    Separated link
+                  </a>
+                </div>
+              </div>{" "}
+              กิโลเมตร
+            </h1>
 
             <hr style={{ marginTop: "1rem" }} />
-            {!loadingData && <div className="row">{item}</div>}
-            {loadingData && (
-              <div className="d-flex justify-content-center row col ">
-                <span
-                  className="spinner-border text-dark"
-                  style={{
-                    marginTop: "3rem",
-                    marginBottom: "2rem",
-                    width: "10rem",
-                    height: "10rem",
-                  }}
-                  role="status"
-                />
-              </div>
-            )}
+            <div class="animated bounceInLeft delay-2s">
+              {" "}
+              {!loadingData && <div className="row">{item}</div>}
+              {loadingData && (
+                <div className="d-flex justify-content-center row col ">
+                  <span
+                    className="spinner-border text-dark"
+                    style={{
+                      marginTop: "3rem",
+                      marginBottom: "2rem",
+                      width: "10rem",
+                      height: "10rem",
+                    }}
+                    role="status"
+                  />
+                </div>
+              )}
+            </div>
           </div>
+
           <hr />
 
           <div className="row justify-content-start">

@@ -4,6 +4,9 @@ import firebase from "firebase";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { firebaseConnect } from "react-redux-firebase";
+import "antd/dist/antd.css";
+import { Tag } from "antd";
+import { StarTwoTone } from "@ant-design/icons";
 
 class Recommened extends Component {
   constructor(props) {
@@ -37,40 +40,28 @@ class Recommened extends Component {
       });
 
     const item = Store.map((value) => (
-      <div className="">
+      <div className="col-lg-4">
         <a href onClick={() => this.onClickViewDetail(value)}>
           <div key={value.ItemID}>
-            <div class="col-lg-4">
+            <div class="">
               <img
                 src={value.imageUrl}
                 className="bd-placeholder-img rounded-circle"
-                width="140"
-                height="140"
+                width="170"
+                height="170"
                 focusable="false"
                 role="img"
                 aria-label="Placeholder: 140x140"
               ></img>
               <h2>{value.Name}</h2>
               {value.Type.map((el) => (
-                <p
-                  style={{
-                    marginLeft: -2,
-                    marginRight: 8,
-                    marginBottom: 3,
-                    marginTop: 0.5,
-                    fontWeight: "lighter",
-                    fontSize: 14 + "px",
-                  }}
-                  className="badge badge-warning"
-                >
-                  {el}
-                </p>
+                <Tag color="blue">{el}</Tag>
               ))}
               <p>
                 <a
-                  class="btn btn-secondary"
-                  href="#"
-                  role="button"
+                  // class="btn btn-secondary"
+                  // href="#"
+                  // role="button"
                   onClick={() => this.onClickViewDetail(value)}
                 >
                   View details »
@@ -92,7 +83,8 @@ class Recommened extends Component {
             className="col text-left font row"
             style={{ marginBottom: "-2rem" }}
           >
-            ร้านแนะนำ
+            ร้านยอดนิยม &nbsp;
+            <StarTwoTone twoToneColor="#FF0000" />
           </h1>
         </div>
         <div className="row d-flex justify-content-end">
@@ -105,7 +97,11 @@ class Recommened extends Component {
           </a>
         </div>
         {!loadingData && (
-          <div style={{ marginTop: "1.5rem" }} history={this.props.history}>
+          <div
+            className="row"
+            style={{ marginTop: "1.5rem" }}
+            history={this.props.history}
+          >
             {item}
           </div>
         )}

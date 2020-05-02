@@ -7,7 +7,7 @@ import { firebaseConnect } from "react-redux-firebase";
 import { GoogleApiWrapper } from "google-maps-react";
 import { geolocated } from "react-geolocated";
 
-class FindPosition extends Component {
+class Nearby extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,17 +20,10 @@ class FindPosition extends Component {
       activeMarker: {},
       selectedPlace: {},
     };
-
-    if (this.props.isGeolocationAvailable && this.props.isGeolocationEnabled) {
-      this.currentOfLocation();
-    } else {
-      alert("Location is not available.");
-    }
   }
 
   componentDidMount() {
     this.setState({ loadingData: true });
-
     let ref = firebase.database().ref("Store");
 
     let locations = [];
@@ -59,7 +52,6 @@ class FindPosition extends Component {
           for (let i = 0; i < arr1.length; i++) {
             arr[key[i]] = arr1[i];
           }
-          // this.setState({ data: arr });
         } else {
           this.setState({ data });
         }
@@ -73,28 +65,14 @@ class FindPosition extends Component {
     this.setState({ loadingData: false });
   }
 
-  // currentOfLocation = () => {
-  //   const geolocation = navigator.geolocation;
-  //   return geolocation.getCurrentPosition((position) => {
-  //     {
-  //       this.setState({
-  //         coords: {
-  //           Lat: (position.coords.latitude + 0.000175).toFixed(6),
-  //           Lng: (position.coords.longitude + 0.000195).toFixed(6),
-  //         },
-  //       });
-  //     }
-  //     console.log(this.state.coords);
-  //   });
-  // };
+  onclickBack = () => {
+    window.history.back();
+  };
 
-  currentOfLocation = () => {
-    let position = JSON.parse(localStorage.getItem("Position"));
-
+  handleToggle = () => {
     this.setState({
-      coords: position,
+      isOpen: !false,
     });
-    // console.log(this.state.coords);
   };
 
   onClickViewDetail = (value) => {
@@ -175,71 +153,50 @@ class FindPosition extends Component {
               aria-hidden="true"
             />
             <div className="card-body text-left mb-auto">
-              <h6 className="styleFont">
-                <p className="font">{value.Name}</p>
+              <h5 className="styleFont">
+                <h3 className="font">{value.Name}</h3>
 
-                <hr />
-                <p style={{ textAlign: "left", color: "#000" }}>{value.m} ม.</p>
+                <h4 style={{ textAlign: "left", color: "#000" }}>
+                  {value.m} ม.
+                </h4>
 
                 {value.Type.map((el) => (
-                  <p
+                  <h5
                     style={{
                       marginLeft: -2,
                       marginRight: 8,
                       marginBottom: 5,
                       marginTop: 0.5,
                       fontWeight: "lighter",
-                      fontSize: 14 + "px",
+                      fontSize: 18 + "px",
                     }}
-                    className="badge badge-secondary"
+                    className="badge badge-success"
                   >
                     {el}
-                  </p>
+                  </h5>
                 ))}
-                <p style={{ lineHeight: 1 + "rem", color: "#000" }}>
+                {/* <h6 style={{ lineHeight: 1 + "rem", color: "#000" }}>
                   {value.Address}
-                </p>
-              </h6>
+                </h6> */}
+              </h5>
             </div>
           </a>
         </div>
       </div>
     ));
 
-    const { loadingData } = this.state;
-
     return (
-      <div id="nearby">
+      <div id="nearby" style={{ marginTop: "2rem" }}>
         <div className="container">
           <div className="album bg-while pad">
-            <div
-              className="container jumbotron jumbotron-fluid"
-              style={{ backgroundColor: "transparent" }}
-            >
-              <h1
-                className="col text-left font row"
-                style={{ marginBottom: "-2rem" }}
-              >
-                ธุรกิจใกล้เคียงในระยะ 1 กิโลเมตร
-              </h1>
+            <h1 className="text-left">ธุรกิจใกล้เคียงในระยะ 1 กิโลเมตร</h1>
+            <div class="animated bounceInLeft delay-2s">
+              {" "}
+              <div className="row">{item}</div>
             </div>
-
-            {!loadingData && <div className="row">{item}</div>}
-            {loadingData && (
-              <div className="d-flex justify-content-center row col ">
-                <span
-                  className="spinner-border text-dark"
-                  style={{
-                    marginTop: "3rem",
-                    marginBottom: "2rem",
-                    width: "10rem",
-                    height: "10rem",
-                  }}
-                  role="status"
-                />
-              </div>
-            )}
           </div>
+
+          <hr />
         </div>
       </div>
     );
@@ -269,4 +226,4 @@ const enhance = compose(
   googleApiWrapper,
   geo
 );
-export default enhance(FindPosition);
+export default enhance(Nearby);

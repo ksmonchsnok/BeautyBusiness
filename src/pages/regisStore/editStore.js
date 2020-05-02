@@ -104,6 +104,7 @@ class RegistrationForm extends Component {
         Social: obj.Social,
         customPosition: obj.customPosition,
       });
+
       this.setState({
         ItemID: obj.ItemID,
         imageUrl: obj.imageUrl,
@@ -122,6 +123,7 @@ class RegistrationForm extends Component {
       });
     } else if (checUserStore === "userEditStore") {
       console.log("userEditStore");
+
       let obj = JSON.parse(localStorage.getItem("ObjUser"));
       console.log(obj);
       let ref = firebase.database().ref(`Store/${obj.MemberId}`);
@@ -197,7 +199,7 @@ class RegistrationForm extends Component {
   onGotoSave = (e) => {
     let fixposition = this.state.currentPosition;
 
-    if (this.state.customPosition !== false) {
+    if (this.state.customPosition === "true") {
       let userOfStoreId = "";
       let UserStoreName = "";
       let obj = JSON.parse(localStorage.getItem("ObjUser"));
@@ -419,6 +421,8 @@ class RegistrationForm extends Component {
   };
 
   render() {
+    console.log(this.state);
+
     const uploadButton = (
       <div>
         {this.state.loading ? <LoadingOutlined /> : <PlusOutlined />}
@@ -827,7 +831,7 @@ class RegistrationForm extends Component {
                   // loading="true"
                   onClick={() => this.onGotoSave()}
                 >
-                  Register Business
+                  Update Business
                 </Button>
               )}
               {this.state.mode !== "userEditStore" && (
@@ -837,7 +841,7 @@ class RegistrationForm extends Component {
                   // loading="true"
                   onClick={() => this.onGotoSave()}
                 >
-                  Update Business
+                  Register Business
                 </Button>
               )}
             </Form.Item>

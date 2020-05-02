@@ -240,6 +240,8 @@ export default class RegistrationForm extends Component {
   };
 
   render() {
+    // console.log(this.props.location.state.mode);
+
     const uploadButton = (
       <div>
         {this.state.loading ? <LoadingOutlined /> : <PlusOutlined />}
@@ -297,14 +299,16 @@ export default class RegistrationForm extends Component {
       >
         <Navbar />
         <div className="container">
-          {/* {this.props.location.state.mode ===
-            "EditUser"(
-              <span>
-                {" "}
-                <h3>แก้ข้อมูลผู้ใช้ </h3>
-              </span>
-            )} */}
-          <h3>Register /สมัครสมาชิก </h3>
+          {this.props.location.state.mode === "EditUser" && (
+            <span>
+              <h3>Update / แก้ข้อมูลผู้ใช้ </h3>
+            </span>
+          )}
+          {this.props.location.state.mode !== "EditUser" && (
+            <span>
+              <h3>Register / สมัครสมาชิก </h3>
+            </span>
+          )}
 
           <hr />
           <Form
@@ -661,13 +665,29 @@ export default class RegistrationForm extends Component {
               >
                 Cancel
               </Button>
-              <Button
-                type="primary"
-                htmlType="submit"
-                onClick={() => this.onGotoSave()}
-              >
-                Register
-              </Button>
+
+              {this.props.location.state.mode === "EditUser" && (
+                <span>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    onClick={() => this.onGotoSave()}
+                  >
+                    Update
+                  </Button>
+                </span>
+              )}
+              {this.props.location.state.mode !== "EditUser" && (
+                <span>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    onClick={() => this.onGotoSave()}
+                  >
+                    Register
+                  </Button>
+                </span>
+              )}
             </Form.Item>
           </Form>
         </div>

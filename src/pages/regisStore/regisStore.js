@@ -14,10 +14,9 @@ class RegistrationForm extends Component {
     this.state = {
       loading: false,
       mode: "",
-      ItemID: "",
       BusinessName: "",
       OpenShop: "",
-      PhoneNumbe: "",
+      PhoneNumber: "",
       Address: "",
       BusinessType: "",
       Lat: "",
@@ -39,6 +38,9 @@ class RegistrationForm extends Component {
       userLsit: [],
       userOfStoreId: "",
       UserStoreName: "",
+      customPosition: "",
+      currentPosition: JSON.parse(localStorage.getItem("Position")),
+      fixposition: "",
     };
   }
 
@@ -87,11 +89,11 @@ class RegistrationForm extends Component {
     if (checkHistory === "pass") {
       let obj = await this.props.location.state.obj;
       this.formRef.current.setFieldsValue({
-        ItemID: obj.ItemID,
+        MemberId: obj.MemberId,
         imageUrl: obj.imageUrl,
         BusinessName: obj.Name,
         OpenShop: obj.Open,
-        PhoneNumbe: obj.Phone,
+        PhoneNumber: obj.Phone,
         Address: obj.Address,
         BusinessType: obj.StoreType,
         Recommend: obj.Recommend,
@@ -99,13 +101,14 @@ class RegistrationForm extends Component {
         Lng: obj.Lng,
         ServiceType: obj.Type,
         Social: obj.Social,
+        customPosition: obj.customPosition,
       });
       this.setState({
-        ItemID: obj.ItemID,
+        MemberId: obj.MemberId,
         imageUrl: obj.imageUrl,
         BusinessName: obj.Name,
         OpenShop: obj.Open,
-        PhoneNumbe: obj.Phone,
+        PhoneNumber: obj.Phone,
         Address: obj.Address,
         BusinessType: obj.StoreType,
         Recommend: obj.Recommend,
@@ -113,6 +116,8 @@ class RegistrationForm extends Component {
         Lng: obj.Lng,
         ServiceType: obj.Type,
         Social: obj.Social,
+        customPosition: obj.customPosition,
+
         mode: "edit",
       });
     } else if (checUserStore === "userEditStore") {
@@ -130,7 +135,7 @@ class RegistrationForm extends Component {
             imageUrl: data.imageUrl,
             BusinessName: data.Name,
             OpenShop: data.Open,
-            PhoneNumbe: data.Phone,
+            PhoneNumber: data.Phone,
             Address: data.Address,
             BusinessType: data.StoreType,
             Recommend: data.Recommend,
@@ -138,6 +143,7 @@ class RegistrationForm extends Component {
             Lng: data.Lng,
             ServiceType: data.Type,
             Social: data.Social,
+            customPosition: obj.customPosition,
           });
           this.setState({
             userOfStoreId: data.userOfStoreId,
@@ -145,7 +151,7 @@ class RegistrationForm extends Component {
             imageUrl: data.imageUrl,
             BusinessName: data.Name,
             OpenShop: data.Open,
-            PhoneNumbe: data.Phone,
+            PhoneNumber: data.Phone,
             Address: data.Address,
             BusinessType: data.StoreType,
             Recommend: data.Recommend,
@@ -153,6 +159,7 @@ class RegistrationForm extends Component {
             Lng: data.Lng,
             ServiceType: data.Type,
             Social: data.Social,
+            customPosition: obj.customPosition,
             mode: "edit",
           });
         } else {
@@ -173,6 +180,10 @@ class RegistrationForm extends Component {
     this.setState({ Recommend: e.target.value });
   };
 
+  onChangeCheckCurent = (e) => {
+    this.setState({ customPosition: e.target.value });
+  };
+
   onClickCancel = () => {
     if (this.props.UserEditStore) {
       window.location.reload();
@@ -182,6 +193,7 @@ class RegistrationForm extends Component {
   };
 
   onGotoSave = (e) => {
+    let fixposition = this.state.currentPosition;
     let userOfStoreId = "";
     let UserStoreName = "";
     let obj = JSON.parse(localStorage.getItem("ObjUser"));
@@ -198,93 +210,197 @@ class RegistrationForm extends Component {
     } else if (checkSigninAndOutfb) {
       // userOfStoreId = obj.name
     }
-    if (this.state !== null && this.state.userOfStoreId) {
-      if (this.state.mode === "edit") {
-        setTimeout(() => {
-          const setItemInsert = firebase.database().ref(`Store`);
-          let newState = {
-            imageUrl: this.state.imageUrl,
-            Name: this.state.BusinessName,
-            Open: this.state.OpenShop,
-            Phone: this.state.PhoneNumbe,
-            Address: this.state.Address,
-            StoreType: this.state.BusinessType,
-            Recommend: this.state.Recommend,
-            Lat: this.state.Lat,
-            Lng: this.state.Lng,
-            Type: this.state.ServiceType,
-            Social: this.state.Social,
-          };
-          setItemInsert.child(userOfStoreId).update(newState);
-          swal({
-            title: "Update Business Success",
-            text: "ํYou want Continue or not?",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-          })
-            .then((willDelete) => {
-              if (willDelete) {
-                swal("Create promotion", {
-                  icon: "success",
-                });
-                this.onClickCancel();
-              } else {
-                swal("Update Business", "success");
-              }
+
+    if (this.state.customPosition === "true") {
+      console.log("Fix Position");
+
+      if (
+        this.state !== null &&
+        this.state.userOfStoreId !== undefined &&
+        this.state.imageUrl !== undefined
+      ) {
+        if (this.state.mode === "edit") {
+          setTimeout(() => {
+            const setItemInsert = firebase.database().ref(`Store`);
+            let newState = {
+              imageUrl: this.state.imageUrl,
+              Name: this.state.BusinessName,
+              Open: this.state.OpenShop,
+              Phone: this.state.PhoneNumbe,
+              Address: this.state.Address,
+              StoreType: this.state.BusinessType,
+              Recommend: this.state.Recommend,
+              Lat: fixposition.Lat,
+              Lng: fixposition.Lng,
+              Type: this.state.ServiceType,
+              Social: this.state.Social,
+              customPosition: this.state.customPosition,
+            };
+            setItemInsert.child(userOfStoreId).update(newState);
+            swal({
+              title: "Update Business Success",
+              text: "ํYou want Continue or not?",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
             })
-            .catch(function (error) {
-              swal("ผิดพลาด!", "ไม่สามารถแก้ไขได้", "error");
-            });
-          // this.onClickCancel();
-        }, 1000);
+              .then((willDelete) => {
+                if (willDelete) {
+                  // swal("Create promotion", {
+                  //   icon: "success",
+                  // });
+                  this.onClickCancel();
+                } else {
+                  swal("Update Business", "success");
+                }
+              })
+              .catch(function (error) {
+                swal("ผิดพลาด!", "ไม่สามารถแก้ไขได้", "error");
+              });
+          }, 1000);
+        } else {
+          setTimeout(() => {
+            const setItemInsert = firebase
+              .database()
+              .ref(`Store/${userOfStoreId}`);
+            let newState = {
+              userOfStoreId: userOfStoreId,
+              UserStoreName: UserStoreName,
+              imageUrl: this.state.imageUrl,
+              Name: this.state.BusinessName,
+              Open: this.state.OpenShop,
+              Phone: this.state.PhoneNumber,
+              Address: this.state.Address,
+              StoreType: this.state.BusinessType,
+              Recommend: this.state.Recommend,
+              Lat: fixposition.Lat,
+              Lng: fixposition.Lng,
+              Type: this.state.ServiceType,
+              Social: this.state.Social,
+              customPosition: this.state.customPosition,
+            };
+            setItemInsert.set(newState);
+            swal({
+              title: "Create Business Success",
+              text: "ํYou want Continue or not?",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+              .then((willDelete) => {
+                if (willDelete) {
+                  // swal("Create promotion", {
+                  //   icon: "success",
+                  // });
+                  this.onClickCancel();
+                } else {
+                  swal("Create Business", "success");
+                }
+              })
+              .catch(function (error) {
+                swal("ผิดพลาด!", "ไม่สามารถลงทะเบียนธุรกิจได้", "error");
+              });
+          }, 1000);
+        }
       } else {
-        setTimeout(() => {
-          const setItemInsert = firebase
-            .database()
-            .ref(`Store/${userOfStoreId}`);
-          let newState = {
-            userOfStoreId: userOfStoreId,
-            UserStoreName: UserStoreName,
-            imageUrl: this.state.imageUrl,
-            Name: this.state.BusinessName,
-            Open: this.state.OpenShop,
-            Phone: this.state.PhoneNumbe,
-            Address: this.state.Address,
-            StoreType: this.state.BusinessType,
-            Recommend: this.state.Recommend,
-            Lat: this.state.Lat,
-            Lng: this.state.Lng,
-            Type: this.state.ServiceType,
-            Social: this.state.Social,
-          };
-          setItemInsert.set(newState);
-          // this.onClickCancel();
-          swal({
-            title: "Create Business Success",
-            text: "ํYou want Continue or not?",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-          })
-            .then((willDelete) => {
-              if (willDelete) {
-                swal("Create promotion", {
-                  icon: "success",
-                });
-                this.onClickCancel();
-              } else {
-                swal("Create Business", "success");
-              }
-            })
-            .catch(function (error) {
-              swal("ผิดพลาด!", "ไม่สามารถลงทะเบียนธุรกิจได้", "error");
-            });
-        }, 1000);
+        swal("ผิดพลาด", "กรุณากรอก 'ข้อมูล ' และ 'รูปภาพ 'ให้ครบ", "error");
+        return;
       }
     } else {
-      swal("ผิดพลาด", "กรุณากรอกข้อมูลให้ครบ", "error");
-      return;
+      console.log("Custom");
+
+      if (
+        this.state !== null &&
+        this.state.userOfStoreId !== undefined &&
+        this.state.imageUrl !== undefined
+      ) {
+        if (this.state.mode === "edit") {
+          setTimeout(() => {
+            const setItemInsert = firebase.database().ref(`Store`);
+            let newState = {
+              imageUrl: this.state.imageUrl,
+              Name: this.state.BusinessName,
+              Open: this.state.OpenShop,
+              Phone: this.state.PhoneNumbe,
+              Address: this.state.Address,
+              StoreType: this.state.BusinessType,
+              Recommend: this.state.Recommend,
+              Lat: this.state.Lat,
+              Lng: this.state.Lng,
+              Type: this.state.ServiceType,
+              Social: this.state.Social,
+              customPosition: this.state.customPosition,
+            };
+            setItemInsert.child(userOfStoreId).update(newState);
+            swal({
+              title: "Update Business Success",
+              text: "ํYou want Continue or not?",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+              .then((willDelete) => {
+                if (willDelete) {
+                  // swal("Create promotion", {
+                  //   icon: "success",
+                  // });
+                  this.onClickCancel();
+                } else {
+                  swal("Update Business", "success");
+                }
+              })
+              .catch(function (error) {
+                swal("ผิดพลาด!", "ไม่สามารถแก้ไขได้", "error");
+              });
+          }, 1000);
+        } else {
+          setTimeout(() => {
+            const setItemInsert = firebase
+              .database()
+              .ref(`Store/${userOfStoreId}`);
+            let newState = {
+              userOfStoreId: userOfStoreId,
+              UserStoreName: UserStoreName,
+              imageUrl: this.state.imageUrl,
+              Name: this.state.BusinessName,
+              Open: this.state.OpenShop,
+              Phone: this.state.PhoneNumber,
+              Address: this.state.Address,
+              StoreType: this.state.BusinessType,
+              Recommend: this.state.Recommend,
+              Lat: this.state.Lat,
+              Lng: this.state.Lng,
+              Type: this.state.ServiceType,
+              Social: this.state.Social,
+              customPosition: this.state.customPosition,
+            };
+            setItemInsert.set(newState);
+            swal({
+              title: "Create Business Success",
+              text: "ํYou want Continue or not?",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+              .then((willDelete) => {
+                if (willDelete) {
+                  // swal("Create promotion", {
+                  //   icon: "success",
+                  // });
+                  this.onClickCancel();
+                } else {
+                  swal("Create Business", "success");
+                }
+              })
+              .catch(function (error) {
+                swal("ผิดพลาด!", "ไม่สามารถลงทะเบียนธุรกิจได้", "error");
+              });
+          }, 1000);
+        }
+      } else {
+        swal("ผิดพลาด", "กรุณากรอก 'ข้อมูล ' และ 'รูปภาพ 'ให้ครบ", "error");
+        return;
+      }
     }
   };
 
@@ -432,7 +548,7 @@ class RegistrationForm extends Component {
             </Form.Item>
 
             <Form.Item
-              name="PhoneNumbe"
+              name="PhoneNumber"
               label="Phone Number"
               rules={[
                 {
@@ -452,11 +568,11 @@ class RegistrationForm extends Component {
             >
               <Input
                 type="textbox"
-                name="PhoneNumbe"
-                id="PhoneNumbe"
+                name="PhoneNumber"
+                id="PhoneNumber"
                 placeholder="Ex : 085 555 5555"
-                value={this.state.PhoneNumbe}
-                onChange={(e) => this.setState({ PhoneNumbe: e.target.value })}
+                value={this.state.PhoneNumber}
+                onChange={(e) => this.setState({ PhoneNumber: e.target.value })}
                 whitespace={true}
                 maxLength={10}
                 allowClear
@@ -525,57 +641,87 @@ class RegistrationForm extends Component {
             </Form.Item>
 
             <Form.Item
-              name="Lat"
-              label="Latitude"
+              name="customPosition"
+              label="ตำแหน่งที่ตั้งธุรกิจ"
               rules={[
                 {
-                  required: true,
-                  message: <small>Please input your Latitude</small>,
-                },
-                {
-                  min: 30,
-                  pattern: new RegExp("^[0-9 .]*$"),
-                  message: <small>Number Only</small>,
+                  // required: true,
+                  // message: <small>Please input your Business Location</small>,
                 },
               ]}
             >
-              <Input
-                type="textbox"
-                name="Lat"
-                id="Lat"
-                placeholder="18.812623"
-                value={this.state.Lat}
-                onChange={(e) => this.setState({ Lat: e.target.value })}
-                maxLength={10}
-                allowClear
-              />
+              {" "}
+              <Radio.Group
+                id="customPosition"
+                value={this.state.customPosition}
+                onChange={(e) => this.onChangeCheckCurent(e)}
+              >
+                <Radio value="true" name="true">
+                  ใช้ตำแหน่งปัจจุบัน
+                </Radio>
+                <Radio value="false" name="false">
+                  กำหนดเอง
+                </Radio>
+              </Radio.Group>
             </Form.Item>
-            <Form.Item
-              name="Lng"
-              label="Longitude"
-              rules={[
-                {
-                  required: true,
-                  message: <small>Please input your Longitude</small>,
-                },
-                {
-                  min: 30,
-                  pattern: new RegExp("^[0-9 .]*$"),
-                  message: <small>Number Only</small>,
-                },
-              ]}
-            >
-              <Input
-                type="textbox"
-                name="Lng"
-                id="Lng"
-                placeholder="98.964999"
-                value={this.state.Lng}
-                onChange={(e) => this.setState({ Lng: e.target.value })}
-                maxLength={10}
-                allowClear
-              />
-            </Form.Item>
+
+            {this.state.customPosition === "false" && (
+              <span>
+                <Form.Item
+                  name="Lat"
+                  label="Latitude"
+                  rules={[
+                    {
+                      required: true,
+                      message: <small>Please input your Latitude</small>,
+                    },
+                    {
+                      min: 30,
+                      pattern: new RegExp("^[0-9 .]*$"),
+                      message: <small>Number Only</small>,
+                    },
+                  ]}
+                >
+                  <Input
+                    type="textbox"
+                    name="Lat"
+                    id="Lat"
+                    placeholder="18.812138"
+                    value={this.state.Lat}
+                    onChange={(e) => this.setState({ Lat: e.target.value })}
+                    maxLength={10}
+                    allowClear
+                  />
+                </Form.Item>
+                <Form.Item
+                  name="Lng"
+                  label="Longitude"
+                  rules={[
+                    {
+                      required: true,
+                      message: <small>Please input your Longitude</small>,
+                    },
+                    {
+                      min: 30,
+                      pattern: new RegExp("^[0-9 .]*$"),
+                      message: <small>Number Only</small>,
+                    },
+                  ]}
+                >
+                  <Input
+                    type="textbox"
+                    name="Lng"
+                    id="Lng"
+                    placeholder="98.964444"
+                    value={this.state.Lng}
+                    onChange={(e) => this.setState({ Lng: e.target.value })}
+                    maxLength={10}
+                    allowClear
+                  />
+                </Form.Item>
+              </span>
+            )}
+
             <Form.Item
               name="Recommend"
               label="Recommend Store"

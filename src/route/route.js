@@ -1,4 +1,5 @@
 import React from "react";
+// import React, { lazy, Suspense } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -39,6 +40,18 @@ import managePromotion from "../pages/manager/managePromotion.js";
 import Report from "../pages/manager/report.js";
 
 export const PrivateRoute = ({ component: Component, ...rest }) => (
+  // <Suspense fallback={<div>Loading...</div>}>
+  //  {...rest}
+  //   render={(props) =>
+  //     localStorage.getItem("ObjUser") ||
+  //     localStorage.getItem("FB-Login") ||
+  //     localStorage.getItem("Google-login") ? (
+  //       <Component {...props} />
+  //     ) : (
+  //       <Redirect to="/" />
+  //     )
+  //   }
+  // </Suspense>
   <Route
     {...rest}
     render={(props) =>

@@ -46,23 +46,23 @@ class Promote extends Component {
         console.log(Promotion);
       });
 
-    let Discount = [];
+    // let Discount = [];
 
-    let rootRef = firebase.database().ref("Promotion");
+    // let rootRef = firebase.database().ref("Promotion");
 
-    rootRef
-      .orderByChild("Discount")
-      .equalTo(true)
-      .on("child_added", (snapshot) => {
-        Promotion.push(snapshot.val());
-        console.log(Promotion);
-      });
+    // rootRef
+    //   .orderByChild("Discount")
+    //   .equalTo(true)
+    //   .on("child_added", (snapshot) => {
+    //     Promotion.push(snapshot.val());
+    //     // console.log(Promotion);
+    //   });
 
     const promotion = Promotion.map((value) => (
       <div className="col-lg-4 d-flex justify-content-center">
         <div key={value.BusinessId}>
           <a href onClick={() => this.onClickViewDetail(value)}>
-            {/* <img
+            <img
               src={value.imageUrl}
               alt="imageStore"
               className="bd-placeholder-img rounded-circle"
@@ -70,7 +70,7 @@ class Promote extends Component {
               height="140"
               role="img"
               focusable="false"
-            ></img> */}
+            ></img>
 
             <h2>{value.businessName}</h2>
             <h2>{value.promotionName}</h2>
@@ -91,41 +91,42 @@ class Promote extends Component {
       </div>
     ));
 
-    const discount = Discount.map((value) => (
-      <div className="row featurette">
-        <div key={value.ItemID}>
-          <a href onClick={() => this.onClickViewDetail(value)}>
-            <div className="col-md-7">
-              <h2 className="featurette-heading">
-                {value.Name}
-                <span class="text-muted">
-                  {" "}
-                  <small>{value.Address}</small>
-                </span>
-              </h2>
+    // const discount = Discount.map((value) => (
+    //   <div className="row featurette">
+    //     <div key={value.ItemID}>
+    //       <a href onClick={() => this.onClickViewDetail(value)}>
+    //         <div className="col-md-7">
+    //           <h2 className="featurette-heading">
+    //             {value.Name}
+    //             <span class="text-muted">
+    //               {" "}
+    //               <small>{value.Address}</small>
+    //             </span>
+    //           </h2>
 
-              <p className="lead">{value.StoreType}</p>
-            </div>
+    //           <p className="lead">{value.StoreType}</p>
+    //         </div>
 
-            <div className="col-md-5">
-              <img
-                src={pic}
-                className="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
-                width="500"
-                height="500"
-                role="img"
-                focusable="false"
-              ></img>
-            </div>
-            <hr className="featurette-divider" />
-          </a>
-        </div>
-      </div>
-    ));
+    //         <div className="col-md-5">
+    //           <img
+    //             src={pic}
+    //             className="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
+    //             width="500"
+    //             height="500"
+    //             role="img"
+    //             focusable="false"
+    //           ></img>
+    //         </div>
+    //         <hr className="featurette-divider" />
+    //       </a>
+    //     </div>
+    //   </div>
+    // ));
 
     return (
       <div id="Promote" style={{ marginBottom: "5rem" }}>
         <div className="container marketing">
+          <h1 className="text-left">โปรโมชั่น</h1>
           {!loadingData && (
             <div className="row" history={this.props.history}>
               {promotion}
@@ -147,7 +148,7 @@ class Promote extends Component {
           )}
           <hr />
 
-          {!loadingData && <div history={this.props.history}> {discount}</div>}
+          {/* {!loadingData && <div history={this.props.history}> {discount}</div>} */}
           {loadingData && (
             <div className="d-flex justify-content-center row col ">
               <span

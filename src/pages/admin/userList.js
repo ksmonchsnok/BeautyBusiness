@@ -80,7 +80,7 @@ class userList extends Component {
   };
 
   onClickCreateNewUser = () => {
-    this.props.history.push("/AddUser");
+    this.props.history.push("/AddUser", { mode: "" });
   };
 
   render() {

@@ -26,7 +26,6 @@ class RegistrationForm extends Component {
     this.state = {
       loading: false,
       mode: "",
-      ItemID: "",
       BusinessName: "",
       OpenShop: "",
       PhoneNumbe: "",
@@ -154,7 +153,7 @@ class RegistrationForm extends Component {
   onClickSave() {
     let fixposition = this.state.currentPosition;
 
-    if (this.state.customPosition !== false) {
+    if (this.state.customPosition === "true") {
       console.log("Fix Position");
       if (
         this.state !== null &&
@@ -384,7 +383,7 @@ class RegistrationForm extends Component {
     return (
       <div
         id="Add-Update-Store"
-        style={{ marginTop: "3rem", marginLeft: "1rem" }}
+        style={{ marginTop: "3rem", marginLeft: "1rem", paddingRight: "1rem" }}
       >
         <Navber />
         <div className="container" style={{ marginBottom: "5rem" }}>
@@ -403,7 +402,11 @@ class RegistrationForm extends Component {
             <h4>Select User</h4>
             {this.state.mode === "edit" && this.state.UserStoreName !== "" ? (
               <Input
-                style={{ width: 300, marginLeft: "1.5rem", height: "2rem" }}
+                style={{
+                  width: 300,
+                  marginLeft: "1.5rem",
+                  height: "2rem",
+                }}
                 value={this.state.UserStoreName}
                 whitespace={true}
                 disabled

@@ -9,7 +9,7 @@ import "firebase/auth";
 import swal from "sweetalert";
 import firebase from "firebase/app";
 import PopupLogin from "../../components/popup/popupLogin.js";
-import Logo from "../../assets/logo/logo.png";
+import Logo from "../../assets/logo/logo2.jpg";
 import { withRouter } from "react-router-dom";
 
 class navbar extends Component {
@@ -94,7 +94,7 @@ class navbar extends Component {
 
   render() {
     return (
-      <div id="Navbar" style={{ marginTop: "-0.5rem", marginBottom: "10rem" }}>
+      <div id="Navbar" style={{ marginTop: "-0.5rem", marginBottom: "12rem" }}>
         <nav className="fixed-top navbar navbar-dark bg-dark navbar-expand-lg ">
           <NavLink exact to="/AdminPage" className="navbar-brand">
             <img src={Logo} className="logoNav" alt="Logo" />

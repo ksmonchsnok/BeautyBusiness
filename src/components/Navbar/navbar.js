@@ -11,7 +11,7 @@ import "firebase/auth";
 import swal from "sweetalert";
 import firebase from "firebase/app";
 import PopupLogin from "../../components/popup/popupLogin.js";
-import Logo from "../../assets/logo/logo.png";
+import Logo from "../../assets/logo/logo2.jpg";
 import { withRouter } from "react-router-dom";
 
 class navbar extends Component {
@@ -30,6 +30,9 @@ class navbar extends Component {
       checkTypeUser: false,
       checkCreateBusinese: false,
       checkBusiness: false,
+      FB: JSON.parse(localStorage.getItem("FB-Login")),
+      GL: JSON.parse(localStorage.getItem("Google-login")),
+      EP: JSON.parse(localStorage.getItem("ObjUser")),
     };
   }
 
@@ -225,15 +228,15 @@ class navbar extends Component {
   OnLogout() {
     swal({
       title: "Log out",
-      text: "You want Continue or not?",
+      text: "You want Continue Log Out?",
       icon: "warning",
       buttons: true,
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
-        swal("Log out Success", {
-          icon: "success",
-        });
+        // swal("Log out Success", {
+        //   icon: "success",
+        // });
         firebase
           .auth()
           .signOut()
@@ -378,7 +381,10 @@ class navbar extends Component {
                         aria-expanded="false"
                       >
                         <a href data-toggle="modal" data-target="#exampleModal">
-                          <img src={setting} />
+                          <img
+                            src={setting}
+                            style={{ width: "63px", height: "63px" }}
+                          />
                         </a>
                       </div>
                       <div

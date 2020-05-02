@@ -21,6 +21,8 @@ input,
 textarea,
 a,
 span,
+Select,
+Input,
 .swal-text,
 .dropdown-item {
     font-size: 1.3rem !important;
@@ -405,6 +407,10 @@ a:visited {
 /* ********************************************************************************************************************************************************************* */
 /* Ant Design */
 
+.ant-select.ant-select-single.ant-select-show-arrow.ant-select-show-search {
+    font-size: 1.3rem !important;
+}
+
 
 /* ********************************************************************************************************************************************************************* */
 /* Date Picker */
@@ -422,8 +428,8 @@ a:visited {
 /* XL */
 @media only screen and (min-width: 1200px) and (max-width: 2200px) {
     .logoNav {
-        width: 200px;
-        height: 55px;
+        width: 215px;
+        height: 90px;
         pointer-events: none !important;
 
     }
@@ -489,8 +495,8 @@ a:visited {
 
 
     .logoNav {
-        width: 160px;
-        height: 35px;
+        width: 150px;
+        height: 60px;
         pointer-events: none !important;
 
     }
