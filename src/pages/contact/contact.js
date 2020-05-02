@@ -50,18 +50,15 @@ export default class Contact extends Component {
     return (
       <div
         id="Contact"
-        className="p-3 mb-2 bg-light text-dark"
-        style={{ marginBottom: "-8em" }}
+        style={{
+          marginTop: "1em",
+          paddingBottom: "-5em !important",
+          paddingTop: "2.3rem",
+        }}
       >
         <Navbar />
-        <div className="card container  rounded-lg" id="contact-message">
+        <div className="card container rounded-lg" id="contact-message">
           <br />
-          {/* <h1
-            className="text-center"
-            style={{ fontSize: "4rem", marginBottom: "-1.3rem" }}
-          >
-            ติดต่อเรา
-          </h1> */}
           <div className="row " style={{ background: "transparent" }}>
             <div className="col-xs-12 col-md-12 col-lg-8">
               <h3 className="text-center">
@@ -192,83 +189,96 @@ export default class Contact extends Component {
               </div>
             </div>
             <div className="col-xs-12 col-md-12 col-lg-4">
-              <h3>
-                <u>ติดต่อเรา</u>
-              </h3>
-              <a href="tel:0855210364" style={{ color: "#343a40" }}>
-                <ion-icon
-                  name="call"
-                  size="large"
-                  style={{ marginRight: "1rem" }}
-                />
-                085-521-0364 <br />
-              </a>
-              <a
-                href="mailto:ksmonchsnok@gmail.com"
-                style={{ color: "#343a40" }}
-              >
-                {" "}
-                <ion-icon
-                  name="mail"
-                  size="large"
-                  style={{ marginRight: "1rem" }}
-                  alt="ksmonchsnok@gmail.com"
-                />
-                ksmonchsnok@gmail.com
-              </a>
-              <br />
-              <a
-                href="https://www.facebook.com/papadagon"
-                style={{ color: "#343a40" }}
-              >
-                {" "}
-                <ion-icon
-                  name="logo-facebook"
-                  size="large"
-                  style={{ marginRight: "1rem" }}
-                />
-              </a>{" "}
-              <a
-                href="https://www.instagram.com/kplynx"
-                style={{ color: "#343a40" }}
-              >
-                {" "}
-                <ion-icon
-                  name="logo-instagram"
-                  size="large"
-                  style={{ marginRight: "1rem" }}
-                />
-              </a>
-              <h3 style={{ marginTop: "2rem" }}>
-                <u>เวลาทำการ</u>
-              </h3>
-              <ion-icon
-                name="time"
-                size="large"
-                style={{ marginRight: "1rem" }}
-              />
-              วันจันทร์ -วันศุกร์ <br />
-              <p style={{ textIndent: "3.5em", marginBottom: "2rem" }}>
-                เวลา 09.00 น. - 17.00 น.
-              </p>
-            </div>
-          </div>
-          {/* <hr />
-          <div className="row justify-content-start">
-            <div className="container">
-              {" "}
-              <div className="col-xs-12 col-sm-4 col-md-2">
-                <button
-                  type="button"
-                  onClick={this.onclickBack}
-                  className="btn btn-dark btn-block"
-                  style={{ marginBottom: "1em" }}
+              <div className="row container">
+                <div
+                  className="col-xs-12 col-sm-8 col-lg-12"
+                  style={{ marginBottom: "2rem" }}
                 >
-                  ย้อนกลับ
-                </button>
+                  {" "}
+                  <h3 style={{ marginTop: "0.1rem" }}>
+                    <u>ติดต่อเรา</u>
+                  </h3>
+                  <a href="tel:0855210364" style={{ color: "#343a40" }}>
+                    <ion-icon
+                      name="call"
+                      size="large"
+                      style={{ marginRight: "1rem" }}
+                    />
+                    085-521-0364 <br />
+                  </a>
+                  <a
+                    href="mailto:ksmonchsnok@gmail.com"
+                    style={{ color: "#343a40" }}
+                  >
+                    {" "}
+                    <ion-icon
+                      name="mail"
+                      size="large"
+                      style={{ marginRight: "1rem" }}
+                      alt="ksmonchsnok@gmail.com"
+                    />
+                    {/* <p className="d-none d-xs-none d-sm-none d-md-none d-lg-block d-xl-block"> */}
+                    ksmonchsnok@gmail.com
+                  </a>
+                  <br />
+                  <a
+                    href="https://www.facebook.com/papadagon"
+                    style={{ color: "#343a40" }}
+                  >
+                    {" "}
+                    <ion-icon
+                      name="logo-facebook"
+                      size="large"
+                      style={{ marginRight: "1rem" }}
+                    />
+                  </a>{" "}
+                  <a
+                    href="https://www.instagram.com/kplynx"
+                    style={{ color: "#343a40" }}
+                  >
+                    {" "}
+                    <ion-icon
+                      name="logo-instagram"
+                      size="large"
+                      style={{ marginRight: "1rem" }}
+                    />
+                  </a>
+                  <a
+                    href="https://www.facebook.com/papadagon"
+                    style={{ color: "#343a40" }}
+                  >
+                    <ion-icon
+                      name="logo-twitter"
+                      size="large"
+                      style={{ marginRight: "1rem" }}
+                    />
+                  </a>{" "}
+                  <a
+                    href="https://www.facebook.com/papadagon"
+                    style={{ color: "#343a40" }}
+                  >
+                    {" "}
+                    <ion-icon
+                      name="logo-youtube"
+                      size="large"
+                      style={{ marginRight: "1rem" }}
+                    />
+                  </a>{" "}
+                </div>
+
+                <div className="col-xs-12 col-sm-4 col-lg-12">
+                  <h3>
+                    <u>เวลาทำการ</u>
+                  </h3>
+
+                  <p style={{ marginTop: "1rem" }}>
+                    {" "}
+                    จันทร์ -วันศุกร์ เวลา 09.00 น. - 17.00 น.
+                  </p>
+                </div>
               </div>
             </div>
-          </div> */}
+          </div>
         </div>
       </div>
     );

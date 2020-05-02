@@ -92,7 +92,7 @@ export default class Manager extends Component {
                 </a>
               </div>
             </div>
-            <div className="col-10">
+            <div className="col">
               <div className="tab-content" id="v-pills-tabContent">
                 <div
                   className="tab-pane fade active show"

@@ -30,7 +30,7 @@ export default class Home extends Component {
       <div
         id="Home-page"
         history={this.props.history}
-        style={{ marginBottom: "6rem" }}
+        style={{ marginBottom: "1rem" }}
       >
         <Navbar />
         <Intro />

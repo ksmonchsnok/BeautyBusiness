@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { firebaseConnect } from "react-redux-firebase";
 import swal from "sweetalert";
-import Navbar from "../../components/navbar/navbar-Admin.js";
+import Navbar from "../../components/navbar/navbar.js";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
@@ -42,10 +42,10 @@ class ManagePromotion extends Component {
   onGetItemp = () => {
     setTimeout(() => {
       let ObjUser = JSON.parse(localStorage.getItem("ObjUser"));
-      this.setState({ businessId: ObjUser.UserId });
+      this.setState({ businessId: ObjUser.MemberId });
       if (this.props.history.state) {
         if (this.props.history.state.mode === "edit") {
-          let ref = firebase.database().ref(`Promotion/${ObjUser.UserId}`);
+          let ref = firebase.database().ref(`Promotion/${ObjUser.MemberId}`);
           ref.once("value").then((snapshot) => {
             if (snapshot.val()) {
               const data = snapshot.val();
@@ -204,7 +204,11 @@ class ManagePromotion extends Component {
     return (
       <div
         id="Manage-Promotion"
-        style={{ marginLeft: "1rem", marginBottom: "5rem", marginTop: "-6rem" }}
+        style={{
+          marginLeft: "1rem",
+          marginBottom: "5rem",
+          marginTop: "-8rem",
+        }}
       >
         <Navbar />
         <div className="container">

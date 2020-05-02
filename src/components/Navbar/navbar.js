@@ -262,10 +262,7 @@ class navbar extends Component {
     const showPopupLogin = this.state.showPopupLogin;
 
     return (
-      <div
-        id="Navbar"
-        // style={{ marginBottom: "10rem" }}
-      >
+      <div id="Navbar">
         <nav className="navbar navbar-dark bg-dark navbar-expand-xl fixed-top">
           <div className="container">
             <div class="col-6 col-lg-5" id="logo">

@@ -36,12 +36,12 @@ class Report extends Component {
     return (
       <div id="Report">
         <div style={{ marginTop: "4rem", marginBottom: "3rem" }}></div>
-        <h2>Discount Report ของธุรกิจ </h2>
+        <h2 className="container">Discount Report ของธุรกิจ </h2>
 
         {!loadingData && (
-          <div class="table-responsive">
-            <table class="table">
-              <thead class="thead-dark">
+          <div className="container table-responsive">
+            <table className="table">
+              <thead className="thead-dark">
                 <tr>
                   <th scope="col">Discount Code</th>
                   <th scope="col">Business Name</th>

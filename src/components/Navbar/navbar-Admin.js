@@ -94,7 +94,7 @@ class navbar extends Component {
 
   render() {
     return (
-      <div id="Navbar" style={{ marginTop: "-0.5rem", marginBottom: "12rem" }}>
+      <div id="Navbar" style={{ marginTop: "-0.5rem" }}>
         <nav className="fixed-top navbar navbar-dark bg-dark navbar-expand-lg ">
           <NavLink exact to="/AdminPage" className="navbar-brand">
             <img src={Logo} className="logoNav" alt="Logo" />

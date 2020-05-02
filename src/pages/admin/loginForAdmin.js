@@ -66,14 +66,11 @@ class LoginForAdmin extends Component {
 
     return (
       <div id="Login-Admin">
-        <Layout
-          // className="container"
-          style={{ backgroundColor: "transparent" }}
-        >
+        <Layout style={{ backgroundColor: "transparent" }}>
           <center>
             <Content
               className="d-flex justify-content-center"
-              style={{ marginTop: "7rem", marginBottom: "8rem" }}
+              style={{ marginTop: "6.5rem", marginBottom: "215px" }}
             >
               <Form
                 name="normal_login"

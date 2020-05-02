@@ -84,6 +84,14 @@ Input,
     color: #ffffff !important;
 }
 
+#Navbar {
+    position: relative;
+    height: 20vh;
+    width: 100%;
+
+}
+
+
 
 /* ********************************************************************************************************************************************************************* */
 /* Login */
@@ -293,11 +301,6 @@ a:visited {
     box-shadow: -1px 1px 18px -5px #aaaaaa;
 }
 
-#Contact {
-    margin-bottom: -3em;
-
-}
-
 .mail,
 .phone,
 .map {
@@ -327,23 +330,14 @@ a:visited {
 /* ********************************************************************************************************************************************************************* */
 /* footer */
 
-#page-container {
-    position: absolute;
+#Pages {
+    position: flex;
     height: 100vh;
     width: 100%;
-
 }
 
-
-#Navbar {
-    position: relative;
-    height: 18vh;
-    width: 100%;
-
-}
-
-#footer {
-    position: relative;
+#Footer {
+    position: flex;
     bottom: 0;
     width: 100%;
     background-color: #343a40;
