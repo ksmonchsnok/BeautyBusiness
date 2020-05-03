@@ -23,10 +23,10 @@ export default class RegistrationForm extends Component {
       email: "",
       firstname: "",
       lastname: "",
-      password: "",
+      Password: "",
       cf_password: "",
       phone: "",
-      username: "",
+      Username: "",
       member_type: "",
     };
   }
@@ -55,9 +55,9 @@ export default class RegistrationForm extends Component {
       return;
     }
     if (info.file.status === "done") {
-      this.getBase64(info.file.originFileObj, (image) =>
+      this.getBase64(info.file.originFileObj, (imageUrl) =>
         this.setState({
-          image,
+          imageUrl,
           loading: false,
         })
       );
@@ -69,10 +69,10 @@ export default class RegistrationForm extends Component {
     let temp = await JSON.parse(localStorage.getItem("ObjUser"));
     if (temp) {
       this.setState({
-        image: temp.image,
-        username: temp.username,
+        imageUrl: temp.imageUrl,
+        Username: temp.Username,
         email: temp.email,
-        password: temp.password,
+        Password: temp.Password,
         cf_password: temp.cf_password,
         firstname: temp.firstname,
         lastname: temp.lastname,
@@ -81,10 +81,10 @@ export default class RegistrationForm extends Component {
         member_type: temp.member_type,
       });
       this.formRef.current.setFieldsValue({
-        image: temp.image,
-        username: temp.username,
+        imageUrl: temp.imageUrl,
+        Username: temp.Username,
         email: temp.email,
-        password: temp.password,
+        Password: temp.Password,
         cf_password: temp.cf_password,
         firstname: temp.firstname,
         lastname: temp.lastname,
@@ -98,20 +98,20 @@ export default class RegistrationForm extends Component {
     window.history.back();
   };
 
-  onClickResetpassword = () => {
-    this.props.history.push("/Reset-password");
+  onClickResetPassword = () => {
+    this.props.history.push("/Reset-Password");
   };
 
   onGotoSave() {
     let email = this.state.email;
-    let password = this.state.password;
+    let password = this.state.Password;
     let checkProps = this.props.location
       ? this.props.location.state
         ? "pass"
         : null
       : null;
-    if (this.state.image !== undefined) {
-      // console.log(this.state.image);
+    if (this.state.imageUrl !== undefined) {
+      // console.log(this.state.imageUrl);
 
       if (
         checkProps === "pass" &&
@@ -119,21 +119,21 @@ export default class RegistrationForm extends Component {
       ) {
         var user = firebase.auth().currentUser;
         user
-          .updatepassword(password)
+          .updatePassword(password)
           .then(() => {
-            console.log("password Updated !");
+            console.log("Password Updated !");
           })
           .catch((error) => {
             console.log(error);
           });
 
         setTimeout(() => {
-          const setItemInsert = firebase.database().ref(`member`);
+          const setItemInsert = firebase.database().ref(`Member`);
           let newState = {
-            image: this.state.image,
-            username: this.state.username,
+            imageUrl: this.state.imageUrl,
+            Username: this.state.Username,
             email: this.state.email,
-            password: this.state.password,
+            Password: this.state.Password,
             cf_password: this.state.cf_password,
             firstname: this.state.firstname,
             lastname: this.state.lastname,
@@ -144,7 +144,7 @@ export default class RegistrationForm extends Component {
           setItemInsert.child(user.uid).update(newState);
           localStorage.setItem("ObjUser", JSON.stringify(this.state));
           let temp = JSON.parse(localStorage.getItem("ObjUser"));
-          if (temp.password !== this.state.password) {
+          if (temp.Password !== this.state.Password) {
             firebase
               .auth()
               .signOut()
@@ -180,18 +180,18 @@ export default class RegistrationForm extends Component {
       } else {
         firebase
           .auth()
-          .createUserWithemailAndpassword(email, password)
+          .createUserWithemailAndPassword(email, password)
           .then((res) => {
             setTimeout(() => {
               const setItemInsert = firebase
                 .database()
-                .ref(`member/${res.user.uid}`);
+                .ref(`Member/${res.user.uid}`);
               let newState = {
                 member_id: res.user.uid,
-                image: this.state.image,
-                username: this.state.username,
+                imageUrl: this.state.imageUrl,
+                Username: this.state.Username,
                 email: this.state.email,
-                password: this.state.password,
+                Password: this.state.Password,
                 cf_password: this.state.cf_password,
                 firstname: this.state.firstname,
                 lastname: this.state.lastname,
@@ -240,8 +240,6 @@ export default class RegistrationForm extends Component {
   };
 
   render() {
-    // console.log(this.props.location.state.mode);
-
     const uploadButton = (
       <div>
         {this.state.loading ? <LoadingOutlined /> : <PlusOutlined />}
@@ -250,7 +248,7 @@ export default class RegistrationForm extends Component {
         </div>
       </div>
     );
-    const { image } = this.state;
+    const { imageUrl } = this.state;
 
     const formItemLayout = {
       labelCol: {
@@ -299,16 +297,14 @@ export default class RegistrationForm extends Component {
       >
         <Navbar />
         <div className="container">
-          {this.props.location.state.mode === "EditUser" && (
-            <span>
-              <h3>Update / แก้ข้อมูลผู้ใช้ </h3>
-            </span>
-          )}
-          {this.props.location.state.mode !== "EditUser" && (
-            <span>
-              <h3>Register / สมัครสมาชิก </h3>
-            </span>
-          )}
+          {/* {this.props.location.state.mode ===
+            "EditUser"(
+              <span>
+                {" "}
+                <h3>แก้ข้อมูลผู้ใช้ </h3>
+              </span>
+            )} */}
+          <h3>Register /สมัครสมาชิก </h3>
 
           <hr />
           <Form
@@ -319,10 +315,10 @@ export default class RegistrationForm extends Component {
             onFinish={this.onFinish}
             scrollToFirstError
           >
-            <Form.Item name="image" label="Picture">
+            <Form.Item name="imageUrl" label="Picture">
               <Upload
-                name="image"
-                id="image"
+                name="imageUrl"
+                id="imageUrl"
                 listType="picture-card"
                 className="avatar-uploader"
                 showUploadList={false}
@@ -330,20 +326,20 @@ export default class RegistrationForm extends Component {
                 beforeUpload={this.beforeUpload}
                 onChange={this.handleChange}
               >
-                {image ? (
-                  <img src={image} alt="avatar" style={{ width: "100%" }} />
+                {imageUrl ? (
+                  <img src={imageUrl} alt="avatar" style={{ width: "100%" }} />
                 ) : (
                   uploadButton
                 )}
               </Upload>
             </Form.Item>
             <Form.Item
-              name="username"
-              label={<span>username</span>}
+              name="Username"
+              label={<span>Username</span>}
               rules={[
                 {
                   required: true,
-                  message: <small>Please input your username</small>,
+                  message: <small>Please input your Username</small>,
                 },
                 {
                   type: "string",
@@ -358,11 +354,11 @@ export default class RegistrationForm extends Component {
             >
               <Input
                 type="textbox"
-                name="username"
-                id="username"
-                placeholder="username"
-                value={this.state.username}
-                onChange={(e) => this.setState({ username: e.target.value })}
+                name="Username"
+                id="Username"
+                placeholder="Username"
+                value={this.state.Username}
+                onChange={(e) => this.setState({ Username: e.target.value })}
                 whitespace={true}
                 maxLength={40}
                 allowClear
@@ -403,11 +399,11 @@ export default class RegistrationForm extends Component {
             </Form.Item>
 
             <Form.Item
-              name="password"
+              name="Password"
               label={
                 <span>
-                  password &nbsp;
-                  <Tooltip title="password จะต้องประกอบไปด้วย A-Z, a-z , 0-9">
+                  Password &nbsp;
+                  <Tooltip title="Password จะต้องประกอบไปด้วย A-Z, a-z , 0-9">
                     <QuestionCircleOutlined />
                     &nbsp;
                   </Tooltip>
@@ -417,7 +413,7 @@ export default class RegistrationForm extends Component {
                 {
                   min: 6,
                   message: (
-                    <small>password must be at least 6 characters</small>
+                    <small>Password must be at least 6 characters</small>
                   ),
                 },
                 {
@@ -433,13 +429,13 @@ export default class RegistrationForm extends Component {
               ]}
               hasFeedback
             >
-              <Input.password
+              <Input.Password
                 type="textbox"
-                name="password"
-                id="password"
-                placeholder="password"
-                value={this.state.password}
-                onChange={(e) => this.setState({ password: e.target.value })}
+                name="Password"
+                id="Password"
+                placeholder="Password"
+                value={this.state.Password}
+                onChange={(e) => this.setState({ Password: e.target.value })}
                 whitespace={true}
                 maxLength={16}
                 allowClear
@@ -450,7 +446,7 @@ export default class RegistrationForm extends Component {
               <>
                 <a
                   href
-                  onClick={this.onClickResetpassword}
+                  onClick={this.onClickResetPassword}
                   history={this.props.history}
                 >
                   <small
@@ -468,14 +464,14 @@ export default class RegistrationForm extends Component {
               style={{ marginTop: "-3rem" }}
               label={
                 <span>
-                  Confirm password &nbsp;
-                  <Tooltip title="password จะต้องตรงกัน">
+                  Confirm Password &nbsp;
+                  <Tooltip title="Password จะต้องตรงกัน">
                     <QuestionCircleOutlined />
                     &nbsp;
                   </Tooltip>
                 </span>
               }
-              dependencies={["password"]}
+              dependencies={["Password"]}
               hasFeedback
               rules={[
                 {
@@ -484,7 +480,7 @@ export default class RegistrationForm extends Component {
                 },
                 ({ getFieldValue }) => ({
                   validator(rule, value) {
-                    if (!value || getFieldValue("password") === value) {
+                    if (!value || getFieldValue("Password") === value) {
                       return Promise.resolve();
                     }
 
@@ -497,7 +493,7 @@ export default class RegistrationForm extends Component {
                 }),
               ]}
             >
-              <Input.password
+              <Input.Password
                 type="textbox"
                 name="cf_password"
                 id="cf_password"
@@ -665,29 +661,13 @@ export default class RegistrationForm extends Component {
               >
                 Cancel
               </Button>
-
-              {this.props.location.state.mode === "EditUser" && (
-                <span>
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    onClick={() => this.onGotoSave()}
-                  >
-                    Update
-                  </Button>
-                </span>
-              )}
-              {this.props.location.state.mode !== "EditUser" && (
-                <span>
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    onClick={() => this.onGotoSave()}
-                  >
-                    Register
-                  </Button>
-                </span>
-              )}
+              <Button
+                type="primary"
+                htmlType="submit"
+                onClick={() => this.onGotoSave()}
+              >
+                Register
+              </Button>
             </Form.Item>
           </Form>
         </div>

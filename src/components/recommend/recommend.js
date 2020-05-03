@@ -45,7 +45,7 @@ class Recommened extends Component {
           <div key={value.store_id}>
             <div class="">
               <img
-                src={value.image}
+                src={value.imageUrl}
                 className="bd-placeholder-img rounded-circle"
                 width="170"
                 height="170"

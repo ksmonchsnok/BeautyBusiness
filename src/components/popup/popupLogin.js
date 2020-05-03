@@ -104,7 +104,7 @@ class LoginForm extends Component {
   };
 
   onClickRegister = () => {
-    this.props.history.push("/Register");
+    this.props.history.push("/Register", { mode: "" });
   };
 
   onClickForgotPassword = () => {
