@@ -6,10 +6,21 @@ export default class Filter extends Component {
     super(props);
     this.state = {
       filter: [],
+      discount: true,
+      promotion: true,
     };
   }
 
-  componentDidMount = () => {};
+  checkDiscount = (e) => {
+    let checkDis = document.getElementById("discount1").checked;
+    this.setState({ discount: checkDis });
+    this.props.onCheckDiscount(checkDis);
+  };
+  checkPromotion = () => {
+    let checkPro = document.getElementById("Promotion1").checked;
+    this.setState({ promotion: checkPro });
+    this.props.onCheckPromotion(checkPro);
+  };
 
   render() {
     return (
@@ -22,10 +33,11 @@ export default class Filter extends Component {
                 <input
                   class="form-check-input"
                   type="radio"
-                  name="inlineRadioOptions"
-                  id="inlineRadio1"
-                  value={this.props.discount}
-                  onChange={(e) => this.onCheckDiscount(e.target.value)}
+                  name="discont"
+                  id="discount1"
+                  checked={this.state.discount}
+                  value={this.state.discount}
+                  onChange={(e) => this.checkDiscount(e.target.value)}
                 />
                 <label class="form-check-label" for="inlineRadio1">
                   มี
@@ -34,10 +46,11 @@ export default class Filter extends Component {
                 <input
                   class="form-check-input"
                   type="radio"
-                  name="inlineRadioOptions"
-                  id="inlineRadio2"
-                  value={this.props.discount}
-                  onChange={(e) => this.onCheckDiscount(e.target.value)}
+                  name="discont"
+                  id="discount2"
+                  checked={!this.state.discount}
+                  value={this.state.discount}
+                  onChange={(e) => this.checkDiscount(e.target.value)}
                 />
                 <label class="form-check-label" for="inlineRadio2">
                   ไม่มี
@@ -51,10 +64,11 @@ export default class Filter extends Component {
                 <input
                   class="form-check-input"
                   type="radio"
-                  name="inlineRadioOptions"
-                  id="inlineRadio1"
-                  value={this.props.promotion}
-                  onChange={(e) => this.props.onCheckPromotion(e.target.value)}
+                  name="promotion"
+                  id="Promotion1"
+                  checked={this.state.promotion}
+                  value={this.state.promotion}
+                  onChange={(e) => this.checkPromotion(e.target.value)}
                 />
                 <label class="form-check-label" for="inlineRadio1">
                   มี
@@ -63,10 +77,11 @@ export default class Filter extends Component {
                 <input
                   class="form-check-input"
                   type="radio"
-                  name="inlineRadioOptions"
-                  id="inlineRadio2"
-                  value={this.props.promotion}
-                  onChange={(e) => this.props.onCheckPromotion(e.target.value)}
+                  name="promotion"
+                  id="Promotion2"
+                  checked={!this.state.promotion}
+                  value={this.state.promotion}
+                  onChange={(e) => this.checkPromotion(e.target.value)}
                 />
                 <label class="form-check-label" for="inlineRadio2">
                   ไม่มี

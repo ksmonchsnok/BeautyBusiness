@@ -15,8 +15,8 @@ class AllStore extends Component {
       store: "",
       checkbox: [],
       rating: 0,
-      discount: false,
-      promotion: false,
+      discount: true,
+      promotion: true,
     };
   }
 
@@ -29,7 +29,9 @@ class AllStore extends Component {
       store: event.target.value,
     });
   };
-
+  FillterBusiness = (e) => {
+    console.log(e);
+  };
   onCheckType = (e) => {
     let checkbox = this.state.checkbox;
     let index = checkbox.findIndex((el) => el === e);
@@ -42,19 +44,12 @@ class AllStore extends Component {
   };
 
   onCheckDiscount = (e) => {
-    if (this.state.discount === "true") {
-      this.setState({ discount: e });
-    } else {
-      this.setState({ discount: "" });
-    }
+    console.log(e);
+    this.setState({ discount: e });
   };
 
   onCheckPromotion = (e) => {
-    if (this.state.promotion === "true") {
-      this.setState({ promotion: e });
-    } else {
-      this.setState({ promotion: "" });
-    }
+    this.setState({ promotion: e });
   };
 
   checkType = (value, checkbox) => {
@@ -80,104 +75,185 @@ class AllStore extends Component {
     });
   };
 
-  searchFilter = (store) => {
-    return function (x) {
-      return (
-        x.value.store_name.toLowerCase().includes(store.toLowerCase()) ||
-        x.value.address.toLowerCase().includes(store.toLowerCase()) ||
-        x.value.type[0].toLowerCase().includes(store.toLowerCase()) ||
-        !store
-      );
-    };
+  searchFilter = (store, type, discount, promotion) => {
+    if (discount != null || promotion != null) {
+      let tetst = false;
+      return function (x) {
+        if (
+          (discount && x.value.discount_status) ||
+          (promotion && x.value.promotion_status)
+        ) {
+          if (type.length > 0) {
+            for (let i = 0; i < x.value.type.length; i++) {
+              for (let j = 0; j < type.length; j++) {
+                if (x.value.type[i] === type[j]) {
+                  tetst = true;
+                  if (tetst) {
+                    return (
+                      x.value.store_name
+                        .toLowerCase()
+                        .includes(store.toLowerCase()) &&
+                      true &&
+                      tetst
+                    );
+                  }
+                }
+              }
+            }
+          } else if (store) {
+            return (
+              x.value.store_name.toLowerCase().includes(store.toLowerCase()) &&
+              true
+            );
+          } else {
+            return true;
+          }
+        } else if (
+          (!discount && !x.value.discount_status) ||
+          (!promotion && !x.value.promotion_status)
+        ) {
+          if (type.length > 0) {
+            for (let i = 0; i < x.value.type.length; i++) {
+              for (let j = 0; j < type.length; j++) {
+                if (x.value.type[i] === type[j]) {
+                  tetst = true;
+                  if (tetst) {
+                    return (
+                      x.value.store_name
+                        .toLowerCase()
+                        .includes(store.toLowerCase()) &&
+                      true &&
+                      tetst
+                    );
+                  }
+                }
+              }
+            }
+          } else if (store) {
+            return (
+              x.value.store_name.toLowerCase().includes(store.toLowerCase()) &&
+              true
+            );
+          } else {
+            return true;
+          }
+        }
+      };
+    }
+    // if (type.length > 0) {
+    //   if (store && type.length > 0) {
+    //     return function (x) {
+    //       for (let i = 0; i < x.value.type.length; i++) {
+    //         for (let j = 0; j < type.length; j++) {
+    //           if (x.value.type[i] === type[j]) {
+    //             return x.value.store_name.toLowerCase().includes(store.toLowerCase()) && true
+    //           }
+    //         }
+    //       }
+    //     };
+    //   } else {
+    //     return function (x) {
+    //       for (let i = 0; i < x.value.type.length; i++) {
+    //         for (let j = 0; j < type.length; j++) {
+    //           if (x.value.type[i] === type[j]) {
+    //             return true
+    //           }
+    //         }
+    //       }
+    //     };
+    //   }
+    // } else {
+    //   return function (x) {
+    //     return (
+    //       x.value.store_name.toLowerCase().includes(store.toLowerCase()) ||
+    //       x.value.address.toLowerCase().includes(store.toLowerCase()) ||
+    //       !store
+    //     );
+    //   };
+    // }
   };
-  render() {
-    console.log(this.props);
 
+  render() {
     const { store, promotion, discount, checkbox } = this.state;
     const { Store } = this.props;
 
     const item = Store
-      ? Store.filter(this.searchFilter(store))
-          .filter(({ key, value }) => {
-            return this.checkType(value.Type, checkbox);
-          })
-          .map(({ key, value }) => {
-            if (this.state.rating === 0) {
-              return (
-                <div className="col-lg-4 col-md-6">
-                  <div key={value.store_id}>
-                    <a href onClick={() => this.onClickViewDetail(value)}>
-                      <img
-                        className="card-img-top img-fluid rounded mx-auto d-block"
-                        src={value.image}
-                        alt="image"
-                        style={{ width: "300px", height: "250px" }}
-                        aria-hidden="true"
-                      />
-                      <div className="card-body text-left mb-auto">
-                        <h6 className="styleFont">
-                          <h2>{value.store_name}</h2>
-                          <hr />
+      ? Store.filter(
+          this.searchFilter(store, checkbox, discount, promotion)
+        ).map(({ key, value }) => {
+          if (this.state.rating === 0) {
+            return (
+              <div className="col-lg-4 col-md-6">
+                <div key={value.store_id}>
+                  <a href onClick={() => this.onClickViewDetail(value)}>
+                    <img
+                      className="card-img-top img-fluid rounded mx-auto d-block"
+                      src={value.image}
+                      alt="image"
+                      style={{ width: "300px", height: "250px" }}
+                      aria-hidden="true"
+                    />
+                    <div className="card-body text-left mb-auto">
+                      <h6 className="styleFont">
+                        <h2>{value.store_name}</h2>
+                        <hr />
 
-                          {value.type.map((el) => (
-                            <Tag
-                              color="gold"
-                              style={{ marginBottom: "0.6rem" }}
-                            >
-                              {el}
-                            </Tag>
-                          ))}
+                        {value.type.map((el) => (
+                          <Tag color="gold" style={{ marginBottom: "0.6rem" }}>
+                            {el}
+                          </Tag>
+                        ))}
 
-                          <h4 style={{ color: "#000" }}>{value.address}</h4>
-                        </h6>
-                      </div>
-                    </a>
-                  </div>
+                        <h4 style={{ color: "#000" }}>{value.address}</h4>
+                      </h6>
+                    </div>
+                  </a>
                 </div>
-              );
-            }
-            if (value.Star >= this.state.rating) {
-              return (
-                <div className="col-lg-4 col-md-6">
-                  <div key={value.store_id}>
-                    <a href onClick={() => this.onClickViewDetail(value)}>
-                      <img
-                        className="card-img-top img-fluid rounded mx-auto d-block"
-                        src={value.image}
-                        alt="image"
-                        style={{ width: "300px", height: "250px" }}
-                        aria-hidden="true"
-                      />
-                      <div className="card-body text-left mb-auto">
-                        <h6 className="styleFont">
-                          <p className="font">{value.store_name}</p>
-                          <hr />
-                          {value.type.map((el) => (
-                            <p
-                              style={{
-                                marginLeft: -2,
-                                marginRight: 8,
-                                marginBottom: 3,
-                                marginTop: 0.5,
-                                fontWeight: "lighter",
-                              }}
-                              className="badge badge-warning"
-                            >
-                              {el}
-                            </p>
-                          ))}
-
-                          <p style={{ lineHeight: 1 + "rem", color: "#000" }}>
-                            {value.address}
+              </div>
+            );
+          }
+          if (value.Star >= this.state.rating) {
+            return (
+              <div className="col-lg-4 col-md-6">
+                <div key={value.store_id}>
+                  <a href onClick={() => this.onClickViewDetail(value)}>
+                    <img
+                      className="card-img-top img-fluid rounded mx-auto d-block"
+                      src={value.image}
+                      alt="image"
+                      style={{ width: "300px", height: "250px" }}
+                      aria-hidden="true"
+                    />
+                    <div className="card-body text-left mb-auto">
+                      <h6 className="styleFont">
+                        <p className="font">{value.store_name}</p>
+                        <hr />
+                        {value.type.map((el) => (
+                          <p
+                            style={{
+                              marginLeft: -2,
+                              marginRight: 8,
+                              marginBottom: 3,
+                              marginTop: 0.5,
+                              fontWeight: "lighter",
+                            }}
+                            className="badge badge-warning"
+                          >
+                            {el}
                           </p>
-                        </h6>
-                      </div>
-                    </a>
-                  </div>
+                        ))}
+
+                        <p style={{ lineHeight: 1 + "rem", color: "#000" }}>
+                          {value.address}
+                        </p>
+                      </h6>
+                    </div>
+                  </a>
                 </div>
-              );
-            }
-          })
+              </div>
+            );
+          }
+        })
       : "";
 
     return (
@@ -222,6 +298,8 @@ class AllStore extends Component {
                   </form>
                   <Filter
                     onCheckType={(e) => this.onCheckType(e)}
+                    onCheckDiscount={(e) => this.onCheckDiscount(e)}
+                    onCheckPromotion={(e) => this.onCheckPromotion(e)}
                     onFilterRating={(e) => this.onFilterRating(e)}
                     rating={this.state.rating}
                   />
