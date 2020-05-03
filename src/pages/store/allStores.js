@@ -8,6 +8,12 @@ import Navbar from "../../components/navbar/navbar.js";
 import "antd/dist/antd.css";
 import { Tag } from "antd";
 import firebase from "firebase";
+import ScrollAnimation from "react-animate-on-scroll";
+import "animate.css/animate.min.css";
+import { BackTop } from "antd";
+import "antd/dist/antd.css";
+import { UpOutlined } from "@ant-design/icons";
+
 
 class AllStore extends Component {
   constructor(props) {
@@ -276,15 +282,27 @@ class AllStore extends Component {
       })
       : "";
 
+
+      const style = {
+        height: 40,
+        width: 40,
+        lineHeight: "40px",
+        borderRadius: 4,
+        backgroundColor: "#F69220",
+        color: "#fff",
+        textAlign: "center",
+        fontSize: 14,
+      };
+
     return (
-      <div id="search">
+      <div id="search" >
         <Navbar />
         <div className="search align-self-center">
-          <div style={{ padding: "0 3rem 0 3rem " }}>
+          <div style={{ padding: "0 1rem 0 1rem " }}>
             <p>
               <h1
                 style={{
-                  marginBottom: "3.5rem",
+                  marginBottom: "3rem",
                 }}
               >
                 ธุรกิจทั้งหมด
@@ -292,10 +310,9 @@ class AllStore extends Component {
               {/* <div className="dropdown-divider" /> */}
             </p>
 
-            <div className="album  bg-while">
+            <div className="card" style={{paddingLeft:"1rem", paddingRight:"1rem",paddingTop:"1rem"}}>
               <div
                 className="row"
-              // style={{border:"0.5px solid gray"}}
               >
                 <div
                   className="col-lg-3 col-md-5 col-sm-6 jumbotron jumbotron-fluid"
@@ -324,22 +341,32 @@ class AllStore extends Component {
                     rating={this.state.rating}
                   />
                 </div>
-
+               
                 <div
                   className="col-lg-9 col-md-7 col-sm-6"
                   style={{ marginTop: "-3rem" }}
                 >
+                   <ScrollAnimation animateIn="bounceInUp">
+              <div class="animated bounceInUp delay-2s">
                   <ul
                     className="list-group jumbotron jumbotron-fluid "
                     style={{ backgroundColor: "transparent" }}
                   >
-                    <div className="row">{item}</div>
-                  </ul>
-                </div>
-              </div>
+                    <div className="row">{item}
+                  </div>
+                  <BackTop>
+            <div style={style}>
+              <UpOutlined />
             </div>
-          </div>
-          <div className="justify-content-start">
+          </BackTop>
+                  </ul>
+                  </div>
+            </ScrollAnimation>
+           
+                </div>
+            
+              </div>
+              <div className="justify-content-start">
             <div style={{ padding: "0 3rem 0 3rem " }}>
               <div className="col-xs-12 col-sm-4 col-md-2">
                 <button
@@ -353,6 +380,11 @@ class AllStore extends Component {
               </div>
             </div>
           </div>
+            </div>
+            
+          </div>
+         
+          
         </div>
       </div>
     );

@@ -266,7 +266,7 @@ a:visited {
 
 
 .filter-Business {
-    height: 300px;
+    height: 300px ;
     max-width: auto;
     overflow-y: scroll;
     height: 15rem;
@@ -304,6 +304,20 @@ a:visited {
     margin-bottom: 8em;
     box-shadow: -1px 1px 18px -5px #aaaaaa;
 }
+
+#search{
+    box-shadow: -1px 1px 18px -5px  #aaaaaa;
+
+}
+ul{
+    list-style: none;
+    
+}
+
+#filterType ul li{
+    margin-left: 2.5rem !important;
+}
+
 
 .mail,
 .phone,
@@ -476,10 +490,25 @@ a:visited {
 
 
 /* SM */
-@media only screen and (min-width: 576px) and (max-width: 767.98px) {}
+@media only screen and (min-width: 576px) and (max-width: 767.98px) {
+   
+    
+}
 
 /* XS */
-@media only screen and (min-width: 768px) and (max-width: 575.98px) {}
+@media only screen and (min-width: 100px) and (max-width: 575.98px) {
+    .filter-Business {
+        height: 150px !important;
+        max-width: auto;
+        overflow-y: scroll;
+        height: 15rem;
+        overflow-x: hidden;
+        margin-top: 9px;
+        margin-bottom: 9px;
+        margin-right: 0.8rem;
+        border-radius: 10px;
+    }
+}
 
 
 @media only screen and (min-width: 100px) and (max-width: 767.98px) {

@@ -7,6 +7,10 @@ import { firebaseConnect } from "react-redux-firebase";
 import Navber from "../../components/navbar/navbar.js";
 import { Map, GoogleApiWrapper, Marker, InfoWindow } from "google-maps-react";
 import { geolocated } from "react-geolocated";
+import { BackTop } from "antd";
+import "antd/dist/antd.css";
+import { UpOutlined } from "@ant-design/icons";
+
 
 class Nearby extends Component {
   constructor(props) {
@@ -207,6 +211,16 @@ class Nearby extends Component {
       position: "absolute",
     };
 
+    const style = {
+      height: 40,
+      width: 40,
+      lineHeight: "40px",
+      borderRadius: 4,
+      backgroundColor: "#F69220",
+      color: "#fff",
+      textAlign: "center",
+      fontSize: 14,
+    };
     const item = this.state.data.map((value) => (
       <div className="col-lg-3 col-md-6">
         <div key={value.store_id}>
@@ -318,7 +332,7 @@ class Nearby extends Component {
           {/* </div> */}
         </div>
 
-        <div className="container">
+        <div className="col">
           <div className="album bg-while pad">
             <h1 className="text-center">
               ธุรกิจใกล้เคียงในระยะ 1
@@ -370,12 +384,17 @@ class Nearby extends Component {
                 </div>
               )}
             </div>
+            <BackTop>
+            <div style={style}>
+              <UpOutlined />
+            </div>
+          </BackTop>
           </div>
 
           <hr />
 
-          <div className="row justify-content-start">
-            <div className="container">
+          <div className="justify-content-start">
+            <div className="">
               {" "}
               <div className="col-xs-12 col-sm-4 col-md-2">
                 <button

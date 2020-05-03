@@ -33,7 +33,7 @@ class Report extends Component {
     const { loadingData } = this.state;
 
     return (
-      <div id="Report">
+      <div id="Report" style={{height:"100vh"}}>
         <div style={{ marginTop: "4rem", marginBottom: "3rem" }}></div>
         <h2 className="container">Discount Report ของธุรกิจ </h2>
 

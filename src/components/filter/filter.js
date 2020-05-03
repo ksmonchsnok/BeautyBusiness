@@ -28,6 +28,8 @@ export default class Filter extends Component {
     return (
       <div id="Filter">
         <div className="col pad">
+        <hr style={{ borderTop: "1px solid #F69220 !important"}}></hr>
+
           <ul class="list-group list-group-flush text-left">
             <h5>ส่วนลดบริการ</h5>
             <ul>
@@ -93,14 +95,15 @@ export default class Filter extends Component {
             <hr />
           </ul>
         </div>
-
         <div
-          className="filter-Business col"
+          className="col" id="filterType"
           onChange={(e) => this.props.onCheckType(e.target.value)}
         >
-          <ul class="list-group list-group-flush text-left">
-            <h5 className="">ประเภทธุรกิจ</h5>
-            <li class="list-group-item">
+          <hr style={{ borderTop: "1px solid #F69220 !important"}}></hr>
+          <h5 className="text-left">ประเภทธุรกิจ</h5>
+
+          <ul class="list-group list-group-flush text-left filter-Business">
+            <li class="list-item">
               {" "}
               <input
                 type="checkbox"
@@ -109,7 +112,7 @@ export default class Filter extends Component {
               />{" "}
               ตัดผมชาย
             </li>
-            <li class="list-group-item">
+            <li class="list-item">
               {" "}
               <input
                 type="checkbox"
@@ -118,7 +121,7 @@ export default class Filter extends Component {
               />{" "}
               เสริมสวย
             </li>
-            <li class="list-group-item">
+            <li class="list-item">
               {" "}
               <input
                 type="checkbox"
@@ -127,7 +130,7 @@ export default class Filter extends Component {
               />{" "}
               ทำเล็บ
             </li>
-            <li class="list-group-item">
+            <li class="list-item">
               <input
                 type="checkbox"
                 value="ต่อขนตา"
@@ -135,7 +138,7 @@ export default class Filter extends Component {
               />{" "}
               ต่อขนตา
             </li>
-            <li class="list-group-item">
+            <li class="list-item">
               {" "}
               <input
                 type="checkbox"
@@ -145,7 +148,7 @@ export default class Filter extends Component {
               สักคิ้ว
             </li>
 
-            <li class="list-group-item">
+            <li class="list-item">
               {" "}
               <input
                 type="checkbox"
@@ -154,7 +157,7 @@ export default class Filter extends Component {
               />{" "}
               แว็กซ์ขน
             </li>
-            <li class="list-group-item">
+            <li class="list-item">
               {" "}
               <input
                 type="checkbox"
@@ -163,7 +166,7 @@ export default class Filter extends Component {
               />{" "}
               สปา
             </li>
-            <li class="list-group-item">
+            <li class="list-item">
               {" "}
               <input
                 type="checkbox"
