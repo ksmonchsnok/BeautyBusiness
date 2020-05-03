@@ -55,9 +55,10 @@ export default class AddUser extends Component {
       return;
     }
     if (info.file.status === "done") {
-      this.getBase64(info.file.originFileObj, (image) =>
+      // Get this url from response in real world.
+      this.getBase64(info.file.originFileObj, (imageUrl) =>
         this.setState({
-          image,
+          imageUrl,
           loading: false,
         })
       );
@@ -77,7 +78,7 @@ export default class AddUser extends Component {
         this.formRef.current.setFieldsValue({
           mode: "edit",
           member_id: obj.member_id,
-          image: obj.image,
+          imageUrl: obj.imageUrl,
           username: obj.username,
           email: obj.email,
           password: obj.password,
@@ -91,7 +92,7 @@ export default class AddUser extends Component {
         this.setState({
           mode: "edit",
           member_id: obj.member_id,
-          image: obj.image,
+          imageUrl: obj.imageUrl,
           username: obj.username,
           email: obj.email,
           password: obj.password,
@@ -116,7 +117,7 @@ export default class AddUser extends Component {
         if (this.state.mode === "edit") {
           const setItemInsert = firebase.database().ref(`Member`);
           let newState = {
-            image: this.state.image,
+            imageUrl: this.state.imageUrl,
             username: this.state.username,
             email: this.state.email,
             password: this.state.password,
@@ -155,7 +156,7 @@ export default class AddUser extends Component {
                 .database()
                 .ref(`member/${res.user.uid}`);
               let newState = {
-                image: this.state.image,
+                imageUrl: this.state.imageUrl,
                 member_id: res.user.uid,
                 username: this.state.username,
                 email: this.state.email,
@@ -205,7 +206,7 @@ export default class AddUser extends Component {
         </div>
       </div>
     );
-    const { image } = this.state;
+    const { imageUrl } = this.state;
 
     const formItemLayout = {
       labelCol: {
@@ -267,10 +268,9 @@ export default class AddUser extends Component {
           onFinish={this.onFinish}
           scrollToFirstError
         >
-          <Form.Item name="image" label="Picture">
+          <Form.Item name="imageUrl" label="Picture">
             <Upload
-              name="image"
-              id="image"
+              name="imageUrl"
               listType="picture-card"
               className="avatar-uploader"
               showUploadList={false}
@@ -278,8 +278,8 @@ export default class AddUser extends Component {
               beforeUpload={this.beforeUpload}
               onChange={this.handleChange}
             >
-              {image ? (
-                <img src={image} alt="avatar" style={{ width: "100%" }} />
+              {imageUrl ? (
+                <img src={imageUrl} alt="avatar" style={{ width: "100%" }} />
               ) : (
                 uploadButton
               )}
