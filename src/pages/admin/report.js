@@ -5,7 +5,7 @@ import { compose } from "redux";
 import { firebaseConnect } from "react-redux-firebase";
 import swal from "sweetalert";
 import moment from "moment";
-class Report extends Component {
+class report extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,7 +20,7 @@ class Report extends Component {
   onGetItempReport() {
     this.setState({ data: [], loadingData: true });
     setTimeout(() => {
-      let ref = firebase.database().ref("Report");
+      let ref = firebase.database().ref("report");
       ref.once("value").then((snapshot) => {
         if (snapshot.val()) {
           const data = Object.values(snapshot.val());
@@ -47,9 +47,9 @@ class Report extends Component {
     const { loadingData } = this.state;
 
     return (
-      <div id="Report">
+      <div id="report">
         <div style={{ marginTop: "4rem", marginBottom: "3rem" }}></div>
-        <h2>Discount Report</h2>
+        <h2>Discount report</h2>
 
         {!loadingData && (
           <div class="table-responsive">
@@ -69,11 +69,15 @@ class Report extends Component {
                     return (
                       <tr key={index}>
                         {/* <th scope="row"></th> */}
-                        <td>{d.discountCode}</td>
-                        <td>{d.businessName}</td>
-                        <td>{d.customerName}</td>
-                        <td>{moment(d.startDate).format("DD/MM/YYYY")}</td>
-                        <td>{moment(d.endDate).format("DD/MM/YYYY")}</td>
+                        <td>{d.discount_code}</td>
+                        <td>{d.store_name}</td>
+                        <td>{d.username}</td>
+                        <td>
+                          {moment(d.startdate_discount).format("DD/MM/YYYY")}
+                        </td>
+                        <td>
+                          {moment(d.enddate_discount).format("DD/MM/YYYY")}
+                        </td>
                       </tr>
                     );
                   })}
@@ -101,12 +105,12 @@ class Report extends Component {
 }
 function mapStateToProps({ firebase }) {
   return {
-    Store: firebase.ordered.Store,
+    Store: firebase.ordered.store,
   };
 }
 
 const enhance = compose(
-  firebaseConnect([{ path: "/Store" }]),
+  firebaseConnect([{ path: "/store" }]),
   connect(mapStateToProps)
 );
-export default enhance(Report);
+export default enhance(report);

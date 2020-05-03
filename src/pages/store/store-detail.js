@@ -203,7 +203,11 @@ class StoreDetail extends Component {
           <p>โทร :: {value.phone}</p>
           <p>ที่อยู่ :: {value.address}</p>
           <p>
-            ติดต่อ :: <a href={value.social}> Facebook</a>
+            ติดต่อ ::{" "}
+            <a href={value.social} style={{ color: "#F69220" }}>
+              {" "}
+              Facebook
+            </a>
           </p>
 
           <div className="row col-6">
@@ -227,24 +231,20 @@ class StoreDetail extends Component {
               {" "}
               <div className="row">
                 <div className="col-xs-12 col-sm-12 col-md-6 d-flex justify-content-center">
-                  <h3>โปรโมชั่น :: {this.state.pormotion.promotion_name}</h3>
+                  <h3>โปรโมชั่น :: {this.state.promotion_name}</h3>
                 </div>
                 <div className="col-xs-12 col-sm-12 col-md-6 d-flex justify-content-center">
                   <h3>
-                    รายละเอียดโปรโมชั่น ::{" "}
-                    {this.state.pormotion.promotion_description}
+                    รายละเอียดโปรโมชั่น :: {this.state.promotion_description}
                   </h3>
                 </div>
               </div>
               <div className="row ">
                 <div className="col-xs-12 col-sm-12 col-md-6 d-flex justify-content-center">
-                  <h3>ส่วนลดบริการ :: {this.state.discont.discount_name}</h3>
+                  <h3>ส่วนลดบริการ :: {this.state.discount_name}</h3>
                 </div>
                 <div className="col-xs-12 col-sm-12 col-md-6 d-flex justify-content-center">
-                  <h3>
-                    รายละเอียดส่วนลด ::{" "}
-                    {this.state.discont.discount_description}
-                  </h3>
+                  <h3>รายละเอียดส่วนลด :: {this.state.discount_description}</h3>
                 </div>
               </div>
               <div className="row d-flex justify-content-center">

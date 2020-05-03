@@ -18,16 +18,16 @@ export default class RegistrationForm extends Component {
     this.state = {
       loading: false,
       mode: "",
-      MemberId: "",
-      Address: "",
-      Email: "",
-      Firstname: "",
-      Lastname: "",
-      Password: "",
-      CFPassword: "",
-      Phone: "",
-      Username: "",
-      MemberType: "",
+      member_id: "",
+      address: "",
+      email: "",
+      firstname: "",
+      lastname: "",
+      password: "",
+      cf_password: "",
+      phone: "",
+      username: "",
+      member_type: "",
     };
   }
 
@@ -55,9 +55,9 @@ export default class RegistrationForm extends Component {
       return;
     }
     if (info.file.status === "done") {
-      this.getBase64(info.file.originFileObj, (imageUrl) =>
+      this.getBase64(info.file.originFileObj, (image) =>
         this.setState({
-          imageUrl,
+          image,
           loading: false,
         })
       );
@@ -65,7 +65,7 @@ export default class RegistrationForm extends Component {
   };
 
   onChangeCheckRadio = (e) => {
-    this.setState({ MemberType: e.target.value });
+    this.setState({ member_type: e.target.value });
   };
 
   async componentDidMount() {
@@ -76,31 +76,31 @@ export default class RegistrationForm extends Component {
         console.log(obj);
         this.formRef.current.setFieldsValue({
           mode: "edit",
-          MemberId: obj.MemberId,
-          imageUrl: obj.imageUrl,
-          Username: obj.Username,
-          Email: obj.Email,
-          Password: obj.Password,
-          CFPassword: obj.CFPassword,
-          Firstname: obj.Firstname,
-          Lastname: obj.Lastname,
-          Phone: obj.Phone,
-          Address: obj.Address,
-          MemberType: obj.MemberType,
+          member_id: obj.member_id,
+          image: obj.image,
+          username: obj.username,
+          email: obj.email,
+          password: obj.password,
+          cf_password: obj.cf_password,
+          firstname: obj.firstname,
+          lastname: obj.lastname,
+          phone: obj.phone,
+          address: obj.address,
+          member_type: obj.member_type,
         });
         this.setState({
           mode: "edit",
-          MemberId: obj.MemberId,
-          imageUrl: obj.imageUrl,
-          Username: obj.Username,
-          Email: obj.Email,
-          Password: obj.Password,
-          CFPassword: obj.CFPassword,
-          Firstname: obj.Firstname,
-          Lastname: obj.Lastname,
-          Phone: obj.Phone,
-          Address: obj.Address,
-          MemberType: obj.MemberType,
+          member_id: obj.member_id,
+          image: obj.image,
+          username: obj.username,
+          email: obj.email,
+          password: obj.password,
+          cf_password: obj.cf_password,
+          firstname: obj.firstname,
+          lastname: obj.lastname,
+          phone: obj.phone,
+          address: obj.address,
+          member_type: obj.member_type,
         });
       }
     }
@@ -111,23 +111,23 @@ export default class RegistrationForm extends Component {
   };
 
   onGotoSave() {
-    if (this.state.Username) {
+    if (this.state.username) {
       setTimeout(() => {
         if (this.state.mode === "edit") {
           const setItemInsert = firebase.database().ref(`Member`);
           let newState = {
-            imageUrl: this.state.imageUrl,
-            Username: this.state.Username,
-            Email: this.state.Email,
-            Password: this.state.Password,
-            CFPassword: this.state.CFPassword,
-            Firstname: this.state.Firstname,
-            Lastname: this.state.Lastname,
-            Phone: this.state.Phone,
-            Address: this.state.Address,
-            MemberType: this.state.MemberType,
+            image: this.state.image,
+            username: this.state.username,
+            email: this.state.email,
+            password: this.state.password,
+            cf_password: this.state.cf_password,
+            firstname: this.state.firstname,
+            lastname: this.state.lastname,
+            phone: this.state.phone,
+            address: this.state.address,
+            member_type: this.state.member_type,
           };
-          setItemInsert.child(this.state.MemberId).update(newState);
+          setItemInsert.child(this.state.member_id).update(newState);
           swal({
             title: "You want Update User",
             icon: "warning",
@@ -146,30 +146,30 @@ export default class RegistrationForm extends Component {
         } else {
           firebase
             .auth()
-            .createUserWithEmailAndPassword(
-              this.state.Email,
-              this.state.Password
+            .createUserWithemailAndpassword(
+              this.state.email,
+              this.state.password
             )
             .then((res) => {
               const setItemInsert = firebase
                 .database()
-                .ref(`Member/${res.user.uid}`);
+                .ref(`member/${res.user.uid}`);
               let newState = {
-                imageUrl: this.state.imageUrl,
-                MemberId: res.user.uid,
-                Username: this.state.Username,
-                Email: this.state.Email,
-                Password: this.state.Password,
-                CFPassword: this.state.CFPassword,
-                Firstname: this.state.Firstname,
-                Lastname: this.state.Lastname,
-                Phone: this.state.Phone,
-                Address: this.state.Address,
-                MemberType: this.state.MemberType,
+                image: this.state.image,
+                member_id: res.user.uid,
+                username: this.state.username,
+                email: this.state.email,
+                password: this.state.password,
+                cf_password: this.state.cf_password,
+                firstname: this.state.firstname,
+                lastname: this.state.lastname,
+                phone: this.state.phone,
+                address: this.state.address,
+                member_type: this.state.member_type,
               };
               setItemInsert.set(newState);
               swal({
-                title: "Already Registered",
+                title: "Registered",
                 text: "ํYou want Continue or not?",
                 icon: "warning",
                 buttons: true,
@@ -205,7 +205,7 @@ export default class RegistrationForm extends Component {
         </div>
       </div>
     );
-    const { imageUrl } = this.state;
+    const { image } = this.state;
 
     const formItemLayout = {
       labelCol: {
@@ -267,10 +267,10 @@ export default class RegistrationForm extends Component {
           onFinish={this.onFinish}
           scrollToFirstError
         >
-          <Form.Item name="imageUrl" label="Picture">
+          <Form.Item name="image" label="Picture">
             <Upload
-              name="imageUrl"
-              id="imageUrl"
+              name="image"
+              id="image"
               listType="picture-card"
               className="avatar-uploader"
               showUploadList={false}
@@ -278,20 +278,20 @@ export default class RegistrationForm extends Component {
               beforeUpload={this.beforeUpload}
               onChange={this.handleChange}
             >
-              {imageUrl ? (
-                <img src={imageUrl} alt="avatar" style={{ width: "100%" }} />
+              {image ? (
+                <img src={image} alt="avatar" style={{ width: "100%" }} />
               ) : (
                 uploadButton
               )}
             </Upload>
           </Form.Item>
           <Form.Item
-            name="Username"
-            label={<span>Username</span>}
+            name="username"
+            label={<span>username</span>}
             rules={[
               {
                 required: true,
-                message: <small>Please input your Username</small>,
+                message: <small>Please input your username</small>,
               },
               {
                 type: "string",
@@ -306,18 +306,18 @@ export default class RegistrationForm extends Component {
           >
             <Input
               type="textbox"
-              name="Username"
-              id="Username"
-              placeholder="Username"
-              value={this.state.Username}
-              onChange={(e) => this.setState({ Username: e.target.value })}
+              name="username"
+              id="username"
+              placeholder="username"
+              value={this.state.username}
+              onChange={(e) => this.setState({ username: e.target.value })}
               whitespace={true}
               maxLength={40}
               allowClear
             />
           </Form.Item>
           <Form.Item
-            name="Email"
+            name="email"
             label="E-mail"
             rules={[
               {
@@ -339,22 +339,22 @@ export default class RegistrationForm extends Component {
           >
             <Input
               type="textbox"
-              name="Email"
-              id="Email"
-              placeholder="Email"
-              value={this.state.Email}
-              onChange={(e) => this.setState({ Email: e.target.value })}
+              name="email"
+              id="email"
+              placeholder="email"
+              value={this.state.email}
+              onChange={(e) => this.setState({ email: e.target.value })}
               whitespace={true}
               maxLength={40}
               allowClear
             />
           </Form.Item>
           <Form.Item
-            name="Password"
+            name="password"
             label={
               <span>
-                Password &nbsp;
-                <Tooltip title="Password จะต้องประกอบไปด้วย A-Z, a-z , 0-9">
+                password &nbsp;
+                <Tooltip title="password จะต้องประกอบไปด้วย A-Z, a-z , 0-9">
                   <QuestionCircleOutlined />
                   &nbsp;
                 </Tooltip>
@@ -363,7 +363,7 @@ export default class RegistrationForm extends Component {
             rules={[
               {
                 min: 6,
-                message: <small>Password must be at least 6 characters</small>,
+                message: <small>password must be at least 6 characters</small>,
               },
               {
                 pattern: new RegExp("^[A-Za-z0-9]*$"),
@@ -378,30 +378,30 @@ export default class RegistrationForm extends Component {
             ]}
             hasFeedback
           >
-            <Input.Password
+            <Input.password
               type="textbox"
-              name="Password"
-              id="Password"
-              placeholder="Password"
-              value={this.state.Password}
-              onChange={(e) => this.setState({ Password: e.target.value })}
+              name="password"
+              id="password"
+              placeholder="password"
+              value={this.state.password}
+              onChange={(e) => this.setState({ password: e.target.value })}
               whitespace={true}
               maxLength={16}
               allowClear
             />
           </Form.Item>
           <Form.Item
-            name="CFPassword"
+            name="cf_password"
             label={
               <span>
-                Confirm Password &nbsp;
-                <Tooltip title="Password จะต้องตรงกัน">
+                Confirm password &nbsp;
+                <Tooltip title="password จะต้องตรงกัน">
                   <QuestionCircleOutlined />
                   &nbsp;
                 </Tooltip>
               </span>
             }
-            dependencies={["Password"]}
+            dependencies={["password"]}
             hasFeedback
             rules={[
               {
@@ -410,7 +410,7 @@ export default class RegistrationForm extends Component {
               },
               ({ getFieldValue }) => ({
                 validator(rule, value) {
-                  if (!value || getFieldValue("Password") === value) {
+                  if (!value || getFieldValue("password") === value) {
                     return Promise.resolve();
                   }
 
@@ -423,20 +423,20 @@ export default class RegistrationForm extends Component {
               }),
             ]}
           >
-            <Input.Password
+            <Input.password
               type="textbox"
-              name="CFPassword"
-              id="CFPassword"
+              name="cf_password"
+              id="cf_password"
               placeholder="Confirmpassword"
-              value={this.state.CFPassword}
-              onChange={(e) => this.setState({ CFPassword: e.target.value })}
+              value={this.state.cf_password}
+              onChange={(e) => this.setState({ cf_password: e.target.value })}
               whitespace={true}
               maxLength={16}
               allowClear
             />
           </Form.Item>
           <Form.Item
-            name="Firstname"
+            name="firstname"
             label={<span>First Name</span>}
             rules={[
               {
@@ -456,18 +456,18 @@ export default class RegistrationForm extends Component {
           >
             <Input
               type="textbox"
-              name="Firstname"
-              id="Firstname"
-              placeholder="Firstname"
-              value={this.state.Firstname}
-              onChange={(e) => this.setState({ Firstname: e.target.value })}
+              name="firstname"
+              id="firstname"
+              placeholder="firstname"
+              value={this.state.firstname}
+              onChange={(e) => this.setState({ firstname: e.target.value })}
               whitespace={true}
               maxLength={40}
               allowClear
             />
           </Form.Item>
           <Form.Item
-            name="Lastname"
+            name="lastname"
             label={<span>Last Name</span>}
             rules={[
               {
@@ -487,23 +487,23 @@ export default class RegistrationForm extends Component {
           >
             <Input
               type="textbox"
-              name="Lastname"
-              id="Lastname"
-              placeholder="Lastname"
-              value={this.state.Lastname}
-              onChange={(e) => this.setState({ Lastname: e.target.value })}
+              name="lastname"
+              id="lastname"
+              placeholder="lastname"
+              value={this.state.lastname}
+              onChange={(e) => this.setState({ lastname: e.target.value })}
               whitespace={true}
               maxLength={40}
               allowClear
             />
           </Form.Item>
           <Form.Item
-            name="Address"
-            label="Address"
+            name="address"
+            label="address"
             rules={[
               {
                 required: true,
-                message: <small>Please input your Address</small>,
+                message: <small>Please input your address</small>,
               },
               {
                 type: "regexp",
@@ -515,19 +515,19 @@ export default class RegistrationForm extends Component {
           >
             <TextArea
               rows={3}
-              name="Address"
-              id="Address"
-              placeholder="Address"
-              value={this.state.Address}
-              onChange={(e) => this.setState({ Address: e.target.value })}
+              name="address"
+              id="address"
+              placeholder="address"
+              value={this.state.address}
+              onChange={(e) => this.setState({ address: e.target.value })}
               whitespace={true}
               maxLength={150}
               allowClear
             />
           </Form.Item>
           <Form.Item
-            name="Phone"
-            label="Phone Number"
+            name="phone"
+            label="phone Number"
             rules={[
               {
                 required: true,
@@ -546,11 +546,11 @@ export default class RegistrationForm extends Component {
           >
             <Input
               type="textbox"
-              name="Phone"
-              id="Phone"
+              name="phone"
+              id="phone"
               placeholder="Ex. 085 555 5555"
-              value={this.state.Phone}
-              onChange={(e) => this.setState({ Phone: e.target.value })}
+              value={this.state.phone}
+              onChange={(e) => this.setState({ phone: e.target.value })}
               whitespace={true}
               maxLength={10}
               allowClear
@@ -558,7 +558,7 @@ export default class RegistrationForm extends Component {
           </Form.Item>
 
           <Form.Item
-            name="MemberType"
+            name="member_type"
             label="User Type"
             rules={[
               {
@@ -568,8 +568,8 @@ export default class RegistrationForm extends Component {
             ]}
           >
             <Radio.Group
-              id="MemberType"
-              value={this.state.MemberType}
+              id="member_type"
+              value={this.state.member_type}
               onChange={(e) => this.onChangeCheckRadio(e)}
             >
               <Radio value="ผู้ใช้บริการ" name="ผู้ใช้บริการ">

@@ -13,33 +13,33 @@ class storeList extends Component {
     super(props);
     this.state = {
       data: [],
-      arrPromotion: [],
-      arrDiscount: [],
+      arrpromotion: [],
+      arrdiscount_status: [],
       loadingData: false,
     };
   }
   async componentDidMount() {
-    await this.onGetItempPromotion();
+    await this.onGetItemppromotion();
   }
 
-  onGetItempPromotion = () => {
+  onGetItemppromotion = () => {
     this.setState({
       data: [],
       loadingData: true,
-      arrPromotion: [],
-      arrDiscount: [],
+      arrpromotion: [],
+      arrdiscount_status: [],
     });
     let arr = [];
     let arrDIs = [];
     setTimeout(() => {
-      let ref = firebase.database().ref("Promotion");
+      let ref = firebase.database().ref("promotion");
       ref.once("value").then((snapshot) => {
         let data = [];
         if (snapshot.val()) {
           data = Object.values(snapshot.val());
         }
 
-        let refStore = firebase.database().ref("Discount");
+        let refStore = firebase.database().ref("discount_status");
         refStore.once("value").then((snapshot) => {
           if (snapshot.val()) {
             const dataDis = Object.values(snapshot.val());
@@ -63,21 +63,21 @@ class storeList extends Component {
                 dataDis !== undefined
               ) {
                 var keyd = Object.keys(dataDis);
-                let arrDiscount = Object.values(dataDis);
-                for (let i = 0; i < arrDiscount.length; i++) {
-                  arrDIs[keyd[i]] = arrDiscount[i];
+                let arrdiscount_status = Object.values(dataDis);
+                for (let i = 0; i < arrdiscount_status.length; i++) {
+                  arrDIs[keyd[i]] = arrdiscount_status[i];
                 }
               }
             }
             for (let i = 0; i < arr.length; i++) {
               for (let j = 0; j < arrDIs.length; j++) {
-                if (arr[i].businessId === arrDIs[j].businessId) {
-                  arr[i].Discount = arrDIs[j].Discount;
-                  arr[i].discountName = arrDIs[j].discountName;
-                  arr[i].discountDescrip = arrDIs[j].discountDescrip;
-                  arr[i].discountAmount = arrDIs[j].discountAmount;
-                  arr[i].startDateDiscount = arrDIs[j].startDateDiscount;
-                  arr[i].endDateDiscount = arrDIs[j].endDateDiscount;
+                if (arr[i].store_id === arrDIs[j].store_id) {
+                  arr[i].discount_status = arrDIs[j].discount_status;
+                  arr[i].discount_name = arrDIs[j].discount_name;
+                  arr[i].discount_description = arrDIs[j].discount_description;
+                  arr[i].amount_discount = arrDIs[j].amount_discount;
+                  arr[i].startdate_discount = arrDIs[j].startdate_discount;
+                  arr[i].enddate_discount = arrDIs[j].enddate_discount;
                 }
               }
             }
@@ -98,7 +98,7 @@ class storeList extends Component {
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
-        this.props.history.push("/managePromotionAndDiscount", {
+        this.props.history.push("/managePromotionAnddiscount", {
           obj,
           mode: "edit",
         });
@@ -116,9 +116,9 @@ class storeList extends Component {
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
-        firebase.remove(`Promotion/${d.businessId}`);
-        firebase.remove(`Discount/${d.businessId}`);
-        this.onGetItempPromotion();
+        firebase.remove(`promotion/${d.store_id}`);
+        firebase.remove(`discount_status/${d.store_id}`);
+        this.onGetItemppromotion();
       } else {
         return;
       }
@@ -130,8 +130,8 @@ class storeList extends Component {
     this.props.history.push("/AddStore", +props);
   };
 
-  onClickCreatePromotion = () => {
-    this.props.history.push("/managePromotionAndDiscount");
+  onClickCreatepromotion = () => {
+    this.props.history.push("/managePromotionAnddiscount");
   };
 
   render() {
@@ -140,7 +140,7 @@ class storeList extends Component {
     return (
       <div id="User-List">
         <div style={{ marginTop: "3rem", marginBottom: "4rem" }}>
-          <h2>Promotion List</h2>{" "}
+          <h2>promotion List</h2>{" "}
           <div className="row">
             {" "}
             <div
@@ -150,9 +150,9 @@ class storeList extends Component {
               <Button
                 type="primary"
                 htmlType="submit"
-                onClick={this.onClickCreatePromotion}
+                onClick={this.onClickCreatepromotion}
               >
-                Create Promotion And Discount
+                Create promotion And discount_status
               </Button>
             </div>
           </div>
@@ -163,11 +163,11 @@ class storeList extends Component {
                   <tr>
                     {/* <th scope="col">Business ID</th> */}
                     <th scope="col">Business Name</th>
-                    <th scope="col">Promotion Name</th>
-                    <th scope="col">Promotion Description</th>
-                    <th scope="col">Status Promotion</th>
+                    <th scope="col">promotion Name</th>
+                    <th scope="col">promotion Description</th>
+                    <th scope="col">Status promotion</th>
                     <th scope="col">Discount Name</th>
-                    <th scope="col">Discount Description</th>
+                    <th scope="col">DiscountDescription</th>
                     <th scope="col">Status Discount</th>
                     <th scope="col">Edit</th>
                     <th scope="col">Delete</th>
@@ -178,13 +178,21 @@ class storeList extends Component {
                     return (
                       <tr key={index}>
                         {/* <th scope="row"></th> */}
-                        <td>{d.businessName}</td>
-                        <td>{d.promotionName ? d.promotionName : "-"}</td>
-                        <td>{d.promotionDescrip ? d.promotionDescrip : "-"}</td>
-                        <td>{d.promotionAmount ? d.promotionAmount : "-"}</td>
-                        <td>{d.discountName ? d.discountName : "-"}</td>
-                        <td>{d.discountDescrip ? d.discountDescrip : "-"}</td>
-                        <td>{d.discountAmount ? d.discountAmount : "-"}</td>
+                        <td>{d.store_name}</td>
+                        <td>{d.promotion_name ? d.promotion_name : "-"}</td>
+                        <td>
+                          {d.promotion_description
+                            ? d.promotion_description
+                            : "-"}
+                        </td>
+                        <td>{d.amount_promotion ? d.amount_promotion : "-"}</td>
+                        <td>{d.discount_name ? d.discount_name : "-"}</td>
+                        <td>
+                          {d.discount_description
+                            ? d.discount_description
+                            : "-"}
+                        </td>
+                        <td>{d.amount_discount ? d.amount_discount : "-"}</td>
                         <td>
                           <a href>
                             <ion-icon
@@ -231,12 +239,12 @@ class storeList extends Component {
 }
 function mapStateToProps({ firebase }) {
   return {
-    Store: firebase.ordered.Store,
+    Store: firebase.ordered.store,
   };
 }
 
 const enhance = compose(
-  firebaseConnect([{ path: "/Store" }]),
+  firebaseConnect([{ path: "/store" }]),
   connect(mapStateToProps)
 );
 

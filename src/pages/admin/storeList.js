@@ -23,7 +23,7 @@ class storeList extends Component {
     this.setState({ data: [], loadingData: true });
 
     setTimeout(() => {
-      let ref = firebase.database().ref("Store");
+      let ref = firebase.database().ref("store");
       ref.once("value").then((snapshot) => {
         if (snapshot.val()) {
           const data = Object.values(snapshot.val());
@@ -65,7 +65,7 @@ class storeList extends Component {
 
   handleDelete = (d, index) => {
     console.log("ID", d);
-    const itemsRef = firebase.database().ref("Store");
+    const itemsRef = firebase.database().ref("store");
     swal({
       title: "Please Confirm for Delete ?",
       icon: "error",
@@ -73,7 +73,7 @@ class storeList extends Component {
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
-        itemsRef.child(d.userOfStore).remove();
+        itemsRef.child(d.username).remove();
         this.onGetItemp();
       } else {
         return;
@@ -127,12 +127,12 @@ class storeList extends Component {
                       return (
                         <tr key={index}>
                           <th scope="row">{index + 1}</th>
-                          <td>{d.Name}</td>
-                          <td>{d.Open}</td>
-                          <td>{d.Phone}</td>
-                          <td>{d.StoreType}</td>
+                          <td>{d.store_name}</td>
+                          <td>{d.open}</td>
+                          <td>{d.phone}</td>
+                          <td>{d.store_type}</td>
                           <td>
-                            {d.Type.length > 0
+                            {d.type.length > 0
                               ? d.Type.map((el) => (
                                   <p
                                     class="badge badge-warning"
@@ -143,7 +143,7 @@ class storeList extends Component {
                                 ))
                               : null}
                           </td>
-                          <td>{d.Type}</td>
+                          <td>{d.type}</td>
                           <td>
                             <a href>
                               <ion-icon
@@ -191,12 +191,12 @@ class storeList extends Component {
 }
 function mapStateToProps({ firebase }) {
   return {
-    Store: firebase.ordered.Store,
+    Store: firebase.ordered.store,
   };
 }
 
 const enhance = compose(
-  firebaseConnect([{ path: "/Store" }]),
+  firebaseConnect([{ path: "/store" }]),
   connect(mapStateToProps)
 );
 

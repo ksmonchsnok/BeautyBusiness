@@ -25,7 +25,7 @@ class userList extends Component {
     this.setState({ data: [], loadingData: true });
 
     setTimeout(() => {
-      let ref = firebase.database().ref("Member");
+      let ref = firebase.database().ref("member");
       ref.once("value").then((snapshot) => {
         if (snapshot.val()) {
           const data = Object.values(snapshot.val());
@@ -71,7 +71,7 @@ class userList extends Component {
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
-        firebase.remove(`Member/${d.MemberId}`);
+        firebase.remove(`member/${d.member_id}`);
         this.onGetItemp();
       } else {
         return;
@@ -122,10 +122,10 @@ class userList extends Component {
                       return (
                         <tr key={index}>
                           {/* <th scope="row">{index}</th> */}
-                          <td>{d.Email}</td>
-                          <td>{d.Username}</td>
-                          <td>{d.Firstname}</td>
-                          <td>{d.Phone}</td>
+                          <td>{d.email}</td>
+                          <td>{d.username}</td>
+                          <td>{d.firstname}</td>
+                          <td>{d.phone}</td>
                           <td>
                             <a href>
                               <ion-icon
@@ -173,12 +173,12 @@ class userList extends Component {
 
 function mapStateToProps({ firebase }) {
   return {
-    Member: firebase.ordered.Member,
+    Member: firebase.ordered.member,
   };
 }
 
 const enhance = compose(
-  firebaseConnect([{ path: "/Member" }]),
+  firebaseConnect([{ path: "/member" }]),
   connect(mapStateToProps)
 );
 
