@@ -133,7 +133,7 @@ class storeList extends Component {
                           <td>{d.store_type}</td>
                           <td>
                             {d.type.length > 0
-                              ? d.Type.map((el) => (
+                              ? d.type.map((el) => (
                                   <p
                                     class="badge badge-warning"
                                     style={{ marginRight: "3px" }}
