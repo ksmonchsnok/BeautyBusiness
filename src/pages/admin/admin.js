@@ -45,7 +45,7 @@ export default class Admin extends Component {
         >
           <div className="row">
             <div
-              className="col-xs-12 col-sm-12 col-md-12 col-lg-2"
+              className="col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-2"
               style={{ backgroundColor: "#343a40" }}
             >
               <div
