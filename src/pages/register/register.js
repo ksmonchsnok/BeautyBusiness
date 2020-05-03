@@ -23,10 +23,10 @@ export default class RegistrationForm extends Component {
       email: "",
       firstname: "",
       lastname: "",
-      Password: "",
+      password: "",
       cf_password: "",
       phone: "",
-      Username: "",
+      username: "",
       member_type: "",
     };
   }
@@ -70,9 +70,9 @@ export default class RegistrationForm extends Component {
     if (temp) {
       this.setState({
         imageUrl: temp.imageUrl,
-        Username: temp.Username,
+        username: temp.username,
         email: temp.email,
-        Password: temp.Password,
+        password: temp.password,
         cf_password: temp.cf_password,
         firstname: temp.firstname,
         lastname: temp.lastname,
@@ -82,9 +82,9 @@ export default class RegistrationForm extends Component {
       });
       this.formRef.current.setFieldsValue({
         imageUrl: temp.imageUrl,
-        Username: temp.Username,
+        username: temp.username,
         email: temp.email,
-        Password: temp.Password,
+        password: temp.password,
         cf_password: temp.cf_password,
         firstname: temp.firstname,
         lastname: temp.lastname,
@@ -104,7 +104,7 @@ export default class RegistrationForm extends Component {
 
   onGotoSave() {
     let email = this.state.email;
-    let password = this.state.Password;
+    let password = this.state.password;
     let checkProps = this.props.location
       ? this.props.location.state
         ? "pass"
@@ -128,12 +128,12 @@ export default class RegistrationForm extends Component {
           });
 
         setTimeout(() => {
-          const setItemInsert = firebase.database().ref(`Member`);
+          const setItemInsert = firebase.database().ref(`member`);
           let newState = {
             imageUrl: this.state.imageUrl,
-            Username: this.state.Username,
+            username: this.state.username,
             email: this.state.email,
-            Password: this.state.Password,
+            password: this.state.password,
             cf_password: this.state.cf_password,
             firstname: this.state.firstname,
             lastname: this.state.lastname,
@@ -144,7 +144,7 @@ export default class RegistrationForm extends Component {
           setItemInsert.child(user.uid).update(newState);
           localStorage.setItem("ObjUser", JSON.stringify(this.state));
           let temp = JSON.parse(localStorage.getItem("ObjUser"));
-          if (temp.Password !== this.state.Password) {
+          if (temp.password !== this.state.password) {
             firebase
               .auth()
               .signOut()
@@ -180,18 +180,18 @@ export default class RegistrationForm extends Component {
       } else {
         firebase
           .auth()
-          .createUserWithemailAndPassword(email, password)
+          .createUserWithEmailAndPassword(email, password)
           .then((res) => {
             setTimeout(() => {
               const setItemInsert = firebase
                 .database()
-                .ref(`Member/${res.user.uid}`);
+                .ref(`member/${res.user.uid}`);
               let newState = {
                 member_id: res.user.uid,
                 imageUrl: this.state.imageUrl,
-                Username: this.state.Username,
+                username: this.state.username,
                 email: this.state.email,
-                Password: this.state.Password,
+                password: this.state.password,
                 cf_password: this.state.cf_password,
                 firstname: this.state.firstname,
                 lastname: this.state.lastname,
@@ -297,14 +297,16 @@ export default class RegistrationForm extends Component {
       >
         <Navbar />
         <div className="container">
-          {/* {this.props.location.state.mode ===
-            "EditUser"(
-              <span>
-                {" "}
-                <h3>แก้ข้อมูลผู้ใช้ </h3>
-              </span>
-            )} */}
-          <h3>Register /สมัครสมาชิก </h3>
+          {this.props.location.state.mode === "EditUser" && (
+            <span>
+              <h3>Update / แก้ข้อมูลผู้ใช้ </h3>
+            </span>
+          )}
+          {this.props.location.state.mode !== "EditUser" && (
+            <span>
+              <h3>Register / สมัครสมาชิก </h3>
+            </span>
+          )}
 
           <hr />
           <Form
@@ -334,12 +336,12 @@ export default class RegistrationForm extends Component {
               </Upload>
             </Form.Item>
             <Form.Item
-              name="Username"
-              label={<span>Username</span>}
+              name="username"
+              label={<span>username</span>}
               rules={[
                 {
                   required: true,
-                  message: <small>Please input your Username</small>,
+                  message: <small>Please input your username</small>,
                 },
                 {
                   type: "string",
@@ -354,11 +356,11 @@ export default class RegistrationForm extends Component {
             >
               <Input
                 type="textbox"
-                name="Username"
-                id="Username"
+                name="username"
+                id="username"
                 placeholder="Username"
-                value={this.state.Username}
-                onChange={(e) => this.setState({ Username: e.target.value })}
+                value={this.state.username}
+                onChange={(e) => this.setState({ username: e.target.value })}
                 whitespace={true}
                 maxLength={40}
                 allowClear
@@ -395,11 +397,12 @@ export default class RegistrationForm extends Component {
                 whitespace={true}
                 maxLength={40}
                 allowClear
+                disabled={this.props.location.state.mode === "EditUser"}
               />
             </Form.Item>
 
             <Form.Item
-              name="Password"
+              name="password"
               label={
                 <span>
                   Password &nbsp;
@@ -431,14 +434,15 @@ export default class RegistrationForm extends Component {
             >
               <Input.Password
                 type="textbox"
-                name="Password"
-                id="Password"
+                name="password"
+                id="password"
                 placeholder="Password"
-                value={this.state.Password}
-                onChange={(e) => this.setState({ Password: e.target.value })}
+                value={this.state.password}
+                onChange={(e) => this.setState({ password: e.target.value })}
                 whitespace={true}
                 maxLength={16}
                 allowClear
+                disabled={this.props.location.state.mode === "EditUser"}
               />
             </Form.Item>
             <Form.Item>
@@ -471,7 +475,7 @@ export default class RegistrationForm extends Component {
                   </Tooltip>
                 </span>
               }
-              dependencies={["Password"]}
+              dependencies={["password"]}
               hasFeedback
               rules={[
                 {
@@ -480,7 +484,7 @@ export default class RegistrationForm extends Component {
                 },
                 ({ getFieldValue }) => ({
                   validator(rule, value) {
-                    if (!value || getFieldValue("Password") === value) {
+                    if (!value || getFieldValue("password") === value) {
                       return Promise.resolve();
                     }
 
@@ -497,12 +501,13 @@ export default class RegistrationForm extends Component {
                 type="textbox"
                 name="cf_password"
                 id="cf_password"
-                placeholder="Confirmpassword"
+                placeholder="Confirm Password"
                 value={this.state.cf_password}
                 onChange={(e) => this.setState({ cf_password: e.target.value })}
                 whitespace={true}
                 maxLength={16}
                 allowClear
+                disabled={this.props.location.state.mode === "EditUser"}
               />
             </Form.Item>
 
@@ -528,7 +533,7 @@ export default class RegistrationForm extends Component {
               <Input
                 type="textbox"
                 name="firstname"
-                placeholder="firstname"
+                placeholder="Firstname"
                 id="firstname"
                 value={this.state.firstname}
                 onChange={(e) => this.setState({ firstname: e.target.value })}
@@ -560,7 +565,7 @@ export default class RegistrationForm extends Component {
                 type="textbox"
                 name="lastname"
                 id="lastname"
-                placeholder="lastname"
+                placeholder="Lastname"
                 value={this.state.lastname}
                 onChange={(e) => this.setState({ lastname: e.target.value })}
                 whitespace={true}
@@ -570,7 +575,7 @@ export default class RegistrationForm extends Component {
             </Form.Item>
             <Form.Item
               name="address"
-              label="address"
+              label="Address"
               rules={[
                 {
                   required: true,
@@ -588,7 +593,7 @@ export default class RegistrationForm extends Component {
                 rows={3}
                 name="address"
                 id="address"
-                placeholder="address"
+                placeholder="Ex. เลขที่ หมู่ ซอย ถนน ตำบล อำเภอ จังหวัด รหัสไปรษณีย์"
                 value={this.state.address}
                 onChange={(e) => this.setState({ address: e.target.value })}
                 whitespace={true}
@@ -598,7 +603,7 @@ export default class RegistrationForm extends Component {
             </Form.Item>
             <Form.Item
               name="phone"
-              label="phone Number"
+              label="Phone Number"
               rules={[
                 {
                   required: true,
@@ -661,13 +666,28 @@ export default class RegistrationForm extends Component {
               >
                 Cancel
               </Button>
-              <Button
-                type="primary"
-                htmlType="submit"
-                onClick={() => this.onGotoSave()}
-              >
-                Register
-              </Button>
+              {this.props.location.state.mode === "EditUser" && (
+                <span>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    onClick={() => this.onGotoSave()}
+                  >
+                    Update
+                  </Button>
+                </span>
+              )}
+              {this.props.location.state.mode !== "EditUser" && (
+                <span>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    onClick={() => this.onGotoSave()}
+                  >
+                    Register
+                  </Button>
+                </span>
+              )}
             </Form.Item>
           </Form>
         </div>

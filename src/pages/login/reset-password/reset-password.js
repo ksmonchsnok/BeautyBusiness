@@ -49,7 +49,7 @@ export default class ResetPassword extends Component {
     return (
       <div id="Reset-Password">
         <Navbar />
-        <div className="container">
+        <div className="container" style={{ height: "66.3vh" }}>
           <div className="row d-flex justify-content-center">
             <div className="col-10">
               <h3 style={{ marginBottom: "4rem" }}>Reset Your Password</h3>

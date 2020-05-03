@@ -61,7 +61,7 @@ export default class ForgotPassword extends Component {
     return (
       <div id="Forgot-Password">
         <Navbar />
-        <div className="container">
+        <div className="container" style={{ height: "67vh" }}>
           <div className="row d-flex justify-content-center">
             <div className="col-10">
               <h3 style={{ marginBottom: "4rem" }}>Forgot Your Password</h3>
@@ -112,7 +112,7 @@ export default class ForgotPassword extends Component {
                     style={{ marginTop: "2rem" }}
                     onClick={this.onClickForgotPassword}
                   >
-                    Send To Forgot Password
+                    Forgot Password
                   </Button>
                 </Form.Item>
               </Form>
