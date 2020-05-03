@@ -49,7 +49,7 @@ class LoginForAdmin extends Component {
     } else {
       this.setState({ loadingLogin: false });
 
-      swal("ผิดพลาด", "Username หรือ Passpord ไม่ถูกต้อง", "error");
+      swal("ผิดพลาด", "Username หรือ Password ไม่ถูกต้อง", "error");
       return;
     }
     this.setState({ loadingLogin: true });

@@ -29,22 +29,23 @@ export default class Admin extends Component {
       <div id="Admin-Page">
         <Position />
         <Navbar />
-        <h2 className="text-left" style={{ marginLeft: "1.5rem" }}>
+        {/* <h2 className="text-left" style={{ marginLeft: "1.5rem" }}>
           Admin
         </h2>
-        <hr />
+        <hr /> */}
         <div
           className="bd-example bd-example-tabs"
           style={{
-            marginTop: "-1rem",
-            marginRight: "1rem",
-            height: "auto",
+            marginTop: "-4.2rem",
+            // paddingRight: "1rem",
+            height: "100%",
             marginBottom: "-3rem",
+            overflow:"hidden"
           }}
         >
           <div className="row">
             <div
-              className="col-xs-12 col-md-12 col-lg-2"
+              className="col-xs-12 col-sm-12 col-md-12 col-lg-2"
               style={{ backgroundColor: "#343a40" }}
             >
               <div
@@ -61,7 +62,7 @@ export default class Admin extends Component {
                   role="tab"
                   aria-controls="v-pills-manageUser"
                   aria-selected="true"
-                  style={{ marginTop: "1rem" }}
+                  style={{ marginTop: "3rem" }}
 
                 >
                   <ion-icon name="person-outline" size="small" />
@@ -107,15 +108,15 @@ export default class Admin extends Component {
                 </a>
               </div>
             </div>
-            <div className="col" style={{ marginBottom: "5rem" }}>
+            <div className="col card" style={{ margin: "1rem"}}>
               <div className="tab-content" id="v-pills-tabContent">
               <div
-                  className="col tab-pane fade active show"
+                  className="col  tab-pane fade active show"
                   id="v-pills-manageUser"
                   role="tabpanel"
                   aria-labelledby="v-pills-manageUser-tab"
                 >
-                  <UserList {...this.props} />
+                  <UserList  className="card"{...this.props} />
                 </div>
                 <div
                   className="col tab-pane fade "

@@ -203,18 +203,18 @@ class Managepromotion extends Component {
         };
         updateStore.child(this.state.store_id).update(editStore);
         swal({
-          title: "You want Update User",
-          icon: "warning",
+          title: "Update Success",
+          icon: "success",
           buttons: true,
-          dangerMode: true,
+          dangerMode: false,
         }).then((willDelete) => {
           if (willDelete) {
-            swal("Update User Success", {
-              icon: "success",
-            });
+            // swal("Update User Success", {
+            //   icon: "success",
+            // });
             this.onClickCancel();
           } else {
-            swal("Your imaginary file is safe!");
+            // swal("Your imaginary file is safe!");
           }
         });
       } else {
@@ -273,20 +273,20 @@ class Managepromotion extends Component {
         };
         updateStore.child(this.state.store_id).update(editStore);
         swal({
-          title: "Create promotion Success",
-          text: "ํYou want Continue or not?",
-          icon: "warning",
+          title: "Create Promotion And Discount Success",
+          text: "",
+          icon: "success",
           buttons: true,
-          dangerMode: true,
+          dangerMode: false,
         })
           .then((willDelete) => {
             if (willDelete) {
-              swal("Create promotion", {
-                icon: "success",
-              });
+              // swal("Create Promotion", {
+              //   icon: "success",
+              // });
               this.onClickCancel();
             } else {
-              swal("Your imaginary file is safe!");
+              // swal("Your imaginary file is safe!");
             }
           })
           .catch(function (error) {
@@ -419,7 +419,7 @@ class Managepromotion extends Component {
                     <input
                       type="text"
                       className="form-control"
-                      placeholder="discount Name"
+                      placeholder="Discount Name"
                       value={this.state.discount_name}
                       onChange={(e) =>
                         this.setState({ discount_name: e.target.value })

@@ -235,10 +235,10 @@ class RegistrationForm extends Component {
             setItemInsert.child(store_id).update(newState);
             swal({
               title: "Update Business Success",
-              text: "ํYou want Continue or not?",
-              icon: "warning",
+              text: "",
+              icon: "success",
               buttons: true,
-              dangerMode: true,
+              dangerMode: false,
             })
               .then((willDelete) => {
                 if (willDelete) {
@@ -247,7 +247,7 @@ class RegistrationForm extends Component {
                   // });
                   this.onClickCancel();
                 } else {
-                  swal("Update Business", "success");
+                  // swal("Update Business", "success");
                 }
               })
               .catch(function (error) {
@@ -278,19 +278,19 @@ class RegistrationForm extends Component {
             setItemInsert.set(newState);
             swal({
               title: "Create Business Success",
-              text: "ํYou want Continue or not?",
-              icon: "warning",
+              text: "",
+              icon: "success",
               buttons: true,
-              dangerMode: true,
+              dangerMode: false,
             })
               .then((willDelete) => {
                 if (willDelete) {
-                  swal("Create promotion", {
-                    icon: "success",
-                  });
+                  // swal("Create promotion", {
+                  //   icon: "success",
+                  // });
                   this.onClickCancel();
                 } else {
-                  swal("Create Business", "success");
+                  // swal("Create Business", "success");
                 }
               })
               .catch(function (error) {
@@ -330,24 +330,24 @@ class RegistrationForm extends Component {
             setItemInsert.child(store_id).update(newState);
             swal({
               title: "Update Business Success",
-              text: "ํYou want Continue or not?",
-              icon: "warning",
+              text: "",
+              icon: "success",
               buttons: true,
-              dangerMode: true,
+              dangerMode: false,
             })
               .then((willDelete) => {
                 if (willDelete) {
-                  swal("Create Business", {
-                    icon: "success",
-                  });
+                  // swal("Create Business", {
+                  //   icon: "success",
+                  // });
                   this.onClickCancel();
                   this.props.history.push('/')
                 } else {
-                  swal("Update Business", "success");
+                  // swal("Update Business", "success");
                 }
               })
               .catch(function (error) {
-                swal("ผิดพลาด!", "ไม่สามารถแก้ไขได้", "error");
+                swal("ผิดพลาด!", "ไม่สามารถแก้ไขข้อมูลได้", "error");
               });
           }, 1000);
         } else {
@@ -372,10 +372,10 @@ class RegistrationForm extends Component {
             setItemInsert.set(newState);
             swal({
               title: "Create Business Success",
-              text: "ํYou want Continue or not?",
-              icon: "warning",
+              text: "",
+              icon: "success",
               buttons: true,
-              dangerMode: true,
+              dangerMode: false,
             })
               .then((willDelete) => {
                 if (willDelete) {
@@ -384,7 +384,7 @@ class RegistrationForm extends Component {
                   // });
                   this.onClickCancel();
                 } else {
-                  swal("Create Business", "success");
+                  // swal("Create Business", "success");
                 }
               })
               .catch(function (error) {

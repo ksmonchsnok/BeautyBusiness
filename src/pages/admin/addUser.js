@@ -129,18 +129,18 @@ export default class RegistrationForm extends Component {
           };
           setItemInsert.child(this.state.member_id).update(newState);
           swal({
-            title: "You want Update User",
-            icon: "warning",
+            title: "Update User Success",
+            icon: "success",
             buttons: true,
-            dangerMode: true,
+            dangerMode: false,
           }).then((willDelete) => {
             if (willDelete) {
-              swal("Update User Success", {
-                icon: "success",
-              });
+              // swal("Update User Success", {
+              //   icon: "success",
+              // });
               this.onClickCancel();
             } else {
-              swal("Success!");
+              // swal("Success!");
             }
           });
         } else {
@@ -169,19 +169,19 @@ export default class RegistrationForm extends Component {
               };
               setItemInsert.set(newState);
               swal({
-                title: "Already Registered",
-                text: "ํYou want Continue or not?",
-                icon: "warning",
+                title: "Create User Success",
+                text: "",
+                icon: "sucess",
                 buttons: true,
-                dangerMode: true,
+                dangerMode: false,
               }).then((willDelete) => {
                 if (willDelete) {
-                  swal("Create User Success", {
-                    icon: "success",
-                  });
+                  // swal("Create User Success", {
+                  //   icon: "success",
+                  // });
                   this.onClickCancel();
                 } else {
-                  swal("Success!");
+                  // swal("Success!");
                 }
               });
             })

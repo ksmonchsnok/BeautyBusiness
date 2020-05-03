@@ -225,10 +225,14 @@ class StoreDetail extends Component {
         >
           โปรโมชั่นและส่วนลดบริการของธุรกิจ
         </h3>
+
+
         {this.checkDiscount ? (
+
+
           <li className="list-group-item">
             <div className="container">
-              {" "}
+              
               <div className="row">
                 <div className="col-xs-12 col-sm-12 col-md-6 d-flex justify-content-center">
                   <h3>โปรโมชั่น :: {this.state.pormotion.promotion_name?this.state.pormotion.promotion_name:'ไม่มี'}</h3>

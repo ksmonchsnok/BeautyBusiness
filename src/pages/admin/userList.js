@@ -50,10 +50,10 @@ class userList extends Component {
 
   handleEdit = (obj) => {
     swal({
-      title: "Please Confirm for Edit ?",
+      title: "Please Confirm to Edit ?",
       icon: "warning",
       buttons: true,
-      dangerMode: true,
+      dangerMode: false,
     }).then((willDelete) => {
       if (willDelete) {
         this.props.history.push("/AddUser", { obj, mode: "edit" });
@@ -65,7 +65,7 @@ class userList extends Component {
 
   handleDelete = (d, index) => {
     swal({
-      title: "Please Confirm for Delete ?",
+      title: "Please Confirm to Delete ?",
       icon: "error",
       buttons: true,
       dangerMode: true,
@@ -87,7 +87,7 @@ class userList extends Component {
     const { loadingData } = this.state;
 
     return (
-      <div id="User-List">
+      <div id="User-List" style={{height:"100vh"}}>
         <div className="" style={{ marginTop: "3rem", marginBottom: "4rem" }}>
           <h2>User List</h2>{" "}
           <div

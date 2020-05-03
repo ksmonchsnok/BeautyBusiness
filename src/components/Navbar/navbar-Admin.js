@@ -63,16 +63,16 @@ class navbar extends Component {
 
   OnLogout = () => {
     swal({
-      title: "Log out",
-      text: "Please Confirm Logout.",
+      title: "Log Out Success",
+      text: "",
       icon: "warning",
       buttons: true,
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
-        swal("Log out Success", {
-          icon: "success",
-        });
+        // swal("Log out Success", {
+        //   icon: "success",
+        // });
 
         this.props.history.push("/LoginForAdmin");
 
@@ -87,7 +87,7 @@ class navbar extends Component {
         //     // An error happened.
         //   });
       } else {
-        swal("Your imaginary file is safe!");
+        // swal("Your imaginary file is safe!");
       }
     });
   };
@@ -100,7 +100,9 @@ class navbar extends Component {
             <img src={Logo} className="logoNav" alt="Logo" />
           </NavLink>
           <ul className="navbar-nav mr-auto">
-            <li className="nav-item"></li>
+            <li className="nav-item">           
+            <h1 style={{color:"#F69220" ,marginTop:"1rem",marginLeft:"0.5rem"}}>Admin</h1> 
+            </li>
           </ul>
           <form className="form-inline my-2 my-lg-0">
             <div className="nav justify-content-end">

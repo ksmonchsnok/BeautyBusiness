@@ -7,6 +7,7 @@ import Filter from "../../components/filter/filter.js";
 import Navbar from "../../components/navbar/navbar.js";
 import "antd/dist/antd.css";
 import { Tag } from "antd";
+import firebase from "firebase";
 
 class AllStore extends Component {
   constructor(props) {
@@ -17,8 +18,28 @@ class AllStore extends Component {
       rating: 0,
       discount: true,
       promotion: true,
+      arrStore: []
     };
   }
+  componentDidMount() {
+    let ref = firebase.database().ref("store");
+    ref.once("value").then((snapshot) => {
+      if (snapshot.val()) {
+        const data = Object.values(snapshot.val());
+        const data1 = []
+        if (typeof data === "object" && data !== null && data !== undefined) {
+          let arr = [];
+          var key = Object.keys(data);
+          let arr1 = Object.values(data);
+          for (let i = 0; i < arr1.length; i++) {
+            arr[key[i]] = arr1[i];
+            data1.push({ key:  key[i] , value : arr1[i]})
+          }
+          this.setState({ arrStore: data1 });
+        }
+      }
+    })
+  };
 
   onclickBack = () => {
     window.history.back();
@@ -174,90 +195,87 @@ class AllStore extends Component {
   };
 
   render() {
-    const { store, promotion, discount, checkbox } = this.state;
-    const { Store } = this.props;
-    console.log(this.props);
-    
+    const { store, promotion, discount, checkbox, arrStore } = this.state;
+    // const { Store } = this.props;)
+    const item = arrStore
+      ? arrStore.filter(
+        this.searchFilter(store, checkbox, discount, promotion)
+      ).map(({ key, value }) => {
+        if (this.state.rating === 0) {
+          return (
+            <div className="col-lg-4 col-md-6">
+              <div key={value.store_id}>
+                <a href onClick={() => this.onClickViewDetail(value)}>
+                  <img
+                    className="card-img-top img-fluid rounded mx-auto d-block"
+                    src={value.imageUrl}
+                    alt="image"
+                    style={{ width: "300px", height: "250px" }}
+                    aria-hidden="true"
+                  />
+                  <div className="card-body text-left mb-auto">
+                    <h6 className="styleFont">
+                      <h2>{value.store_name}</h2>
+                      <hr />
 
-    const item = Store
-      ? Store.filter(
-          this.searchFilter(store, checkbox, discount, promotion)
-        ).map(({ key, value }) => {
-          if (this.state.rating === 0) {
-            return (
-              <div className="col-lg-4 col-md-6">
-                <div key={value.store_id}>
-                  <a href onClick={() => this.onClickViewDetail(value)}>
-                    <img
-                      className="card-img-top img-fluid rounded mx-auto d-block"
-                      src={value.imageUrl}
-                      alt="image"
-                      style={{ width: "300px", height: "250px" }}
-                      aria-hidden="true"
-                    />
-                    <div className="card-body text-left mb-auto">
-                      <h6 className="styleFont">
-                        <h2>{value.store_name}</h2>
-                        <hr />
+                      {value.type.map((el) => (
+                        <Tag color="gold" style={{ marginBottom: "0.6rem" }}>
+                          {el}
+                        </Tag>
+                      ))}
 
-                        {value.type.map((el) => (
-                          <Tag color="gold" style={{ marginBottom: "0.6rem" }}>
-                            {el}
-                          </Tag>
-                        ))}
-
-                        <h4 style={{ color: "#000" }}>{value.address}</h4>
-                      </h6>
-                    </div>
-                  </a>
-                </div>
+                      <h4 style={{ color: "#000" }}>{value.address}</h4>
+                    </h6>
+                  </div>
+                </a>
               </div>
-            );
-          }
-          if (value.Star >= this.state.rating) {
-            return (
-              <div className="col-lg-4 col-md-6">
-                <div key={value.store_id}>
-                  <a href onClick={() => this.onClickViewDetail(value)}>
-                    <img
-                      className="card-img-top img-fluid rounded mx-auto d-block"
-                      src={value.imageUrl}
-                      alt="image"
-                      style={{ width: "300px", height: "250px" }}
-                      aria-hidden="true"
-                    />
-                    <div className="card-body text-left mb-auto">
-                      <h6 className="styleFont">
-                        <p className="font">{value.store_name}</p>
-                        <hr />
-                        {value.type.map((el) => (
-                          <p
-                            style={{
-                              marginLeft: -2,
-                              marginRight: 8,
-                              marginBottom: 3,
-                              marginTop: 0.5,
-                              fontWeight: "lighter",
-                            }}
-                            className="badge badge-warning"
-                          >
-                            {el}
-                          </p>
-                        ))}
-
-                        <p style={{ lineHeight: 1 + "rem", color: "#000" }}>
-                          {value.address}
+            </div>
+          );
+        }
+        if (value.Star >= this.state.rating) {
+          return (
+            <div className="col-lg-4 col-md-6">
+              <div key={value.store_id}>
+                <a href onClick={() => this.onClickViewDetail(value)}>
+                  <img
+                    className="card-img-top img-fluid rounded mx-auto d-block"
+                    src={value.imageUrl}
+                    alt="image"
+                    style={{ width: "300px", height: "250px" }}
+                    aria-hidden="true"
+                  />
+                  <div className="card-body text-left mb-auto">
+                    <h6 className="styleFont">
+                      <p className="font">{value.store_name}</p>
+                      <hr />
+                      {value.type.map((el) => (
+                        <p
+                          style={{
+                            marginLeft: -2,
+                            marginRight: 8,
+                            marginBottom: 3,
+                            marginTop: 0.5,
+                            fontWeight: "lighter",
+                          }}
+                          className="badge badge-warning"
+                        >
+                          {el}
                         </p>
-                      </h6>
-                    </div>
-                  </a>
-                </div>
+                      ))}
+
+                      <p style={{ lineHeight: 1 + "rem", color: "#000" }}>
+                        {value.address}
+                      </p>
+                    </h6>
+                  </div>
+                </a>
               </div>
-            );
-          }
-        })
+            </div>
+          );
+        }
+      })
       : "";
-      
+
     return (
       <div id="search">
         <Navbar />
@@ -277,7 +295,7 @@ class AllStore extends Component {
             <div className="album  bg-while">
               <div
                 className="row"
-                // style={{border:"0.5px solid gray"}}
+              // style={{border:"0.5px solid gray"}}
               >
                 <div
                   className="col-lg-3 col-md-5 col-sm-6 jumbotron jumbotron-fluid"

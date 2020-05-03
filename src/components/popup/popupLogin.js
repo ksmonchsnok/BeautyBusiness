@@ -59,10 +59,10 @@ class LoginForm extends Component {
         .then((resp) => {
           swal({
             title: "Login Success",
-            text: "ํYou want Continue or not?",
-            icon: "warning",
+            text: "",
+            icon: "success",
             buttons: true,
-            dangerMode: true,
+            dangerMode: false,
           }).then((willDelete) => {
           if (willDelete) {
           const setPassword = firebase.database().ref(`member`);

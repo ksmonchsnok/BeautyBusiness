@@ -3,7 +3,6 @@ import firebase from "firebase";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { firebaseConnect } from "react-redux-firebase";
-import swal from "sweetalert";
 import moment from "moment";
 
 class Report extends Component {

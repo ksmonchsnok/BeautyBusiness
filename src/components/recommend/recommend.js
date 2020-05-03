@@ -38,6 +38,7 @@ class Recommened extends Component {
       .on("child_added", (snapshot) => {
         Store.push(snapshot.val());
       });
+console.log(Store);
 
     const item = Store.map((value) => (
       <div className="col-lg-4">

@@ -92,10 +92,10 @@ class storeList extends Component {
 
   handleEdit = (obj) => {
     swal({
-      title: "Please Confirm for Edit ?",
+      title: "Please Confirm to Edit ?",
       icon: "warning",
       buttons: true,
-      dangerMode: true,
+      dangerMode: false,
     }).then((willDelete) => {
       if (willDelete) {
         this.props.history.push("/managePromotionAnddiscount", {
@@ -110,7 +110,7 @@ class storeList extends Component {
 
   handleDelete = (d, index) => {
     swal({
-      title: "Please Confirm for Delete ?",
+      title: "Please Confirm to Delete ?",
       icon: "error",
       buttons: true,
       dangerMode: true,
@@ -138,9 +138,9 @@ class storeList extends Component {
     const { loadingData } = this.state;
 
     return (
-      <div id="User-List">
+      <div id="Promotion-List" style={{height:"100vh"}}>
         <div style={{ marginTop: "3rem", marginBottom: "4rem" }}>
-          <h2>promotion List</h2>{" "}
+          <h2>Promotion List</h2>{" "}
           <div className="row">
             {" "}
             <div
@@ -152,7 +152,7 @@ class storeList extends Component {
                 htmlType="submit"
                 onClick={this.onClickCreatepromotion}
               >
-                Create promotion And discount_status
+                Create Promotion And Discount
               </Button>
             </div>
           </div>

@@ -163,7 +163,7 @@ class RegistrationForm extends Component {
       ) {
         if (this.state.mode === "edit") {
           setTimeout(() => {
-            swal("แก้ไขเรียบร้อย", "success");
+            swal("Update Business Success", "success");
             const setItemInsert = firebase.database().ref(`store`);
             let newState = {
               imageUrl: this.state.imageUrl,
@@ -184,7 +184,7 @@ class RegistrationForm extends Component {
           }, 500);
         } else {
           setTimeout(() => {
-            swal("สร้างเรียบร้อย", "success");
+            swal("Create Business Success", "success");
             const setItemInsert = firebase
               .database()
               .ref(`store/${this.state.store_id}`);
@@ -224,7 +224,7 @@ class RegistrationForm extends Component {
       ) {
         if (this.state.mode === "edit") {
           setTimeout(() => {
-            swal("แก้ไขเรียบร้อย", "success");
+            swal("Update Business Success", "success");
             const setItemInsert = firebase.database().ref(`store`);
             let newState = {
               imageUrl: this.state.imageUrl,
@@ -245,7 +245,7 @@ class RegistrationForm extends Component {
           }, 500);
         } else {
           setTimeout(() => {
-            swal("สร้างเรียบร้อย", "success");
+            swal("Create Business Success", "success");
             const setItemInsert = firebase
               .database()
               .ref(`store/${this.state.store_id}`);
@@ -391,7 +391,7 @@ class RegistrationForm extends Component {
         style={{ marginTop: "3rem", marginLeft: "1rem", paddingRight: "1rem" }}
       >
         <Navber />
-        <div classstore_name="container" style={{ marginBottom: "5rem" }}>
+        <div className="container" style={{ marginBottom: "5rem" }}>
           {this.props.location.state.mode !== "edit" && (
             <h1>Create Business</h1>
           )}
@@ -401,7 +401,7 @@ class RegistrationForm extends Component {
 
           <hr />
           <div
-            classstore_name="row container"
+            className="row container"
             style={{ marginBottom: "1rem", marginTop: "1.5rem" }}
           >
             <h4>Select User</h4>
@@ -469,14 +469,14 @@ class RegistrationForm extends Component {
           </Form.Item>
           <Form.Item
             name="store_name"
-            label={<span>Business store_name</span>}
+            label={<span>Business Name</span>}
             rules={[
               {
                 required: true,
                 message: <small>Please input your Business store_name</small>,
               },
               {
-                type: "string",
+                type: "regexp",
                 pattern: new RegExp("^[A-Za-zก-๙0-9]*$"),
                 message: <small>Please input alphabetical only.</small>,
               },
@@ -491,7 +491,7 @@ class RegistrationForm extends Component {
               type="textbox"
               name="store_name"
               id="store_name"
-              placeholder="Business store_name"
+              placeholder="Business Name"
               value={this.state.store_name}
               onChange={(e) => this.setState({ store_name: e.target.value })}
               whitespace={true}

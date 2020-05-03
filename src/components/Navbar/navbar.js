@@ -227,8 +227,8 @@ class navbar extends Component {
 
   OnLogout() {
     swal({
-      title: "Log out",
-      text: "You want Continue Log Out?",
+      title: "Log Out Success",
+      text: "",
       icon: "warning",
       buttons: true,
       dangerMode: true,
@@ -330,7 +330,7 @@ class navbar extends Component {
                       {this.state.checkBusiness ? (
                         <span
                           onClick={this.checkHaveBusiness}
-                          activeClassName="is-active"
+                          className="is-active"
                           className="nav-link link-menu"
                           style={{ marginTop: "-8px" }}
                         >

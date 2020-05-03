@@ -50,10 +50,10 @@ class storeList extends Component {
     console.log("Data", obj);
 
     swal({
-      title: "Please Confirm for Edit ?",
+      title: "Please Confirm to Edit ?",
       icon: "warning",
       buttons: true,
-      dangerMode: true,
+      dangerMode: false,
     }).then((willDelete) => {
       if (willDelete) {
         this.props.history.push("/AddStore", { obj, mode: "edit" });
@@ -67,7 +67,7 @@ class storeList extends Component {
     console.log("ID", d);
     const itemsRef = firebase.database().ref("store");
     swal({
-      title: "Please Confirm for Delete ?",
+      title: "Please Confirm to Delete ?",
       icon: "error",
       buttons: true,
       dangerMode: true,
@@ -90,7 +90,7 @@ class storeList extends Component {
     const { loadingData } = this.state;
 
     return (
-      <div id="User-List">
+      <div id="Store-List" style={{height:"100vh"}}>
         <div style={{ marginTop: "3rem", marginBottom: "4rem" }}>
           <h2>Business List</h2>{" "}
           <div

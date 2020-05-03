@@ -3,7 +3,6 @@ import "../../../style.css";
 import FacebookLogin from "react-facebook-login";
 import firebase from "firebase/app";
 import "firebase/auth";
-import swal from "sweetalert";
 import { withRouter } from "react-router-dom";
 
 class Facebook extends Component {

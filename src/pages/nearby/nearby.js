@@ -46,7 +46,7 @@ class Nearby extends Component {
             Lat: location.lat,
             Lng: location.lng,
             store_id: location.store_id,
-            image: location.image,
+            imageUrl: location.imageUrl,
             social: location.social,
             address: location.address,
             type: location.type,
@@ -180,7 +180,7 @@ class Nearby extends Component {
           Lat: el.Lat,
           Lng: el.Lng,
           store_id: el.store_id,
-          image: el.image,
+          imageUrl: el.imageUrl,
           social: el.social,
           address: el.address,
           type: el.type,
@@ -214,7 +214,7 @@ class Nearby extends Component {
             <img
               className="card-img-top img-fluid rounded mx-auto d-block"
               src={value.imageUrl}
-              alt="image"
+              alt="imageUrl"
               aria-hidden="true"
             />
             <div className="card-body text-left mb-auto">

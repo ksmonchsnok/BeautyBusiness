@@ -3,7 +3,6 @@ import firebase from "firebase";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { firebaseConnect } from "react-redux-firebase";
-import swal from "sweetalert";
 import moment from "moment";
 class report extends Component {
   constructor(props) {
@@ -47,7 +46,7 @@ class report extends Component {
     const { loadingData } = this.state;
 
     return (
-      <div id="report">
+      <div id="Report-List" style={{height:"100vh"}}>
         <div style={{ marginTop: "4rem", marginBottom: "3rem" }}></div>
         <h2>Discount report</h2>
 
