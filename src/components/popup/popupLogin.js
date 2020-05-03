@@ -57,14 +57,14 @@ class LoginForm extends Component {
         .auth()
         .signInWithEmailAndPassword(email, password)
         .then((resp) => {
-          // swal({
-          //   title: "Login Success",
-          //   text: "ํYou want Continue or not?",
-          //   icon: "warning",
-          //   buttons: true,
-          //   dangerMode: true,
-          // }).then((willDelete) => {
-          // if (willDelete) {
+          swal({
+            title: "Login Success",
+            text: "ํYou want Continue or not?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          }).then((willDelete) => {
+          if (willDelete) {
           const setPassword = firebase.database().ref(`member`);
           setPassword.child(resp.user.uid).update({
             Password: this.state.password,
@@ -77,22 +77,17 @@ class LoginForm extends Component {
             .once("value")
             .then((snapshot) => {
               localStorage.setItem("ObjUser", JSON.stringify(snapshot.val()));
-              // this.props.checkLogin(snapshot.val());
+                          // this.props.checkLogin(snapshot.val());
             });
           this.setState({ loadingLogin: true });
-
           this.props.history.push({
             pathname: "/",
             state: { ChekShowInOut: true },
           });
 
           this.setState({ checklogIn: true });
-          // } else {
-          //   // swal("ยกเลิก");
-          //   this.setState({ checklogIn: false });
-          //   this.setState({ loadingLogin: false });
-          // }
-          // });
+          }
+          });
         })
 
         .catch(function (error) {

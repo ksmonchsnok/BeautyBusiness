@@ -196,6 +196,12 @@ class Managepromotion extends Component {
             : moment(this.state.enddate_discount).format(),
         };
         setdiscountInsert.child(this.state.store_id).update(newStateDis);
+        const updateStore = firebase.database().ref(`store`);
+        let editStore = {
+          promotion_status: this.state.promotion_status,
+          discount_status: this.state.discount_status,
+        };
+        updateStore.child(this.state.store_id).update(editStore);
         swal({
           title: "You want Update User",
           icon: "warning",
@@ -260,7 +266,12 @@ class Managepromotion extends Component {
             : moment(this.state.enddate_discount).format(),
         };
         setdiscountInsert.set(newStateDis);
-
+        const updateStore = firebase.database().ref(`store`);
+        let editStore = {
+          promotion_status: this.state.promotion_status,
+          discount_status: this.state.discount_status,
+        };
+        updateStore.child(this.state.store_id).update(editStore);
         swal({
           title: "Create promotion Success",
           text: "ํYou want Continue or not?",
@@ -303,10 +314,10 @@ class Managepromotion extends Component {
               value={this.state.promotion_status}
               style={{ marginLeft: "1.5rem" }}
             >
-              <Radio value={true} name="true">
+              <Radio value={true} name={true}>
                 มี
               </Radio>
-              <Radio value={false} name="false">
+              <Radio value={false} name={false}>
                 ไม่มี
               </Radio>
             </Radio.Group>
@@ -392,10 +403,10 @@ class Managepromotion extends Component {
               value={this.state.discount_status}
               style={{ marginTop: "1rem", marginLeft: "1.5rem" }}
             >
-              <Radio value={true} name="true">
+                <Radio value={true} name={true}>
                 มี
               </Radio>
-              <Radio value={false} name="false">
+              <Radio value={false} name={false}>
                 ไม่มี
               </Radio>
             </Radio.Group>

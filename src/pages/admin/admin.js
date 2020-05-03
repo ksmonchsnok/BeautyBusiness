@@ -55,30 +55,32 @@ export default class Admin extends Component {
               >
                 <a
                   className="nav-link active show"
-                  id="v-pills-manageStore-tab"
-                  data-toggle="pill"
-                  href="#v-pills-manageStore"
-                  role="tab"
-                  aria-controls="v-pills-manageStore"
-                  aria-selected="true"
-                  style={{ marginTop: "1rem" }}
-                >
-                  <ion-icon name="home-outline" size="small" /> &emsp;
-                  จัดการธุรกิจ
-                </a>
-
-                <a
-                  className="nav-link"
                   id="v-pills-manageUser-tab"
                   data-toggle="pill"
                   href="#v-pills-manageUser"
                   role="tab"
                   aria-controls="v-pills-manageUser"
-                  aria-selected="false"
+                  aria-selected="true"
+                  style={{ marginTop: "1rem" }}
+
                 >
                   <ion-icon name="person-outline" size="small" />
                   &emsp; จัดการผู้ใช้งาน
                 </a>
+                <a
+                  className="nav-link"
+                  id="v-pills-manageStore-tab"
+                  data-toggle="pill"
+                  href="#v-pills-manageStore"
+                  role="tab"
+                  aria-controls="v-pills-manageStore"
+                  aria-selected="false"
+                >
+                  <ion-icon name="home-outline" size="small" /> &emsp;
+                  จัดการธุรกิจ
+                </a>
+
+                
                 <a
                   className="nav-link"
                   id="v-pills-managePromotion-tab"
@@ -107,22 +109,23 @@ export default class Admin extends Component {
             </div>
             <div className="col" style={{ marginBottom: "5rem" }}>
               <div className="tab-content" id="v-pills-tabContent">
-                <div
+              <div
                   className="col tab-pane fade active show"
-                  id="v-pills-manageStore"
-                  role="tabpanel"
-                  aria-labelledby="v-pills-manageStore-tab"
-                >
-                  <StoreList {...this.props} />
-                </div>
-                <div
-                  className="col tab-pane fade"
                   id="v-pills-manageUser"
                   role="tabpanel"
                   aria-labelledby="v-pills-manageUser-tab"
                 >
                   <UserList {...this.props} />
                 </div>
+                <div
+                  className="col tab-pane fade "
+                  id="v-pills-manageStore"
+                  role="tabpanel"
+                  aria-labelledby="v-pills-manageStore-tab"
+                >
+                  <StoreList {...this.props} />
+                </div>
+                
                 <div
                   className="col tab-pane fade"
                   id="v-pills-managePromotion"

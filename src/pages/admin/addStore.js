@@ -173,8 +173,8 @@ class RegistrationForm extends Component {
               address: this.state.address,
               store_type: this.state.store_type,
               recommend: this.state.recommend,
-              lat: fixposition.lat,
-              lng: fixposition.lng,
+              lat: fixposition.Lat,
+              lng: fixposition.Lng,
               type: this.state.type,
               social: this.state.social,
               custom_position: this.state.custom_position,
@@ -198,11 +198,13 @@ class RegistrationForm extends Component {
               address: this.state.address,
               store_type: this.state.store_type,
               recommend: this.state.recommend,
-              lat: fixposition.lat,
-              lng: fixposition.lng,
+              lat: fixposition.Lat,
+              lng: fixposition.Lng,
               type: this.state.type,
               social: this.state.social,
               custom_position: this.state.custom_position,
+              discount_status: false,
+              promotion_status: false,
             };
             setItemInsert.set(newState);
             this.onClickCancel();

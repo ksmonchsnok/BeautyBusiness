@@ -20,6 +20,7 @@ class Nearby extends Component {
       showingInfoWindow: false,
       activeMarker: {},
       selectedPlace: {},
+      kilometer : ""
     };
 
     if (this.props.isGeolocationAvailable && this.props.isGeolocationEnabled) {
@@ -212,7 +213,7 @@ class Nearby extends Component {
           <a href onClick={() => this.onClickViewDetail(value)}>
             <img
               className="card-img-top img-fluid rounded mx-auto d-block"
-              src={value.image}
+              src={value.imageUrl}
               alt="image"
               aria-hidden="true"
             />
@@ -251,13 +252,15 @@ class Nearby extends Component {
     ));
 
     const { loadingData } = this.state;
+    // console.log(this.state);
+    
 
     return (
       <div id="nearby" style={{ marginTop: "2rem" }}>
         <Navber />
 
         <div className="" style={{ height: "80vh", width: "100%" }}>
-          <h1 className="text-center"> ตำแหน่งธุรกิจทั้งหมดในระบบ</h1>
+          <h1 className="text-center"> ตำแหน่งธุรกิจทั้งหมดในระบบ </h1>
           {/* <div class="animated heartBeat slower delay-2s"> */}
           <div
             className="jumbotron justify-content-center d-flex"
@@ -318,8 +321,8 @@ class Nearby extends Component {
         <div className="container">
           <div className="album bg-while pad">
             <h1 className="text-center">
-              ธุรกิจใกล้เคียงในระยะ{" "}
-              <div class="btn-group">
+              ธุรกิจใกล้เคียงในระยะ 1
+              {/* <div class="btn-group">
                 <button
                   type="button"
                   class="btn btn-danger dropdown-toggle"
@@ -344,7 +347,7 @@ class Nearby extends Component {
                     Separated link
                   </a>
                 </div>
-              </div>{" "}
+              </div>{" "} */}
               กิโลเมตร
             </h1>
 

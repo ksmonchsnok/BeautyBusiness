@@ -122,14 +122,11 @@ class RegistrationForm extends Component {
         mode: "edit",
       });
     } else if (checUserStore === "userEditStore") {
-      console.log("userEditStore");
       let obj = JSON.parse(localStorage.getItem("ObjUser"));
-      console.log(obj);
       let ref = firebase.database().ref(`store/${obj.member_id}`);
       ref.once("value").then((snapshot) => {
         if (snapshot.val()) {
           const data = snapshot.val();
-          console.log(data);
           this.formRef.current.setFieldsValue({
             store_id: data.store_id,
             username: data.username,
@@ -194,11 +191,7 @@ class RegistrationForm extends Component {
   };
 
   onGotoSave = (e) => {
-    console.log(this.state);
-
     let fixposition = this.state.currentPosition;
-    console.log(fixposition);
-
     let store_id = "";
     let username = "";
     let obj = JSON.parse(localStorage.getItem("ObjUser"));
@@ -217,8 +210,6 @@ class RegistrationForm extends Component {
     }
 
     if (this.state.custom_position === "true") {
-      console.log("Fix Position");
-
       if (
         this.state !== null &&
         this.state.store_id !== undefined &&
@@ -281,6 +272,8 @@ class RegistrationForm extends Component {
               type: this.state.type,
               social: this.state.social,
               custom_position: this.state.custom_position,
+              discount_status: false,
+              promotion_status: false,
             };
             setItemInsert.set(newState);
             swal({
@@ -292,9 +285,9 @@ class RegistrationForm extends Component {
             })
               .then((willDelete) => {
                 if (willDelete) {
-                  // swal("Create promotion", {
-                  //   icon: "success",
-                  // });
+                  swal("Create promotion", {
+                    icon: "success",
+                  });
                   this.onClickCancel();
                 } else {
                   swal("Create Business", "success");
@@ -344,10 +337,11 @@ class RegistrationForm extends Component {
             })
               .then((willDelete) => {
                 if (willDelete) {
-                  // swal("Create promotion", {
-                  //   icon: "success",
-                  // });
+                  swal("Create Business", {
+                    icon: "success",
+                  });
                   this.onClickCancel();
+                  this.props.history.push('/')
                 } else {
                   swal("Update Business", "success");
                 }

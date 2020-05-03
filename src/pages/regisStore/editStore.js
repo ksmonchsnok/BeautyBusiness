@@ -119,10 +119,10 @@ class RegistrationForm extends Component {
         type: obj.type,
         social: obj.social,
         custom_position: obj.custom_position,
-        mode: "UserEditStore",
+        mode: "userEditStore",
       });
-    } else if (checUserStore === "UserEditStore") {
-      console.log("UserEditStore");
+    } else if (checUserStore === "userEditStore") {
+      console.log("userEditStore");
 
       let obj = JSON.parse(localStorage.getItem("ObjUser"));
       console.log(obj);
@@ -164,7 +164,7 @@ class RegistrationForm extends Component {
             social: data.social,
             custom_position: obj.custom_position,
 
-            mode: "UserEditStore",
+            mode: "userEditStore",
           });
         } else {
           this.setState({ loadingData: false });
@@ -217,7 +217,7 @@ class RegistrationForm extends Component {
         // store_id = obj.store_name
       }
       if (this.state !== null && this.state.store_id) {
-        if (this.state.mode === "UserEditStore") {
+        if (this.state.mode === "userEditStore") {
           setTimeout(() => {
             const setItemInsert = firebase.database().ref(`store`);
             let newState = {
@@ -466,14 +466,14 @@ class RegistrationForm extends Component {
         style={{ marginTop: "-8rem", marginLeft: "1rem" }}
       >
         <Navber />
-        {this.props.UserEditStore === "UserEditStore" && (
+        {this.props.UserEditStore === "userEditStore" && (
           <span>
             <div classstore_name="container" style={{ marginBottom: "3rem" }}>
               <h2>Update Business / แก้ไขข้อมูลธุรกิจของคุณ</h2> <hr />
             </div>
           </span>
         )}
-        {this.props.UserEditStore !== "UserEditStore" && (
+        {this.props.UserEditStore !== "userEditStore" && (
           <div classstore_name="container" style={{ marginBottom: "3rem" }}>
             <h2>Register Business / สร้างธุรกิจของคุณ</h2> <hr />
           </div>
@@ -815,7 +815,7 @@ class RegistrationForm extends Component {
               >
                 Cancel
               </Button>
-              {this.state.mode === "UserEditStore" && (
+              {this.state.mode === "userEditStore" && (
                 <Button
                   type="primary"
                   htmltype="submit"
@@ -825,7 +825,7 @@ class RegistrationForm extends Component {
                   Update Business
                 </Button>
               )}
-              {this.state.mode !== "UserEditStore" && (
+              {this.state.mode !== "userEditStore" && (
                 <Button
                   type="primary"
                   htmltype="submit"

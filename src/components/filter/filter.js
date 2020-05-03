@@ -23,6 +23,8 @@ export default class Filter extends Component {
   };
 
   render() {
+    // console.log(this.props);
+    
     return (
       <div id="Filter">
         <div className="col pad">

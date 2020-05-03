@@ -183,7 +183,7 @@ class StoreDetail extends Component {
 
         <img
           className="card-img-top img-fluid rounded mx-auto d-block"
-          src={value.image}
+          src={value.imageUrl}
           alt="image"
           aria-hidden="true"
         />
@@ -231,20 +231,20 @@ class StoreDetail extends Component {
               {" "}
               <div className="row">
                 <div className="col-xs-12 col-sm-12 col-md-6 d-flex justify-content-center">
-                  <h3>โปรโมชั่น :: {this.state.promotion_name}</h3>
+                  <h3>โปรโมชั่น :: {this.state.pormotion.promotion_name?this.state.pormotion.promotion_name:'ไม่มี'}</h3>
                 </div>
                 <div className="col-xs-12 col-sm-12 col-md-6 d-flex justify-content-center">
                   <h3>
-                    รายละเอียดโปรโมชั่น :: {this.state.promotion_description}
+                    รายละเอียดโปรโมชั่น :: {this.state.pormotion.promotion_description?this.state.pormotion.promotion_description:'ไม่มี'}
                   </h3>
                 </div>
               </div>
               <div className="row ">
                 <div className="col-xs-12 col-sm-12 col-md-6 d-flex justify-content-center">
-                  <h3>ส่วนลดบริการ :: {this.state.discount_name}</h3>
+                  <h3>ส่วนลดบริการ :: {this.state.discont.discount_name?this.state.discont.discount_name:'ไม่มี'}</h3>
                 </div>
                 <div className="col-xs-12 col-sm-12 col-md-6 d-flex justify-content-center">
-                  <h3>รายละเอียดส่วนลด :: {this.state.discount_description}</h3>
+                  <h3>รายละเอียดส่วนลด :: {this.state.discont.discount_description?this.state.discont.discount_description:'ไม่มี'}</h3>
                 </div>
               </div>
               <div className="row d-flex justify-content-center">
@@ -262,12 +262,6 @@ class StoreDetail extends Component {
         ) : null}
       </div>
     ));
-
-    console.log(this.props.history.location.state);
-
-    // console.log(this.state.Store[0].userOfStoreId);
-    console.log(this.state.dataStore);
-
     return (
       <div id="Store-Detail">
         <Navbar />

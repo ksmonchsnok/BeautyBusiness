@@ -176,6 +176,8 @@ class AllStore extends Component {
   render() {
     const { store, promotion, discount, checkbox } = this.state;
     const { Store } = this.props;
+    console.log(this.props);
+    
 
     const item = Store
       ? Store.filter(
@@ -188,7 +190,7 @@ class AllStore extends Component {
                   <a href onClick={() => this.onClickViewDetail(value)}>
                     <img
                       className="card-img-top img-fluid rounded mx-auto d-block"
-                      src={value.image}
+                      src={value.imageUrl}
                       alt="image"
                       style={{ width: "300px", height: "250px" }}
                       aria-hidden="true"
@@ -219,7 +221,7 @@ class AllStore extends Component {
                   <a href onClick={() => this.onClickViewDetail(value)}>
                     <img
                       className="card-img-top img-fluid rounded mx-auto d-block"
-                      src={value.image}
+                      src={value.imageUrl}
                       alt="image"
                       style={{ width: "300px", height: "250px" }}
                       aria-hidden="true"
@@ -255,7 +257,7 @@ class AllStore extends Component {
           }
         })
       : "";
-
+      
     return (
       <div id="search">
         <Navbar />

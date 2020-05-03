@@ -73,7 +73,7 @@ class storeList extends Component {
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
-        itemsRef.child(d.username).remove();
+        itemsRef.child(d.store_id).remove();
         this.onGetItemp();
       } else {
         return;
