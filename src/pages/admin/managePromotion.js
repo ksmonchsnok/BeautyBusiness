@@ -104,7 +104,7 @@ class Managepromotion_status extends Component {
             for (let i = 0; i < checkUserpromotion_status.length; i++) {
               index = data.findIndex(
                 (v) =>
-                  v.store_id === checkUserpromotion_status[i].userOfStoreId &&
+                  v.store_id === checkUserpromotion_status[i].store_id &&
                   (checkUserpromotion_status[i].promotion_status ||
                     checkUserstore_id_status[i].store_id_status)
               );
@@ -114,7 +114,7 @@ class Managepromotion_status extends Component {
               data = arr;
             }
             data.forEach((v) => {
-              business.push({ value: v.userOfStoreId, label: v.Name });
+              business.push({ value: v.store_id, label: v.Name });
             });
             this.setState({ businessList: business });
           }
