@@ -17,8 +17,8 @@ class Managepromotion extends Component {
     super(props);
     this.state = {
       loading: false,
-      promotion: false,
-      discount: false,
+      promotion_status: false,
+      discount_status: false,
       store_name: "",
       promotion_name: "",
       promotion_description: "",
@@ -116,13 +116,13 @@ class Managepromotion extends Component {
 
   onChangepromotion = (e) => {
     this.setState({
-      promotion: e.target.value,
+      promotion_status: e.target.value,
     });
   };
 
   onChangediscount = (e) => {
     this.setState({
-      discount: e.target.value,
+      discount_status: e.target.value,
     });
   };
 
@@ -292,10 +292,10 @@ class Managepromotion extends Component {
     return (
       <div
         id="Manage-promotion"
-        style={{ marginLeft: "1rem", marginBottom: "5rem", marginTop: "-6rem" }}
+        style={{ marginLeft: "1rem", marginBottom: "5rem", marginTop: "-9rem" }}
       >
         <Navbar />
-        <div className="container">
+        <div className="container" style={{ height: "66vh" }}>
           <div className="row">
             <h2>promotion</h2>
             <Radio.Group
@@ -303,8 +303,12 @@ class Managepromotion extends Component {
               value={this.state.promotion_status}
               style={{ marginLeft: "1.5rem" }}
             >
-              <Radio value={true}>มี</Radio>
-              <Radio value={false}>ไม่มี</Radio>
+              <Radio value={true} name="true">
+                มี
+              </Radio>
+              <Radio value={false} name="false">
+                ไม่มี
+              </Radio>
             </Radio.Group>
           </div>
           {this.state.promotion_status === true && (
@@ -388,8 +392,12 @@ class Managepromotion extends Component {
               value={this.state.discount_status}
               style={{ marginTop: "1rem", marginLeft: "1.5rem" }}
             >
-              <Radio value={true}>มี</Radio>
-              <Radio value={false}>ไม่มี</Radio>
+              <Radio value={true} name="true">
+                มี
+              </Radio>
+              <Radio value={false} name="false">
+                ไม่มี
+              </Radio>
             </Radio.Group>
           </div>
           {this.state.discount_status === true && (

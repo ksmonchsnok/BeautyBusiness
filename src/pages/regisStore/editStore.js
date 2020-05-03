@@ -69,15 +69,15 @@ class RegistrationForm extends Component {
       return;
     }
     if (info.file.status === "done") {
-      this.getBase64(info.file.originFileObj, (image) =>
+      // Get this url from response in real world.
+      this.getBase64(info.file.originFileObj, (imageUrl) =>
         this.setState({
-          image,
+          imageUrl,
           loading: false,
         })
       );
     }
   };
-
   async componentDidMount() {
     let checkHistory = this.props.location
       ? this.props.location.state
@@ -91,7 +91,7 @@ class RegistrationForm extends Component {
       let obj = await this.props.location.state.obj;
       this.formRef.current.setFieldsValue({
         store_id: obj.store_id,
-        image: obj.image,
+        imageUrl: obj.imageUrl,
         store_name: obj.store_name,
         open: obj.open,
         phone: obj.phone,
@@ -107,7 +107,7 @@ class RegistrationForm extends Component {
 
       this.setState({
         store_id: obj.store_id,
-        image: obj.image,
+        imageUrl: obj.imageUrl,
         store_name: obj.store_name,
         open: obj.open,
         phone: obj.phone,
@@ -135,7 +135,7 @@ class RegistrationForm extends Component {
           this.formRef.current.setFieldsValue({
             store_id: data.store_id,
             username: data.username,
-            image: data.image,
+            imageUrl: data.imageUrl,
             store_name: data.store_name,
             open: data.open,
             phone: data.phone,
@@ -151,7 +151,7 @@ class RegistrationForm extends Component {
           this.setState({
             store_id: data.store_id,
             username: data.username,
-            image: data.image,
+            imageUrl: data.imageUrl,
             store_name: data.store_name,
             open: data.open,
             phone: data.phone,
@@ -221,15 +221,15 @@ class RegistrationForm extends Component {
           setTimeout(() => {
             const setItemInsert = firebase.database().ref(`store`);
             let newState = {
-              image: this.state.image,
+              imageUrl: this.state.imageUrl,
               store_name: this.state.store_name,
               open: this.state.open,
               phone: this.state.phone,
               address: this.state.address,
               store_type: this.state.store_type,
               recommend: this.state.recommend,
-              lat: fixposition.lat,
-              lng: fixposition.lng,
+              lat: fixposition.Lat,
+              lng: fixposition.Lng,
               type: this.state.type,
               social: this.state.social,
               custom_position: this.state.custom_position,
@@ -263,15 +263,15 @@ class RegistrationForm extends Component {
             let newState = {
               store_id: store_id,
               username: username,
-              image: this.state.image,
+              imageUrl: this.state.imageUrl,
               store_name: this.state.store_name,
               open: this.state.open,
               phone: this.state.phone,
               address: this.state.address,
               store_type: this.state.store_type,
               recommend: this.state.recommend,
-              lat: fixposition.lat,
-              lng: fixposition.lng,
+              lat: fixposition.Lat,
+              lng: fixposition.Lng,
               type: this.state.type,
               social: this.state.social,
               custom_position: this.state.custom_position,
@@ -328,7 +328,7 @@ class RegistrationForm extends Component {
           setTimeout(() => {
             const setItemInsert = firebase.database().ref(`store`);
             let newState = {
-              image: this.state.image,
+              imageUrl: this.state.imageUrl,
               store_name: this.state.store_name,
               open: this.state.open,
               phone: this.state.phone,
@@ -370,7 +370,7 @@ class RegistrationForm extends Component {
             let newState = {
               store_id: store_id,
               username: username,
-              image: this.state.image,
+              imageUrl: this.state.imageUrl,
               store_name: this.state.store_name,
               open: this.state.open,
               phone: this.state.phone,
@@ -422,12 +422,10 @@ class RegistrationForm extends Component {
     const uploadButton = (
       <div>
         {this.state.loading ? <LoadingOutlined /> : <PlusOutlined />}
-        <div classstore_name="ant-upload-text" style={{ marginTop: "1rem" }}>
-          Add Picture
-        </div>
+        <div className="ant-upload-text">Upload</div>
       </div>
     );
-    const { image } = this.state;
+    const { imageUrl } = this.state;
 
     const formItemLayout = {
       labelCol: {
@@ -485,38 +483,37 @@ class RegistrationForm extends Component {
             {...formItemLayout}
             ref={this.formRef}
             form={this.form}
-            store_name="addNewstore"
+            name="addNewStore"
             onFinish={this.onFinish}
             scrollToFirstError
           >
-            <Form.Item store_name="image" label="Picture">
+            <Form.Item name="imageUrl" label="Picture">
               <Upload
-                store_name="image"
-                id="image"
-                listtype="picture-card"
-                classstore_name="avatar-uploader"
+                name="imageUrl"
+                listType="picture-card"
+                className="avatar-uploader"
                 showUploadList={false}
                 action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                 beforeUpload={this.beforeUpload}
                 onChange={this.handleChange}
               >
-                {image ? (
-                  <img src={image} alt="avatar" style={{ width: "100%" }} />
+                {imageUrl ? (
+                  <img src={imageUrl} alt="avatar" style={{ width: "100%" }} />
                 ) : (
                   uploadButton
                 )}
               </Upload>
             </Form.Item>
             <Form.Item
-              store_name="store_name"
-              label={<span>Business store_name</span>}
+              name="store_name"
+              label={<span>Business name</span>}
               rules={[
                 {
                   required: true,
-                  message: <small>Please input your Business store_name</small>,
+                  message: <small>Please input your Business name</small>,
                 },
                 {
-                  type: "string",
+                  type: "regexp",
                   pattern: new RegExp("^[A-Za-zก-๙0-9]*$"),
                   message: <small>Please input alphabetical only.</small>,
                 },
@@ -529,7 +526,7 @@ class RegistrationForm extends Component {
               {/* {JSON.stringify(this.state.store_name)} */}
               <Input
                 type="textbox"
-                store_name="store_name"
+                name="store_name"
                 id="store_name"
                 placeholder="Ex. ร้านทำเล็บเจ็ดยอด"
                 value={this.state.store_name}
@@ -541,7 +538,7 @@ class RegistrationForm extends Component {
             </Form.Item>
 
             <Form.Item
-              store_name="open"
+              name="open"
               label={<span>open</span>}
               rules={[
                 {
@@ -557,7 +554,7 @@ class RegistrationForm extends Component {
             >
               <Input
                 type="textbox"
-                store_name="open"
+                name="open"
                 id="open"
                 placeholder="Ex. 10.00 - 20.00"
                 value={this.state.open}
@@ -569,7 +566,7 @@ class RegistrationForm extends Component {
             </Form.Item>
 
             <Form.Item
-              store_name="phone"
+              name="phone"
               label="phone Number"
               rules={[
                 {
@@ -589,7 +586,7 @@ class RegistrationForm extends Component {
             >
               <Input
                 type="textbox"
-                store_name="phone"
+                name="phone"
                 id="phone"
                 placeholder="Ex : 085 555 5555"
                 value={this.state.phone}
@@ -601,7 +598,7 @@ class RegistrationForm extends Component {
             </Form.Item>
 
             <Form.Item
-              store_name="address"
+              name="address"
               label="address"
               rules={[
                 {
@@ -618,7 +615,7 @@ class RegistrationForm extends Component {
             >
               <TextArea
                 rows={3}
-                store_name="address"
+                name="address"
                 id="address"
                 placeholder="Ex. 111/2 เจ็ดยอด ต.ช้างเผือก อ.เมือง จ.เชียงใหม่"
                 value={this.state.address}
@@ -629,7 +626,7 @@ class RegistrationForm extends Component {
               />
             </Form.Item>
             <Form.Item
-              store_name="social"
+              name="social"
               label={<span>Facebook / Instagram</span>}
               rules={[
                 {
@@ -651,7 +648,7 @@ class RegistrationForm extends Component {
             >
               <Input
                 type="textbox"
-                store_name="social"
+                name="social"
                 id="social"
                 placeholder="Ex. https://www.facebook.com/me"
                 value={this.state.social}
@@ -662,14 +659,14 @@ class RegistrationForm extends Component {
             </Form.Item>
 
             <Form.Item
-              store_name="custom_position"
+              name="custom_position"
               label="ตำแหน่งที่ตั้งธุรกิจ"
-              // rules={[
-              //   {
-              //     required: true,
-              //     message: <small>Please input your Business Location</small>,
-              //   },
-              // ]}
+              rules={[
+                {
+                  // required: true,
+                  // message: <small>Please input your Business Location</small>,
+                },
+              ]}
             >
               {" "}
               <Radio.Group
@@ -677,10 +674,10 @@ class RegistrationForm extends Component {
                 value={this.state.custom_position}
                 onChange={(e) => this.onChangeCheckCurent(e)}
               >
-                <Radio value="true" store_name="true">
+                <Radio value="true" name="true">
                   ใช้ตำแหน่งปัจจุบัน
                 </Radio>
-                <Radio value="false" store_name="false">
+                <Radio value="false" name="false">
                   กำหนดเอง
                 </Radio>
               </Radio.Group>
@@ -689,7 +686,7 @@ class RegistrationForm extends Component {
             {this.state.custom_position === "false" && (
               <span>
                 <Form.Item
-                  store_name="lat"
+                  name="lat"
                   label="latitude"
                   rules={[
                     {
@@ -705,7 +702,7 @@ class RegistrationForm extends Component {
                 >
                   <Input
                     type="textbox"
-                    store_name="lat"
+                    name="lat"
                     id="lat"
                     placeholder="18.812138"
                     value={this.state.lat}
@@ -715,7 +712,7 @@ class RegistrationForm extends Component {
                   />
                 </Form.Item>
                 <Form.Item
-                  store_name="lng"
+                  name="lng"
                   label="Longitude"
                   rules={[
                     {
@@ -731,7 +728,7 @@ class RegistrationForm extends Component {
                 >
                   <Input
                     type="textbox"
-                    store_name="lng"
+                    name="lng"
                     id="lng"
                     placeholder="98.964444"
                     value={this.state.lng}
@@ -744,12 +741,12 @@ class RegistrationForm extends Component {
             )}
 
             <Form.Item
-              store_name="recommend"
-              label="recommend store"
+              name="recommend"
+              label="recommend Store"
               rules={[
                 {
                   required: true,
-                  message: <small>Please input your recommend store</small>,
+                  message: <small>Please input your recommend Store</small>,
                 },
               ]}
             >
@@ -758,16 +755,16 @@ class RegistrationForm extends Component {
                 value={this.state.recommend}
                 onChange={(e) => this.onChangeCheckRadiorecommend(e)}
               >
-                <Radio value="true" store_name="true">
+                <Radio value="true" name="true">
                   แนะนำ
                 </Radio>
-                <Radio value="false" store_name="false">
+                <Radio value="false" name="false">
                   ไม่แนะนำ
                 </Radio>
               </Radio.Group>
             </Form.Item>
             <Form.Item
-              store_name="store_type"
+              name="store_type"
               label="Business type"
               rules={[
                 {
@@ -781,17 +778,17 @@ class RegistrationForm extends Component {
                 value={this.state.store_type}
                 onChange={(e) => this.onChangeCheckRadio(e)}
               >
-                <Radio value="มีหน้าร้าน" store_name="มีหน้าร้าน">
+                <Radio value="มีหน้าร้าน" name="มีหน้าร้าน">
                   มีร้าน
                 </Radio>
-                <Radio value="ฟรีแลนซ์" store_name="ฟรีแลนซ์">
+                <Radio value="ฟรีแลนซ์" name="ฟรีแลนซ์">
                   ฟรีแลนซ์
                 </Radio>
               </Radio.Group>
             </Form.Item>
 
             <Form.Item
-              store_name="type"
+              name="type"
               label="Service type"
               rules={[
                 {

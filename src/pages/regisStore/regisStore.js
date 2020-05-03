@@ -194,7 +194,11 @@ class RegistrationForm extends Component {
   };
 
   onGotoSave = (e) => {
+    console.log(this.state);
+
     let fixposition = this.state.currentPosition;
+    console.log(fixposition);
+
     let store_id = "";
     let username = "";
     let obj = JSON.parse(localStorage.getItem("ObjUser"));
@@ -231,8 +235,8 @@ class RegistrationForm extends Component {
               address: this.state.address,
               store_type: this.state.store_type,
               recommend: this.state.recommend,
-              lat: fixposition.lat,
-              lng: fixposition.lng,
+              lat: fixposition.Lat,
+              lng: fixposition.Lng,
               type: this.state.type,
               social: this.state.social,
               custom_position: this.state.custom_position,
@@ -272,8 +276,8 @@ class RegistrationForm extends Component {
               address: this.state.address,
               store_type: this.state.store_type,
               recommend: this.state.recommend,
-              lat: fixposition.lat,
-              lng: fixposition.lng,
+              lat: fixposition.Lat,
+              lng: fixposition.Lng,
               type: this.state.type,
               social: this.state.social,
               custom_position: this.state.custom_position,
