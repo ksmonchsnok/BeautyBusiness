@@ -325,6 +325,9 @@ class Managepromotion_status extends Component {
     function onSearch(val) {
       console.log("search:", val);
     }
+
+    console.log(this.state.store_name);
+
     return (
       <div
         id="Manage-promotion_status"

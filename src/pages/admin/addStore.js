@@ -324,6 +324,8 @@ class RegistrationForm extends Component {
   };
 
   render() {
+    console.log(this.state.userLsit);
+
     const uploadButton = (
       <div>
         {this.state.loading ? <LoadingOutlined /> : <PlusOutlined />}

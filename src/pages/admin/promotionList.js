@@ -39,7 +39,7 @@ class storeList extends Component {
           data = Object.values(snapshot.val());
         }
 
-        let refStore = firebase.database().ref("discount_status");
+        let refStore = firebase.database().ref("discount");
         refStore.once("value").then((snapshot) => {
           if (snapshot.val()) {
             const dataDis = Object.values(snapshot.val());
@@ -117,7 +117,7 @@ class storeList extends Component {
     }).then((willDelete) => {
       if (willDelete) {
         firebase.remove(`promotion/${d.store_id}`);
-        firebase.remove(`discount_status/${d.store_id}`);
+        firebase.remove(`discount/${d.store_id}`);
         this.onGetItemppromotion();
       } else {
         return;
@@ -131,7 +131,7 @@ class storeList extends Component {
   };
 
   onClickCreatepromotion = () => {
-    this.props.history.push("/managePromotionAnddiscount");
+    this.props.history.push("/managePromotionAndDiscount");
   };
 
   render() {
@@ -163,12 +163,12 @@ class storeList extends Component {
                   <tr>
                     {/* <th scope="col">Business ID</th> */}
                     <th scope="col">Business Name</th>
-                    <th scope="col">promotion Name</th>
-                    <th scope="col">promotion Description</th>
-                    <th scope="col">Status promotion</th>
+                    <th scope="col">Promotion Name</th>
+                    <th scope="col">Promotion Description</th>
+                    <th scope="col">Amount Promotion</th>
                     <th scope="col">Discount Name</th>
-                    <th scope="col">DiscountDescription</th>
-                    <th scope="col">Status Discount</th>
+                    <th scope="col">Discount Description</th>
+                    <th scope="col">Amount Discount</th>
                     <th scope="col">Edit</th>
                     <th scope="col">Delete</th>
                   </tr>

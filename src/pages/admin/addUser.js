@@ -11,7 +11,7 @@ import firebase from "firebase";
 import Navber from "../../components/navbar/navbar-Admin.js";
 import swal from "sweetalert";
 
-export default class AddUser extends Component {
+export default class RegistrationForm extends Component {
   formRef = React.createRef();
   constructor(props) {
     super(props);
@@ -55,7 +55,6 @@ export default class AddUser extends Component {
       return;
     }
     if (info.file.status === "done") {
-      // Get this url from response in real world.
       this.getBase64(info.file.originFileObj, (imageUrl) =>
         this.setState({
           imageUrl,
@@ -70,7 +69,7 @@ export default class AddUser extends Component {
   };
 
   async componentDidMount() {
-    // console.log(this.props);
+    console.log(this.props);
     if (this.props.location.state !== undefined) {
       if (this.props.location.state.mode === "edit") {
         let obj = await this.props.location.state.obj;
@@ -115,7 +114,7 @@ export default class AddUser extends Component {
     if (this.state.username) {
       setTimeout(() => {
         if (this.state.mode === "edit") {
-          const setItemInsert = firebase.database().ref(`Member`);
+          const setItemInsert = firebase.database().ref(`member`);
           let newState = {
             imageUrl: this.state.imageUrl,
             username: this.state.username,
@@ -147,7 +146,7 @@ export default class AddUser extends Component {
         } else {
           firebase
             .auth()
-            .createUserWithemailAndpassword(
+            .createUserWithEmailAndPassword(
               this.state.email,
               this.state.password
             )
@@ -170,7 +169,7 @@ export default class AddUser extends Component {
               };
               setItemInsert.set(newState);
               swal({
-                title: "Registered",
+                title: "Already Registered",
                 text: "ํYou want Continue or not?",
                 icon: "warning",
                 buttons: true,
@@ -239,19 +238,19 @@ export default class AddUser extends Component {
       },
     };
 
-    const RegistrationForm = () => {
-      const [form] = Form.useForm();
+    // const RegistrationForm = () => {
+    //   const [form] = Form.useForm();
 
-      const onFinish = (values) => {
-        console.log("Received values of form: ", values);
-      };
-    };
+    //   const onFinish = values => {
+    //     console.log("Received values of form: ", values);
+    //   };
+    // };
 
     const { TextArea } = Input;
     return (
       <div
         id="Add-Update-User"
-        style={{ marginTop: "3rem", marginLeft: "1rem", paddingRight: "1rem" }}
+        style={{ marginTop: "3rem", marginLeft: "1rem" }}
       >
         <Navber />
         <div className="container" style={{ marginBottom: "5rem" }}>
@@ -271,6 +270,7 @@ export default class AddUser extends Component {
           <Form.Item name="imageUrl" label="Picture">
             <Upload
               name="imageUrl"
+              id="imageUrl"
               listType="picture-card"
               className="avatar-uploader"
               showUploadList={false}
@@ -287,11 +287,11 @@ export default class AddUser extends Component {
           </Form.Item>
           <Form.Item
             name="username"
-            label={<span>username</span>}
+            label={<span>Username</span>}
             rules={[
               {
                 required: true,
-                message: <small>Please input your username</small>,
+                message: <small>Please input your Username</small>,
               },
               {
                 type: "string",
@@ -308,7 +308,7 @@ export default class AddUser extends Component {
               type="textbox"
               name="username"
               id="username"
-              placeholder="username"
+              placeholder="Username"
               value={this.state.username}
               onChange={(e) => this.setState({ username: e.target.value })}
               whitespace={true}
@@ -341,7 +341,7 @@ export default class AddUser extends Component {
               type="textbox"
               name="email"
               id="email"
-              placeholder="email"
+              placeholder="Email"
               value={this.state.email}
               onChange={(e) => this.setState({ email: e.target.value })}
               whitespace={true}
@@ -353,8 +353,8 @@ export default class AddUser extends Component {
             name="password"
             label={
               <span>
-                password &nbsp;
-                <Tooltip title="password จะต้องประกอบไปด้วย A-Z, a-z , 0-9">
+                Password &nbsp;
+                <Tooltip title="Password จะต้องประกอบไปด้วย A-Z, a-z , 0-9">
                   <QuestionCircleOutlined />
                   &nbsp;
                 </Tooltip>
@@ -363,7 +363,7 @@ export default class AddUser extends Component {
             rules={[
               {
                 min: 6,
-                message: <small>password must be at least 6 characters</small>,
+                message: <small>Password must be at least 6 characters</small>,
               },
               {
                 pattern: new RegExp("^[A-Za-z0-9]*$"),
@@ -378,11 +378,11 @@ export default class AddUser extends Component {
             ]}
             hasFeedback
           >
-            <Input.password
+            <Input.Password
               type="textbox"
               name="password"
               id="password"
-              placeholder="password"
+              placeholder="Password"
               value={this.state.password}
               onChange={(e) => this.setState({ password: e.target.value })}
               whitespace={true}
@@ -394,8 +394,8 @@ export default class AddUser extends Component {
             name="cf_password"
             label={
               <span>
-                Confirm password &nbsp;
-                <Tooltip title="password จะต้องตรงกัน">
+                Confirm Password &nbsp;
+                <Tooltip title="Password จะต้องตรงกัน">
                   <QuestionCircleOutlined />
                   &nbsp;
                 </Tooltip>
@@ -423,7 +423,7 @@ export default class AddUser extends Component {
               }),
             ]}
           >
-            <Input.password
+            <Input.Password
               type="textbox"
               name="cf_password"
               id="cf_password"
@@ -458,7 +458,7 @@ export default class AddUser extends Component {
               type="textbox"
               name="firstname"
               id="firstname"
-              placeholder="firstname"
+              placeholder="Firstname"
               value={this.state.firstname}
               onChange={(e) => this.setState({ firstname: e.target.value })}
               whitespace={true}
@@ -489,7 +489,7 @@ export default class AddUser extends Component {
               type="textbox"
               name="lastname"
               id="lastname"
-              placeholder="lastname"
+              placeholder="Lastname"
               value={this.state.lastname}
               onChange={(e) => this.setState({ lastname: e.target.value })}
               whitespace={true}
@@ -503,7 +503,7 @@ export default class AddUser extends Component {
             rules={[
               {
                 required: true,
-                message: <small>Please input your address</small>,
+                message: <small>Please input your Address</small>,
               },
               {
                 type: "regexp",
@@ -517,7 +517,7 @@ export default class AddUser extends Component {
               rows={3}
               name="address"
               id="address"
-              placeholder="address"
+              placeholder="Address"
               value={this.state.address}
               onChange={(e) => this.setState({ address: e.target.value })}
               whitespace={true}
@@ -527,7 +527,7 @@ export default class AddUser extends Component {
           </Form.Item>
           <Form.Item
             name="phone"
-            label="phone Number"
+            label="Phone Number"
             rules={[
               {
                 required: true,
