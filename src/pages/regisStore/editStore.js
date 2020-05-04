@@ -79,7 +79,6 @@ class RegistrationForm extends Component {
     }
   };
   async componentDidMount() {
-    
     let checkHistory = this.props.location
       ? this.props.location.state
         ? "pass"
@@ -228,7 +227,7 @@ class RegistrationForm extends Component {
               phone: this.state.phone,
               address: this.state.address,
               store_type: this.state.store_type,
-              recommend: this.state.recommend,
+              recommend: false,
               lat: fixposition.Lat,
               lng: fixposition.Lng,
               type: this.state.type,
@@ -270,7 +269,7 @@ class RegistrationForm extends Component {
               phone: this.state.phone,
               address: this.state.address,
               store_type: this.state.store_type,
-              recommend: this.state.recommend,
+              recommend: false,
               lat: fixposition.Lat,
               lng: fixposition.Lng,
               type: this.state.type,
@@ -335,7 +334,7 @@ class RegistrationForm extends Component {
               phone: this.state.phone,
               address: this.state.address,
               store_type: this.state.store_type,
-              recommend: this.state.recommend,
+              recommend: false,
               lat: this.state.lat,
               lng: this.state.lng,
               type: this.state.type,
@@ -377,7 +376,7 @@ class RegistrationForm extends Component {
               phone: this.state.phone,
               address: this.state.address,
               store_type: this.state.store_type,
-              recommend: this.state.recommend,
+              recommend: false,
               lat: this.state.lat,
               lng: this.state.lng,
               type: this.state.type,
@@ -507,7 +506,7 @@ class RegistrationForm extends Component {
             </Form.Item>
             <Form.Item
               name="store_name"
-              label={<span>Business name</span>}
+              label="Business Name"
               rules={[
                 {
                   required: true,
@@ -540,7 +539,7 @@ class RegistrationForm extends Component {
 
             <Form.Item
               name="open"
-              label={<span>open</span>}
+              label="Open"
               rules={[
                 {
                   required: true,
@@ -568,7 +567,7 @@ class RegistrationForm extends Component {
 
             <Form.Item
               name="phone"
-              label="phone Number"
+              label="Phone Number"
               rules={[
                 {
                   required: true,
@@ -600,7 +599,7 @@ class RegistrationForm extends Component {
 
             <Form.Item
               name="address"
-              label="address"
+              label="Address"
               rules={[
                 {
                   required: true,
@@ -628,7 +627,7 @@ class RegistrationForm extends Component {
             </Form.Item>
             <Form.Item
               name="social"
-              label={<span>Facebook / Instagram</span>}
+              label="Facebook"
               rules={[
                 {
                   required: true,
@@ -688,7 +687,7 @@ class RegistrationForm extends Component {
               <span>
                 <Form.Item
                   name="lat"
-                  label="latitude"
+                  label="Latitude"
                   rules={[
                     {
                       required: true,
@@ -741,7 +740,7 @@ class RegistrationForm extends Component {
               </span>
             )}
 
-            <Form.Item
+            {/* <Form.Item
               name="recommend"
               label="recommend Store"
               rules={[
@@ -763,10 +762,11 @@ class RegistrationForm extends Component {
                   ไม่แนะนำ
                 </Radio>
               </Radio.Group>
-            </Form.Item>
+            </Form.Item> */}
+
             <Form.Item
               name="store_type"
-              label="Business type"
+              label="Business Type"
               rules={[
                 {
                   required: true,
@@ -790,7 +790,7 @@ class RegistrationForm extends Component {
 
             <Form.Item
               name="type"
-              label="Service type"
+              label="Service Type"
               rules={[
                 {
                   required: true,

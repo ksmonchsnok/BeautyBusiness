@@ -33,6 +33,7 @@ import PromotionList from "../pages/admin/promotionList";
 
 // User
 import User from "../pages/user/user.js";
+import DiscountCode from "../pages/user/discountCode.js";
 
 // Manager
 import Manager from "../pages/manager/manager.js";
@@ -102,6 +103,7 @@ export default () => (
 
       {/* User */}
       <Route exact path="/User" component={User} />
+      <Route exact path="/DiscountCode" component={DiscountCode} />
 
       {/* Manager */}
       <Route exact path="/Manager" component={Manager} />

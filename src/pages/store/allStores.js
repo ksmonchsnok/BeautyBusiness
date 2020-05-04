@@ -14,7 +14,6 @@ import { BackTop } from "antd";
 import "antd/dist/antd.css";
 import { UpOutlined } from "@ant-design/icons";
 
-
 class AllStore extends Component {
   constructor(props) {
     super(props);
@@ -24,7 +23,7 @@ class AllStore extends Component {
       rating: 0,
       discount: true,
       promotion: true,
-      arrStore: []
+      arrStore: [],
     };
   }
   componentDidMount() {
@@ -32,20 +31,20 @@ class AllStore extends Component {
     ref.once("value").then((snapshot) => {
       if (snapshot.val()) {
         const data = Object.values(snapshot.val());
-        const data1 = []
+        const data1 = [];
         if (typeof data === "object" && data !== null && data !== undefined) {
           let arr = [];
           var key = Object.keys(data);
           let arr1 = Object.values(data);
           for (let i = 0; i < arr1.length; i++) {
             arr[key[i]] = arr1[i];
-            data1.push({ key:  key[i] , value : arr1[i]})
+            data1.push({ key: key[i], value: arr1[i] });
           }
           this.setState({ arrStore: data1 });
         }
       }
-    })
-  };
+    });
+  }
 
   onclickBack = () => {
     window.history.back();
@@ -204,98 +203,100 @@ class AllStore extends Component {
     const { store, promotion, discount, checkbox, arrStore } = this.state;
     // const { Store } = this.props;)
     const item = arrStore
-      ? arrStore.filter(
-        this.searchFilter(store, checkbox, discount, promotion)
-      ).map(({ key, value }) => {
-        if (this.state.rating === 0) {
-          return (
-            <div className="col-lg-4 col-md-6">
-              <div key={value.store_id}>
-                <a href onClick={() => this.onClickViewDetail(value)}>
-                  <img
-                    className="card-img-top img-fluid rounded mx-auto d-block"
-                    src={value.imageUrl}
-                    alt="image"
-                    style={{ width: "300px", height: "250px" }}
-                    aria-hidden="true"
-                  />
-                  <div className="card-body text-left mb-auto">
-                    <h6 className="styleFont">
-                      <h2>{value.store_name}</h2>
-                      <hr />
+      ? arrStore
+          .filter(this.searchFilter(store, checkbox, discount, promotion))
+          .map(({ key, value }) => {
+            if (this.state.rating === 0) {
+              return (
+                <div className="col-lg-4 col-md-6" id="card-recommend">
+                  <div key={value.store_id}>
+                    <a href onClick={() => this.onClickViewDetail(value)}>
+                      <img
+                        className="card-img-top img-fluid rounded mx-auto d-block"
+                        src={value.imageUrl}
+                        alt="image"
+                        style={{ width: "300px", height: "250px" }}
+                        aria-hidden="true"
+                      />
+                      <div className="card-body text-left mb-auto">
+                        <h6 className="styleFont">
+                          <h2>{value.store_name}</h2>
+                          <hr />
 
-                      {value.type.map((el) => (
-                        <Tag color="gold" style={{ marginBottom: "0.6rem" }}>
-                          {el}
-                        </Tag>
-                      ))}
+                          {value.type.map((el) => (
+                            <Tag
+                              color="gold"
+                              style={{ marginBottom: "0.6rem" }}
+                            >
+                              {el}
+                            </Tag>
+                          ))}
 
-                      <h4 style={{ color: "#000" }}>{value.address}</h4>
-                    </h6>
+                          <h4 style={{ color: "#000" }}>{value.address}</h4>
+                        </h6>
+                      </div>
+                    </a>
                   </div>
-                </a>
-              </div>
-            </div>
-          );
-        }
-        if (value.Star >= this.state.rating) {
-          return (
-            <div className="col-lg-4 col-md-6">
-              <div key={value.store_id}>
-                <a href onClick={() => this.onClickViewDetail(value)}>
-                  <img
-                    className="card-img-top img-fluid rounded mx-auto d-block"
-                    src={value.imageUrl}
-                    alt="image"
-                    style={{ width: "300px", height: "250px" }}
-                    aria-hidden="true"
-                  />
-                  <div className="card-body text-left mb-auto">
-                    <h6 className="styleFont">
-                      <p className="font">{value.store_name}</p>
-                      <hr />
-                      {value.type.map((el) => (
-                        <p
-                          style={{
-                            marginLeft: -2,
-                            marginRight: 8,
-                            marginBottom: 3,
-                            marginTop: 0.5,
-                            fontWeight: "lighter",
-                          }}
-                          className="badge badge-warning"
-                        >
-                          {el}
-                        </p>
-                      ))}
+                </div>
+              );
+            }
+            if (value.Star >= this.state.rating) {
+              return (
+                <div className="col-lg-4 col-md-6" id="card-recommend">
+                  <div key={value.store_id}>
+                    <a href onClick={() => this.onClickViewDetail(value)}>
+                      <img
+                        className="card-img-top img-fluid rounded mx-auto d-block"
+                        src={value.imageUrl}
+                        alt="image"
+                        style={{ width: "300px", height: "250px" }}
+                        aria-hidden="true"
+                      />
+                      <div className="card-body text-left mb-auto">
+                        <h6 className="styleFont">
+                          <p className="font">{value.store_name}</p>
+                          <hr />
+                          {value.type.map((el) => (
+                            <p
+                              style={{
+                                marginLeft: -2,
+                                marginRight: 8,
+                                marginBottom: 3,
+                                marginTop: 0.5,
+                                fontWeight: "lighter",
+                              }}
+                              className="badge badge-warning"
+                            >
+                              {el}
+                            </p>
+                          ))}
 
-                      <p style={{ lineHeight: 1 + "rem", color: "#000" }}>
-                        {value.address}
-                      </p>
-                    </h6>
+                          <p style={{ lineHeight: 1 + "rem", color: "#000" }}>
+                            {value.address}
+                          </p>
+                        </h6>
+                      </div>
+                    </a>
                   </div>
-                </a>
-              </div>
-            </div>
-          );
-        }
-      })
+                </div>
+              );
+            }
+          })
       : "";
 
-
-      const style = {
-        height: 40,
-        width: 40,
-        lineHeight: "40px",
-        borderRadius: 4,
-        backgroundColor: "#F69220",
-        color: "#fff",
-        textAlign: "center",
-        fontSize: 14,
-      };
+    const style = {
+      height: 40,
+      width: 40,
+      lineHeight: "40px",
+      borderRadius: 4,
+      backgroundColor: "#F69220",
+      color: "#fff",
+      textAlign: "center",
+      fontSize: 14,
+    };
 
     return (
-      <div id="search" >
+      <div id="search" style={{ marginBottom: "5rem" }}>
         <Navbar />
         <div className="search align-self-center">
           <div style={{ padding: "0 1rem 0 1rem " }}>
@@ -303,6 +304,7 @@ class AllStore extends Component {
               <h1
                 style={{
                   marginBottom: "3rem",
+                  fontSize: "3.5rem",
                 }}
               >
                 ธุรกิจทั้งหมด
@@ -310,10 +312,16 @@ class AllStore extends Component {
               {/* <div className="dropdown-divider" /> */}
             </p>
 
-            <div className="card" style={{paddingLeft:"1rem", paddingRight:"1rem",paddingTop:"1rem"}}>
-              <div
-                className="row"
-              >
+            <div
+              className="card"
+              style={{
+                paddingLeft: "1rem",
+                paddingRight: "1rem",
+                paddingTop: "1rem",
+                backgroundColor: "#FCFEFF",
+              }}
+            >
+              <div className="row">
                 <div
                   className="col-lg-3 col-md-5 col-sm-6 jumbotron jumbotron-fluid"
                   style={{ marginTop: "-6rem", backgroundColor: "transparent" }}
@@ -341,50 +349,44 @@ class AllStore extends Component {
                     rating={this.state.rating}
                   />
                 </div>
-               
+
                 <div
                   className="col-lg-9 col-md-7 col-sm-6"
                   style={{ marginTop: "-3rem" }}
                 >
-                   <ScrollAnimation animateIn="bounceInUp">
-              <div class="animated bounceInUp delay-2s">
-                  <ul
-                    className="list-group jumbotron jumbotron-fluid "
-                    style={{ backgroundColor: "transparent" }}
-                  >
-                    <div className="row">{item}
-                  </div>
+                  <ScrollAnimation animateIn="bounceInUp">
+                    <div class="animated bounceInUp delay-2s">
+                      <ul
+                        className="list-group jumbotron jumbotron-fluid "
+                        style={{ backgroundColor: "transparent" }}
+                      >
+                        <div className="row">{item}</div>
+                      </ul>
+                    </div>
+                  </ScrollAnimation>
                   <BackTop>
-            <div style={style}>
-              <UpOutlined />
-            </div>
-          </BackTop>
-                  </ul>
-                  </div>
-            </ScrollAnimation>
-           
+                    <div style={style}>
+                      <UpOutlined />
+                    </div>
+                  </BackTop>
                 </div>
-            
               </div>
               <div className="justify-content-start">
-            <div style={{ padding: "0 3rem 0 3rem " }}>
-              <div className="col-xs-12 col-sm-4 col-md-2">
-                <button
-                  type="button"
-                  onClick={this.onclickBack}
-                  className="btn btn-dark btn-block"
-                  style={{ marginBottom: "5rem" }}
-                >
-                  ย้อนกลับ
-                </button>
+                <div style={{ padding: "0 3rem 0 3rem " }}>
+                  <div className="col-xs-12 col-sm-4 col-md-2">
+                    <button
+                      type="button"
+                      onClick={this.onclickBack}
+                      className="btn btn-dark btn-block"
+                      style={{ marginBottom: "5rem" }}
+                    >
+                      ย้อนกลับ
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-            </div>
-            
-          </div>
-         
-          
         </div>
       </div>
     );

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "../../style.css";
+import { FireTwoTone } from "@ant-design/icons";
 
 class Web extends Component {
   constructor(props) {
@@ -12,13 +13,21 @@ class Web extends Component {
 
     return (
       <div id="Recommend">
+        <h1
+          className="col text-left font row"
+          style={{ marginBottom: "3rem", marginTop: "5rem" }}
+        >
+          เทรนใหม่มาแรง &nbsp;
+          <FireTwoTone twoToneColor="#FF0000" />
+        </h1>
         <hr className="featurette-divider" />
+
         <a
           href="https://www.thainarak.net/beautytip913-50-hair-colors-trends.html"
           target="_blank"
           style={{ color: "#000" }}
         >
-          <div className="row featurette">
+          <div className="row featurette" id="web-recommend">
             <div className="col-md-7">
               <h1 className="featurette-heading">
                 50 เทรนด์ “สีผม” ที่กำลังมาแรงในปี 2020
@@ -53,7 +62,7 @@ class Web extends Component {
           target="_blank"
           style={{ color: "#000" }}
         >
-          <div className="row featurette">
+          <div className="row featurette" id="web-recommend">
             <div className="col-md-7 order-md-2">
               <h1 className="featurette-heading">
                 ไอเดีย ทรงผมสุดฮิตผู้ชาย 2020
@@ -91,7 +100,7 @@ class Web extends Component {
           target="_blank"
           style={{ color: "#000" }}
         >
-          <div className="row featurette">
+          <div className="row featurette" id="web-recommend">
             <div className="col-md-7">
               <h1 className="featurette-heading">
                 100 เทรนด์เพ้นท์เล็บสวยๆ ปี 2020
@@ -129,7 +138,7 @@ class Web extends Component {
           target="_blank"
           style={{ color: "#000" }}
         >
-          <div className="row featurette">
+          <div className="row featurette" id="web-recommend">
             <div className="col-md-7 order-md-2">
               <h1 className="featurette-heading">
                 เทรนด์เล็บ 2020 กับ 8 แฟชั่นการทำเล็บสุดอิน
@@ -169,7 +178,7 @@ class Web extends Component {
           target="_blank"
           style={{ color: "#000" }}
         >
-          <div className="row featurette">
+          <div className="row featurette" id="web-recommend">
             <div className="col-md-7">
               <h1 className="featurette-heading">สีเล็บเสริมมงคล 2020</h1>
               <p className="lead" style={{ fontSize: "1.3rem" }}>

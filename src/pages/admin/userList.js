@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "antd/dist/antd.css";
 import "../../style.css";
-import { Button } from "antd";
+import { Button, Tag } from "antd";
 import firebase from "firebase";
 import { connect } from "react-redux";
 import { compose } from "redux";
@@ -50,7 +50,7 @@ class userList extends Component {
 
   handleEdit = (obj) => {
     swal({
-      title: "Please Confirm to Edit ?",
+      title: "Please Confirm to Edit",
       icon: "warning",
       buttons: true,
       dangerMode: false,
@@ -65,7 +65,7 @@ class userList extends Component {
 
   handleDelete = (d, index) => {
     swal({
-      title: "Please Confirm to Delete ?",
+      title: "Please Confirm to Delete",
       icon: "error",
       buttons: true,
       dangerMode: true,
@@ -87,7 +87,7 @@ class userList extends Component {
     const { loadingData } = this.state;
 
     return (
-      <div id="User-List" style={{height:"100vh"}}>
+      <div id="User-List" style={{ height: "100vh" }}>
         <div className="" style={{ marginTop: "3rem", marginBottom: "4rem" }}>
           <h2>User List</h2>{" "}
           <div
@@ -107,10 +107,11 @@ class userList extends Component {
               <table class="table">
                 <thead class="thead-dark">
                   <tr>
-                    {/* <th scope="col">#</th> */}
-                    <th scope="col">E-mail</th>
+                    <th scope="col">#</th>
                     <th scope="col">User Name</th>
-                    <th scope="col">Name</th>
+                    <th scope="col">E-mail</th>
+
+                    <th scope="col">User Type</th>
                     <th scope="col">Phone Number</th>
                     <th scope="col">Edit</th>
                     <th scope="col">Delete</th>
@@ -120,17 +121,27 @@ class userList extends Component {
                   {this.state.data &&
                     this.state.data.map((d, index) => {
                       return (
-                        <tr key={index}>
-                          {/* <th scope="row">{index}</th> */}
-                          <td>{d.email}</td>
+                        <tr key={index} id="select-row">
+                          <th scope="row">{index + 1}</th>
                           <td>{d.username}</td>
-                          <td>{d.firstname}</td>
+                          <td>{d.email}</td>
+
+                          <td>
+                            {d.member_type === "ผู้ให้บริการ" && (
+                              <Tag color="blue">{d.member_type}</Tag>
+                            )}
+                            {d.member_type === "ผู้ใช้บริการ" && (
+                              <Tag color="green">{d.member_type}</Tag>
+                            )}
+                          </td>
+
                           <td>{d.phone}</td>
                           <td>
                             <a href>
                               <ion-icon
                                 size="large"
-                                name="create-outline"
+                                name="create-sharp"
+                                style={{ color: "#32B8FF" }}
                                 onClick={() => this.handleEdit(d, index)}
                               ></ion-icon>
                             </a>
@@ -139,7 +150,8 @@ class userList extends Component {
                             <a href>
                               <ion-icon
                                 size="large"
-                                name="trash-outline"
+                                name="trash-sharp"
+                                style={{ color: "#FF4646" }}
                                 onClick={() => this.handleDelete(d, index)}
                               ></ion-icon>
                             </a>
@@ -152,11 +164,11 @@ class userList extends Component {
             </div>
           )}
           {loadingData && (
-            <div className="d-flex justify-content-center row col ">
+            <div className="d-flex justify-content-center row col">
               <span
                 className="spinner-border text-dark"
                 style={{
-                  marginTop: "3rem",
+                  marginTop: "7rem",
                   marginBottom: "2rem",
                   width: "10rem",
                   height: "10rem",

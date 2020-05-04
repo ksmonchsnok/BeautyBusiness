@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "antd/dist/antd.css";
 import "../../style.css";
-import { Button } from "antd";
+import { Button, Tag } from "antd";
 import firebase from "firebase";
 import { connect } from "react-redux";
 import { compose } from "redux";
@@ -46,11 +46,31 @@ class storeList extends Component {
     }, 1000);
   }
 
+  handleManagePromotion = (obj) => {
+    console.log("Data", obj);
+
+    swal({
+      title: "Please Confirm to Manage Promotion And Discount",
+      icon: "warning",
+      buttons: true,
+      dangerMode: false,
+    }).then((willDelete) => {
+      if (willDelete) {
+        this.props.history.push("/managePromotionAnddiscount", {
+          obj,
+          mode: "edit",
+        });
+      } else {
+        return;
+      }
+    });
+  };
+
   handleEdit = (obj) => {
     console.log("Data", obj);
 
     swal({
-      title: "Please Confirm to Edit ?",
+      title: "Please Confirm to Edit",
       icon: "warning",
       buttons: true,
       dangerMode: false,
@@ -67,7 +87,7 @@ class storeList extends Component {
     console.log("ID", d);
     const itemsRef = firebase.database().ref("store");
     swal({
-      title: "Please Confirm to Delete ?",
+      title: "Please Confirm to Delete",
       icon: "error",
       buttons: true,
       dangerMode: true,
@@ -90,7 +110,7 @@ class storeList extends Component {
     const { loadingData } = this.state;
 
     return (
-      <div id="Store-List" style={{height:"100vh"}}>
+      <div id="Store-List" style={{ height: "100vh" }}>
         <div style={{ marginTop: "3rem", marginBottom: "4rem" }}>
           <h2>Business List</h2>{" "}
           <div
@@ -116,7 +136,7 @@ class storeList extends Component {
                     <th scope="col">Phone Number</th>
                     <th scope="col">Business Type</th>
                     <th scope="col">Service Type</th>
-                    <th scope="col">Status</th>
+                    <th scope="col">Promotion</th>
                     <th scope="col">Edit</th>
                     <th scope="col">Delete</th>
                   </tr>
@@ -125,30 +145,45 @@ class storeList extends Component {
                   {this.state.data &&
                     this.state.data.map((d, index) => {
                       return (
-                        <tr key={index}>
+                        <tr key={index} id="select-row">
                           <th scope="row">{index + 1}</th>
                           <td>{d.store_name}</td>
                           <td>{d.open}</td>
                           <td>{d.phone}</td>
-                          <td>{d.store_type}</td>
+                          <td>
+                            {d.store_type === "มีหน้าร้าน" && (
+                              <Tag color="magenta">{d.store_type}</Tag>
+                            )}
+                            {d.store_type === "ฟรีแลนซ์" && (
+                              <Tag color="purple">{d.store_type}</Tag>
+                            )}
+                          </td>
                           <td>
                             {d.type.length > 0
                               ? d.type.map((el) => (
-                                  <p
-                                    class="badge badge-warning"
-                                    style={{ marginRight: "3px" }}
-                                  >
-                                    {el}
-                                  </p>
+                                  <Tag color="green">{el}</Tag>
                                 ))
                               : null}
                           </td>
-                          <td>{d.type}</td>
+                          <td>
+                            <a href className="d-flex justify-content-center">
+                              <ion-icon
+                                name="settings-sharp"
+                                className="text-center"
+                                size="large"
+                                style={{ color: "#FFB400" }}
+                                onClick={() =>
+                                  this.handleManagePromotion(d, index)
+                                }
+                              ></ion-icon>
+                            </a>
+                          </td>
                           <td>
                             <a href>
                               <ion-icon
-                                name="create-outline"
+                                name="create-sharp"
                                 size="large"
+                                style={{ color: "#32B8FF" }}
                                 onClick={() => this.handleEdit(d, index)}
                               ></ion-icon>
                             </a>
@@ -157,8 +192,9 @@ class storeList extends Component {
                             <a href>
                               {" "}
                               <ion-icon
-                                name="trash-outline"
+                                name="trash-sharp"
                                 size="large"
+                                style={{ color: "#FF4646" }}
                                 onClick={() => this.handleDelete(d, index)}
                               ></ion-icon>
                             </a>
@@ -175,7 +211,7 @@ class storeList extends Component {
               <span
                 className="spinner-border text-dark"
                 style={{
-                  marginTop: "3rem",
+                  marginTop: "7rem",
                   marginBottom: "2rem",
                   width: "10rem",
                   height: "10rem",

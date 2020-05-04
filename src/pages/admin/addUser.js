@@ -171,7 +171,7 @@ export default class RegistrationForm extends Component {
               swal({
                 title: "Create User Success",
                 text: "",
-                icon: "sucess",
+                icon: "success",
                 buttons: true,
                 dangerMode: false,
               }).then((willDelete) => {
@@ -287,7 +287,7 @@ export default class RegistrationForm extends Component {
           </Form.Item>
           <Form.Item
             name="username"
-            label={<span>Username</span>}
+            label="Username"
             rules={[
               {
                 required: true,
@@ -351,15 +351,16 @@ export default class RegistrationForm extends Component {
           </Form.Item>
           <Form.Item
             name="password"
-            label={
-              <span>
-                Password &nbsp;
-                <Tooltip title="Password จะต้องประกอบไปด้วย A-Z, a-z , 0-9">
-                  <QuestionCircleOutlined />
-                  &nbsp;
-                </Tooltip>
-              </span>
-            }
+            label="Password"
+            // {
+            //   <span>
+            //      &nbsp;
+            //     <Tooltip title="Password จะต้องประกอบไปด้วย A-Z, a-z , 0-9">
+            //       <QuestionCircleOutlined />
+            //       &nbsp;
+            //     </Tooltip>
+            //   </span>
+            // }
             rules={[
               {
                 min: 6,
@@ -392,15 +393,16 @@ export default class RegistrationForm extends Component {
           </Form.Item>
           <Form.Item
             name="cf_password"
-            label={
-              <span>
-                Confirm Password &nbsp;
-                <Tooltip title="Password จะต้องตรงกัน">
-                  <QuestionCircleOutlined />
-                  &nbsp;
-                </Tooltip>
-              </span>
-            }
+            label="Confirm Password"
+            // {
+            //   <span>
+            //      &nbsp;
+            //     <Tooltip title="Password จะต้องตรงกัน">
+            //       <QuestionCircleOutlined />
+            //       &nbsp;
+            //     </Tooltip>
+            //   </span>
+            // }
             dependencies={["password"]}
             hasFeedback
             rules={[
@@ -427,7 +429,7 @@ export default class RegistrationForm extends Component {
               type="textbox"
               name="cf_password"
               id="cf_password"
-              placeholder="Confirmpassword"
+              placeholder="Confirm Password"
               value={this.state.cf_password}
               onChange={(e) => this.setState({ cf_password: e.target.value })}
               whitespace={true}
@@ -437,7 +439,7 @@ export default class RegistrationForm extends Component {
           </Form.Item>
           <Form.Item
             name="firstname"
-            label={<span>First Name</span>}
+            label="First Name"
             rules={[
               {
                 required: true,
@@ -468,7 +470,7 @@ export default class RegistrationForm extends Component {
           </Form.Item>
           <Form.Item
             name="lastname"
-            label={<span>Last Name</span>}
+            label="Last Name"
             rules={[
               {
                 required: true,
@@ -499,7 +501,7 @@ export default class RegistrationForm extends Component {
           </Form.Item>
           <Form.Item
             name="address"
-            label="address"
+            label="Address"
             rules={[
               {
                 required: true,

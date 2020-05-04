@@ -273,7 +273,7 @@ class StoreDetail extends Component {
           {" "}
           <div
             className="jumbotron"
-            style={{ backgroundColor: "#EBF5FF", marginBottom: "5rem" }}
+            style={{ backgroundColor: "transparent", marginBottom: "5rem" }}
           >
             <div className="row marginDetail">
               <div className="col-8 ">{item}</div>

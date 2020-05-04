@@ -38,11 +38,15 @@ export default class Home extends Component {
         <div style={{ height: "auto", padding: 8 }}>
           <div className="container" style={{ marginTop: "1rem" }}>
             <ScrollAnimation animateIn="bounceInLeft">
-              <div class="animated bounce delay-2s">
-                <Recommend history={this.props.history} />
-              </div>
+              {/* <div class="animated bounce delay-2s"> */}
+              <Recommend history={this.props.history} />
+              {/* </div> */}
             </ScrollAnimation>
-
+            {/* <ScrollAnimation animateIn="bounceInLeft">
+              <section>
+                <Promotions history={this.props.history} />
+              </section>
+            </ScrollAnimation> */}
             <ScrollAnimation animateIn="bounceInRight">
               <section>
                 <Web history={this.props.history} />
@@ -55,12 +59,6 @@ export default class Home extends Component {
             </section>
           </ScrollAnimation> */}
 
-          {/* <ScrollAnimation animateIn="bounceInLeft">
-            <section>
-              <Promotions history={this.props.history} />
-            </section>
-          </ScrollAnimation>
- */}
           <BackTop>
             <div style={style}>
               <UpOutlined />

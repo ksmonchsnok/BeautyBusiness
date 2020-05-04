@@ -177,11 +177,21 @@ class Managepromotion_status extends Component {
             promotion_status: this.state.promotion_status,
             store_id: this.state.store_id,
             store_name: this.state.store_name,
-            promotion_name: !this.state.promotion_status ? null : this.state.promotion_name,
-            promotion_description: !this.state.promotion_status ? null : this.state.promotion_description,
-            amount_promotion: !this.state.promotion_status ? null: this.state.amount_promotion,
-            startdate_promotion: !this.state.promotion_status ? null : moment(this.state.startdate_promotion).format(),
-            enddate_promotion: !this.state.promotion_status ? null : moment(this.state.enddate_promotion).format(),
+            promotion_name: !this.state.promotion_status
+              ? null
+              : this.state.promotion_name,
+            promotion_description: !this.state.promotion_status
+              ? null
+              : this.state.promotion_description,
+            amount_promotion: !this.state.promotion_status
+              ? null
+              : this.state.amount_promotion,
+            startdate_promotion: !this.state.promotion_status
+              ? null
+              : moment(this.state.startdate_promotion).format(),
+            enddate_promotion: !this.state.promotion_status
+              ? null
+              : moment(this.state.enddate_promotion).format(),
           };
           setItemInsert.child(this.state.store_id).update(newState);
           const updateStore = firebase.database().ref("store");
@@ -195,11 +205,21 @@ class Managepromotion_status extends Component {
             discount_status: this.state.discount_status,
             store_id: this.state.store_id,
             store_name: this.state.store_name,
-            discount_name: !this.state.discount_status ? null : this.state.discount_name,
-            discount_description: !this.state.discount_status ? null : this.state.discount_description,
-            amount_discount: !this.state.discount_status ? null: this.state.amount_discount,
-            startdate_discount: !this.state.discount_status ? null : moment(this.state.startdate_discount).format(),
-            enddate_discount: !this.state.discount_status ? null : moment(this.state.enddate_discount).format(),
+            discount_name: !this.state.discount_status
+              ? null
+              : this.state.discount_name,
+            discount_description: !this.state.discount_status
+              ? null
+              : this.state.discount_description,
+            amount_discount: !this.state.discount_status
+              ? null
+              : this.state.amount_discount,
+            startdate_discount: !this.state.discount_status
+              ? null
+              : moment(this.state.startdate_discount).format(),
+            enddate_discount: !this.state.discount_status
+              ? null
+              : moment(this.state.enddate_discount).format(),
           };
           setdiscount_Insert.child(this.state.store_id).update(newStateDis);
           swal({
@@ -225,11 +245,21 @@ class Managepromotion_status extends Component {
             promotion_status: this.state.promotion_status,
             store_id: this.state.store_id,
             store_name: this.state.store_name,
-            promotion_name: !this.state.promotion_status ? null: this.state.promotion_name,
-            promotion_description: !this.state.promotion_status ? null : this.state.promotion_description,
-            amount_promotion: !this.state.promotion_status ? null : this.state.amount_promotion,
-            startdate_promotion: !this.state.promotion_status ? null : moment(this.state.startdate_promotion).format(),
-            enddate_promotion: !this.state.promotion_status ? null : moment(this.state.enddate_promotion).format(),
+            promotion_name: !this.state.promotion_status
+              ? null
+              : this.state.promotion_name,
+            promotion_description: !this.state.promotion_status
+              ? null
+              : this.state.promotion_description,
+            amount_promotion: !this.state.promotion_status
+              ? null
+              : this.state.amount_promotion,
+            startdate_promotion: !this.state.promotion_status
+              ? null
+              : moment(this.state.startdate_promotion).format(),
+            enddate_promotion: !this.state.promotion_status
+              ? null
+              : moment(this.state.enddate_promotion).format(),
           };
           setItemInsert.set(newState);
           const updateStore = firebase.database().ref("store");
@@ -245,11 +275,21 @@ class Managepromotion_status extends Component {
             discount_status: this.state.discount_status,
             store_id: this.state.store_id,
             store_name: this.state.store_name,
-            discount_name: !this.state.discount_status? null : this.state.discount_name,
-            discount_description: !this.state.discount_status ? null : this.state.discount_description,
-            amount_discount: !this.state.discount_status ? null : this.state.amount_discount,
-            startdate_discount: !this.state.discount_status ? null : moment(this.state.startdate_discount).format(),
-            enddate_discount: !this.state.discount_status ? null : moment(this.state.enddate_discount).format(),
+            discount_name: !this.state.discount_status
+              ? null
+              : this.state.discount_name,
+            discount_description: !this.state.discount_status
+              ? null
+              : this.state.discount_description,
+            amount_discount: !this.state.discount_status
+              ? null
+              : this.state.amount_discount,
+            startdate_discount: !this.state.discount_status
+              ? null
+              : moment(this.state.startdate_discount).format(),
+            enddate_discount: !this.state.discount_status
+              ? null
+              : moment(this.state.enddate_discount).format(),
           };
           setdiscount_Insert.set(newStateDis);
           swal({
@@ -299,14 +339,20 @@ class Managepromotion_status extends Component {
     return (
       <div
         id="Manage-Promotion"
-        style={{ marginTop: "3rem", marginLeft: "1rem", marginBottom: "5rem" }}
+        style={{
+          marginTop: "3rem",
+          marginLeft: "1rem",
+          marginBottom: "10em",
+        }}
       >
         <Navbar />
 
-        <div className="container" style={{height:"80%"}}>
-          <div style={{ marginBottom: "2rem" }}>
-            <h2>ธุรกิจ</h2>
-            {this.state.mode === "edit" && this.state.store_name !== "" ? (
+        <div className="container">
+          <div className="row" style={{ marginBottom: "3em" }}>
+            <h1>
+              ธุรกิจ :: <u>{this.state.store_name}</u>
+            </h1>
+            {/* {this.state.mode === "edit" && this.state.store_name !== "" ? (
               <Input
                 style={{ width: 300, marginLeft: "1.5rem", height: "2rem" }}
                 value={this.state.store_name}
@@ -334,7 +380,7 @@ class Managepromotion_status extends Component {
                   );
                 })}
               </Select>
-            )}
+            )} */}
           </div>
           <div className="row">
             <h2>promotion_status</h2>
@@ -343,8 +389,12 @@ class Managepromotion_status extends Component {
               value={this.state.promotion_status}
               style={{ marginTop: "1rem", marginLeft: "1.5rem" }}
             >
-              <Radio value={true} name={"true"}>มี</Radio>
-              <Radio value={false} name={"false"}>ไม่มี</Radio>
+              <Radio value={true} name={"true"}>
+                มี
+              </Radio>
+              <Radio value={false} name={"false"}>
+                ไม่มี
+              </Radio>
             </Radio.Group>
           </div>
           {this.state.promotion_status === true && (
@@ -428,8 +478,12 @@ class Managepromotion_status extends Component {
               value={this.state.discount_status}
               style={{ marginTop: "1rem", marginLeft: "1.5rem" }}
             >
-              <Radio value={true} name={"true"}>มี</Radio>
-              <Radio value={false}name={"false"}>ไม่มี</Radio>
+              <Radio value={true} name={"true"}>
+                มี
+              </Radio>
+              <Radio value={false} name={"false"}>
+                ไม่มี
+              </Radio>
             </Radio.Group>
           </div>
           {this.state.discount_status === true && (

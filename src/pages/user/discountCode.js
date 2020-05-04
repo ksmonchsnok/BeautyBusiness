@@ -4,13 +4,17 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { firebaseConnect } from "react-redux-firebase";
 import moment from "moment";
+import Navbar from "../../components/navbar/navbar.js";
+import swal from "sweetalert";
 
-class Report extends Component {
+class DiscountCode extends Component {
+  formRef = React.createRef();
   constructor(props) {
     super(props);
     this.state = {
+      loading: false,
+      mode: "",
       data: [],
-      loadingData: false,
       reportList: [],
     };
   }
@@ -33,22 +37,22 @@ class Report extends Component {
     const { loadingData } = this.state;
 
     return (
-      <div id="Report" style={{ height: "100vh" }}>
+      <div id="Discount-Code" style={{ height: "100vh" }}>
         <div style={{ marginTop: "4rem", marginBottom: "3rem" }}></div>
-        <h2 className="container">Discount Code Report</h2>
+        <Navbar />
+        <h1 className="container">Discount Code Report</h1>
 
         {!loadingData && (
           <div className="container table-responsive">
             <table className="table">
               <thead className="thead-dark">
                 <tr>
-                  <th scope="col">#</th>
                   <th scope="col">Discount Code</th>
                   <th scope="col">Business Name</th>
-                  <th scope="col">User Name</th>
+                  <th scope="col">Customer Name</th>
                   <th scope="col">Start Date</th>
                   <th scope="col">End Date</th>
-                  <th scope="col">Status Discount</th>
+                  <th scope="col">Status Discount Code</th>
                 </tr>
               </thead>
               <tbody>
@@ -56,7 +60,7 @@ class Report extends Component {
                   this.state.reportList.map((d, index) => {
                     return (
                       <tr key={index}>
-                        <th scope="row">{index + 1}</th>
+                        {/* <th scope="row"></th> */}
                         <td>{d.discount_code}</td>
                         <td>{d.store_name}</td>
                         <td>{d.username}</td>
@@ -94,12 +98,12 @@ class Report extends Component {
 }
 function mapStateToProps({ firebase }) {
   return {
-    Store: firebase.ordered.store,
+    Discount: firebase.ordered.discount,
   };
 }
 
 const enhance = compose(
-  firebaseConnect([{ path: "/store" }]),
+  firebaseConnect([{ path: "/discount" }]),
   connect(mapStateToProps)
 );
-export default enhance(Report);
+export default enhance(DiscountCode);

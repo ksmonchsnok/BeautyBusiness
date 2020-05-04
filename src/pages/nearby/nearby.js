@@ -7,10 +7,9 @@ import { firebaseConnect } from "react-redux-firebase";
 import Navber from "../../components/navbar/navbar.js";
 import { Map, GoogleApiWrapper, Marker, InfoWindow } from "google-maps-react";
 import { geolocated } from "react-geolocated";
-import { BackTop } from "antd";
+import { BackTop, Select } from "antd";
 import "antd/dist/antd.css";
 import { UpOutlined } from "@ant-design/icons";
-
 
 class Nearby extends Component {
   constructor(props) {
@@ -24,7 +23,7 @@ class Nearby extends Component {
       showingInfoWindow: false,
       activeMarker: {},
       selectedPlace: {},
-      kilometer : ""
+      kilometer: "",
     };
 
     if (this.props.isGeolocationAvailable && this.props.isGeolocationEnabled) {
@@ -99,17 +98,17 @@ class Nearby extends Component {
     }
   };
 
-  // markStore = () => {
-  //   const locations = this.state.locations;
-  //   return locations.map(location => (
-  //     <Marker
-  //       onClick={this.onMarkerClick}
-  //       title={location.Name}
-  //       name={location.Name}
-  //       position={{ Lat: location.Lat, Lng: location.Lng }}
-  //     />
-  //   ));
-  // };
+  markStore = () => {
+    const locations = this.state.locations;
+    return locations.map((location) => (
+      <Marker
+        onClick={this.onMarkerClick}
+        title={location.store_name}
+        name={location.store_name}
+        position={{ Lat: location.Lat, Lng: location.Lng }}
+      />
+    ));
+  };
 
   //markCurent = () => {
   //   let iconmark = "https://img.icons8.com/cotton/64/000000/place-marker.png";
@@ -151,17 +150,29 @@ class Nearby extends Component {
     });
   };
 
+  onChange = (value) => {
+    const kilometer = this.state.kilometer;
+    this.setState({
+      kilometer: value,
+    });
+
+    console.log(`selected ${kilometer}`);
+    console.log(this.state.kilometer);
+  };
+
   calulatedNearby = () => {
     const result = [];
     const store = this.state.locations;
     const our_position = this.state.coords;
+    const kilometer = this.state.kilometer;
+
     let data = this.state.data;
     store.map((el, i) => {
       let Lat1 = our_position.Lat;
       let Lng1 = our_position.Lng;
       let Lat2 = el.Lat;
       let Lng2 = el.Lng;
-      let Name = el.Name;
+      let store_name = el.store_name;
 
       let R = 6371;
       let dLat = ((Lat2 - Lat1) * Math.PI) / 180;
@@ -177,7 +188,7 @@ class Nearby extends Component {
       let d = R * c;
       let m = d / 0.001;
 
-      result.push(Name + " ==> " + m.toFixed(0));
+      result.push(store_name + " ==> " + m.toFixed(0));
       if (d < 1) {
         data.push({
           store_name: el.store_name,
@@ -200,7 +211,7 @@ class Nearby extends Component {
     this.calulatedNearby();
     const styles = {
       maxWidth: "100%",
-      maxHeight: "100%",
+      maxHeight: "95%",
       paddingTop: "20rem ",
       paddingBottom: "10rem ",
       marginRight: "3rem",
@@ -222,7 +233,7 @@ class Nearby extends Component {
       fontSize: 14,
     };
     const item = this.state.data.map((value) => (
-      <div className="col-lg-3 col-md-6">
+      <div className="col-lg-3 col-md-6 text-center" id="card-recommend">
         <div key={value.store_id}>
           <a href onClick={() => this.onClickViewDetail(value)}>
             <img
@@ -266,8 +277,8 @@ class Nearby extends Component {
     ));
 
     const { loadingData } = this.state;
-    // console.log(this.state);
-    
+    const { Option } = Select;
+    console.log(this.state);
 
     return (
       <div id="nearby" style={{ marginTop: "2rem" }}>
@@ -295,8 +306,8 @@ class Nearby extends Component {
                     return (
                       <Marker
                         key={i}
-                        title={l.Name}
-                        name={l.Name}
+                        title={l.store_name}
+                        name={l.store_name}
                         position={{ lat: l.Lat, lng: l.Lng }}
                       >
                         <InfoWindow
@@ -305,7 +316,7 @@ class Nearby extends Component {
                           onCloseClick={this.handleToggle}
                           position={{ lat: l.Lat, lng: l.Lng }}
                         >
-                          <h4>{l.Name}</h4>
+                          <h4>{l.store_name}</h4>
                         </InfoWindow>
                       </Marker>
                     );
@@ -332,37 +343,42 @@ class Nearby extends Component {
           {/* </div> */}
         </div>
 
-        <div className="col">
+        <div className="col" style={{ marginTop: "2rem" }}>
           <div className="album bg-while pad">
             <h1 className="text-center">
-              ธุรกิจใกล้เคียงในระยะ 1
-              {/* <div class="btn-group">
-                <button
-                  type="button"
-                  class="btn btn-danger dropdown-toggle"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  1 เมตร
-                </button>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item" href="#">
-                    2 เมตร
-                  </a>
-                  <a class="dropdown-item" href="#">
-                    Another action
-                  </a>
-                  <a class="dropdown-item" href="#">
-                    Something else here
-                  </a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">
-                    Separated link
-                  </a>
-                </div>
-              </div>{" "} */}
-              กิโลเมตร
+              ธุรกิจใกล้เคียงในระยะ
+              <Select
+                name="kilometer"
+                showSearch
+                style={{
+                  width: 120,
+                  height: 25,
+                  marginLeft: "1rem",
+                }}
+                placeholder=" 1 กิโลเมตร"
+                optionFilterProp="children"
+                onChange={this.onChange}
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
+                  0
+                }
+              >
+                <Option value="1" style={{ fontSize: "1.5rem" }}>
+                  1 กิโลเมตร
+                </Option>
+                <Option value="2" style={{ fontSize: "1.5rem" }}>
+                  2 กิโลเมตร
+                </Option>
+                <Option value="3" style={{ fontSize: "1.5rem" }}>
+                  3 กิโลเมตร
+                </Option>
+                <Option value="4" style={{ fontSize: "1.5rem" }}>
+                  4 กิโลเมตร
+                </Option>
+                <Option value="5" style={{ fontSize: "1.5rem" }}>
+                  5 กิโลเมตร
+                </Option>
+              </Select>
             </h1>
 
             <hr style={{ marginTop: "1rem" }} />
@@ -385,10 +401,10 @@ class Nearby extends Component {
               )}
             </div>
             <BackTop>
-            <div style={style}>
-              <UpOutlined />
-            </div>
-          </BackTop>
+              <div style={style}>
+                <UpOutlined />
+              </div>
+            </BackTop>
           </div>
 
           <hr />

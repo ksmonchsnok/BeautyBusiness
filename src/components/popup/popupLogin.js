@@ -64,29 +64,32 @@ class LoginForm extends Component {
             buttons: true,
             dangerMode: false,
           }).then((willDelete) => {
-          if (willDelete) {
-          const setPassword = firebase.database().ref(`member`);
-          setPassword.child(resp.user.uid).update({
-            Password: this.state.password,
-            CFPassword: this.state.password,
-          });
+            if (willDelete) {
+              const setPassword = firebase.database().ref(`member`);
+              setPassword.child(resp.user.uid).update({
+                Password: this.state.password,
+                CFPassword: this.state.password,
+              });
 
-          firebase
-            .database()
-            .ref(`member/${resp.user.uid}`)
-            .once("value")
-            .then((snapshot) => {
-              localStorage.setItem("ObjUser", JSON.stringify(snapshot.val()));
-                          // this.props.checkLogin(snapshot.val());
-            });
-          this.setState({ loadingLogin: true });
-          this.props.history.push({
-            pathname: "/",
-            state: { ChekShowInOut: true },
-          });
+              firebase
+                .database()
+                .ref(`member/${resp.user.uid}`)
+                .once("value")
+                .then((snapshot) => {
+                  localStorage.setItem(
+                    "ObjUser",
+                    JSON.stringify(snapshot.val())
+                  );
+                  // this.props.checkLogin(snapshot.val());
+                });
+              this.setState({ loadingLogin: true });
+              this.props.history.push({
+                pathname: "/",
+                state: { ChekShowInOut: true },
+              });
 
-          this.setState({ checklogIn: true });
-          }
+              this.setState({ checklogIn: true });
+            }
           });
         })
 

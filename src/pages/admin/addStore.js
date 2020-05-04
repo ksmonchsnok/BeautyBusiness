@@ -156,6 +156,7 @@ class RegistrationForm extends Component {
 
     if (this.state.custom_position === "true") {
       console.log("Fix Position");
+
       if (
         this.state !== null &&
         this.state.store_id &&
@@ -163,7 +164,7 @@ class RegistrationForm extends Component {
       ) {
         if (this.state.mode === "edit") {
           setTimeout(() => {
-            swal("Update Business Success", "success");
+            swal("Update Business Success", " ", "success");
             const setItemInsert = firebase.database().ref(`store`);
             let newState = {
               imageUrl: this.state.imageUrl,
@@ -184,7 +185,7 @@ class RegistrationForm extends Component {
           }, 500);
         } else {
           setTimeout(() => {
-            swal("Create Business Success", "success");
+            swal("Create Business Success", " ", "success");
             const setItemInsert = firebase
               .database()
               .ref(`store/${this.state.store_id}`);
@@ -224,7 +225,7 @@ class RegistrationForm extends Component {
       ) {
         if (this.state.mode === "edit") {
           setTimeout(() => {
-            swal("Update Business Success", "success");
+            swal("Update Business Success", "", "success");
             const setItemInsert = firebase.database().ref(`store`);
             let newState = {
               imageUrl: this.state.imageUrl,
@@ -245,7 +246,7 @@ class RegistrationForm extends Component {
           }, 500);
         } else {
           setTimeout(() => {
-            swal("Create Business Success", "success");
+            swal("Create Business Success", "", "success");
             const setItemInsert = firebase
               .database()
               .ref(`store/${this.state.store_id}`);
@@ -410,7 +411,7 @@ class RegistrationForm extends Component {
                 style={{
                   width: 300,
                   marginLeft: "1.5rem",
-                  height: "2rem",
+                  height: "3rem",
                 }}
                 value={this.state.username}
                 whitespace={true}
@@ -419,8 +420,8 @@ class RegistrationForm extends Component {
             ) : (
               <Select
                 showSearch
-                style={{ width: 300, marginLeft: "1.5rem", height: "2rem" }}
-                placeholder="Select a User"
+                style={{ width: 300, marginLeft: "1.5rem", height: "1.5rem" }}
+                placeholder="Select User"
                 optionFilterProp="children"
                 onChange={this.setStorestore_name}
                 onSearch={onSearch}
@@ -432,7 +433,11 @@ class RegistrationForm extends Component {
                 {this.state.userLsit &&
                   this.state.userLsit.map((d, index) => {
                     return (
-                      <Option key={index} value={d.value}>
+                      <Option
+                        key={index}
+                        value={d.value}
+                        style={{ fontSize: "1.1rem" }}
+                      >
                         {d.label}
                       </Option>
                     );
@@ -469,7 +474,7 @@ class RegistrationForm extends Component {
           </Form.Item>
           <Form.Item
             name="store_name"
-            label={<span>Business Name</span>}
+            label="Business Name"
             rules={[
               {
                 required: true,
@@ -502,7 +507,7 @@ class RegistrationForm extends Component {
 
           <Form.Item
             name="open"
-            label={<span>open</span>}
+            label="Open"
             rules={[
               {
                 required: true,
@@ -534,7 +539,7 @@ class RegistrationForm extends Component {
 
           <Form.Item
             name="phone"
-            label="phone Number"
+            label="Phone Number"
             rules={[
               {
                 required: true,
@@ -566,7 +571,7 @@ class RegistrationForm extends Component {
 
           <Form.Item
             name="address"
-            label="address"
+            label="Address"
             rules={[
               {
                 required: true,
@@ -594,7 +599,7 @@ class RegistrationForm extends Component {
           </Form.Item>
           <Form.Item
             name="social"
-            label={<span>Facebook / Instagram</span>}
+            label="Facebook"
             rules={[
               {
                 required: true,
@@ -613,7 +618,7 @@ class RegistrationForm extends Component {
           >
             <Input
               type="textbox"
-              ame="social"
+              name="social"
               id="social"
               placeholder="https://th-th.facebook.com/"
               value={this.state.social}
@@ -652,7 +657,7 @@ class RegistrationForm extends Component {
             <span>
               <Form.Item
                 name="lat"
-                label="latitude"
+                label="Latitude"
                 rules={[
                   {
                     required: true,
@@ -707,7 +712,7 @@ class RegistrationForm extends Component {
 
           <Form.Item
             name="recommend"
-            label="recommend Store"
+            label="Recommend Store"
             rules={[
               {
                 required: true,

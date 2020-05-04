@@ -38,21 +38,22 @@ class Recommened extends Component {
       .on("child_added", (snapshot) => {
         Store.push(snapshot.val());
       });
-console.log(Store);
+    console.log(Store);
 
     const item = Store.map((value) => (
       <div className="col-lg-4">
         <a href onClick={() => this.onClickViewDetail(value)}>
           <div key={value.store_id}>
-            <div class="">
+            <div id="card-recommend">
               <img
                 src={value.imageUrl}
                 className="bd-placeholder-img rounded-circle"
-                width="170"
-                height="170"
+                width="200"
+                height="200"
                 focusable="false"
                 role="img"
-                aria-label="Placeholder: 140x140"
+                aria-label=""
+                style={{ marginBottom: "0.8rem" }}
               ></img>
               <h2>{value.store_name}</h2>
               {value.type.map((el) => (
@@ -99,7 +100,7 @@ console.log(Store);
         </div>
         {!loadingData && (
           <div
-            className="row"
+            className="row text-center"
             style={{ marginTop: "1.5rem" }}
             history={this.props.history}
           >

@@ -7,6 +7,7 @@ import setting from "../../assets/icon/setting.png";
 import edit from "../../assets/icon/edit.png";
 import logout from "../../assets/icon/logout.png";
 import store from "../../assets/icon/store.png";
+import discount from "../../assets/icon/rating.png";
 import "firebase/auth";
 import swal from "sweetalert";
 import firebase from "firebase/app";
@@ -217,6 +218,14 @@ class navbar extends Component {
     });
   };
 
+  onClickViewDiscountCode = (event) => {
+    event.preventDefault();
+    this.props.history.push({
+      pathname: "/DiscountCode",
+      state: { mode: "ViewDiscount" },
+    });
+  };
+
   onClickEditStore = (event) => {
     event.preventDefault();
     this.props.history.push({
@@ -332,7 +341,11 @@ class navbar extends Component {
                           onClick={this.checkHaveBusiness}
                           className="is-active"
                           className="nav-link link-menu"
-                          style={{ marginTop: "-8px" }}
+                          style={{
+                            marginTop: "-8px",
+                            fontFamily:
+                              "Conv_DB Helvethaica X Bd v3.2 !important",
+                          }}
                         >
                           <a className="nav-link text-center" href>
                             สร้างธุรกิจของคุณ
@@ -418,6 +431,21 @@ class navbar extends Component {
                           <a
                             className="dropdown-item"
                             href
+                            onClick={this.onClickViewDiscountCode}
+                          >
+                            {" "}
+                            <img
+                              src={discount}
+                              alt="discount"
+                              style={{ marginRight: "7px" }}
+                            />
+                            รหัสส่วนลดของคุณ
+                          </a>
+                        ) : null}
+                        {this.state.checkTypeUser ? (
+                          <a
+                            className="dropdown-item"
+                            href
                             onClick={this.onClickEditStore}
                             history={this.props.history}
                           >
@@ -430,6 +458,7 @@ class navbar extends Component {
                             แก้ไขข้อมูลธุรกิจ
                           </a>
                         ) : null}
+
                         <div className="dropdown-divider" />
                         <a
                           className="dropdown-item"

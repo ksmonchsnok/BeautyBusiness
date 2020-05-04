@@ -299,12 +299,12 @@ export default class RegistrationForm extends Component {
         <div className="container">
           {this.props.location.state.mode === "EditUser" && (
             <span>
-              <h3>Update / แก้ข้อมูลผู้ใช้ </h3>
+              <h1>Update / แก้ข้อมูลผู้ใช้ </h1>
             </span>
           )}
           {this.props.location.state.mode !== "EditUser" && (
             <span>
-              <h3>Register / สมัครสมาชิก </h3>
+              <h1>Register / สมัครสมาชิก </h1>
             </span>
           )}
 
@@ -337,7 +337,7 @@ export default class RegistrationForm extends Component {
             </Form.Item>
             <Form.Item
               name="username"
-              label={<span>username</span>}
+              label="Username"
               rules={[
                 {
                   required: true,
@@ -403,15 +403,16 @@ export default class RegistrationForm extends Component {
 
             <Form.Item
               name="password"
-              label={
-                <span>
-                  Password &nbsp;
-                  <Tooltip title="Password จะต้องประกอบไปด้วย A-Z, a-z , 0-9">
-                    <QuestionCircleOutlined />
-                    &nbsp;
-                  </Tooltip>
-                </span>
-              }
+              label="Password"
+              // {
+              //   <span>
+              //      &nbsp;
+              //     <Tooltip title="Password จะต้องประกอบไปด้วย A-Z, a-z , 0-9">
+              //       <QuestionCircleOutlined />
+              //       &nbsp;
+              //     </Tooltip>
+              //   </span>
+              // }
               rules={[
                 {
                   min: 6,
@@ -466,15 +467,16 @@ export default class RegistrationForm extends Component {
             <Form.Item
               name="cf_password"
               style={{ marginTop: "-3rem" }}
-              label={
-                <span>
-                  Confirm Password &nbsp;
-                  <Tooltip title="Password จะต้องตรงกัน">
-                    <QuestionCircleOutlined />
-                    &nbsp;
-                  </Tooltip>
-                </span>
-              }
+              label="Confirm Password "
+              // {
+              //   <span>
+              //     &nbsp;
+              //     <Tooltip title="Password จะต้องตรงกัน">
+              //       <QuestionCircleOutlined />
+              //       &nbsp;
+              //     </Tooltip>
+              //   </span>
+              // }
               dependencies={["password"]}
               hasFeedback
               rules={[
@@ -513,7 +515,7 @@ export default class RegistrationForm extends Component {
 
             <Form.Item
               name="firstname"
-              label={<span>First Name</span>}
+              label="First Name"
               rules={[
                 {
                   required: true,
@@ -544,7 +546,7 @@ export default class RegistrationForm extends Component {
             </Form.Item>
             <Form.Item
               name="lastname"
-              label={<span>Last Name</span>}
+              label="Last Name"
               rules={[
                 {
                   required: true,

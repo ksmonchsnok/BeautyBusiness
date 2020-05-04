@@ -40,7 +40,7 @@ export default class Admin extends Component {
             // paddingRight: "1rem",
             height: "100%",
             marginBottom: "-3rem",
-            overflow:"hidden"
+            overflow: "hidden",
           }}
         >
           <div className="row">
@@ -63,7 +63,6 @@ export default class Admin extends Component {
                   aria-controls="v-pills-manageUser"
                   aria-selected="true"
                   style={{ marginTop: "3rem" }}
-
                 >
                   <ion-icon name="person-outline" size="small" />
                   &emsp; จัดการผู้ใช้งาน
@@ -81,7 +80,6 @@ export default class Admin extends Component {
                   จัดการธุรกิจ
                 </a>
 
-                
                 <a
                   className="nav-link"
                   id="v-pills-managePromotion-tab"
@@ -108,15 +106,15 @@ export default class Admin extends Component {
                 </a>
               </div>
             </div>
-            <div className="col card" style={{ margin: "1rem"}}>
+            <div className="col card" style={{ margin: "1rem" }}>
               <div className="tab-content" id="v-pills-tabContent">
-              <div
+                <div
                   className="col  tab-pane fade active show"
                   id="v-pills-manageUser"
                   role="tabpanel"
                   aria-labelledby="v-pills-manageUser-tab"
                 >
-                  <UserList  className="card"{...this.props} />
+                  <UserList className="card" {...this.props} />
                 </div>
                 <div
                   className="col tab-pane fade "
@@ -126,7 +124,7 @@ export default class Admin extends Component {
                 >
                   <StoreList {...this.props} />
                 </div>
-                
+
                 <div
                   className="col tab-pane fade"
                   id="v-pills-managePromotion"
