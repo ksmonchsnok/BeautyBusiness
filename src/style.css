@@ -37,7 +37,7 @@ body {
 }
 
 #select-row:hover {
-    background-color: #FFC31E;
+    background-color: #dcdcdc;
 
 
 }
@@ -120,10 +120,15 @@ Option .swal-text,
 
 .navbar-dark .navbar-nav .nav-link:hover {
     color: #F69220 !important;
+    font-family: 'Conv_DB Helvethaica X Li v3.2' !important;
+    font-size: 25px !important;
+
 }
 
 .navbar-dark .navbar-nav .nav-link {
     color: #ffffff !important;
+    font-family: 'Conv_DB Helvethaica X Li v3.2' !important;
+    font-size: 25px !important;
 }
 
 #Navbar {
@@ -137,6 +142,12 @@ Option .swal-text,
 
 /* ********************************************************************************************************************************************************************* */
 /* Login */
+
+#icon-login {
+    width: 50 !important;
+    height: 50 !important;
+    border-radius: 46px !important;
+}
 
 .admin {
     display: block;
@@ -177,6 +188,13 @@ Option .swal-text,
 .bd-example {
     height: 100%;
     max-width: auto;
+}
+
+
+#Pie {
+    width: 1000px !important;
+    height: 500px !important;
+    font-size: 100px !important;
 }
 
 /* ********************************************************************************************************************************************************************* */
@@ -505,7 +523,9 @@ ul {
     }
 
     .navbar-dark .navbar-nav .nav-link {
-        font-size: 1.4rem !important;
+        font-family: 'Conv_DB Helvethaica X Li v3.2' !important;
+        font-size: 25px !important;
+
     }
 
 }
@@ -585,7 +605,15 @@ ul {
     }
 
     .navbar-dark .navbar-nav .nav-link {
-        font-size: 2rem !important;
+        font-family: 'Conv_DB Helvethaica X Li v3.2' !important;
+        font-size: 30px !important;
+
+    }
+
+    .navbar-dark .navbar-nav .nav-link:hover {
+        font-size: 30px !important;
+
+
     }
 
     /* ul / li */

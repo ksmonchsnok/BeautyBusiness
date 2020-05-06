@@ -122,7 +122,7 @@ export default class Admin extends Component {
                   role="tabpanel"
                   aria-labelledby="v-pills-manageStore-tab"
                 >
-                  <StoreList {...this.props} />
+                  {/* <StoreList {...this.props} /> */}
                 </div>
 
                 <div

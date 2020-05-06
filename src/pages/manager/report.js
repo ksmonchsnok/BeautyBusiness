@@ -74,14 +74,14 @@ class Report extends Component {
                           {moment(d.enddate_discount).format("DD/MM/YYYY")}
                         </td>
                         <td>
-                          <switch
+                          <Switch
                             name="status_code"
                             value={d.status_code}
                             checkedChildren="Active"
                             unCheckedChildren="inActive"
                             onChange={this.onChangeStatusCode}
                             defaultChecked={false}
-                          ></switch>
+                          ></Switch>
                         </td>
                       </tr>
                     );

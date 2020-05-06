@@ -223,15 +223,11 @@ export default class RegistrationForm extends Component {
             }, 100);
           })
           .catch(function (error) {
-            swal(
-              "ผิดพลาด!",
-              "กรุณากรอก 'ข้อมูล' และ 'รูปภาพ' ให้ครบ ",
-              "error"
-            );
+            swal("ผิดพลาด!", "มี E-Mail ผู้ใช้นี้อยู่ในระบบแล้ว", "error");
           });
       }
     } else {
-      swal("ผิดพลาด!", "กรุณาอัพโหลดรูปภาพ", "error");
+      swal("ผิดพลาด!", "กรุณากรอก 'ข้อมูล' และ 'รูปภาพ' ให้ครบ ", "error");
     }
   }
 

@@ -122,7 +122,7 @@ class RegistrationForm extends Component {
         mode: "userEditStore",
       });
     } else if (checUserStore === "userEditStore") {
-      console.log("userEditStore");
+      // console.log("userEditStore");
 
       let obj = JSON.parse(localStorage.getItem("ObjUser"));
       console.log(obj);
@@ -163,7 +163,6 @@ class RegistrationForm extends Component {
             type: data.type,
             social: data.social,
             custom_position: obj.custom_position,
-
             mode: "userEditStore",
           });
         } else {
@@ -670,6 +669,7 @@ class RegistrationForm extends Component {
             >
               {" "}
               <Radio.Group
+                name="custom_position"
                 id="custom_position"
                 value={this.state.custom_position}
                 onChange={(e) => this.onChangeCheckCurent(e)}
@@ -739,7 +739,6 @@ class RegistrationForm extends Component {
                 </Form.Item>
               </span>
             )}
-
             {/* <Form.Item
               name="recommend"
               label="recommend Store"

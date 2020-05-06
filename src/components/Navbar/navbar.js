@@ -134,9 +134,8 @@ class navbar extends Component {
       );
       if (checkSigninAndOut) {
         this.setState({
-          setimgShow: checkSigninAndOut.image,
-          setFullName:
-            checkSigninAndOut.firstname + "-" + checkSigninAndOut.lastname,
+          setimgShow: checkSigninAndOut.imageUrl,
+          setFullName: checkSigninAndOut.username,
           showlogInAndSignIn: true,
         });
       } else {
@@ -160,7 +159,7 @@ class navbar extends Component {
       if (checkSigninAndOutgoogle) {
         this.setState({
           setimgShow: checkSigninAndOutgoogle.profileObj.imageUrl,
-          setFullName: checkSigninAndOutgoogle.profileObj.name,
+          setFullName: checkSigninAndOutgoogle.profileObj.givenName,
           showlogInAndSignInGoogle: true,
         });
       } else {
@@ -183,7 +182,7 @@ class navbar extends Component {
       });
     this.setState({
       setimgShow: e.image,
-      setFullName: e.firstname + "-" + e.lastname,
+      setFullName: e.firstname,
       showlogInAndSignIn: true,
     });
   };
@@ -191,7 +190,7 @@ class navbar extends Component {
   checkLoginGL = (e) => {
     this.setState({
       setimgShow: e.profileObj.imageUrl,
-      setFullName: e.profileObj.name,
+      setFullName: e.profileObj.givenName,
       showlogInAndSignIn: true,
     });
   };
@@ -395,7 +394,8 @@ class navbar extends Component {
                       >
                         <a href data-toggle="modal" data-target="#exampleModal">
                           <img
-                            src={setting}
+                            id="icon-login"
+                            src={this.state.setimgShow}
                             style={{ width: "63px", height: "63px" }}
                           />
                         </a>
@@ -427,7 +427,7 @@ class navbar extends Component {
                           />
                           แก้ไขข้อมูลผู้ใช้
                         </a>
-                        {this.state.checkTypeUser ? (
+                        {this.state.checkTypeUser === false && (
                           <a
                             className="dropdown-item"
                             href
@@ -441,7 +441,7 @@ class navbar extends Component {
                             />
                             รหัสส่วนลดของคุณ
                           </a>
-                        ) : null}
+                        )}
                         {this.state.checkTypeUser ? (
                           <a
                             className="dropdown-item"

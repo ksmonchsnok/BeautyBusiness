@@ -4,16 +4,41 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { firebaseConnect } from "react-redux-firebase";
 import moment from "moment";
+import { Bar, Line, Pie } from "react-chartjs-2";
+
 class report extends Component {
   constructor(props) {
     super(props);
     this.state = {
       data: [],
       loadingData: false,
+
+      chartData: {
+        labels: [
+          "จำนวนผู้ใช้ทั้งหมดในระบบ",
+          "จำนวนธุรกิจทั้งหมดในระบบ",
+          "จำนวนผู้ใช้บริการ",
+          "จำนวนเจ้าของกิจการ",
+        ],
+        datasets: [
+          {
+            label: "Population",
+            data: [10, 8, 2, 8],
+            backgroundColor: [
+              "rgba(255, 99, 132, 0.6)",
+              "rgba(54, 162, 235, 0.6)",
+              "rgba(255, 159, 64, 0.6)",
+              "rgba(75, 192, 192, 0.6)",
+              "rgba(153, 102, 255, 0.6)",
+            ],
+          },
+        ],
+      },
     };
   }
   async componentDidMount() {
     await this.onGetItempReport();
+    await this.renderChart();
   }
 
   onGetItempReport() {
@@ -42,13 +67,50 @@ class report extends Component {
       });
     }, 1000);
   }
+
+  static defaultProps = {
+    type: "doughnut",
+    height: 150,
+    width: 300,
+    redraw: false,
+    options: {},
+    displayTitle: true,
+    displayLegend: true,
+    legendPosition: "left",
+    position: "center",
+    location: "City",
+  };
+
+  renderChart = () => {
+    console.log(this.chartReference);
+  };
+
   render() {
     const { loadingData } = this.state;
 
     return (
-      <div id="Report-List" style={{height:"100vh"}}>
+      <div id="Report-List" style={{ height: "100vh" }}>
         <div style={{ marginTop: "4rem", marginBottom: "3rem" }}></div>
-        <h2>Discount report</h2>
+        <h2>Beauty Business Reports</h2>
+
+        <Pie
+          id="Pie"
+          data={this.state.chartData}
+          options={{
+            legend: {
+              display: this.props.displayLegend,
+              position: this.props.legendPosition,
+              fontSize: 100,
+            },
+            labels: {
+              fontSize: 50,
+            },
+
+            tooltips: {
+              enabled: true,
+            },
+          }}
+        />
 
         {!loadingData && (
           <div class="table-responsive">
