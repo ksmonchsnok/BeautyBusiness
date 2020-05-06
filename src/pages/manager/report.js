@@ -6,6 +6,7 @@ import { firebaseConnect } from "react-redux-firebase";
 import moment from "moment";
 import "antd/dist/antd.css";
 import { Switch } from "antd";
+import swal from "sweetalert";
 
 class Report extends Component {
   constructor(props) {
@@ -14,6 +15,7 @@ class Report extends Component {
       data: [],
       loadingData: false,
       reportList: [],
+      setStatusList: [],
     };
   }
 
@@ -22,18 +24,50 @@ class Report extends Component {
     let ref = firebase.database().ref("report");
     ref.once("value").then((snapshot) => {
       if (snapshot.val()) {
-        const data = Object.values(snapshot.val());
+        let data = Object.values(snapshot.val());
+        let dataKey = snapshot.val();
+        let tempArr = [];
+        var key = Object.keys(dataKey);
+        let arr1 = Object.values(dataKey);
+        let cDate = new Date().getTime();
+        for (let i = 0; i < arr1.length; i++) {
+          if (data[i].report_id === ObjUser.member_id) {
+            tempArr.push({ key: key[i], value: arr1[i] });
+          }
+        }
         let arr = data.filter((v) => v.report_id === ObjUser.member_id);
-        this.setState({ loadingData: false, reportList: arr });
+        for (let i = 0; i < arr.length; i++) {
+          let eDate = new Date(arr[i].enddate_discount).getTime();
+          if (cDate > eDate) {
+            arr[i].expireDate = true;
+          }
+        }
+        this.setState({
+          loadingData: false,
+          reportList: arr,
+          setStatusList: tempArr,
+        });
       } else {
         this.setState({ loadingData: false });
       }
     });
   }
-  onChangeStatusCode = (checked) => {
-    const status = this.state.status_code;
-    this.setState({ status: checked });
-    console.log(`Status ${checked}`);
+  onChangeStatusCode = (checked, d, index) => {
+    let cDate = new Date().getTime();
+    let eDate = new Date(d.enddate_discount).getTime();
+    console.log(d);
+    if (cDate > eDate) {
+      swal("Warning", "รหัสส่วนลดหมดอายุแล้ว", "warning");
+    } else {
+      let data = this.state.setStatusList;
+      let setId = data[index].key;
+      const updateReport = firebase.database().ref("report");
+      let editStore = {
+        status_code: checked,
+      };
+      updateReport.child(setId).update(editStore);
+      this.setState({ status: checked });
+    }
   };
 
   render() {
@@ -61,6 +95,7 @@ class Report extends Component {
               <tbody>
                 {this.state.reportList &&
                   this.state.reportList.map((d, index) => {
+                    console.log(d);
                     return (
                       <tr key={index}>
                         <th scope="row">{index + 1}</th>
@@ -74,14 +109,34 @@ class Report extends Component {
                           {moment(d.enddate_discount).format("DD/MM/YYYY")}
                         </td>
                         <td>
-                          <Switch
-                            name="status_code"
-                            value={d.status_code}
-                            checkedChildren="Active"
-                            unCheckedChildren="inActive"
-                            onChange={this.onChangeStatusCode}
-                            defaultChecked={false}
-                          ></Switch>
+                          {d.expireDate && !d.status_code ? (
+                            <Switch
+                              name="status_code"
+                              checkedChildren="Active"
+                              unCheckedChildren="Expire"
+                              disabled
+                              defaultChecked={false}
+                            ></Switch>
+                          ) : d.expireDate && d.status_code ? (
+                            <Switch
+                              name="status_code"
+                              checkedChildren="Active"
+                              unCheckedChildren="Expire"
+                              disabled
+                              defaultChecked={true}
+                            ></Switch>
+                          ) : (
+                            <Switch
+                              name="status_code"
+                              value={d.status_code}
+                              checkedChildren="Active"
+                              unCheckedChildren="inActive"
+                              onChange={(checked) =>
+                                this.onChangeStatusCode(checked, d, index)
+                              }
+                              defaultChecked={d.status_code}
+                            ></Switch>
+                          )}
                         </td>
                       </tr>
                     );

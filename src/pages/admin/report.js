@@ -4,7 +4,8 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { firebaseConnect } from "react-redux-firebase";
 import moment from "moment";
-import { Bar, Line, Pie } from "react-chartjs-2";
+
+import { Pie } from "react-chartjs-2";
 
 class report extends Component {
   constructor(props) {
@@ -12,7 +13,6 @@ class report extends Component {
     this.state = {
       data: [],
       loadingData: false,
-
       chartData: {
         labels: [
           "จำนวนผู้ใช้ทั้งหมดในระบบ",
@@ -48,12 +48,16 @@ class report extends Component {
       ref.once("value").then((snapshot) => {
         if (snapshot.val()) {
           const data = Object.values(snapshot.val());
-          console.log(data);
           if (typeof data === "object" && data !== null && data !== undefined) {
             let arr = [];
             var key = Object.keys(data);
             let arr1 = Object.values(data);
+            let cDate = new Date().getTime();
             for (let i = 0; i < arr1.length; i++) {
+              let eDate = new Date(arr1[i].enddate_discount).getTime();
+              if (cDate > eDate && !arr1[i].status_code) {
+                arr1[i].expireDate = true;
+              }
               arr[key[i]] = arr1[i];
             }
             this.setState({ data: arr });
@@ -84,7 +88,6 @@ class report extends Component {
   renderChart = () => {
     console.log(this.chartReference);
   };
-
   render() {
     const { loadingData } = this.state;
 
@@ -111,7 +114,6 @@ class report extends Component {
             },
           }}
         />
-
         {!loadingData && (
           <div class="table-responsive">
             <table class="table">
@@ -120,6 +122,7 @@ class report extends Component {
                   <th scope="col">Discount Code</th>
                   <th scope="col">Business Name</th>
                   <th scope="col">Customer Name</th>
+                  <th scope="col">Status Code</th>
                   <th scope="col">Start Date</th>
                   <th scope="col">End Date</th>
                 </tr>
@@ -127,12 +130,20 @@ class report extends Component {
               <tbody>
                 {this.state.data &&
                   this.state.data.map((d, index) => {
+                    console.log(d);
                     return (
                       <tr key={index}>
                         {/* <th scope="row"></th> */}
                         <td>{d.discount_code}</td>
                         <td>{d.store_name}</td>
                         <td>{d.username}</td>
+                        <td>
+                          {d.expireDate
+                            ? "Expire"
+                            : d.status_code
+                            ? "Active"
+                            : "InActive"}
+                        </td>
                         <td>
                           {moment(d.startdate_discount).format("DD/MM/YYYY")}
                         </td>

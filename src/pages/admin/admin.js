@@ -80,7 +80,7 @@ export default class Admin extends Component {
                   จัดการธุรกิจ
                 </a>
 
-                <a
+                {/* <a
                   className="nav-link"
                   id="v-pills-managePromotion-tab"
                   data-toggle="pill"
@@ -91,7 +91,7 @@ export default class Admin extends Component {
                 >
                   <ion-icon name="volume-high-outline" size="small" />
                   &emsp; จัดการโปรโมชั่น
-                </a>
+                </a> */}
                 <a
                   className="nav-link"
                   id="v-pills-Report-tab"
@@ -122,17 +122,17 @@ export default class Admin extends Component {
                   role="tabpanel"
                   aria-labelledby="v-pills-manageStore-tab"
                 >
-                  {/* <StoreList {...this.props} /> */}
+                  <StoreList {...this.props} />
                 </div>
 
-                <div
+                {/* <div
                   className="col tab-pane fade"
                   id="v-pills-managePromotion"
                   role="tabpanel"
                   aria-labelledby="v-pills-managePromotion-tab"
                 >
                   <PromotionList {...this.props} />
-                </div>
+                </div> */}
 
                 <div
                   className="col tab-pane fade"

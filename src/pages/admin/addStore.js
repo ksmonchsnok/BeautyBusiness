@@ -265,6 +265,8 @@ class RegistrationForm extends Component {
               type: this.state.type,
               social: this.state.social,
               custom_position: this.state.custom_position,
+              discount_status: false,
+              promotion_status: false,
             };
             setItemInsert.set(newState);
             this.onClickCancel();
@@ -327,8 +329,6 @@ class RegistrationForm extends Component {
   };
 
   render() {
-    console.log(this.state.userLsit);
-
     const uploadButton = (
       <div>
         {this.state.loading ? <LoadingOutlined /> : <PlusOutlined />}
@@ -385,6 +385,8 @@ class RegistrationForm extends Component {
     function onSearch(val) {
       console.log("search:", val);
     }
+
+    console.log(this.state);
 
     return (
       <div

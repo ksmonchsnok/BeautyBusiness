@@ -19,6 +19,7 @@ class StoreDetail extends Component {
       dataStore: {},
       checkDiscount: false,
       checkdisCountRequest: 0,
+      discountList: [],
     };
   }
 
@@ -47,15 +48,20 @@ class StoreDetail extends Component {
         if (snapshot.val()) {
           const data = snapshot.val();
           let cDate = new Date().getTime();
-          let sDate = new Date(data.startdate_discount).getTime();
-          let eDate = new Date(data.enddate_discount).getTime();
-          if (cDate >= sDate && cDate <= eDate) {
-            this.checkDiscount = true;
-          } else {
-            this.checkDiscount = false;
+          let arr = [];
+          if (data.discount_List) {
+            data.discount_List.forEach((v) => {
+              let sDate = new Date(v.startdate_discount).getTime();
+              let eDate = new Date(v.enddate_discount).getTime();
+              if (cDate >= sDate && cDate <= eDate) {
+                this.checkDiscount = true;
+                arr.push(v);
+              }
+            });
           }
           this.setState({
             loadingData: false,
+            discountList: arr,
             discont: data,
             checkdisCountRequest: data.amount_discount,
           });
@@ -70,7 +76,7 @@ class StoreDetail extends Component {
     window.history.back();
   };
 
-  onClickDiscount = () => {
+  onClickDiscount = (e, i) => {
     let alertWarringCount = true;
     let username = "";
     let obj = JSON.parse(localStorage.getItem("ObjUser"));
@@ -87,46 +93,43 @@ class StoreDetail extends Component {
       username = checkSigninAndOutfb.name;
     }
     if (obj || checkSigninAndOutfb || checkSigninAndOutgoogle) {
-      const GenCode = Math.random().toString(26).substring(2, 10).toUpperCase();
-      let setItemInsert = firebase
-        .database()
-        .ref(`store/${this.state.Store[0].store_id}`);
-      setItemInsert.once("value").then((snapshot) => {
-        if (snapshot.val()) {
-          this.setState({ dataStore: snapshot.val() });
-          console.log(snapshot.val());
-          console.log(this.state.checkdisCountRequest);
-          if (
-            snapshot.val().discount_request >= this.state.checkdisCountRequest
-          ) {
-            alertWarringCount = false;
-          } else {
-            alertWarringCount = true;
+      let GenCode = Math.random().toString(26).substring(2, 10).toUpperCase();
+      if (e.amount_discount > 0) {
+        let setdiscount_Insert = firebase
+          .database()
+          .ref(`discount/${this.state.Store[0].store_id}`);
+        setdiscount_Insert.once("value").then((snapshot) => {
+          if (snapshot.val()) {
+            let temp = [];
+            let tempArr = snapshot.val().discount_List;
+            for (let index = 0; index < tempArr.length; index++) {
+              if (index === i) {
+                tempArr[index].amount_discount = e.amount_discount - 1;
+              }
+              temp = tempArr;
+            }
+            let newStateDis = {
+              discount_List: temp,
+            };
+            setdiscount_Insert.update(newStateDis);
+            this.Data();
           }
-        }
-      });
-      console.log(alertWarringCount);
+        });
+        alertWarringCount = true;
+      } else {
+        alertWarringCount = false;
+      }
       setTimeout(() => {
         if (alertWarringCount) {
-          let newState = {};
-          if (!this.state.dataStore.discount_request) {
-            newState = {
-              discount_request: 1,
-            };
-          } else if (this.state.dataStore.discount_request) {
-            newState = {
-              discount_request: this.state.dataStore.discount_request * 1 + 1,
-            };
-          }
-          setItemInsert.update(newState);
           const setReport = firebase.database().ref(`report`);
           let newReport = {
             report_id: this.state.discont.store_id,
             discount_code: GenCode,
             store_name: this.state.discont.store_name,
             username: username,
-            startdate_discount: this.state.discont.startdate_discount,
-            enddate_discount: this.state.discont.enddate_discount,
+            status_code: false,
+            startdate_discount: e.startdate_discount,
+            enddate_discount: e.enddate_discount,
           };
           setReport.push(newReport);
           if (obj || checkSigninAndOutfb || checkSigninAndOutgoogle) {
@@ -140,7 +143,7 @@ class StoreDetail extends Component {
                 swal(
                   "รหัสส่วนลดบริการ",
                   `Code : ${GenCode}  วันหมดอายุ : ${moment(
-                    this.state.discont.enddate_discount
+                    e.enddate_discount
                   ).format("DD/MM/YYYY")}`,
                   "success",
                   {
@@ -226,41 +229,61 @@ class StoreDetail extends Component {
           โปรโมชั่นและส่วนลดบริการของธุรกิจ
         </h3>
 
-
+        <div className="row">
+          <div className="col-xs-12 col-sm-12 col-md-6 d-flex justify-content-center">
+            <h3>
+              โปรโมชั่น ::{" "}
+              {this.state.pormotion.promotion_name
+                ? this.state.pormotion.promotion_name
+                : "ไม่มี"}
+            </h3>
+          </div>
+          <div className="col-xs-12 col-sm-12 col-md-6 d-flex justify-content-center">
+            <h3>
+              รายละเอียดโปรโมชั่น ::{" "}
+              {this.state.pormotion.promotion_description
+                ? this.state.pormotion.promotion_description
+                : "ไม่มี"}
+            </h3>
+          </div>
+        </div>
         {this.checkDiscount ? (
-
-
           <li className="list-group-item">
             <div className="container">
-              
-              <div className="row">
-                <div className="col-xs-12 col-sm-12 col-md-6 d-flex justify-content-center">
-                  <h3>โปรโมชั่น :: {this.state.pormotion.promotion_name?this.state.pormotion.promotion_name:'ไม่มี'}</h3>
-                </div>
-                <div className="col-xs-12 col-sm-12 col-md-6 d-flex justify-content-center">
-                  <h3>
-                    รายละเอียดโปรโมชั่น :: {this.state.pormotion.promotion_description?this.state.pormotion.promotion_description:'ไม่มี'}
-                  </h3>
-                </div>
-              </div>
-              <div className="row ">
-                <div className="col-xs-12 col-sm-12 col-md-6 d-flex justify-content-center">
-                  <h3>ส่วนลดบริการ :: {this.state.discont.discount_name?this.state.discont.discount_name:'ไม่มี'}</h3>
-                </div>
-                <div className="col-xs-12 col-sm-12 col-md-6 d-flex justify-content-center">
-                  <h3>รายละเอียดส่วนลด :: {this.state.discont.discount_description?this.state.discont.discount_description:'ไม่มี'}</h3>
-                </div>
-              </div>
-              <div className="row d-flex justify-content-center">
-                <button
-                  type="button"
-                  className="btn btn-success"
-                  onClick={this.onClickDiscount}
-                  style={{ marginTop: "2rem" }}
-                >
-                  คลิกขอโค้ดส่วนลด
-                </button>
-              </div>
+              {this.state.discountList.length > 0
+                ? this.state.discountList.map((e, i) => {
+                    return (
+                      <div>
+                        <div className="row ">
+                          <div className="col-xs-12 col-sm-12 col-md-6 d-flex justify-content-center">
+                            <h3>
+                              ส่วนลดบริการ ::{" "}
+                              {e.discount_name ? e.discount_name : "ไม่มี"}
+                            </h3>
+                          </div>
+                          <div className="col-xs-12 col-sm-12 col-md-6 d-flex justify-content-center">
+                            <h3>
+                              รายละเอียดส่วนลด ::{" "}
+                              {e.discount_description
+                                ? e.discount_description
+                                : "ไม่มี"}
+                            </h3>
+                          </div>
+                        </div>
+                        <div className="row d-flex justify-content-center">
+                          <button
+                            type="button"
+                            className="btn btn-success"
+                            onClick={() => this.onClickDiscount(e, i)}
+                            style={{ marginTop: "2rem" }}
+                          >
+                            คลิกขอโค้ดส่วนลด
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })
+                : null}
             </div>
           </li>
         ) : null}

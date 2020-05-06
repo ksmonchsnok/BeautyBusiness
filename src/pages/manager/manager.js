@@ -29,14 +29,14 @@ export default class Manager extends Component {
     return (
       <div id="Manager-Page">
         <Navbar />
-                <div
+        <div
           className="bd-example bd-example-tabs"
           style={{
             marginTop: "-4rem",
             // marginRight: "1rem",
-            height: "100%",
+            // height: "100%",
             marginBottom: "-3rem",
-            overflow:"hidden"
+            overflow: "hidden",
           }}
         >
           <div className="row">
@@ -44,9 +44,16 @@ export default class Manager extends Component {
               className="col-xs-12  col-sm-12 col-md-12 col-lg-3 col-xl-2"
               style={{ backgroundColor: "#343a40" }}
             >
-              <h1 className="text-left" style={{ marginLeft: "1.5rem" ,marginTop: "3rem" ,color:"#fff" }}>
-          เจ้าของธุรกิจ
-        </h1>
+              <h1
+                className="text-left"
+                style={{
+                  marginLeft: "1.5rem",
+                  marginTop: "3rem",
+                  color: "#fff",
+                }}
+              >
+                เจ้าของธุรกิจ
+              </h1>
               <div
                 className="nav flex-column nav-pills"
                 id="v-pills-tab"
@@ -92,7 +99,7 @@ export default class Manager extends Component {
                 </a>
               </div>
             </div>
-            <div className="col card" style={{ margin: "1rem"}}>
+            <div className="col card" style={{ margin: "1rem" }}>
               <div className="tab-content" id="v-pills-tabContent">
                 <div
                   className="tab-pane fade active show"

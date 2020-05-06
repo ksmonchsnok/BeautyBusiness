@@ -141,7 +141,7 @@ class RegistrationForm extends Component {
             lng: data.lng,
             type: data.type,
             social: data.social,
-            custom_position: obj.custom_position,
+            custom_position: data.custom_position,
           });
           this.setState({
             store_id: data.store_id,
@@ -157,7 +157,7 @@ class RegistrationForm extends Component {
             lng: data.lng,
             type: data.type,
             social: data.social,
-            custom_position: obj.custom_position,
+            custom_position: data.custom_position,
             mode: "edit",
           });
         } else {

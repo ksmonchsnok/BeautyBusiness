@@ -47,8 +47,6 @@ class storeList extends Component {
   }
 
   handleManagePromotion = (obj) => {
-    console.log("Data", obj);
-
     swal({
       title: "Please Confirm to Manage Promotion And Discount",
       icon: "warning",
@@ -57,7 +55,7 @@ class storeList extends Component {
     }).then((willDelete) => {
       if (willDelete) {
         this.props.history.push("/managePromotionAnddiscount", {
-          obj,
+          store_id: obj.store_id,
           mode: "edit",
         });
       } else {
@@ -67,8 +65,6 @@ class storeList extends Component {
   };
 
   handleEdit = (obj) => {
-    console.log("Data", obj);
-
     swal({
       title: "Please Confirm to Edit",
       icon: "warning",
@@ -84,7 +80,6 @@ class storeList extends Component {
   };
 
   handleDelete = (d, index) => {
-    console.log("ID", d);
     const itemsRef = firebase.database().ref("store");
     swal({
       title: "Please Confirm to Delete",
@@ -159,10 +154,12 @@ class storeList extends Component {
                             )}
                           </td>
                           <td>
-                            {d.type.length > 0
-                              ? d.type.map((el) => (
-                                  <Tag color="green">{el}</Tag>
-                                ))
+                            {d.type
+                              ? d.type.length > 0
+                                ? d.type.map((el) => (
+                                    <Tag color="green">{el}</Tag>
+                                  ))
+                                : null
                               : null}
                           </td>
                           <td>
