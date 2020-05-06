@@ -88,7 +88,7 @@ class StoreDetail extends Component {
     if (obj) {
       username = obj.firstname + "-" + obj.lastname;
     } else if (checkSigninAndOutgoogle) {
-      username = checkSigninAndOutgoogle.e.profileObj.name;
+      username = checkSigninAndOutgoogle.profileObj.name;
     } else if (checkSigninAndOutfb) {
       username = checkSigninAndOutfb.name;
     }
@@ -123,7 +123,14 @@ class StoreDetail extends Component {
         if (alertWarringCount) {
           const setReport = firebase.database().ref(`report`);
           let newReport = {
-            report_id: this.state.discont.store_id,
+            report_id: checkSigninAndOutgoogle
+              ? checkSigninAndOutgoogle.googleId
+              : checkSigninAndOutfb
+              ? checkSigninAndOutfb.id
+              : obj
+              ? obj.member_id
+              : this.state.discont.store_id,
+
             discount_code: GenCode,
             store_name: this.state.discont.store_name,
             username: username,

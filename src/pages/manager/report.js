@@ -21,31 +21,49 @@ class Report extends Component {
 
   async componentDidMount() {
     let ObjUser = await JSON.parse(localStorage.getItem("ObjUser"));
-    let ref = firebase.database().ref("report");
+    let ref = firebase.database().ref(`store/${ObjUser.member_id}`);
     ref.once("value").then((snapshot) => {
       if (snapshot.val()) {
-        let data = Object.values(snapshot.val());
-        let dataKey = snapshot.val();
-        let tempArr = [];
-        var key = Object.keys(dataKey);
-        let arr1 = Object.values(dataKey);
-        let cDate = new Date().getTime();
-        for (let i = 0; i < arr1.length; i++) {
-          if (data[i].report_id === ObjUser.member_id) {
-            tempArr.push({ key: key[i], value: arr1[i] });
+        console.log(snapshot.val());
+        let checkStore = snapshot.val();
+        let ref = firebase.database().ref("report");
+        ref.once("value").then((snapshot) => {
+          if (snapshot.val()) {
+            let data = Object.values(snapshot.val());
+            let dataKey = snapshot.val();
+            let tempArr = [];
+            var key = Object.keys(dataKey);
+            let arr1 = Object.values(dataKey);
+            let cDate = new Date().getTime();
+            console.log(checkStore);
+            console.log(data);
+            for (let i = 0; i < arr1.length; i++) {
+              if (
+                data[i].report_id === ObjUser.member_id ||
+                data[i].store_name === checkStore.store_name
+              ) {
+                tempArr.push({ key: key[i], value: arr1[i] });
+              }
+            }
+            let arr = data.filter(
+              (v) =>
+                v.report_id === ObjUser.member_id ||
+                v.store_name === checkStore.store_name
+            );
+            for (let i = 0; i < arr.length; i++) {
+              let eDate = new Date(arr[i].enddate_discount).getTime();
+              if (cDate > eDate) {
+                arr[i].expireDate = true;
+              }
+            }
+            this.setState({
+              loadingData: false,
+              reportList: arr,
+              setStatusList: tempArr,
+            });
+          } else {
+            this.setState({ loadingData: false });
           }
-        }
-        let arr = data.filter((v) => v.report_id === ObjUser.member_id);
-        for (let i = 0; i < arr.length; i++) {
-          let eDate = new Date(arr[i].enddate_discount).getTime();
-          if (cDate > eDate) {
-            arr[i].expireDate = true;
-          }
-        }
-        this.setState({
-          loadingData: false,
-          reportList: arr,
-          setStatusList: tempArr,
         });
       } else {
         this.setState({ loadingData: false });

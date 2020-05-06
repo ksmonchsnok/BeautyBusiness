@@ -24,19 +24,55 @@ class DiscountCode extends Component {
 
   async componentDidMount() {
     let ObjUser = await JSON.parse(localStorage.getItem("ObjUser"));
+    let checkSigninAndOutgoogle = await JSON.parse(
+      localStorage.getItem("Google-login")
+    );
+
+    let checkSigninAndOutfb = await JSON.parse(
+      localStorage.getItem("FB-Login")
+    );
+
     let ref = firebase.database().ref("report");
     ref.once("value").then((snapshot) => {
       if (snapshot.val()) {
         const data = Object.values(snapshot.val());
-        let arr = data.filter((v) => v.report_id === ObjUser.member_id);
-        let cDate = new Date().getTime();
-        for (let i = 0; i < arr.length; i++) {
-          let eDate = new Date(arr[i].enddate_discount).getTime();
-          if (cDate > eDate && !arr[i].status_code) {
-            arr[i].expireDate = true;
+        if (ObjUser) {
+          let arrUser = data.filter((v) => v.report_id === ObjUser.member_id);
+          let cDate = new Date().getTime();
+          for (let i = 0; i < arrUser.length; i++) {
+            let eDate = new Date(arrUser[i].enddate_discount).getTime();
+            if (cDate > eDate && !arrUser[i].status_code) {
+              arrUser[i].expireDate = true;
+            }
           }
+          this.setState({ loadingData: false, reportList: arrUser });
+        } else if (checkSigninAndOutgoogle) {
+          let arrGoogle = data.filter(
+            (v) => v.report_id === checkSigninAndOutgoogle.profileObj.googleId
+          );
+          console.log(arrGoogle);
+          let cDate = new Date().getTime();
+          for (let i = 0; i < arrGoogle.length; i++) {
+            let eDate = new Date(arrGoogle[i].enddate_discount).getTime();
+            if (cDate > eDate && !arrGoogle[i].status_code) {
+              arrGoogle[i].expireDate = true;
+            }
+          }
+          this.setState({ loadingData: false, reportList: arrGoogle });
+        } else if (checkSigninAndOutfb) {
+          let arrFB = data.filter(
+            (v) => v.report_id === checkSigninAndOutfb.id
+          );
+          console.log(arrFB);
+          let cDate = new Date().getTime();
+          for (let i = 0; i < arrFB.length; i++) {
+            let eDate = new Date(arrFB[i].enddate_discount).getTime();
+            if (cDate > eDate && !arrFB[i].status_code) {
+              arrFB[i].expireDate = true;
+            }
+          }
+          this.setState({ loadingData: false, reportList: arrFB });
         }
-        this.setState({ loadingData: false, reportList: arr });
       } else {
         this.setState({ loadingData: false });
       }

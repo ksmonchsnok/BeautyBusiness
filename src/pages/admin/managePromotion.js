@@ -47,6 +47,21 @@ class Managepromotion_status extends Component {
         this.setState({ store_id: this.props.location.state.store_id });
         firebase
           .database()
+          .ref(`store/${this.props.location.state.store_id}`)
+          .once("value")
+          .then((snapshot) => {
+            if (snapshot.val()) {
+              let obj = snapshot.val();
+              console.log(obj);
+              this.setState({
+                mode: "edit",
+                store_name: obj.store_name,
+              });
+            }
+          });
+
+        firebase
+          .database()
           .ref(`promotion/${this.props.location.state.store_id}`)
           .once("value")
           .then((snapshot) => {
@@ -58,7 +73,6 @@ class Managepromotion_status extends Component {
                 promotion_status: obj.promotion_status
                   ? obj.promotion_status
                   : false,
-                store_name: obj.store_name,
                 promotion_name: obj.promotion_name,
                 promotion_description: obj.promotion_description,
                 amount_promotion: obj.amount_promotion,
