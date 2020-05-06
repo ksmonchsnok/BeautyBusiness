@@ -322,6 +322,11 @@ class Managepromotion_status extends Component {
   onClickCancel = () => {
     window.history.back();
   };
+
+  addDiscount = () => {
+    console.log("Cliack Add");
+  };
+
   render() {
     const { Option } = Select;
     // console.log(this.state.businessList);
@@ -485,6 +490,14 @@ class Managepromotion_status extends Component {
                 ไม่มี
               </Radio>
             </Radio.Group>
+            <button
+              type="button"
+              className="btn btn-primary"
+              style={{ marginLeft: "2rem" }}
+              onClick={this.addDiscount}
+            >
+              เพิ่มส่วนลดบริการ
+            </button>
           </div>
           {this.state.discount_status === true && (
             <span>
@@ -561,6 +574,108 @@ class Managepromotion_status extends Component {
               </form>
             </span>
           )}
+
+          <div id="Promotion-List" style={{ height: "100vh" }}>
+            <div style={{ marginTop: "3rem", marginBottom: "4rem" }}>
+              <h2>รายการส่วนลดทั้งหมด</h2>{" "}
+              <div className="row">
+                {" "}
+                <div
+                  className="col d-flex justify-content-start"
+                  style={{ marginBottom: "2rem", marginTop: "1rem" }}
+                >
+                  {/* <Button
+                    type="primary"
+                    htmlType="submit"
+                    onClick={this.onClickCreatepromotion}
+                  >
+                    Create Promotion And Discount
+                  </Button> */}
+                </div>
+              </div>
+              {/* {!loadingData && (
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Business Name</th>
+                        <th scope="col">Promotion Name</th>
+                        <th scope="col">Promotion Description</th>
+                        <th scope="col">Amount Promotion</th>
+                        <th scope="col">Discount Name</th>
+                        <th scope="col">Discount Description</th>
+                        <th scope="col">Amount Discount</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {this.state.data.map((d, index) => {
+                        return (
+                          <tr key={index}>
+                            <th scope="row">{index + 1}</th>
+                            <td>{d.store_name}</td>
+                            <td>{d.promotion_name ? d.promotion_name : "-"}</td>
+                            <td>
+                              {d.promotion_description
+                                ? d.promotion_description
+                                : "-"}
+                            </td>
+                            <td>
+                              {d.amount_promotion ? d.amount_promotion : "-"}
+                            </td>
+                            <td>{d.discount_name ? d.discount_name : "-"}</td>
+                            <td>
+                              {d.discount_description
+                                ? d.discount_description
+                                : "-"}
+                            </td>
+                            <td>
+                              {d.amount_discount ? d.amount_discount : "-"}
+                            </td>
+                            <td>
+                              <a href>
+                                <ion-icon
+                                  name="create-outline"
+                                  size="large"
+                                  onClick={() => this.handleEdit(d, index)}
+                                ></ion-icon>
+                              </a>
+                            </td>
+                            <td>
+                              <a href>
+                                <ion-icon
+                                  size="large"
+                                  name="trash-outline"
+                                  onClick={() => this.handleDelete(d, index)}
+                                ></ion-icon>
+                              </a>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+              {loadingData && (
+                <div className="d-flex justify-content-center row col ">
+                  <span
+                    className="spinner-border text-dark"
+                    style={{
+                      marginTop: "3rem",
+                      marginBottom: "2rem",
+                      width: "10rem",
+                      height: "10rem",
+                    }}
+                    role="status"
+                  />
+                </div>
+              )} */}
+            </div>
+          </div>
+
           <div
             className="col d-flex justify-content-center"
             style={{ marginTop: "6rem" }}
