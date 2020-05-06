@@ -70,7 +70,7 @@ class LoginForAdmin extends Component {
           <center>
             <Content
               className="d-flex justify-content-center"
-              style={{ marginTop: "6.5rem", marginBottom: "215px" }}
+              style={{ marginTop: "6.5rem", marginBottom: "217px" }}
             >
               <Form
                 name="normal_login"

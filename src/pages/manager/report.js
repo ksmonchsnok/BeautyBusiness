@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { firebaseConnect } from "react-redux-firebase";
 import moment from "moment";
+import "antd/dist/antd.css";
+import { Switch } from "antd";
 
 class Report extends Component {
   constructor(props) {
@@ -28,6 +30,11 @@ class Report extends Component {
       }
     });
   }
+  onChangeStatusCode = (checked) => {
+    const status = this.state.status_code;
+    this.setState({ status: checked });
+    console.log(`Status ${checked}`);
+  };
 
   render() {
     const { loadingData } = this.state;
@@ -66,7 +73,16 @@ class Report extends Component {
                         <td>
                           {moment(d.enddate_discount).format("DD/MM/YYYY")}
                         </td>
-                        <td>{d.status_code}</td>
+                        <td>
+                          <switch
+                            name="status_code"
+                            value={d.status_code}
+                            checkedChildren="Active"
+                            unCheckedChildren="inActive"
+                            onChange={this.onChangeStatusCode}
+                            defaultChecked={false}
+                          ></switch>
+                        </td>
                       </tr>
                     );
                   })}

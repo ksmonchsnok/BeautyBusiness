@@ -6,6 +6,9 @@ import { firebaseConnect } from "react-redux-firebase";
 import moment from "moment";
 import Navbar from "../../components/navbar/navbar.js";
 import swal from "sweetalert";
+import "antd/dist/antd.css";
+
+import { Tag } from "antd";
 
 class DiscountCode extends Component {
   formRef = React.createRef();
@@ -47,12 +50,13 @@ class DiscountCode extends Component {
             <table className="table">
               <thead className="thead-dark">
                 <tr>
+                  <th scope="col">#</th>
                   <th scope="col">Discount Code</th>
                   <th scope="col">Business Name</th>
-                  <th scope="col">Customer Name</th>
+                  <th scope="col">UserName</th>
                   <th scope="col">Start Date</th>
                   <th scope="col">End Date</th>
-                  <th scope="col">Status Discount Code</th>
+                  <th scope="col">Status Code</th>
                 </tr>
               </thead>
               <tbody>
@@ -60,7 +64,7 @@ class DiscountCode extends Component {
                   this.state.reportList.map((d, index) => {
                     return (
                       <tr key={index}>
-                        {/* <th scope="row"></th> */}
+                        <th scope="row">{index + 1}</th>
                         <td>{d.discount_code}</td>
                         <td>{d.store_name}</td>
                         <td>{d.username}</td>
@@ -70,7 +74,14 @@ class DiscountCode extends Component {
                         <td>
                           {moment(d.enddate_discount).format("DD/MM/YYYY")}
                         </td>
-                        <td>{d.status_code}</td>
+                        <td>
+                          {d.status_code === true && (
+                            <Tag color="green">in Active</Tag>
+                          )}
+                          {d.status_code === true && (
+                            <Tag color="volcano">Active </Tag>
+                          )}
+                        </td>
                       </tr>
                     );
                   })}

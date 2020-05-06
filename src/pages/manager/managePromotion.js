@@ -408,6 +408,10 @@ class Managepromotion extends Component {
     window.location.reload();
   };
 
+  addDiscount = () => {
+    console.log("Cliack Add");
+  };
+
   render() {
     const { loadingData } = this.state;
 
@@ -523,6 +527,14 @@ class Managepromotion extends Component {
                 ไม่มี
               </Radio>
             </Radio.Group>
+            <button
+              type="button"
+              className="btn btn-primary"
+              style={{ marginLeft: "2rem" }}
+              onClick={this.addDiscount}
+            >
+              เพิ่มส่วนลดบริการ
+            </button>
           </div>
           {this.state.discount_status === true && (
             <span>
