@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { firebaseConnect } from "react-redux-firebase";
 import moment from "moment";
+import "antd/dist/antd.css";
+import { Tag } from "antd";
 
 import { Pie } from "react-chartjs-2";
 
@@ -12,6 +14,8 @@ class report extends Component {
     super(props);
     this.state = {
       data: [],
+      store: [],
+      member: [],
       loadingData: false,
       chartData: {
         labels: [
@@ -39,6 +43,8 @@ class report extends Component {
   async componentDidMount() {
     await this.onGetItempReport();
     await this.renderChart();
+    await this.onGetItempStore();
+    await this.onGetItempStore();
   }
 
   onGetItempReport() {
@@ -72,48 +78,112 @@ class report extends Component {
     }, 1000);
   }
 
+  onGetItempStore = () => {
+    this.setState({ store: [], loadingData: true });
+    setTimeout(() => {
+      let ref = firebase.database().ref("store");
+      ref.once("value").then((snapshot) => {
+        if (snapshot.val()) {
+          const store = Object.values(snapshot.val());
+          if (
+            typeof store === "object" &&
+            store !== null &&
+            store !== undefined
+          ) {
+            let arr = [];
+            var key = Object.keys(store);
+            let arr1 = Object.values(store);
+            for (let i = 0; i < arr1.length; i++) {
+              arr[key[i]] = arr1[i];
+            }
+            this.setState({ store: arr });
+          } else {
+            this.setState({ store });
+          }
+          this.setState({ loadingData: false });
+        } else {
+          this.setState({ loadingData: false });
+        }
+      });
+    }, 1000);
+  };
+
+  onGetItempMember = () => {
+    this.setState({ member: [], loadingData: true });
+    setTimeout(() => {
+      let ref = firebase.database().ref("member");
+      ref.once("value").then((snapshot) => {
+        if (snapshot.val()) {
+          const member = Object.values(snapshot.val());
+          if (
+            typeof member === "object" &&
+            member !== null &&
+            member !== undefined
+          ) {
+            let arr = [];
+            var key = Object.keys(member);
+            let arr1 = Object.values(member);
+            for (let i = 0; i < arr1.length; i++) {
+              arr[key[i]] = arr1[i];
+            }
+            this.setState({ member: arr });
+          } else {
+            this.setState({ member });
+          }
+          this.setState({ loadingData: false });
+        } else {
+          this.setState({ loadingData: false });
+        }
+      });
+    }, 1000);
+  };
+
   static defaultProps = {
     type: "doughnut",
-    height: 150,
-    width: 300,
+    height: 100,
+    width: 200,
     redraw: false,
     options: {},
     displayTitle: true,
     displayLegend: true,
     legendPosition: "left",
     position: "center",
-    location: "City",
+    fontSize: 500,
+    // location: "City",
   };
 
   renderChart = () => {
     console.log(this.chartReference);
   };
+
   render() {
     const { loadingData } = this.state;
+
+    console.log(this.state.member);
 
     return (
       <div id="Report-List" style={{ height: "100vh" }}>
         <div style={{ marginTop: "4rem", marginBottom: "3rem" }}></div>
         <h2>Beauty Business Reports</h2>
 
-        <Pie
+        {/* <Pie
           id="Pie"
           data={this.state.chartData}
           options={{
             legend: {
               display: this.props.displayLegend,
               position: this.props.legendPosition,
-              fontSize: 100,
+              fontSize: this.props.fontSize,
             },
             labels: {
-              fontSize: 50,
+              fontSize: this.props.fontSize,
             },
 
             tooltips: {
               enabled: true,
             },
           }}
-        />
+        /> */}
         {!loadingData && (
           <div class="table-responsive">
             <table class="table">
@@ -121,10 +191,11 @@ class report extends Component {
                 <tr>
                   <th scope="col">Discount Code</th>
                   <th scope="col">Business Name</th>
-                  <th scope="col">Customer Name</th>
-                  <th scope="col">Status Code</th>
+                  <th scope="col">Member Name</th>
+
                   <th scope="col">Start Date</th>
                   <th scope="col">End Date</th>
+                  <th scope="col">Status Code</th>
                 </tr>
               </thead>
               <tbody>
@@ -137,18 +208,21 @@ class report extends Component {
                         <td>{d.discount_code}</td>
                         <td>{d.store_name}</td>
                         <td>{d.username}</td>
-                        <td>
-                          {d.expireDate
-                            ? "Expire"
-                            : d.status_code
-                            ? "Active"
-                            : "InActive"}
-                        </td>
+
                         <td>
                           {moment(d.startdate_discount).format("DD/MM/YYYY")}
                         </td>
                         <td>
                           {moment(d.enddate_discount).format("DD/MM/YYYY")}
+                        </td>
+                        <td>
+                          {d.expireDate ? (
+                            <Tag color="volcano">Expire</Tag>
+                          ) : d.status_code ? (
+                            <Tag color="green">Active</Tag>
+                          ) : (
+                            <Tag color="blue">InActive</Tag>
+                          )}
                         </td>
                       </tr>
                     );
@@ -178,11 +252,12 @@ class report extends Component {
 function mapStateToProps({ firebase }) {
   return {
     Store: firebase.ordered.store,
+    Member: firebase.ordered.member,
   };
 }
 
 const enhance = compose(
-  firebaseConnect([{ path: "/store" }]),
+  firebaseConnect([{ path: "/store" }, { path: "/member" }]),
   connect(mapStateToProps)
 );
 export default enhance(report);

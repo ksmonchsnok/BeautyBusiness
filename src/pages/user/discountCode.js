@@ -7,7 +7,6 @@ import moment from "moment";
 import Navbar from "../../components/navbar/navbar.js";
 import swal from "sweetalert";
 import "antd/dist/antd.css";
-
 import { Tag } from "antd";
 
 class DiscountCode extends Component {
@@ -97,9 +96,10 @@ class DiscountCode extends Component {
                   <th scope="col">Discount Code</th>
                   <th scope="col">Business Name</th>
                   <th scope="col">UserName</th>
-                  <th scope="col">Status Code</th>
+
                   <th scope="col">Start Date</th>
                   <th scope="col">End Date</th>
+                  <th scope="col">Status Code</th>
                 </tr>
               </thead>
               <tbody>
@@ -112,27 +112,22 @@ class DiscountCode extends Component {
                         <td>{d.discount_code}</td>
                         <td>{d.store_name}</td>
                         <td>{d.username}</td>
-                        <td>
-                          {d.expireDate
-                            ? "Expire"
-                            : d.status_code
-                            ? "Active"
-                            : "InActive"}
-                        </td>
+
                         <td>
                           {moment(d.startdate_discount).format("DD/MM/YYYY")}
                         </td>
                         <td>
                           {moment(d.enddate_discount).format("DD/MM/YYYY")}
                         </td>
-                        {/* <td>
-                          {d.status_code === true && (
-                            <Tag color="green">in Active</Tag>
+                        <td>
+                          {d.expireDate ? (
+                            <Tag color="volcano">Expire</Tag>
+                          ) : d.status_code ? (
+                            <Tag color="green">Active</Tag>
+                          ) : (
+                            <Tag color="blue">InActive</Tag>
                           )}
-                          {d.status_code === true && (
-                            <Tag color="volcano">Active </Tag>
-                          )}
-                        </td> */}
+                        </td>
                       </tr>
                     );
                   })}

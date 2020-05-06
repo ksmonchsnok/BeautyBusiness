@@ -67,8 +67,8 @@ class LoginForm extends Component {
             if (willDelete) {
               const setPassword = firebase.database().ref(`member`);
               setPassword.child(resp.user.uid).update({
-                Password: this.state.password,
-                CFPassword: this.state.password,
+                password: this.state.password,
+                cf_password: this.state.password,
               });
 
               firebase

@@ -458,7 +458,7 @@ class Managepromotion extends Component {
           marginLeft: "1rem",
           marginBottom: "5rem",
           marginTop: "-9rem",
-          height: "300vh",
+          height: "200vh",
         }}
       >
         <Navbar />
@@ -568,14 +568,6 @@ class Managepromotion extends Component {
                 ไม่มี
               </Radio>
             </Radio.Group>
-            <button
-              type="button"
-              className="btn btn-primary"
-              style={{ marginLeft: "2rem" }}
-              onClick={this.addDiscount}
-            >
-              เพิ่มส่วนลดบริการ
-            </button>
           </div>
           {this.state.discount_status === true && (
             <span>
@@ -648,15 +640,30 @@ class Managepromotion extends Component {
                   </div>
                 </div>
               </form>
-              {this.state.checkEditDiscount ? (
+
+              <div className="row">
+                {" "}
                 <button
                   type="button"
-                  className="btn btn-warning"
-                  style={{ marginLeft: "2rem" }}
-                  onClick={this.EditDiscountList}
+                  className="btn btn-primary"
+                  style={{ marginBottom: "2rem", marginTop: "1rem" }}
+                  onClick={this.addDiscount}
                 >
-                  แก้ไขลดบริการ
+                  เพิ่มส่วนลดบริการ
                 </button>
+              </div>
+              {this.state.checkEditDiscount ? (
+                <div className="row">
+                  {" "}
+                  <button
+                    type="button"
+                    className="btn btn-warning"
+                    style={{ marginBottom: "2rem", marginTop: "1rem" }}
+                    onClick={this.EditDiscountList}
+                  >
+                    แก้ไขส่วนลดบริการ
+                  </button>
+                </div>
               ) : null}
               <div id="Promotion-List">
                 <div style={{ marginTop: "3rem", marginBottom: "4rem" }}>

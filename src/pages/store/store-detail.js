@@ -7,6 +7,11 @@ import Navbar from "../../components/navbar/navbar.js";
 import swal from "sweetalert";
 import firebase from "firebase";
 import moment from "moment";
+import ScrollAnimation from "react-animate-on-scroll";
+
+import "antd/dist/antd.css";
+import { Tag, BackTop } from "antd";
+import { UpOutlined } from "@ant-design/icons";
 
 class StoreDetail extends Component {
   constructor(props) {
@@ -182,118 +187,151 @@ class StoreDetail extends Component {
   };
 
   render() {
+    const style = {
+      height: 40,
+      width: 40,
+      lineHeight: "40px",
+      borderRadius: 4,
+      backgroundColor: "#F69220",
+      color: "#fff",
+      textAlign: "center",
+      fontSize: 14,
+    };
     const item = this.state.Store.map((value) => (
       <div key={value.store_id}>
+        <div className="row">
+          <img
+            className="card-img img-fluid rounded mx-auto d-block"
+            src={value.imageUrl}
+            alt="image"
+            aria-hidden="true"
+            style={{ marginTop: "1rem" }}
+          />
+        </div>
         <h1
           className="text-center"
-          style={{ paddingBottom: 2 + "rem", paddingTop: 3 + "rem" }}
+          style={{
+            paddingBottom: "2rem",
+            paddingTop: "4rem",
+            fontSize: "5rem",
+          }}
         >
           {value.store_name}
         </h1>
 
-        <img
-          className="card-img-top img-fluid rounded mx-auto d-block"
-          src={value.imageUrl}
-          alt="image"
-          aria-hidden="true"
-        />
-        <h3
+        {/* <h3
           className="text-center"
           style={{ paddingBottom: 2 + "rem", paddingTop: 4 + "rem" }}
         >
           รายละเอียดร้านค้า
-        </h3>
-        <li className="list-group-item">
-          <p style={{ marginTop: 1 + "rem" }}>
-            เวลา ::{" "}
-            <div class="badge badge-success" style={{ fontSize: "16px" }}>
-              {value.open} น.
-            </div>
-          </p>
-          <p>โทร :: {value.phone}</p>
-          <p>ที่อยู่ :: {value.address}</p>
-          <p>
-            ติดต่อ ::{" "}
-            <a href={value.social} style={{ color: "#F69220" }}>
-              {" "}
-              Facebook
-            </a>
-          </p>
+        </h3> */}
+        <ScrollAnimation animateIn="bounceInRight">
+          <div class="animated bounceInUp delay-2s">
+            <li className="list-group-item" style={{ fontSize: "2rem" }}>
+              <p style={{ marginTop: "1rem" }}>
+                เวลา :: <Tag color="volcano">{value.open}</Tag>
+              </p>
+              <p>โทร :: {value.phone}</p>
+              <p>ที่อยู่ :: {value.address}</p>
+              <p>
+                ติดต่อ ::{" "}
+                <a
+                  href={value.social}
+                  style={{ color: "#F69220", fontSize: "2rem" }}
+                >
+                  {" "}
+                  Facebook
+                </a>
+              </p>
 
-          <div className="row col-6">
-            {value.type.map((el) => (
-              <h5 style={{ marginRight: 5 }}>
-                <span className="badge badge-warning">{el}</span>
-              </h5>
-            ))}
+              <div className="row col-6">
+                {value.type.map((el) => (
+                  <p style={{ fontSize: "2rem" }}>
+                    ให้บริการ ::{" "}
+                    <span className="badge badge-warning">{el}</span>
+                  </p>
+                ))}
+              </div>
+            </li>
           </div>
-        </li>
-
-        <h3
+        </ScrollAnimation>
+        <h1
           className="text-center"
-          style={{ paddingBottom: 2 + "rem", paddingTop: 4 + "rem" }}
+          style={{
+            paddingBottom: "2rem",
+            paddingTop: "4rem",
+            fontSize: "3.5rem",
+          }}
         >
           โปรโมชั่นและส่วนลดบริการของธุรกิจ
-        </h3>
+        </h1>
 
-        <div className="row">
-          <div className="col-xs-12 col-sm-12 col-md-6 d-flex justify-content-center">
-            <h3>
-              โปรโมชั่น ::{" "}
-              {this.state.pormotion.promotion_name
-                ? this.state.pormotion.promotion_name
-                : "ไม่มี"}
-            </h3>
-          </div>
-          <div className="col-xs-12 col-sm-12 col-md-6 d-flex justify-content-center">
-            <h3>
-              รายละเอียดโปรโมชั่น ::{" "}
-              {this.state.pormotion.promotion_description
-                ? this.state.pormotion.promotion_description
-                : "ไม่มี"}
-            </h3>
-          </div>
-        </div>
-        {this.checkDiscount ? (
-          <li className="list-group-item">
-            <div className="container">
-              {this.state.discountList.length > 0
-                ? this.state.discountList.map((e, i) => {
-                    return (
-                      <div>
-                        <div className="row ">
-                          <div className="col-xs-12 col-sm-12 col-md-6 d-flex justify-content-center">
-                            <h3>
-                              ส่วนลดบริการ ::{" "}
-                              {e.discount_name ? e.discount_name : "ไม่มี"}
-                            </h3>
+        <ScrollAnimation animateIn="bounceInLeft">
+          <div class="animated bounceInUp delay-2s">
+            <li className="list-group-item">
+              <div className="container">
+                <div className="row" style={{ marginTop: "1.5rem" }}>
+                  <div className="col-xs-12 col-sm-12 col-md-6 d-flex justify-content-center">
+                    <h3>
+                      โปรโมชั่น ::{" "}
+                      {this.state.pormotion.promotion_name
+                        ? this.state.pormotion.promotion_name
+                        : "ไม่มี"}
+                    </h3>
+                  </div>
+                  <div className="col-xs-12 col-sm-12 col-md-6 d-flex justify-content-center">
+                    <h3>
+                      รายละเอียดโปรโมชั่น ::{" "}
+                      {this.state.pormotion.promotion_description
+                        ? this.state.pormotion.promotion_description
+                        : "ไม่มี"}
+                    </h3>
+                  </div>
+                </div>
+              </div>
+            </li>
+            {this.checkDiscount ? (
+              <li className="list-group-item">
+                <div className="container">
+                  {this.state.discountList.length > 0
+                    ? this.state.discountList.map((e, i) => {
+                        return (
+                          <div>
+                            <div className="row" style={{ marginTop: "2rem" }}>
+                              <div className="col-xs-12 col-sm-12 col-md-6 d-flex justify-content-center">
+                                <h3>
+                                  ส่วนลดบริการ ::{" "}
+                                  {e.discount_name ? e.discount_name : "ไม่มี"}
+                                </h3>
+                              </div>
+                              <div className="col-xs-12 col-sm-12 col-md-6 d-flex justify-content-center">
+                                <h3>
+                                  รายละเอียดส่วนลด ::{" "}
+                                  {e.discount_description
+                                    ? e.discount_description
+                                    : "ไม่มี"}
+                                </h3>
+                              </div>
+                            </div>
+                            <div className="row d-flex justify-content-center">
+                              <button
+                                type="button"
+                                className="btn btn-success"
+                                onClick={() => this.onClickDiscount(e, i)}
+                                style={{ marginTop: "2rem" }}
+                              >
+                                คลิกขอโค้ดส่วนลด
+                              </button>
+                            </div>
                           </div>
-                          <div className="col-xs-12 col-sm-12 col-md-6 d-flex justify-content-center">
-                            <h3>
-                              รายละเอียดส่วนลด ::{" "}
-                              {e.discount_description
-                                ? e.discount_description
-                                : "ไม่มี"}
-                            </h3>
-                          </div>
-                        </div>
-                        <div className="row d-flex justify-content-center">
-                          <button
-                            type="button"
-                            className="btn btn-success"
-                            onClick={() => this.onClickDiscount(e, i)}
-                            style={{ marginTop: "2rem" }}
-                          >
-                            คลิกขอโค้ดส่วนลด
-                          </button>
-                        </div>
-                      </div>
-                    );
-                  })
-                : null}
-            </div>
-          </li>
-        ) : null}
+                        );
+                      })
+                    : null}
+                </div>
+              </li>
+            ) : null}
+          </div>
+        </ScrollAnimation>
       </div>
     ));
     return (
@@ -305,18 +343,28 @@ class StoreDetail extends Component {
             className="jumbotron"
             style={{ backgroundColor: "transparent", marginBottom: "5rem" }}
           >
-            <div className="row marginDetail">
-              <div className="col-8 ">{item}</div>
-            </div>
+            <ScrollAnimation animateIn="bounceInUp">
+              <div class="animated bounceInUp delay-2s">
+                <div className="row marginDetail">
+                  <div className="col-8 ">{item}</div>
+                </div>
+              </div>
+            </ScrollAnimation>
+            <BackTop>
+              <div style={style}>
+                <UpOutlined />
+              </div>
+            </BackTop>
+
             <div className="row justify-content-start col-xs-12 col-sm-3 col-md-2">
-              <button
+              {/* <button
                 type="button"
                 onClick={this.onclickBack}
                 className="btn btn-dark btn-block"
                 style={{ marginBottom: "4rem" }}
               >
                 ย้อนกลับ
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
