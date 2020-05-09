@@ -15,13 +15,19 @@ class report extends Component {
       data: [],
       store: [],
       member: [],
+      memberTotal: 0,
+      businessOwner: 0,
+      userTotal: 0,
+      chartTypeBusiners: [],
       loadingData: false,
     };
   }
   async componentDidMount() {
     await this.onGetItempReport();
+    await this.onGetItempMember();
     await this.onGetItempStore();
-    await this.onGetItempStore();
+    await this.onGetItemChart();
+    await this.onGetItemBusinessChart();
   }
 
   onGetItempReport() {
@@ -114,12 +120,174 @@ class report extends Component {
       });
     }, 1000);
   };
+  onGetItemChart = () => {
+    this.setState({
+      memberTotal: 0,
+      businessOwner: 0,
+      userTotal: 0,
+      loadingData: true,
+    });
+    setTimeout(() => {
+      let ref = firebase.database().ref("member");
+      ref.once("value").then((snapshot) => {
+        if (snapshot.val()) {
+          const dataObj = Object.values(snapshot.val());
+          if (
+            typeof dataObj === "object" &&
+            dataObj !== null &&
+            dataObj !== undefined
+          ) {
+            let arr1 = Object.values(dataObj);
+            let arrOwner = arr1.filter((v) => v.member_type === "ผู้ให้บริการ");
+            let arrCustomer = arr1.filter(
+              (v) => v.member_type === "ผู้ใช้บริการ"
+            );
+            this.setState({
+              memberTotal: arr1.length,
+              businessOwner: arrOwner.length,
+              userTotal: arrCustomer.length,
+            });
+          } else {
+            let arrOwner = dataObj.filter(
+              (v) => v.member_type === "ผู้ให้บริการ"
+            );
+            let arrCustomer = dataObj.filter(
+              (v) => v.member_type === "ผู้ใช้บริการ"
+            );
+            this.setState({
+              memberTotal: dataObj.length,
+              businessOwner: arrOwner.length,
+              userTotal: arrCustomer.length,
+            });
+          }
+          this.setState({ loadingData: false });
+        } else {
+          this.setState({ loadingData: false });
+        }
+      });
+    }, 1000);
+  };
+  onGetItemBusinessChart = () => {
+    this.setState({ chartTypeBusiners: [], loadingData: true });
+    setTimeout(() => {
+      let ref = firebase.database().ref("store");
+      ref.once("value").then((snapshot) => {
+        if (snapshot.val()) {
+          const dataObj = Object.values(snapshot.val());
+          if (
+            typeof dataObj === "object" &&
+            dataObj !== null &&
+            dataObj !== undefined
+          ) {
+            let arr1 = Object.values(dataObj);
+            let bu1 = [];
+            let bu2 = [];
+            let bu3 = [];
+            let bu4 = [];
+            let bu5 = [];
+            let bu6 = [];
+            let bu7 = [];
+            let bu8 = [];
+            for (let i = 0; i < arr1.length; i++) {
+              for (let j = 0; j < arr1[i].type.length; j++) {
+                if (arr1[i].type[j] === "ตัดผมชาย") {
+                  bu1.push(arr1[i]);
+                }
+                if (arr1[i].type[j] === "เสริมสวย") {
+                  bu2.push(arr1[i]);
+                }
+                if (arr1[i].type[j] === "ทำเล็บ") {
+                  bu3.push(arr1[i]);
+                }
+                if (arr1[i].type[j] === "ต่อขนตา") {
+                  bu4.push(arr1[i]);
+                }
+                if (arr1[i].type[j] === "สักคิ้ว") {
+                  bu5.push(arr1[i]);
+                }
+                if (arr1[i].type[j] === "แว็กซ์ขน") {
+                  bu6.push(arr1[i]);
+                }
+                if (arr1[i].type[j] === "สปา") {
+                  bu7.push(arr1[i]);
+                }
+                if (arr1[i].type[j] === "Tattoo") {
+                  bu8.push(arr1[i]);
+                }
+              }
+            }
+            let arrTemp = [
+              bu1.length,
+              bu2.length,
+              bu3.length,
+              bu4.length,
+              bu5.length,
+              bu6.length,
+              bu7.length,
+              bu8.length,
+            ];
+            this.setState({ chartTypeBusiners: arrTemp });
+          } else {
+            let arr1 = Object.values(dataObj);
+            let bu1 = [];
+            let bu2 = [];
+            let bu3 = [];
+            let bu4 = [];
+            let bu5 = [];
+            let bu6 = [];
+            let bu7 = [];
+            let bu8 = [];
+            for (let i = 0; i < arr1.length; i++) {
+              for (let j = 0; j < arr1[i].type.length; j++) {
+                if (arr1[i].type[j] === "ตัดผมชาย") {
+                  bu1.push(arr1[i]);
+                }
+                if (arr1[i].type[j] === "เสริมสวย") {
+                  bu2.push(arr1[i]);
+                }
+                if (arr1[i].type[j] === "ทำเล็บ") {
+                  bu3.push(arr1[i]);
+                }
+                if (arr1[i].type[j] === "ต่อขนตา") {
+                  bu4.push(arr1[i]);
+                }
+                if (arr1[i].type[j] === "สักคิ้ว") {
+                  bu5.push(arr1[i]);
+                }
+                if (arr1[i].type[j] === "แว็กซ์ขน") {
+                  bu6.push(arr1[i]);
+                }
+                if (arr1[i].type[j] === "สปา") {
+                  bu7.push(arr1[i]);
+                }
+                if (arr1[i].type[j] === "Tattoo") {
+                  bu8.push(arr1[i]);
+                }
+              }
+            }
+            let arrTemp = [
+              bu1.length,
+              bu2.length,
+              bu3.length,
+              bu4.length,
+              bu5.length,
+              bu6.length,
+              bu7.length,
+              bu8.length,
+            ];
+            this.setState({ chartTypeBusiners: arrTemp });
+          }
+          this.setState({ loadingData: false });
+        } else {
+          this.setState({ loadingData: false });
+        }
+      });
+    }, 1000);
+  };
 
+  // chartTypeBusiners
   render() {
     const { loadingData } = this.state;
-
-    console.log(this.state.member);
-
     let optionsPie = {
       responsive: true,
       legend: {
@@ -141,7 +309,11 @@ class report extends Component {
       labels: ["ผู้ใช้งานระบบ", "ผู้ใช้บริการ", "เจ้าของธุรกิจ"],
       datasets: [
         {
-          data: [300, 50, 100],
+          data: [
+            this.state.memberTotal,
+            this.state.userTotal,
+            this.state.businessOwner,
+          ],
           backgroundColor: ["#FF3232", "#36A2EB", "#FFCE56"],
         },
       ],
@@ -167,7 +339,7 @@ class report extends Component {
           stack: 1,
           hoverBackgroundColor: "#36A2EB",
           hoverBorderColor: "#36A2EB",
-          data: [65, 59, 80, 81, 56, 55, 40, 20],
+          data: this.state.chartTypeBusiners,
         },
       ],
     };
@@ -191,33 +363,106 @@ class report extends Component {
         ],
       },
     };
+
+    console.log(this.state);
+
     return (
       <div id="Report-List" style={{ height: "100%", paddingBottom: "8rem" }}>
         <div style={{ marginTop: "4rem", marginBottom: "3rem" }}></div>
         <h1>System Reports</h1>
 
-        <div
-          class="card text-center"
-          style={{ width: "20rem", height: "10rem" }}
-        >
-          <div class="card-body text-center" style={{ padding: "-3rem" }}>
-            <h2>
-              ผู้ใช้งานระบบทั้งหมด
-              <h1 style={{ fontSize: "5rem" }}>60</h1>
-            </h2>
+        {/* <div className="d-none d-xs-none d-sm-none d-md-none d-lg-none d-xl-block"> */}
+        <div className="row justify-content-center">
+          <div
+            className="card text-center card-report"
+            style={{ width: "20rem", height: "10rem", marginRight: "2rem" }}
+          >
+            <div className="card-body text-center" style={{ padding: "-3rem" }}>
+              <h2>
+                ผู้ใช้งานระบบทั้งหมด
+                <h1 style={{ fontSize: "5rem" }}>{this.state.memberTotal}</h1>
+              </h2>
+            </div>
+          </div>{" "}
+          <div
+            className="card text-center card-report"
+            style={{
+              width: "20rem",
+              height: "10rem",
+              marginRight: "2rem",
+            }}
+          >
+            <div className="card-body text-center" style={{ padding: "-3rem" }}>
+              <h2>
+                ผู้ใช้บริการ
+                <h1 style={{ fontSize: "5rem" }}>{this.state.userTotal}</h1>
+              </h2>
+            </div>
+          </div>
+          <div
+            className="card text-center card-report"
+            style={{ width: "20rem", height: "10rem" }}
+          >
+            <div className="card-body text-center" style={{ padding: "-3rem" }}>
+              <h2>
+                เจ้าของธุรกิจ
+                <h1 style={{ fontSize: "5rem" }}>{this.state.businessOwner}</h1>
+              </h2>
+            </div>
           </div>
         </div>
+        {/* </div> */}
+        {/* 
+        <div className="d-block d-xs-block d-sm-block d-md-block d-lg-block d-xl-none">
+          <div
+            className="card text-center card-report"
+            style={{ width: "20rem", height: "10rem", marginRight: "2rem" }}
+          >
+            <div className="card-body text-center" style={{ padding: "-3rem" }}>
+              <h2>
+                ผู้ใช้งานระบบทั้งหมด
+                <h1 style={{ fontSize: "5rem" }}>{this.state.memberTotal}</h1>
+              </h2>
+            </div>
+          </div>{" "}
+          <div
+            className="card text-center card-report"
+            style={{
+              width: "20rem",
+              height: "10rem",
+              marginRight: "2rem",
+            }}
+          >
+            <div className="card-body text-center" style={{ padding: "-3rem" }}>
+              <h2>
+                ผู้ใช้บริการ
+                <h1 style={{ fontSize: "5rem" }}>{this.state.userTotal}</h1>
+              </h2>
+            </div>
+          </div>
+          <div
+            className="card text-center card-report"
+            style={{ width: "20rem", height: "10rem" }}
+          >
+            <div className="card-body text-center" style={{ padding: "-3rem" }}>
+              <h2>
+                เจ้าของธุรกิจ
+                <h1 style={{ fontSize: "5rem" }}>{this.state.businessOwner}</h1>
+              </h2>
+            </div>
+          </div>
+        </div>
+
+ */}
 
         <div id="pie" className="conatianer" style={{ marginTop: "3rem" }}>
           {" "}
           <Pie data={pieData} width={50} height={20} options={optionsPie} />
         </div>
-
         <div id="bar" className="conatianer" style={{ marginTop: "3rem" }}>
           {" "}
           <Bar data={Barata} width={40} height={10} options={optionsBar} />
         </div>
-
         {!loadingData && (
           <div class="table-responsive" style={{ marginTop: "5rem" }}>
             <h2>Discount Reports</h2>
@@ -236,7 +481,6 @@ class report extends Component {
               <tbody>
                 {this.state.data &&
                   this.state.data.map((d, index) => {
-                    console.log(d);
                     return (
                       <tr key={index}>
                         {/* <th scope="row"></th> */}

@@ -83,6 +83,15 @@ Option .swal-text,
     margin-top: 6rem;
 }
 
+
+
+.card-report:hover {
+    background-color: wheat;
+    box-shadow: #aaaaaa 2px;
+    border: 3px solid #aaaaaa;
+    margin-top: -1rem;
+}
+
 /* .App-header {
     min-height: 100vh;
     display: flex;
