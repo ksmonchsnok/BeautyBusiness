@@ -346,8 +346,8 @@ class Nearby extends Component {
         <div className="col" style={{ marginTop: "2rem" }}>
           <div className="album bg-while pad">
             <h1 className="text-center">
-              ธุรกิจใกล้เคียงในระยะ
-              <Select
+              ธุรกิจใกล้เคียงในระยะ 1 กิโลเมตร
+              {/* <Select
                 name="kilometer"
                 showSearch
                 style={{
@@ -378,7 +378,7 @@ class Nearby extends Component {
                 <Option value="5" style={{ fontSize: "1.5rem" }}>
                   5 กิโลเมตร
                 </Option>
-              </Select>
+              </Select> */}
             </h1>
 
             <hr style={{ marginTop: "1rem" }} />
