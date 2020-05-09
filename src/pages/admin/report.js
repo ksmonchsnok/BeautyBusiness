@@ -6,8 +6,7 @@ import { firebaseConnect } from "react-redux-firebase";
 import moment from "moment";
 import "antd/dist/antd.css";
 import { Tag } from "antd";
-
-import { Pie } from "react-chartjs-2";
+import { Pie, Bar } from "react-chartjs-2";
 
 class report extends Component {
   constructor(props) {
@@ -17,32 +16,10 @@ class report extends Component {
       store: [],
       member: [],
       loadingData: false,
-      chartData: {
-        labels: [
-          "จำนวนผู้ใช้ทั้งหมดในระบบ",
-          "จำนวนธุรกิจทั้งหมดในระบบ",
-          "จำนวนผู้ใช้บริการ",
-          "จำนวนเจ้าของกิจการ",
-        ],
-        datasets: [
-          {
-            label: "Population",
-            data: [10, 8, 2, 8],
-            backgroundColor: [
-              "rgba(255, 99, 132, 0.6)",
-              "rgba(54, 162, 235, 0.6)",
-              "rgba(255, 159, 64, 0.6)",
-              "rgba(75, 192, 192, 0.6)",
-              "rgba(153, 102, 255, 0.6)",
-            ],
-          },
-        ],
-      },
     };
   }
   async componentDidMount() {
     await this.onGetItempReport();
-    await this.renderChart();
     await this.onGetItempStore();
     await this.onGetItempStore();
   }
@@ -138,54 +115,112 @@ class report extends Component {
     }, 1000);
   };
 
-  static defaultProps = {
-    type: "doughnut",
-    height: 100,
-    width: 200,
-    redraw: false,
-    options: {},
-    displayTitle: true,
-    displayLegend: true,
-    legendPosition: "left",
-    position: "center",
-    fontSize: 500,
-    // location: "City",
-  };
-
-  renderChart = () => {
-    console.log(this.chartReference);
-  };
-
   render() {
     const { loadingData } = this.state;
 
     console.log(this.state.member);
 
+    let optionsPie = {
+      responsive: true,
+      legend: {
+        position: "right",
+        labels: {
+          boxWidth: 30,
+        },
+      },
+      scales: {
+        xAxes: [
+          {
+            ticks: { display: false },
+          },
+        ],
+      },
+    };
+
+    const pieData = {
+      labels: ["ผู้ใช้งานระบบ", "ผู้ใช้บริการ", "เจ้าของธุรกิจ"],
+      datasets: [
+        {
+          data: [300, 50, 100],
+          backgroundColor: ["#FF3232", "#36A2EB", "#FFCE56"],
+        },
+      ],
+    };
+
+    const Barata = {
+      labels: [
+        "ตัดผมชาย",
+        "เสริมสวย",
+        "ทำเล็บ",
+        "ต่อขนตา",
+        "สักคิ้ว",
+        "แว็กซ์ขน",
+        "สปา",
+        "Tattoo",
+      ],
+      datasets: [
+        {
+          label: "จำนวน",
+          backgroundColor: "#F69220",
+          borderColor: "#F69220",
+          borderWidth: 1,
+          stack: 1,
+          hoverBackgroundColor: "#36A2EB",
+          hoverBorderColor: "#36A2EB",
+          data: [65, 59, 80, 81, 56, 55, 40, 20],
+        },
+      ],
+    };
+
+    const optionsBar = {
+      responsive: true,
+      legend: {
+        display: false,
+      },
+      type: "bar",
+      scales: {
+        xAxes: [
+          {
+            stacked: true,
+          },
+        ],
+        yAxes: [
+          {
+            stacked: true,
+          },
+        ],
+      },
+    };
     return (
-      <div id="Report-List" style={{ height: "100vh" }}>
+      <div id="Report-List" style={{ height: "100%", paddingBottom: "8rem" }}>
         <div style={{ marginTop: "4rem", marginBottom: "3rem" }}></div>
-        <h2>Beauty Business Reports</h2>
+        <h1>System Reports</h1>
 
-        {/* <Pie
-          id="Pie"
-          data={this.state.chartData}
-          options={{
-            legend: {
-              display: this.props.displayLegend,
-              position: this.props.legendPosition,
-              fontSize: this.props.fontSize,
-            },
-            labels: {
-              fontSize: this.props.fontSize,
-            },
+        <div
+          class="card text-center"
+          style={{ width: "20rem", height: "10rem" }}
+        >
+          <div class="card-body text-center" style={{ padding: "-3rem" }}>
+            <h2>
+              ผู้ใช้งานระบบทั้งหมด
+              <h1 style={{ fontSize: "5rem" }}>60</h1>
+            </h2>
+          </div>
+        </div>
 
-            tooltips: {
-              enabled: true,
-            },
-          }}
-        /> */}
+        <div id="pie" className="conatianer" style={{ marginTop: "3rem" }}>
+          {" "}
+          <Pie data={pieData} width={50} height={20} options={optionsPie} />
+        </div>
+
+        <div id="bar" className="conatianer" style={{ marginTop: "3rem" }}>
+          {" "}
+          <Bar data={Barata} width={40} height={10} options={optionsBar} />
+        </div>
+
         {!loadingData && (
-          <div class="table-responsive">
+          <div class="table-responsive" style={{ marginTop: "5rem" }}>
+            <h2>Discount Reports</h2>
             <table class="table">
               <thead class="thead-dark">
                 <tr>
