@@ -266,8 +266,12 @@ class navbar extends Component {
     });
   }
 
+
+  
   render() {
     const showPopupLogin = this.state.showPopupLogin;
+
+console.log(this.state);
 
     return (
       <div id="Navbar">
@@ -414,7 +418,8 @@ class navbar extends Component {
                           />
                           {this.state.setFullName}
                         </div>
-                        <a
+
+                        {this.state.GL === null || this.state.EP === null || this.state.FB !== null &&  <a
                           className="dropdown-item"
                           href
                           onClick={this.onClickEditProfile}
@@ -427,6 +432,42 @@ class navbar extends Component {
                           />
                           แก้ไขข้อมูลผู้ใช้
                         </a>
+                        }
+
+
+                    {this.state.GL !== null || this.state.EP === null || this.state.FB === null &&  <a
+                          className="dropdown-item"
+                          href
+                          onClick={this.onClickEditProfile}
+                        >
+                          {" "}
+                          <img
+                            src={edit}
+                            alt="user"
+                            style={{ marginRight: "7px" }}
+                          />
+                          แก้ไขข้อมูลผู้ใช้
+                        </a>
+                        }
+
+
+{this.state.GL === null || this.state.EP !== null || this.state.FB === null &&  <a
+                          className="dropdown-item"
+                          href
+                          onClick={this.onClickEditProfile}
+                        >
+                          {" "}
+                          <img
+                            src={edit}
+                            alt="user"
+                            style={{ marginRight: "7px" }}
+                          />
+                          แก้ไขข้อมูลผู้ใช้
+                        </a>
+                        }
+
+                        
+                      
                         {this.state.checkTypeUser === false && (
                           <a
                             className="dropdown-item"

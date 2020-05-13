@@ -80,6 +80,12 @@ class LoginForm extends Component {
                     "ObjUser",
                     JSON.stringify(snapshot.val())
                   );
+                  this.props.history.push({
+                    pathname: "/",
+                    state: { ChekShowInOut: true },
+                    
+                  });
+                  window.location.reload();
                   // this.props.checkLogin(snapshot.val());
                 });
               this.setState({ loadingLogin: true });
