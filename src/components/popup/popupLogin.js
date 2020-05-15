@@ -127,11 +127,11 @@ class LoginForm extends Component {
     }
 
     const isVisible = this.props.isVisible;
-    const NormalLoginForm = () => {
-      const onFinish = (values) => {
-        // console.log("Received values of form: ", values);
-      };
-    };
+    // const NormalLoginForm = () => {
+    //   const onFinish = (values) => {
+    //     // console.log("Received values of form: ", values);
+    //   };
+    // };
     return (
       <div id="Popup-Login">
         <Modal

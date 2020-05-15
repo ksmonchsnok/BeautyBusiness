@@ -9,7 +9,7 @@ class Web extends Component {
   }
 
   render() {
-    const { loadingData } = this.state;
+    // const { loadingData } = this.state;
 
     return (
       <div id="Recommend">

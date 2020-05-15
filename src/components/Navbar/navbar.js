@@ -277,7 +277,7 @@ console.log(this.state);
       <div id="Navbar">
         <nav className="navbar navbar-dark bg-dark navbar-expand-xl fixed-top">
           <div className="container">
-            <div class="col-6 col-lg-5" id="logo">
+            <div className="col-6 col-lg-5" id="logo">
               <a className="navbar-brand" href="#">
                 {" "}
                 <NavLink exact to="/" className="navbar-brand">
@@ -287,8 +287,8 @@ console.log(this.state);
             </div>
 
             <div className="row">
-              <span class="d-sm-block d-md-block d-lg-block d-xl-none">
-                <ul class="navbar-nav">
+              <span className="d-sm-block d-md-block d-lg-block d-xl-none">
+                <ul className="navbar-nav">
                   <button
                     className="navbar-toggler"
                     type="button"
@@ -313,7 +313,7 @@ console.log(this.state);
                     >
                       หน้าหลัก
                     </a>
-                    <hr class="d-sm-block d-md-block d-lg-block d-xl-none" />
+                    <hr className="d-sm-block d-md-block d-lg-block d-xl-none" />
                   </li>
                   <li className="nav-item">
                     <a
@@ -324,7 +324,7 @@ console.log(this.state);
                     >
                       ธุรกิจทั้งหมด
                     </a>
-                    <hr class="d-sm-block d-md-block d-lg-block d-xl-none" />
+                    <hr className="d-sm-block d-md-block d-lg-block d-xl-none" />
                   </li>
                   <li className="nav-item">
                     <a
@@ -334,7 +334,7 @@ console.log(this.state);
                     >
                       ค้นหาธุรกิจใกล้เคียง
                     </a>
-                    <hr class="d-sm-block d-md-block d-lg-block d-xl-none" />
+                    <hr className="d-sm-block d-md-block d-lg-block d-xl-none" />
                   </li>
 
                   {this.state.checkCreateBusinese ? (
@@ -377,7 +377,7 @@ console.log(this.state);
                     >
                       ติดต่อเรา
                     </a>
-                    <hr class="d-sm-block d-md-block d-lg-block d-xl-none" />
+                    <hr className="d-sm-block d-md-block d-lg-block d-xl-none" />
                   </li>
                 </ul>
               </div>

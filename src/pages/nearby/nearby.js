@@ -7,7 +7,7 @@ import { firebaseConnect } from "react-redux-firebase";
 import Navber from "../../components/navbar/navbar.js";
 import { Map, GoogleApiWrapper, Marker, InfoWindow } from "google-maps-react";
 import { geolocated } from "react-geolocated";
-import { BackTop, Select } from "antd";
+import { BackTop } from "antd";
 import "antd/dist/antd.css";
 import { UpOutlined } from "@ant-design/icons";
 
@@ -164,7 +164,7 @@ class Nearby extends Component {
     const result = [];
     const store = this.state.locations;
     const our_position = this.state.coords;
-    const kilometer = this.state.kilometer;
+    // const kilometer = this.state.kilometer;
 
     let data = this.state.data;
     store.map((el, i) => {
@@ -277,7 +277,7 @@ class Nearby extends Component {
     ));
 
     const { loadingData } = this.state;
-    const { Option } = Select;
+    // const { Option } = Select;
     console.log(this.state);
 
     return (
