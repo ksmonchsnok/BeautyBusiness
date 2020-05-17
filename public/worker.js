@@ -10,7 +10,25 @@ var urlsToCache = [ '/',
 '../src/service/firebase/firebase-index.js',
 '../src/pages/home/home.js',
 '../src/pages/admin/loginForAdmin.js',
-'../src/pages/register/register.js'];
+'../src/pages/admin/admin.js',
+'../src/pages/admin/storeList.js',
+'../src/pages/admin/userList.js',
+'../src/pages/admin/report.js',
+'../src/pages/manager/manager.js',
+'../src/pages/store/allStores.js',
+'../src/pages/store/store-detail.js',
+'../src/pages/user/discountCode.js',
+'../src/pages/user/user.js',
+'../src/pages/nearby/nearby.js',
+'../src/pages/regisStore/regisStore.js',
+'../src/pages/register/register.js',
+'../src/pages/contact/contact.js',
+'../src/components/filter/filter.js',
+'../src/components/navbar/navbar.js',
+'../src/components/navbar/navbar-Admin.js',
+'../src/components/popup/popupLogin.js',
+'../src/assets/logo/logo2.jpg',
+];
 
 // Install a service worker
 self.addEventListener("install", (event) => {
