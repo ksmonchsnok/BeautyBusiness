@@ -3,12 +3,15 @@
 
 <head>
   <meta charset="utf-8" />
-  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <link rel="icon" href="%PUBLIC_URL%/home.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#000000" />
   <meta name="description" content="Web site created using create-react-app" />
-  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/home.png" />
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+  <script type="text/javascript" src="scripts/localforage.min.js"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
@@ -54,6 +57,7 @@
   <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc="
     crossorigin="anonymous"></script>
 
+    
 
   <script>
     if ('serviceWorker' in navigator) {
@@ -70,6 +74,17 @@
       console.log('Service Worker is not supported by browser.');
     }
   </script>
+
+  <!-- <script>
+   if ('serviceWorker' in navigator) {
+navigator.serviceWorker.register('./sw.js').then(
+  function(){console.log('ServiceWorker Registered');
+  }
+)
+
+   }
+
+  </script> -->
 
 </head>
 

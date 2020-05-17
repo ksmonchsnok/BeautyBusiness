@@ -3,13 +3,23 @@
   "name": "Beauty Business",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "src": "home.png",
+      "sizes": "50x50",
+      "type": "image/png"
+    },
+    {
+      "src": "icon.png",
+      "sizes": "152x152",
+      "type": "image/png"
     }
+   
+    
+
   ],
-  "start_url": "",
-  "display": "standalone",
+  "start_url": "index.html",
+  "display": "fullscreen",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background_color": "#ffffff",
+  "descripton":"Beauty Business"
+
 }

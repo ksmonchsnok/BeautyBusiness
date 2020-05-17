@@ -1,5 +1,16 @@
 var CACHE_NAME = "Beauty-Business";
-var urlsToCache = ["/", "/completed"];
+var urlsToCache = [ '/',
+'/public/index.html',
+'../src/index.js',
+'../src/style.css',
+'../src/serviceWorker.js',
+'../src/route/route.js',
+'../src/service/firebase/createReduxStore.js',
+'../src/service/firebase/firebase-config.js',
+'../src/service/firebase/firebase-index.js',
+'../src/pages/home/home.js',
+'../src/pages/admin/loginForAdmin.js',
+'../src/pages/register/register.js'];
 
 // Install a service worker
 self.addEventListener("install", (event) => {
@@ -27,7 +38,7 @@ self.addEventListener("fetch", (event) => {
 
 // Update a service worker
 self.addEventListener("activate", (event) => {
-  var cacheWhitelist = ["pwa-task-manager"];
+  var cacheWhitelist = ["Beauty-Business"];
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(

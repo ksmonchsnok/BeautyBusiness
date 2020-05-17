@@ -12,6 +12,7 @@
     "antd": "^4.0.2",
     "bootstrap": "^4.4.1",
     "chart.js": "^2.9.3",
+    "file-loader": "^6.0.0",
     "firebase": "^7.10.0",
     "google-map-react": "^1.1.7",
     "google-maps-react": "^2.0.2",

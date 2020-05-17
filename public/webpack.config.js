@@ -1,14 +1,14 @@
 var debug = process.env.NODE_ENV !== "production";
 var webpack = require("webpack");
 var path = require("path");
-// const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
   context: path.join(__dirname, "src"),
   devtool: "inline-sourcemap",
   entry: {
     app: "./js/client.js",
-    // main:"./js/containers/MainContainer.js"
+    main:"./js/containers/MainContainer.js"
   },
   module: {
     loaders: [

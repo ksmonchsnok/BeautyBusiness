@@ -7,7 +7,8 @@ import { firebaseConnect } from "react-redux-firebase";
 import Navber from "../../components/navbar/navbar.js";
 import { Map, GoogleApiWrapper, Marker, InfoWindow } from "google-maps-react";
 import { geolocated } from "react-geolocated";
-import { BackTop } from "antd";
+import { BackTop ,Tag} from "antd";
+import { SoundFilled } from '@ant-design/icons';
 import "antd/dist/antd.css";
 import { UpOutlined } from "@ant-design/icons";
 
@@ -42,7 +43,7 @@ class Nearby extends Component {
 
     ref.once("value").then((snapshot) => {
       if (snapshot.val()) {
-        const data = Object.values(snapshot.val());
+        const data = Object.values(snapshot.val());        
         data.map((location) =>
           locations.push({
             store_name: location.store_name,
@@ -55,6 +56,9 @@ class Nearby extends Component {
             type: location.type,
             open: location.open,
             phone: location.phone,
+            promotion_status : location.promotion_status,
+            discount_status: location.discount_status
+
           })
         );
         if (typeof data === "object" && data !== null && data !== undefined) {
@@ -201,6 +205,9 @@ class Nearby extends Component {
           type: el.type,
           open: el.open,
           phone: el.phone,
+          promotion_status: el.promotion_status,
+          discount_status: el.discount_status,
+
           m: parseInt(m),
         });
       }
@@ -244,11 +251,14 @@ class Nearby extends Component {
             />
             <div className="card-body text-left mb-auto">
               <h5 className="styleFont">
-                <h3 className="font">{value.store_name}</h3>
+                <h3 className="font">{value.store_name} 
+                {value.discount_status === true && <Tag color="volcano" style={{marginLeft:"0.5rem",marginTop:"-1rem"}}>Promotion</Tag>}
 
+                
+   </h3>
                 <hr />
                 <h4 style={{ textAlign: "left", color: "#000" }}>
-                  {value.m} ม.
+                  {value.m} เมตร.
                 </h4>
 
                 {value.type.map((el) => (
@@ -278,7 +288,8 @@ class Nearby extends Component {
 
     const { loadingData } = this.state;
     // const { Option } = Select;
-    console.log(this.state);
+    console.log(this.state.data)
+    
 
     return (
       <div id="nearby" style={{ marginTop: "2rem" }}>

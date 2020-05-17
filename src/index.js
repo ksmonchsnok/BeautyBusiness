@@ -8,7 +8,7 @@ import createReduxStore from "./service/firebase/createReduxStore.js";
 import firebase from "firebase";
 import firebaseConfig from "./service/firebase/firebase-config.js";
 import { Provider } from "react-redux";
-import * as serviceWorker from "./serviceWorker";
+import * as serviceWorker from "./serviceWorker.js";
 
 firebase.initializeApp(firebaseConfig);
 

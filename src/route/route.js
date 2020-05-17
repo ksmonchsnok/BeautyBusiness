@@ -69,7 +69,7 @@ export const PrivateRoute = ({ component: Component, ...rest }) => (
 
 export default () => (
   <Router>
-    <Route exact path="/LoginForAdmin" component={LoginForAdmin} />
+    {/* <Route exact path="/LoginForAdmin" component={LoginForAdmin} /> */}
 
     <Switch>
       {/* Home */}

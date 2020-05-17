@@ -271,7 +271,7 @@ class navbar extends Component {
   render() {
     const showPopupLogin = this.state.showPopupLogin;
 
-console.log(this.state);
+// console.log(this.state);
 
     return (
       <div id="Navbar">
