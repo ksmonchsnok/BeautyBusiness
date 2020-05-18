@@ -1,5 +1,6 @@
 var CACHE_NAME = "Beauty-Business";
-var urlsToCache = [ '/',
+var urlsToCache = [ 
+  '/',
 '/public/index.html',
 '../src/index.js',
 '../src/style.css',
