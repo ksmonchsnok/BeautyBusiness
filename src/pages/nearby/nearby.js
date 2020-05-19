@@ -214,6 +214,7 @@ class Nearby extends Component {
     });
   };
 
+
   render() {
     this.calulatedNearby();
     const styles = {
@@ -258,9 +259,15 @@ class Nearby extends Component {
    </h3>
                 <hr />
                 <h4 style={{ textAlign: "left", color: "#000" }}>
-                  {value.m} เมตร.
-                </h4>
+                  {value.m} เมตร.  
 
+
+                <a 
+                // href={"http://www.google.com/maps/place/" +value.Lat +","+ value.Lng}
+                href={"https://www.google.com/maps/search/?api=1&query=" + value.Lat +"," + value.Lng } 
+                
+                target="_blank" style={{marginLeft:"1rem" ,color:"#F69220"}}>ไปยังเส้นทาง</a> </h4>
+          
                 {value.type.map((el) => (
                   <h5
                     style={{

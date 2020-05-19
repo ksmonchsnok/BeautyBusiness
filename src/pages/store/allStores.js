@@ -200,6 +200,8 @@ class AllStore extends Component {
   };
 
   render() {
+    console.log(this.state);
+    
     const { store, promotion, discount, checkbox, arrStore } = this.state;
     // const { Store } = this.props;)
     const item = arrStore
@@ -232,6 +234,12 @@ class AllStore extends Component {
                             </Tag>
                           ))}
 
+
+              <a 
+                href={"http://www.google.com/maps/place/" +value.lat +","+ value.lng}
+                target="_blank" style={{marginLeft:"1rem" ,color:"#F69220"}}>ไปยังเส้นทาง</a>          
+
+                
                           <h4 style={{ color: "#000" }}>{value.address}</h4>
                         </h6>
                       </div>

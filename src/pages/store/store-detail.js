@@ -232,7 +232,12 @@ class StoreDetail extends Component {
                 เวลา :: <Tag color="volcano">{value.open}</Tag>
               </p>
               <p>โทร :: {value.phone}</p>
-              <p>ที่อยู่ :: {value.address}</p>
+              <p>ที่อยู่ :: {value.address}                <a 
+                href={"http://www.google.com/maps/place/" +value.lat +","+ value.lng}
+                
+                target="_blank" style={{marginLeft:"1rem" ,color:"#F69220" , fontSize:"2rem"}}>ไปยังเส้นทาง</a>          
+
+</p>
               <p>
                 ติดต่อ ::{" "}
                 <a
@@ -243,7 +248,6 @@ class StoreDetail extends Component {
                   Facebook
                 </a>
               </p>
-
               <div className="row col-6">
                 {value.type.map((el) => (
                   <p style={{ fontSize: "2rem" }}>
