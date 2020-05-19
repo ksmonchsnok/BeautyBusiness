@@ -333,7 +333,7 @@ export default class RegistrationForm extends Component {
             </Form.Item>
             <Form.Item
               name="username"
-              label="Username"
+              label="NinkName"
               rules={[
                 {
                   required: true,
