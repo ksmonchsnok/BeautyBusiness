@@ -308,7 +308,7 @@ export default class RegistrationForm extends Component {
               type="textbox"
               name="username"
               id="username"
-              placeholder="Username"
+              placeholder="NinkName"
               value={this.state.username}
               onChange={(e) => this.setState({ username: e.target.value })}
               whitespace={true}
